@@ -1,0 +1,76 @@
+{
+  "productos": [
+    {
+      "id": "1",
+      "nombre": "Guantes",
+      "precio": "300",
+      "stock": 10,
+      "imagen": "/_next/static/media/prod2Prueba.be129e28.png",
+      "gallery": [
+        "https://media.istockphoto.com/id/1215673535/es/foto/una-mujer-china-asi%C3%A1tica-usando-sus-guantes-quir%C3%BArgicos-de-l%C3%A1tex-en-casa-antes-del-proceso-de.jpg?s=612x612&w=0&k=20&c=7wexPmtPGiCjbEbxxaGfyf9pzEcqAopz57x0dXeW_LY=",
+        "https://acdn.mitiendanube.com/stores/895/251/products/s-261-5645912b116ee192f416121056790363-1024-1024.png",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdYJA5ILCxJjt0d1IxxsmwBVBVm50yViau74noG06xZo7JDTQpRdj_jm-DRMbV4MoKPLw&usqp=CAU"
+      ],
+      "categoria": "Categoria 1",
+      "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem, suscipit? Hic consequuntur molestias doloribus vero quos!"
+    },
+    {
+      "id": "2",
+      "nombre": "Barbijo",
+      "precio": "200",
+      "stock": 10,
+      "imagen": "/_next/static/media/prod1Prueba.6f5887f5.png",
+      "gallery": [
+        "https://media.istockphoto.com/id/1215673535/es/foto/una-mujer-china-asi%C3%A1tica-usando-sus-guantes-quir%C3%BArgicos-de-l%C3%A1tex-en-casa-antes-del-proceso-de.jpg?s=612x612&w=0&k=20&c=7wexPmtPGiCjbEbxxaGfyf9pzEcqAopz57x0dXeW_LY=",
+        "https://acdn.mitiendanube.com/stores/895/251/products/s-261-5645912b116ee192f416121056790363-1024-1024.png",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdYJA5ILCxJjt0d1IxxsmwBVBVm50yViau74noG06xZo7JDTQpRdj_jm-DRMbV4MoKPLw&usqp=CAU"
+      ],
+      "categoria": "Categoria 2",
+      "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem, suscipit? Hic consequuntur molestias doloribus vero quos!"
+    },
+    {
+      "id": "3",
+      "nombre": "Jeringa",
+      "precio": "250",
+      "stock": 10,
+      "imagen": "/_next/static/media/prod2Prueba.be129e28.png",
+      "gallery": [
+        "https://media.istockphoto.com/id/1215673535/es/foto/una-mujer-china-asi%C3%A1tica-usando-sus-guantes-quir%C3%BArgicos-de-l%C3%A1tex-en-casa-antes-del-proceso-de.jpg?s=612x612&w=0&k=20&c=7wexPmtPGiCjbEbxxaGfyf9pzEcqAopz57x0dXeW_LY=",
+        "https://acdn.mitiendanube.com/stores/895/251/products/s-261-5645912b116ee192f416121056790363-1024-1024.png",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdYJA5ILCxJjt0d1IxxsmwBVBVm50yViau74noG06xZo7JDTQpRdj_jm-DRMbV4MoKPLw&usqp=CAU"
+      ],
+      "categoria": "Categoria 3",
+      "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem, suscipit? Hic consequuntur molestias doloribus vero quos!"
+    },
+    {
+      "id": "4",
+      "nombre": "Guantes",
+      "precio": "1200",
+      "stock": 10,
+      "imagen": "/_next/static/media/prodPrueba4.0b976f9d.png",
+      "gallery": [
+        "https://media.istockphoto.com/id/1215673535/es/foto/una-mujer-china-asi%C3%A1tica-usando-sus-guantes-quir%C3%BArgicos-de-l%C3%A1tex-en-casa-antes-del-proceso-de.jpg?s=612x612&w=0&k=20&c=7wexPmtPGiCjbEbxxaGfyf9pzEcqAopz57x0dXeW_LY=",
+        "https://acdn.mitiendanube.com/stores/895/251/products/s-261-5645912b116ee192f416121056790363-1024-1024.png",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdYJA5ILCxJjt0d1IxxsmwBVBVm50yViau74noG06xZo7JDTQpRdj_jm-DRMbV4MoKPLw&usqp=CAU"
+      ],
+      "categoria": "Categoria 1",
+
+      "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem, suscipit? Hic consequuntur molestias doloribus vero quos!"
+    },
+    {
+      "id": "5",
+      "nombre": "Guantes",
+      "precio": "1200",
+      "stock": 10,
+      "imagen": "/_next/static/media/prod2Prueba.be129e28.png",
+      "gallery": [
+        "https://media.istockphoto.com/id/1215673535/es/foto/una-mujer-china-asi%C3%A1tica-usando-sus-guantes-quir%C3%BArgicos-de-l%C3%A1tex-en-casa-antes-del-proceso-de.jpg?s=612x612&w=0&k=20&c=7wexPmtPGiCjbEbxxaGfyf9pzEcqAopz57x0dXeW_LY=",
+        "https://acdn.mitiendanube.com/stores/895/251/products/s-261-5645912b116ee192f416121056790363-1024-1024.png",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdYJA5ILCxJjt0d1IxxsmwBVBVm50yViau74noG06xZo7JDTQpRdj_jm-DRMbV4MoKPLw&usqp=CAU"
+      ],
+      "categoria": "Categoria 2",
+
+      "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem, suscipit? Hic consequuntur molestias doloribus vero quos!"
+    }
+  ]
+}

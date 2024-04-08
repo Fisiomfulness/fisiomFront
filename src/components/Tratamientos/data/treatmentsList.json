@@ -1,0 +1,29 @@
+{
+  "treatments": [
+    {
+      "id":"1",
+      "serviceName": "Fisioterapia",
+      "imagen": "https://smiles4kidscolorado.com/wp-content/uploads/2021/10/jonathan-borba-v_2FRXEba94-unsplash-300x200.jpg"
+    },
+    {
+      "id":"2",
+      "serviceName": "Psicología",
+      "imagen": "https://www.nwcounseling.org/wp-content/uploads/2020/02/kelly-sikkema-f_aHTIof44U-unsplash.jpg"
+    },
+    {
+      "id":"3",
+      "serviceName": "Nutrición",
+      "imagen": "https://fleetfarming.org/wp-content/uploads/2021/02/anna-pelzer-IGfIGP5ONV0-unsplash-1536x1024.jpg"
+    },
+    {
+      "id":"4",
+      "serviceName": "Terapia de lenguaje",
+      "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHSDImXhhufg8AHuCDS0WaWRNh4usj9I0jGoBlATlrejww3mZMrbzfscTDbCEmHck8zQw&usqp=CAU"
+    },
+    {
+      "id":"5",
+      "serviceName": "Terapia ocupacional",
+      "imagen": "https://www.pumpitupmagazine.com/wp-content/uploads/2023/06/priscilla-du-preez-F9DFuJoS9EU-unsplash.jpg"
+    }
+  ]
+}

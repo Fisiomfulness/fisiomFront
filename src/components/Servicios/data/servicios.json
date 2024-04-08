@@ -1,0 +1,44 @@
+{
+    "servicios": [
+        {
+            "nombre": "Tratamiento para Déficit de Atención",
+            "descripcion": "Tratamiento integral con evaluación completa del cuadro, armado de equipo interdisciplinario con acompañamiento psicológico incluido",
+            "precio": "$2500"
+        },
+        {
+            "nombre": "Tratamiento para Trastorno de Ansiedad",
+            "descripcion": "Tratamiento psiquiátrico con terapia cognitivo-conductual y evaluación farmacológica",
+            "precio": "$3500"
+        },
+        {
+            "nombre": "Terapia para Depresión Mayor",
+            "descripcion": "Terapia psiquiátrica con enfoque integrado de psicoterapia y medicación",
+            "precio": "$2800"
+        },
+        {
+            "nombre": "Tratamiento Especializado para TOC",
+            "descripcion": "Tratamiento especializado para trastorno obsesivo-compulsivo (TOC) con evaluación minuciosa y terapia de exposición",
+            "precio": "$3200"
+        },
+        {
+            "nombre": "Abordaje Terapéutico para Trastorno Bipolar",
+            "descripcion": "Abordaje terapéutico con seguimiento psiquiátrico y apoyo emocional",
+            "precio": "$4000"
+        },
+        {
+            "nombre": "Tratamiento para TEPT",
+            "descripcion": "Tratamiento para trastorno de estrés postraumático (TEPT) con terapia EMDR y evaluación psiquiátrica",
+            "precio": "$3800"
+        },
+        {
+            "nombre": "Intervención para Trastorno de la Personalidad",
+            "descripcion": "Intervención psiquiátrica con enfoque individualizado y terapia grupal",
+            "precio": "$4200"
+        },
+        {
+            "nombre": "Manejo Clínico de Trastornos del Sueño",
+            "descripcion": "Manejo clínico de trastornos del sueño con evaluación psiquiátrica y terapia cognitivo-conductual",
+            "precio": "$3000"
+        }
+    ]
+}

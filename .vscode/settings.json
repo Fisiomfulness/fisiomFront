@@ -1,0 +1,25 @@
+{
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "editor.formatOnSave": true,
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "(?:cva|cx|twMerge|cn)\\(([^)(]*(?:\\([^)(]*(?:\\([^)(]*(?:\\([^)(]*\\)[^)(]*)*\\)[^)(]*)*\\)[^)(]*)*)\\)",
+      "\"(.*?)\""
+    ],
+    ["[cC]lassName[s]?\\s*=\\s*{([^}]+)}", "\"([^\"]*)\""]
+  ],
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "classNames"
+  ],
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
+}

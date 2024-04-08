@@ -1,0 +1,40 @@
+{
+  "comentarios": [
+    {
+      "avatarSrc": "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+      "rating": 4,
+      "title": "Chung Miller",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+    },
+    {
+      "avatarSrc": "https://i.pravatar.cc/150?u=a042581f4e29026704d",
+      "rating": 3,
+      "title": "Janelle Lenard",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+    },
+    {
+      "avatarSrc": "https://i.pravatar.cc/150?u=a04258114e29026702d",
+      "rating": 5,
+      "title": "Zoey Lang",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+    },
+    {
+      "avatarSrc": "https://i.pravatar.cc/150?u=a04258114e29026302d",
+      "rating": 2,
+      "title": "Robert Graham",
+      "content": "Comentario sobre el servicio del Dr. Lorem Ipsum..."
+    },
+    {
+      "avatarSrc": "https://i.pravatar.cc/150?u=a04258114e29026702d",
+      "rating": 5,
+      "title": "Jazmin Parker",
+      "content": "Nuevo comentario sobre la experiencia con el servicio..."
+    },
+    {
+      "avatarSrc": "https://i.pravatar.cc/150?u=a04258114e29026708c",
+      "rating": 4,
+      "title": "Awesome Dude",
+      "content": "Otro comentario adicional sobre la calidad del servicio..."
+    }
+  ]
+}

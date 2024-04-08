@@ -1,0 +1,44 @@
+{
+    "data" : [
+  {
+    "id": "1",
+    "title": "Titulo del articulo 1",
+    "description":
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "imageUrl": "https://nextui-docs-v2.vercel.app/images/album-cover.png",
+    "date": "20/01/23"
+  },
+  {
+    "id": "2",
+    "title": "Titulo del articulo 2",
+    "description":
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "imageUrl": "https://nextui-docs-v2.vercel.app/images/album-cover.png",
+    "date": "19/01/23"
+  },
+  {
+    "id": "3",
+    "title": "Titulo del articulo 3",
+    "description":
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "imageUrl": "https://nextui-docs-v2.vercel.app/images/album-cover.png",
+    "date": "18/01/23"
+  },
+  {
+    "id": "4",
+    "title": "Titulo del articulo 4",
+    "description":
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "imageUrl": "https://nextui-docs-v2.vercel.app/images/album-cover.png",
+    "date": "17/01/23"
+  },
+  {
+    "id": "5",
+    "title": "Titulo del articulo 5",
+    "description":
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "imageUrl": "https://nextui-docs-v2.vercel.app/images/album-cover.png",
+    "date": "16/01/23"
+  }
+]
+}

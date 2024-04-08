@@ -1,0 +1,633 @@
+{
+  "profesionales": [
+    {
+      "nombre": "Dr. Lorem Ipsum",
+      "especialidad": "Psiquiatria",
+      "matricula": "34-41412-414-12",
+      "Direccion": "Avenida Americas 325",
+      "CP": "1111",
+      "Ciudad": "Lima Peru",
+      "valor": 100,
+      "rating": 5,
+      "mail": "doctorLorem@gmail.com",
+      "telefono": "1-234-567-890",
+      "descripcion": "El Dr. Lorem Ipsum es un psiquiatra altamente calificado con una amplia experiencia en el tratamiento de diversas condiciones mentales. Su enfoque profesional y empático ha sido elogiado por numerosos pacientes.",
+      "reviews": [
+        {
+          "name": "Juan Pérez",
+          "rating": 4.0,
+          "comentario": "Excelente atención. Recomiendo al Dr. Lorem Ipsum."
+        },
+        {
+          "name": "María Rodríguez",
+          "rating": 4.5,
+          "comentario": "Muy profesional y amable. Me sentí escuchada."
+        },
+        {
+          "name": "Carlos González",
+          "rating": 3.8,
+          "comentario": "Buena consulta, aunque la espera fue un poco larga."
+        },
+        {
+          "name": "Laura Fernández",
+          "rating": 4.2,
+          "comentario": "El Dr. Lorem Ipsum brinda un servicio de calidad."
+        },
+        {
+          "name": "Alejandro Díaz",
+          "rating": 4.6,
+          "comentario": "Experiencia positiva. Lo recomendaría a otros."
+        },
+        {
+          "name": "Ana Martínez",
+          "rating": 3.9,
+          "comentario": "La consulta fue útil, pero esperaba más empatía."
+        },
+        {
+          "name": "Roberto Sánchez",
+          "rating": 4.1,
+          "comentario": "Buen trato y explicaciones claras. Satisfecho."
+        }
+      ],
+      "experiencia": [
+        {
+          "fecha": "1995-2001",
+          "institucion": "Hospital Privado de la Comunidad",
+          "descripcion": "Iniciando su carrera como psiquiatra en el ala de salud mental, logrando conformar un equipo interdisciplinario y dando a conocer la institución por la gran calidad humana, siendo altamente reconocida en la ciudad."
+        },
+        {
+          "fecha": "2002-2006",
+          "institucion": "Centro de Salud Mental Integral",
+          "descripcion": "Trabajando como psiquiatra senior, desarrollando e implementando programas de tratamiento innovadores para diversos trastornos mentales. Contribuyendo significativamente a la mejora de los servicios de salud mental en la comunidad."
+        },
+        {
+          "fecha": "2007-2012",
+          "institucion": "Hospital Psiquiátrico Regional",
+          "descripcion": "Dirigiendo el departamento de psiquiatría, supervisando tratamientos, investigando nuevas terapias y proporcionando liderazgo clínico. Colaborando en la formación de residentes y estudiantes de medicina en el ámbito psiquiátrico."
+        },
+        {
+          "fecha": "2013-2018",
+          "institucion": "Centro de Investigación en Salud Mental",
+          "descripcion": "Contribuyendo como investigador principal en proyectos de investigación clínica. Publicando artículos en revistas especializadas y participando en conferencias nacionales e internacionales sobre avances en el tratamiento de trastornos mentales."
+        },
+        {
+          "fecha": "2019-Presente",
+          "institucion": "Consultorio Privado de Psiquiatría",
+          "descripcion": "Ofreciendo servicios de psiquiatría de alta calidad de manera privada, brindando atención personalizada a pacientes con diversos trastornos mentales. Continuando con la actualización constante para aplicar las últimas investigaciones en el campo."
+        }
+      ],
+      "servicios": [
+        {
+          "nombre": "Tratamiento para Déficit de Atención",
+          "descripcion": "Tratamiento integral con evaluación completa del cuadro, armado de equipo interdisciplinario con acompañamiento psicológico incluido",
+          "precio": "$2500"
+        },
+        {
+          "nombre": "Tratamiento para Trastorno de Ansiedad",
+          "descripcion": "Tratamiento psiquiátrico con terapia cognitivo-conductual y evaluación farmacológica",
+          "precio": "$3500"
+        },
+        {
+          "nombre": "Terapia para Depresión Mayor",
+          "descripcion": "Terapia psiquiátrica con enfoque integrado de psicoterapia y medicación",
+          "precio": "$2800"
+        },
+        {
+          "nombre": "Tratamiento Especializado para TOC",
+          "descripcion": "Tratamiento especializado para trastorno obsesivo-compulsivo (TOC) con evaluación minuciosa y terapia de exposición",
+          "precio": "$3200"
+        },
+        {
+          "nombre": "Abordaje Terapéutico para Trastorno Bipolar",
+          "descripcion": "Abordaje terapéutico con seguimiento psiquiátrico y apoyo emocional",
+          "precio": "$4000"
+        },
+        {
+          "nombre": "Tratamiento para TEPT",
+          "descripcion": "Tratamiento para trastorno de estrés postraumático (TEPT) con terapia EMDR y evaluación psiquiátrica",
+          "precio": "$3800"
+        },
+        {
+          "nombre": "Intervención para Trastorno de la Personalidad",
+          "descripcion": "Intervención psiquiátrica con enfoque individualizado y terapia grupal",
+          "precio": "$4200"
+        },
+        {
+          "nombre": "Manejo Clínico de Trastornos del Sueño",
+          "descripcion": "Manejo clínico de trastornos del sueño con evaluación psiquiátrica y terapia cognitivo-conductual",
+          "precio": "$3000"
+        }
+      ]
+    },
+    {
+      "nombre": "Dra. Maria Garcia",
+      "especialidad": "Cardiologia",
+      "matricula": "45-52523-525-23",
+      "Direccion": "Calle Salaverry 210",
+      "CP": "2222",
+      "Ciudad": "Arequipa Peru",
+      "valor": 120,
+      "rating": 4.8,
+      "mail": "draMaria@gmail.com",
+      "telefono": "1-345-678-901",
+      "descripcion": "La Dra. Maria Garcia es una cardióloga con amplia experiencia en el diagnóstico y tratamiento de enfermedades cardíacas. Su dedicación al bienestar de sus pacientes la ha convertido en una profesional altamente recomendada.",
+      "reviews": [
+        {
+          "name": "Sofía Ramírez",
+          "rating": 5.0,
+          "comentario": "Excelente atención y explicaciones claras. Me sentí segura y bien cuidada."
+        },
+        {
+          "name": "Javier Torres",
+          "rating": 4.7,
+          "comentario": "La Dra. Maria es muy profesional y empática. Brinda confianza en todo momento."
+        },
+        {
+          "name": "Laura Díaz",
+          "rating": 4.5,
+          "comentario": "Mi experiencia con la Dra. Garcia fue positiva. Muestra un gran conocimiento y atención personalizada."
+        },
+        {
+          "name": "Carlos Mendoza",
+          "rating": 4.9,
+          "comentario": "Recomiendo a la Dra. Garcia. Su enfoque integral y humano marca la diferencia."
+        },
+        {
+          "name": "Isabel Huaman",
+          "rating": 4.8,
+          "comentario": "Profesional competente. Me sentí bien cuidada durante todo el proceso de tratamiento."
+        },
+        {
+          "name": "Antonio Gómez",
+          "rating": 4.6,
+          "comentario": "La Dra. Maria es una cardióloga excepcional. Su atención detallada y amable es destacable."
+        },
+        {
+          "name": "Lucía Vargas",
+          "rating": 4.7,
+          "comentario": "Muy satisfecha con la atención de la Dra. Garcia. La recomendaría sin dudarlo."
+        }
+      ],
+      "experiencia": [
+        {
+          "fecha": "2005-2010",
+          "institucion": "Hospital Cardiovascular de Arequipa",
+          "descripcion": "Inició su carrera como cardióloga, desempeñándose en el diagnóstico y tratamiento de pacientes con enfermedades cardíacas. Destacó por su compromiso y habilidades técnicas."
+        },
+        {
+          "fecha": "2011-2015",
+          "institucion": "Centro de Cardiología Avanzada",
+          "descripcion": "Trabajó como cardióloga senior, especializándose en intervenciones cardíacas y procedimientos avanzados. Participó en investigaciones clínicas para mejorar los tratamientos cardíacos."
+        },
+        {
+          "fecha": "2016-2020",
+          "institucion": "Instituto Nacional de Cardiología",
+          "descripcion": "Dirigió el departamento de cardiología, supervisando tratamientos y procedimientos. Colaboró en la formación de residentes y contribuyó a la implementación de nuevas tecnologías en el campo cardiovascular."
+        },
+        {
+          "fecha": "2021-Presente",
+          "institucion": "Consultorio Privado de Cardiología",
+          "descripcion": "Ofrece servicios cardiológicos especializados de alta calidad de manera privada. Su enfoque se centra en la prevención, diagnóstico y tratamiento integral de enfermedades cardíacas, proporcionando atención personalizada a cada paciente."
+        }
+      ],
+      "servicios": [
+        {
+          "nombre": "Chequeo Cardiológico Integral",
+          "descripcion": "Evaluación completa del sistema cardiovascular, incluyendo pruebas de diagnóstico avanzadas.",
+          "precio": "$2000"
+        },
+        {
+          "nombre": "Tratamiento para Enfermedades Coronarias",
+          "descripcion": "Manejo integral de enfermedades coronarias con opciones terapéuticas actualizadas.",
+          "precio": "$3500"
+        },
+        {
+          "nombre": "Control de Hipertensión Arterial",
+          "descripcion": "Seguimiento y tratamiento personalizado para pacientes con hipertensión arterial.",
+          "precio": "$1800"
+        },
+        {
+          "nombre": "Rehabilitación Cardíaca",
+          "descripcion": "Programa de rehabilitación personalizado para pacientes que han sufrido eventos cardíacos.",
+          "precio": "$2500"
+        },
+        {
+          "nombre": "Evaluación de Riesgo Cardiovascular",
+          "descripcion": "Análisis detallado de factores de riesgo para desarrollar estrategias preventivas.",
+          "precio": "$1500"
+        },
+        {
+          "nombre": "Consulta de Cardiología Preventiva",
+          "descripcion": "Asesoramiento y medidas preventivas para mantener la salud cardiovascular.",
+          "precio": "$1200"
+        }
+      ]
+    },
+    {
+      "nombre": "Dr. Carlos Rodriguez",
+      "especialidad": "Dermatologia",
+      "matricula": "56-63634-636-34",
+      "Direccion": "Jirón Huancavelica 512",
+      "CP": "3333",
+      "Ciudad": "Trujillo Peru",
+      "valor": 90,
+      "rating": 4.5,
+      "mail": "drCarlos@gmail.com",
+      "telefono": "1-456-789-012",
+      "descripcion": "El Dr. Carlos Rodriguez es un dermatólogo reconocido por su experiencia en el tratamiento de afecciones de la piel. Su enfoque centrado en el paciente y su habilidad para proporcionar soluciones efectivas lo hacen destacar en su campo.",
+      "reviews": [
+        {
+          "name": "Silvia Gutierrez",
+          "rating": 4.3,
+          "comentario": "Buen trato y explicaciones detalladas sobre mi condición. El tratamiento fue efectivo."
+        },
+        {
+          "name": "Ricardo Medina",
+          "rating": 4.7,
+          "comentario": "Excelente dermatólogo. Resolvió mi problema de piel con eficacia."
+        },
+        {
+          "name": "Marta Soto",
+          "rating": 4.5,
+          "comentario": "El Dr. Carlos es muy profesional y amable. Lo recomiendo para problemas dermatológicos."
+        },
+        {
+          "name": "Pedro Ramos",
+          "rating": 4.2,
+          "comentario": "Buena atención y resultados. El tratamiento fue conforme a mis expectativas."
+        },
+        {
+          "name": "Ana López",
+          "rating": 4.8,
+          "comentario": "Muy satisfecha con la consulta. El Dr. Rodriguez demuestra conocimiento y empatía."
+        },
+        {
+          "name": "Jorge Castillo",
+          "rating": 4.4,
+          "comentario": "Tratamiento eficaz y explicaciones claras. Lo recomendaría a familiares y amigos."
+        },
+        {
+          "name": "Laura Mendoza",
+          "rating": 4.6,
+          "comentario": "Buen dermatólogo. Mi condición mejoró significativamente con su tratamiento."
+        }
+      ],
+      "experiencia": [
+        {
+          "fecha": "2008-2013",
+          "institucion": "Hospital Dermatológico Regional",
+          "descripcion": "Inició su carrera como dermatólogo, adquiriendo experiencia en el diagnóstico y tratamiento de diversas afecciones de la piel."
+        },
+        {
+          "fecha": "2014-2018",
+          "institucion": "Clínica de Dermatología Avanzada",
+          "descripcion": "Trabajó como dermatólogo senior, especializándose en procedimientos dermatológicos avanzados y tratamientos estéticos."
+        },
+        {
+          "fecha": "2019-2022",
+          "institucion": "Centro de Investigación Dermatológica",
+          "descripcion": "Participó como investigador en proyectos relacionados con avances en el tratamiento de enfermedades cutáneas y procedimientos dermatológicos innovadores."
+        },
+        {
+          "fecha": "2023-Presente",
+          "institucion": "Consultorio Privado de Dermatología",
+          "descripcion": "Ofrece servicios dermatológicos especializados de alta calidad de manera privada, abordando tanto problemas médicos como estéticos de la piel."
+        }
+      ],
+      "servicios": [
+        {
+          "nombre": "Tratamiento para Acné",
+          "descripcion": "Enfoque integral para controlar y tratar el acné, incluyendo opciones médicas y estéticas.",
+          "precio": "$1200"
+        },
+        {
+          "nombre": "Terapia para Psoriasis",
+          "descripcion": "Abordaje terapéutico personalizado para el manejo de la psoriasis y alivio de síntomas.",
+          "precio": "$1500"
+        },
+        {
+          "nombre": "Procedimientos Estéticos Dermatológicos",
+          "descripcion": "Realización de procedimientos estéticos no invasivos para mejorar la apariencia de la piel.",
+          "precio": "Varía según el procedimiento"
+        },
+        {
+          "nombre": "Tratamiento para Dermatitis",
+          "descripcion": "Diagnóstico y tratamiento especializado para diversos tipos de dermatitis.",
+          "precio": "$1100"
+        },
+        {
+          "nombre": "Consulta de Prevención Dermatológica",
+          "descripcion": "Asesoramiento y medidas preventivas para mantener la salud de la piel.",
+          "precio": "$900"
+        },
+        {
+          "nombre": "Eliminación de Lunares y Verrugas",
+          "descripcion": "Procedimientos seguros para la eliminación de lunares y verrugas.",
+          "precio": "Varía según la complejidad"
+        }
+      ]
+    },
+    {
+      "nombre": "Dra. Laura Chavez",
+      "especialidad": "Pediatria",
+      "matricula": "67-74747-747-47",
+      "Direccion": "Avenida Larco 789",
+      "CP": "4444",
+      "Ciudad": "Cusco Peru",
+      "valor": 80,
+      "rating": 4.9,
+      "mail": "draLaura@gmail.com",
+      "telefono": "1-567-890-123",
+      "descripcion": "La Dra. Laura Chavez es una pediatra apasionada por la salud infantil. Su atención dedicada y su capacidad para establecer conexiones con los niños y sus familias la convierten en una opción ideal para el cuidado pediátrico.",
+      "reviews": [
+        {
+          "name": "María Torres",
+          "rating": 5.0,
+          "comentario": "La Dra. Chavez es increíble con los niños. Mi hijo se siente cómodo y seguro durante las consultas."
+        },
+        {
+          "name": "Javier Sánchez",
+          "rating": 4.8,
+          "comentario": "Excelente pediatra. Siempre toma el tiempo para responder todas nuestras preguntas y preocupaciones."
+        },
+        {
+          "name": "Carolina Mendoza",
+          "rating": 4.9,
+          "comentario": "Mi experiencia con la Dra. Laura ha sido fantástica. Es comprensiva y muestra un genuino interés en el bienestar de mi hijo."
+        },
+        {
+          "name": "Luis Gómez",
+          "rating": 4.7,
+          "comentario": "La Dra. Chavez tiene un enfoque muy cálido y amable. Mi hija la adora."
+        },
+        {
+          "name": "Ana Rodríguez",
+          "rating": 5.0,
+          "comentario": "Recomiendo a la Dra. Laura a todas las madres. Es una pediatra excepcional."
+        },
+        {
+          "name": "Martín Pérez",
+          "rating": 4.9,
+          "comentario": "Siempre nos sentimos bien atendidos con la Dra. Chavez. Es profesional y cariñosa con los niños."
+        },
+        {
+          "name": "Sofía Herrera",
+          "rating": 4.8,
+          "comentario": "La Dra. Laura es la mejor pediatra que hemos tenido. Su conocimiento y empatía son notables."
+        }
+      ],
+      "experiencia": [
+        {
+          "fecha": "2010-2015",
+          "institucion": "Hospital Infantil de Cusco",
+          "descripcion": "Comenzó su carrera como pediatra, brindando atención integral a niños con diversas condiciones de salud."
+        },
+        {
+          "fecha": "2016-2020",
+          "institucion": "Centro Pediátrico de Desarrollo",
+          "descripcion": "Trabajó como pediatra senior, enfocándose en el desarrollo infantil y la prevención de enfermedades pediátricas."
+        },
+        {
+          "fecha": "2021-2023",
+          "institucion": "Clínica Especializada en Pediatría",
+          "descripcion": "Dirigió el departamento de pediatría, supervisando tratamientos y programas de salud infantil. Participó en campañas de vacunación y educación para padres."
+        },
+        {
+          "fecha": "2024-Presente",
+          "institucion": "Consultorio Privado de Pediatría",
+          "descripcion": "Ofrece servicios pediátricos personalizados, enfocándose en la prevención, diagnóstico y tratamiento de enfermedades infantiles. Proporciona orientación a los padres para promover un desarrollo saludable."
+        }
+      ],
+      "servicios": [
+        {
+          "nombre": "Control del Desarrollo Infantil",
+          "descripcion": "Evaluación regular del crecimiento y desarrollo de los niños, brindando orientación a los padres.",
+          "precio": "$800"
+        },
+        {
+          "nombre": "Vacunación Pediátrica",
+          "descripcion": "Administración de vacunas según el calendario de vacunación recomendado.",
+          "precio": "Varía según la vacuna"
+        },
+        {
+          "nombre": "Consulta por Enfermedades Comunes",
+          "descripcion": "Diagnóstico y tratamiento de enfermedades pediátricas comunes, como resfriados y fiebre.",
+          "precio": "$700"
+        },
+        {
+          "nombre": "Asesoramiento Nutricional Infantil",
+          "descripcion": "Orientación sobre la nutrición adecuada para niños, abordando problemas de alimentación.",
+          "precio": "$900"
+        },
+        {
+          "nombre": "Atención a Problemas Respiratorios",
+          "descripcion": "Diagnóstico y tratamiento de condiciones respiratorias en niños.",
+          "precio": "$750"
+        },
+        {
+          "nombre": "Consulta de Segunda Opinión",
+          "descripcion": "Revisión y evaluación de diagnósticos y tratamientos previos.",
+          "precio": "$1000"
+        }
+      ]
+    },
+    {
+      "nombre": "Dr. Jorge Lopez",
+      "especialidad": "Ginecologia",
+      "matricula": "78-85858-858-58",
+      "Direccion": "Calle Pizarro 123",
+      "CP": "5555",
+      "Ciudad": "Chiclayo Peru",
+      "valor": 110,
+      "rating": 4.7,
+      "mail": "drJorge@gmail.com",
+      "telefono": "1-678-901-234",
+      "descripcion": "El Dr. Jorge Lopez es un ginecólogo experimentado que se especializa en la salud de la mujer. Su enfoque comprensivo y su habilidad para ofrecer atención de calidad han ganado la confianza y el respeto de sus pacientes.",
+      "reviews": [
+        {
+          "name": "Verónica Castillo",
+          "rating": 4.6,
+          "comentario": "Excelente ginecólogo. Explica todo de manera clara y brinda opciones de tratamiento."
+        },
+        {
+          "name": "Francisco Huaman",
+          "rating": 4.8,
+          "comentario": "La atención del Dr. Jorge es muy profesional. Me sentí cómoda y bien informada durante la consulta."
+        },
+        {
+          "name": "Alejandra Salas",
+          "rating": 4.9,
+          "comentario": "Recomendaría al Dr. Lopez a todas las mujeres. Es empático y se preocupa por el bienestar de sus pacientes."
+        },
+        {
+          "name": "Carlos Ríos",
+          "rating": 4.5,
+          "comentario": "Buena experiencia en la consulta. El Dr. Jorge demuestra conocimiento y experiencia en su campo."
+        },
+        {
+          "name": "María Flores",
+          "rating": 4.7,
+          "comentario": "La atención ginecológica del Dr. Lopez es excelente. Lo recomiendo ampliamente."
+        },
+        {
+          "name": "Roberto Soto",
+          "rating": 4.6,
+          "comentario": "Profesional dedicado y atento a las necesidades de sus pacientes. Muy satisfecha con la consulta."
+        },
+        {
+          "name": "Ana López",
+          "rating": 4.8,
+          "comentario": "El Dr. Jorge es un ginecólogo muy cuidadoso y respetuoso. Brinda confianza y seguridad."
+        }
+      ],
+      "experiencia": [
+        {
+          "fecha": "2007-2012",
+          "institucion": "Hospital Materno-Infantil de Chiclayo",
+          "descripcion": "Comenzó su carrera como ginecólogo, proporcionando atención integral a mujeres embarazadas y pacientes ginecológicas."
+        },
+        {
+          "fecha": "2013-2017",
+          "institucion": "Centro de Ginecología Avanzada",
+          "descripcion": "Trabajó como ginecólogo senior, especializándose en procedimientos ginecológicos avanzados y cirugías minimamente invasivas."
+        },
+        {
+          "fecha": "2018-2022",
+          "institucion": "Hospital de la Mujer",
+          "descripcion": "Dirigió el departamento de ginecología, supervisando tratamientos y programas de salud para la mujer. Participó en campañas de salud reproductiva."
+        },
+        {
+          "fecha": "2023-Presente",
+          "institucion": "Consultorio Privado de Ginecología",
+          "descripcion": "Ofrece servicios ginecológicos especializados de alta calidad de manera privada, abordando aspectos desde la salud reproductiva hasta problemas ginecológicos generales."
+        }
+      ],
+      "servicios": [
+        {
+          "nombre": "Consulta Ginecológica Integral",
+          "descripcion": "Evaluación completa de la salud ginecológica, incluyendo exámenes y pruebas especializadas.",
+          "precio": "$1500"
+        },
+        {
+          "nombre": "Control Prenatal",
+          "descripcion": "Seguimiento médico durante el embarazo, con monitoreo regular de la salud materna e fetal.",
+          "precio": "$2000"
+        },
+        {
+          "nombre": "Cirugía Ginecológica",
+          "descripcion": "Realización de procedimientos quirúrgicos ginecológicos, incluyendo cirugía laparoscópica.",
+          "precio": "Varía según la complejidad"
+        },
+        {
+          "nombre": "Asesoramiento en Salud Reproductiva",
+          "descripcion": "Orientación sobre planificación familiar, anticoncepción y salud reproductiva.",
+          "precio": "$1200"
+        },
+        {
+          "nombre": "Tratamiento de Problemas Menstruales",
+          "descripcion": "Abordaje de irregularidades menstruales y otras condiciones relacionadas.",
+          "precio": "$1300"
+        },
+        {
+          "nombre": "Consulta de Menopausia",
+          "descripcion": "Manejo integral de la menopausia, incluyendo tratamiento de síntomas y asesoramiento.",
+          "precio": "$1400"
+        }
+      ]
+    },
+    {
+      "nombre": "Dr. Alfredo Nuñez",
+      "especialidad": "Pediatria",
+      "matricula": "78-88888-888-88",
+      "Direccion": "Calle Arequipa 456",
+      "CP": "5555",
+      "Ciudad": "Lima, Peru",
+      "valor": 85,
+      "rating": 4.8,
+      "mail": "drAlfredo@gmail.com",
+      "telefono": "1-234-567-890",
+      "descripcion": "El Dr. Alfredo Nuñez es un pediatra apasionado por la salud infantil. Su atención dedicada y su capacidad para establecer conexiones con los niños y sus familias lo convierten en una opción ideal para el cuidado pediátrico.",
+      "reviews": [
+        {
+          "name": "Ana Gutiérrez",
+          "rating": 4.9,
+          "comentario": "El Dr. Alfredo  es muy comprensivo y atento. Mi hija se siente cómoda durante las consultas."
+        },
+        {
+          "name": "Juan Morales",
+          "rating": 4.7,
+          "comentario": "Excelente pediatra. Siempre brinda respuestas claras y tranquiliza nuestras preocupaciones como padres."
+        },
+        {
+          "name": "Laura Fernández",
+          "rating": 4.8,
+          "comentario": "Mi experiencia con el Dr. Alfredo ha sido positiva. Muestra un genuino interés en la salud de los niños."
+        },
+        {
+          "name": "Marcela Jiménez",
+          "rating": 4.5,
+          "comentario": "El Dr. Rodríguez tiene un enfoque cálido y profesional. Mis hijos lo adoran."
+        },
+        {
+          "name": "Roberto Silva",
+          "rating": 4.9,
+          "comentario": "Recomiendo al Dr. Alfredo a todas las familias. Es un pediatra excepcional."
+        }
+      ],
+      "experiencia": [
+        {
+          "fecha": "2010-2015",
+          "institucion": "Hospital Nacional de Niños",
+          "descripcion": "Comenzó su carrera como pediatra, brindando atención integral a niños con diversas condiciones de salud."
+        },
+        {
+          "fecha": "2016-2020",
+          "institucion": "Centro Pediátrico de Lima",
+          "descripcion": "Trabajó como pediatra senior, enfocándose en el desarrollo infantil y la prevención de enfermedades pediátricas."
+        },
+        {
+          "fecha": "2021-2023",
+          "institucion": "Clínica Especializada en Pediatría",
+          "descripcion": "Dirigió el departamento de pediatría, supervisando tratamientos y programas de salud infantil. Participó en campañas de vacunación y educación para padres."
+        },
+        {
+          "fecha": "2024-Presente",
+          "institucion": "Consultorio Privado de Pediatría",
+          "descripcion": "Ofrece servicios pediátricos personalizados, enfocándose en la prevención, diagnóstico y tratamiento de enfermedades infantiles. Proporciona orientación a los padres para promover un desarrollo saludable."
+        }
+      ],
+      "servicios": [
+        {
+          "nombre": "Control del Desarrollo Infantil",
+          "descripcion": "Evaluación regular del crecimiento y desarrollo de los niños, brindando orientación a los padres.",
+          "precio": "$850"
+        },
+        {
+          "nombre": "Vacunación Pediátrica",
+          "descripcion": "Administración de vacunas según el calendario de vacunación recomendado.",
+          "precio": "Varía según la vacuna"
+        },
+        {
+          "nombre": "Consulta por Enfermedades Comunes",
+          "descripcion": "Diagnóstico y tratamiento de enfermedades pediátricas comunes, como resfriados y fiebre.",
+          "precio": "$750"
+        },
+        {
+          "nombre": "Asesoramiento Nutricional Infantil",
+          "descripcion": "Orientación sobre la nutrición adecuada para niños, abordando problemas de alimentación.",
+          "precio": "$950"
+        },
+        {
+          "nombre": "Atención a Problemas Respiratorios",
+          "descripcion": "Diagnóstico y tratamiento de condiciones respiratorias en niños.",
+          "precio": "$800"
+        },
+        {
+          "nombre": "Consulta de Segunda Opinión",
+          "descripcion": "Revisión y evaluación de diagnósticos y tratamientos previos.",
+          "precio": "$1100"
+        }
+      ]
+    }
+  ]
+}

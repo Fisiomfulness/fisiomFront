@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "name": "Rondal Marino",
+      "age": 25,
+      "interests": ["yoga", "trekking"],
+      "city": "Lima"
+    },
+    {
+      "name": "Martin Rodriguez",
+      "age": 28,
+      "interests": ["fútbol", "running"],
+      "city": "Lima"
+    },
+    {
+      "name": "Enzo Perez",
+      "age": 35,
+      "interests": ["yoga", "fútbol"],
+      "city": "Lima"
+    },
+    {
+      "name": "Lucas Pratto",
+      "age": 33,
+      "interests": ["running", "fútbol"],
+      "city": "Lima"
+    },
+    {
+      "name": "Emiliano Martinez",
+      "age": 29,
+      "interests": ["running", "yoga"],
+      "city": "Lima"
+    }
+  ]
+}

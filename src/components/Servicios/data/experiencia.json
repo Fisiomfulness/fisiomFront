@@ -1,0 +1,29 @@
+{
+    "experiencia": [
+        {
+            "fecha": "1995-2001",
+            "institucion": "Hospital Privado de la Comunidad",
+            "descripcion": "Iniciando su carrera como psiquiatra en el ala de salud mental, logrando conformar un equipo interdisciplinario y dando a conocer la institución por la gran calidad humana, siendo altamente reconocida en la ciudad."
+        },
+        {
+            "fecha": "2002-2006",
+            "institucion": "Centro de Salud Mental Integral",
+            "descripcion": "Trabajando como psiquiatra senior, desarrollando e implementando programas de tratamiento innovadores para diversos trastornos mentales. Contribuyendo significativamente a la mejora de los servicios de salud mental en la comunidad."
+        },
+        {
+            "fecha": "2007-2012",
+            "institucion": "Hospital Psiquiátrico Regional",
+            "descripcion": "Dirigiendo el departamento de psiquiatría, supervisando tratamientos, investigando nuevas terapias y proporcionando liderazgo clínico. Colaborando en la formación de residentes y estudiantes de medicina en el ámbito psiquiátrico."
+        },
+        {
+            "fecha": "2013-2018",
+            "institucion": "Centro de Investigación en Salud Mental",
+            "descripcion": "Contribuyendo como investigador principal en proyectos de investigación clínica. Publicando artículos en revistas especializadas y participando en conferencias nacionales e internacionales sobre avances en el tratamiento de trastornos mentales."
+        },
+        {
+            "fecha": "2019-Presente",
+            "institucion": "Consultorio Privado de Psiquiatría",
+            "descripcion": "Ofreciendo servicios de psiquiatría de alta calidad de manera privada, brindando atención personalizada a pacientes con diversos trastornos mentales. Continuando con la actualización constante para aplicar las últimas investigaciones en el campo."
+        }
+    ]
+}
