@@ -1,4 +1,4 @@
-const { nextui } = require("@nextui-org/react");
+import { nextui } from "@nextui-org/react";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -9,6 +9,19 @@ module.exports = {
   ],
   theme: {
     extend: {
+      maxWidth: {
+        "8xl": "90rem",
+      },
+      animation: {
+        "reverse-spin": "reverse-spin 1s linear infinite",
+      },
+      keyframes: {
+        "reverse-spin": {
+          from: {
+            transform: "rotate(360deg)",
+          },
+        },
+      },
       colors: {
         // https://www.tints.dev/
         alter: {
@@ -78,16 +91,6 @@ module.exports = {
         },
         white: "#FAFAFA",
         black: "#0D0D0D",
-      },
-      animation: {
-        "reverse-spin": "reverse-spin 1s linear infinite",
-      },
-      keyframes: {
-        "reverse-spin": {
-          from: {
-            transform: "rotate(360deg)",
-          },
-        },
       },
     },
   },

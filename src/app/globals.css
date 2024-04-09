@@ -15,6 +15,16 @@ i {
   @apply italic;
 }
 
+@layer components {
+  .debug {
+    @apply border border-red-500;
+  }
+
+  .center {
+    @apply flex flex-col justify-center items-center;
+  }
+}
+
 @layer base {
   h1 {
     @apply mb-3 font-extrabold text-4xl leading-none;
@@ -55,5 +65,3 @@ i {
     @apply rounded-full;
   }
 }
-
-@layer panda_reset, panda_base, panda_tokens, panda_recipes, panda_utilities;

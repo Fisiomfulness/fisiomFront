@@ -14,7 +14,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { CustomButton } from "@/features/ui";
-import { css } from "@/styled-system/css";
 
 const menuItems = [
   { name: "Servicios", href: "/servicios" },
@@ -50,12 +49,7 @@ export default function Nav() {
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       classNames={{
-        wrapper: css({
-          maxW: "8xl!",
-          position: "relative!",
-          paddingX: { base: "4!", md: "6!", lg: "8!" },
-          gap: "6!",
-        }),
+        wrapper: "max-w-8xl !relative !px-4 md:!px-6 lg:!px-8 !gap-6",
         item: [
           "data-[active=true]:text-primary",
           "data-[active=true]:font-bold",

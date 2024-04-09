@@ -1,4 +1,3 @@
-import { grid } from "@/styled-system/patterns";
 import Link from "next/link";
 
 const links = [
@@ -18,14 +17,7 @@ const links = [
 
 export default function ServiciosHomePage() {
   return (
-    <div
-      className={grid({
-        gridTemplateRows: { base: "3", md: "1" },
-        gridTemplateColumns: { md: "3" },
-        gap: "0",
-        padding: "0!",
-      })}
-    >
+    <div className="grid md:grid-cols-3 !p-0 grid-rows-3 md:grid-rows-1">
       {links.map((item) => (
         <Link
           key={item.name}

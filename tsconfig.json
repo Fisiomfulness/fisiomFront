@@ -20,7 +20,6 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/styled-system/*": ["./styled-system/*"]
     }
   },
   "include": [
@@ -29,7 +28,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src",
-    "styled-system"
   ],
   "exclude": ["node_modules"]
 }
