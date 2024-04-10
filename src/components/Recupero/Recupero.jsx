@@ -3,13 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { CustomButton, CustomInput, CustomLogo } from "@/features/ui";
-import { center } from "@/styled-system/patterns";
 
 const Recupero = () => {
   const [email, setEmail] = useState("");
 
   return (
-    <div className={center({ bg: "primary.400" })}>
+    <div className="center bg-primary-400">
       <img
         className="absolute bottom-0 left-0 h-1/2 max-sm:w-2/3 max-sm:h-auto"
         alt="logo_overlay"
