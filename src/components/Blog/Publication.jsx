@@ -1,20 +1,23 @@
-import React from "react";
-import { Image } from "@nextui-org/react";
+import { Image } from '@nextui-org/react';
+import { truncateText, dateFormatter } from '@/utils/helpers';
 
 function Publication({ data }) {
   return (
-    <div className="w-full flex flex-row items-center">
+    <div className="size-fit grid grid-cols-[25%,auto] gap-3 sm:gap-5">
       <Image
         isBlurred
-        width={60}
-        src={data.imageUrl}
-        alt="NextUI Album Cover"
-        classNames="m-5"
+        src={data.image}
+        alt="Blog picture"
+        className="h-full min-h-[80px] object-cover rounded-md object-center lg:min-h-[60px]"
       />
-      <div className="ml-5">
-        <h2 style={{ fontSize: "0.7rem", marginBottom: 0 }}>{data.title}</h2>
-        <h4 style={{ fontSize: "0.6rem", marginTop: 0 }}>{data.description}</h4>
-        <h6 style={{ fontSize: "0.5rem" }}>{data.date}</h6>
+      <div className="flex flex-col">
+        <h2 className="text-[0.85rem] mb-0 capitalize">{data.title}</h2>
+        <p className="text-[0.75rem] mt-[0.1rem] grow overflow-y-auto">
+          {truncateText(data.text, 8)}
+        </p>
+        <span className="text-[0.65rem] mt-[0.3rem] justify-self-end">
+          {dateFormatter(data.createdDate)}
+        </span>
       </div>
     </div>
   );
