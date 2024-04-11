@@ -1,19 +1,8 @@
-import { center } from "@/styled-system/patterns";
 import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div
-      className={center({
-        flexDir: "column",
-        gap: "1",
-        minH: "92vh",
-        textAlign: "center",
-        margin: "0",
-        width: "100vw",
-        maxW: "unset!",
-      })}
-    >
+    <div className="center gap-1 min-h-[92vh] text-center w-screen !max-w-[unset]">
       <img
         className="absolute bottom-0 left-0 h-[42%] max-sm:w-1/2 max-sm:h-auto"
         alt="logo_overlay"

@@ -1,14 +1,8 @@
-import { container } from "@/styled-system/patterns";
-
 export default function About() {
   return (
     <div className="flex flex-col justify-between !p-0">
       <img src="/border.svg" alt="border_top" className="max-h-40 mr-auto" />
-      <div
-        className={container({
-          paddingX: { base: "10", md: "12", lg: "14" },
-        })}
-      >
+      <div className="container px-10 md:px-12 lg:px-14 mx-auto">
         <h2 className="py-4">
           Quiénes <span className="text-primary">somos</span>
         </h2>

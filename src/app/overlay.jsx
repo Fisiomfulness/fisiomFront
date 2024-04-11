@@ -17,7 +17,6 @@ export function Overlay({ children }) {
   if (exclude.includes(pathname)) {
     return (
       <main
-        // NOTE: selectores de pandacss causan conflicto con tailwind.
         className={[
           // center
           "flex justify-center items-center",
