@@ -1,11 +1,10 @@
-import React from "react";
-import dataBlog from "../../../components/Blog/data/blogs.json";
+import { getBlogDetail } from "@/services/blogs";
 import BlogDetail from "@/components/Blog/detail/BlogDetail";
 
-const BlogDetailPage = ({ params }) => {
-  const infoBlog = dataBlog.data.find((e) => e.id === params.blogId);
+const BlogDetailPage = async ({ params }) => {
+  const { blog } = await getBlogDetail(params.blogId)
 
-  return <BlogDetail data={infoBlog} />;
+  return <BlogDetail data={blog} />;
 };
 
 export default BlogDetailPage;
