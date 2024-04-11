@@ -1,8 +1,8 @@
-import { getBlogDetail } from "@/services/blogs";
-import BlogDetail from "@/components/Blog/detail/BlogDetail";
+import { getBlogDetail } from '@/services/blogs';
+import BlogDetail from '@/components/Blog/Detail/BlogDetail';
 
 const BlogDetailPage = async ({ params }) => {
-  const { blog } = await getBlogDetail(params.blogId)
+  const { blog } = await getBlogDetail(params.blogId);
 
   return <BlogDetail data={blog} />;
 };
