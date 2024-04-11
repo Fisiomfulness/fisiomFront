@@ -1,5 +1,3 @@
-export * from "./cn";
-
 export function mergeKeepValues(t1, t2) {
   const obj1 = { ...t1 };
   const obj2 = { ...t2 };
