@@ -15,22 +15,22 @@ export const ProductCard = ({ prod }) => {
      <CardHeader className="absolute z-10 top-1 flex-col items-start">
         <p className="text-tiny text-white/60 uppercase font-bold">Nuevo</p>
         <h4
-          onClick={() => handleOnClick(prod.id)}
+          onClick={() => handleOnClick(prod._id)}
           className="text-white font-medium text-2xl cursor-pointer"
         >
-          {prod.nombre}
+          {prod.name}
         </h4>
       </CardHeader>
       <Image
         removeWrapper
-        alt="Card example background"
-        className="z-0 w-full h-full scale-105 -translate-y-6 "
-        src={img.src}
+        alt={`${prod.name} picture`}
+        className="z-0 w-full h-full scale-105 -translate-y-6"
+        src={prod.image}
       />
       <CardFooter className="absolute bg-black/30 -bottom-2 border-t-1 border-zinc-100/50 z-10 justify-between">
         <div>
           <span className="text-white text-base">
-            Disponible por ${prod.precio}
+            Disponible por ${prod.price}
           </span>
         </div>
         <Button
@@ -38,7 +38,7 @@ export const ProductCard = ({ prod }) => {
           color="primary"
           radius="sm"
           size="sm"
-          onClick={() => handleOnClick(prod.id)}
+          onClick={() => handleOnClick(prod._id)}
         >
           Comprar
         </Button>

@@ -36,7 +36,7 @@ export const SearchProd = ({ prods, setProdFiltrados }) => {
   return (
     <div className="flex flex-col sm:flex-row w-full items-center justify-center gap-5 mt-4 mb-4">
      <Input
-        id="nombre"
+        id="name"
         value={filter.name}
         className="border-none outline-none w-[250px]"
         onChange={(e) => handleOnChange(e)}
