@@ -13,9 +13,9 @@ const DetailClient = ({ prod }) => {
     <section className=" min-h-full flex justify-center xl:w-[70%]">
       <div className="flex flex-col mt-10 mb-10 pr-5 pl-5">
         <div className="flex flex-col w-full">
-          <span className="font-black text-3xl">{prod.nombre}</span>
+          <span className="font-black text-3xl">{prod.name}</span>
           <span className="flex items-center pl-2 text-[#ffffff] bg-[#369DCC] w-[157px] h-[29px] rounded-sm">
-            ${prod.precio}
+            ${prod.price}
           </span>
         </div>
         <div className="flex pt-4">
@@ -23,13 +23,13 @@ const DetailClient = ({ prod }) => {
             <div className="w-full xl:flex">
               <div
                 className=" w-full bg-cover bg-center h-[230px]  md:h-[320px] lg:h-[320px] xl:h-[420px] 2xl:h-[530px]"
-                style={{ backgroundImage: `url(${prod?.gallery[selected]})` }}
+                style={{ backgroundImage: prod?.gallery?.length ? `url(${prod?.gallery[selected]})` : `url(${prod?.image})` }}
               ></div>
               <div className="flex w-full xl:w-[100px]">
                 <GalleryDetail
                   setSelected={setSelected}
                   selected={selected}
-                  images={prod.gallery}
+                  images={prod?.gallery?.length ? prod.gallery : [prod?.image]}
                 />
               </div>
             </div>
