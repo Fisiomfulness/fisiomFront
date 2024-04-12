@@ -1,9 +1,9 @@
-import Detail from "@/components/productos/detail/Detail";
+import ProductDetailPageClient from "./page.client";
 
-const ProductDetail = ({ params }) => {
+const ProductDetailPage = ({ params }) => {
   const { productoId } = params;
 
-  return <Detail productId={productoId} />;
+  return <ProductDetailPageClient productId={productoId} />;
 };
 
-export default ProductDetail;
+export default ProductDetailPage;

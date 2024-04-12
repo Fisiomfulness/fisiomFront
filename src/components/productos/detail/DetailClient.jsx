@@ -1,4 +1,5 @@
 "use client";
+
 import GalleryDetail from "./GalleryDetail";
 import { useState } from "react";
 import { useDisclosure, Button } from "@nextui-org/react";
@@ -20,18 +21,20 @@ const DetailClient = ({ prod }) => {
         </div>
         <div className="flex pt-4">
           <div className="flex flex-col w-full max-w-[500px] gap-3 text-justify xl:w-[700px] 2xl:w-[900px]">
-            <div className="w-full xl:flex">
+            <div className="w-full md:flex">
               <div
-                className=" w-full bg-cover bg-center h-[230px]  md:h-[320px] lg:h-[320px] xl:h-[420px] 2xl:h-[530px]"
-                style={{ backgroundImage: prod?.gallery?.length ? `url(${prod?.gallery[selected]})` : `url(${prod?.image})` }}
+                className="w-full bg-cover bg-center h-[230px] md:h-[320px] lg:h-[320px] xl:h-[420px] 2xl:h-[530px]"
+                style={{
+                  backgroundImage: prod?.gallery?.length
+                    ? `url(${prod?.gallery[selected]})`
+                    : `url(${prod?.image || ""})`,
+                }}
               ></div>
-              <div className="flex w-full xl:w-[100px]">
-                <GalleryDetail
-                  setSelected={setSelected}
-                  selected={selected}
-                  images={prod?.gallery?.length ? prod.gallery : [prod?.image]}
-                />
-              </div>
+              <GalleryDetail
+                setSelected={setSelected}
+                selected={selected}
+                images={prod?.gallery?.length ? prod.gallery : [prod?.image]}
+              />
             </div>
             <div className="xl:w-[442px]">
               <p>{prod.description}</p>
