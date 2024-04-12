@@ -23,13 +23,13 @@ const DetailClient = ({ prod }) => {
             <div className="w-full xl:flex">
               <div
                 className=" w-full bg-cover bg-center h-[230px]  md:h-[320px] lg:h-[320px] xl:h-[420px] 2xl:h-[530px]"
-                style={{ backgroundImage: `url(${prod?.gallery[selected]})` }}
+                style={{ backgroundImage: prod?.gallery?.length ? `url(${prod?.gallery[selected]})` : `url(${prod?.image})` }}
               ></div>
               <div className="flex w-full xl:w-[100px]">
                 <GalleryDetail
                   setSelected={setSelected}
                   selected={selected}
-                  images={prod.gallery}
+                  images={prod?.gallery?.length ? prod.gallery : [prod?.image]}
                 />
               </div>
             </div>
