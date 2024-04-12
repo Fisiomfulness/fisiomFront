@@ -15,8 +15,8 @@ export const SearchProd = ({ prods, setProdFiltrados }) => {
       prods.filter(
         (e) =>
           e.categoria.toLowerCase().includes(filter.categoria.toLowerCase()) &&
-          e.nombre.toLowerCase().includes(filter.nombre.toLowerCase())
-      )
+          e.nombre.toLowerCase().includes(filter.nombre.toLowerCase()),
+      ),
     );
   }, [filter, prods, setProdFiltrados]);
 
@@ -26,7 +26,7 @@ export const SearchProd = ({ prods, setProdFiltrados }) => {
 
   return (
     <div className="flex flex-col sm:flex-row w-full items-center justify-center gap-5 mt-4 mb-4">
-     <Input
+      <Input
         id="nombre"
         value={filter.nombre}
         className="border-none outline-none w-[250px]"

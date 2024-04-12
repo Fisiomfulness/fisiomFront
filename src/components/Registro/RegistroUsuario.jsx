@@ -1,15 +1,30 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import CustomInput from "@/features/ui/components/CustomInput/CustomInput";
 import CustomButton from "@/features/ui/components/CustomButton/CustomButton";
+import { registerForm } from "@/services/register";
 
 function RegistroUsuario() {
   const [isSubmit, setIsSubmit] = useState(false);
+
+  const [response, setResponse] = useState(undefined);
+
+  const [responseError, setResponseError] = useState("");
+
+  const [errMsgpass, setErrMsgpass] = useState("");
+
   const [isInvalid, setIsInvalid] = useState({
     name: false,
-    pass: false,
     email: false,
+    password: false,
     repitPass: false,
+  });
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
   });
 
   const classNames = {
@@ -17,27 +32,71 @@ function RegistroUsuario() {
     inputWrapper: "border-none !bg-zinc-100 my-5",
   };
 
+  useEffect(() => {
+    const fetchData = () => {
+      if (response) {
+        // Check if response exists before fetching
+        console.log(response);
+      }
+    };
+    fetchData();
+  }, [response]); // Dependency array: re-run on response changes
+
+  const registerResponse = async () => {
+    const res = await registerForm(formData);
+    setResponse(res);
+
+    if (res.status == "201") {
+      setResponseError(res.data.message);
+      setIsSubmit(false);
+    } else {
+      setIsSubmit(true);
+      setResponseError("");
+    }
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+    // Update isInvalid state based on input value
+    setIsInvalid({
+      ...isInvalid,
+      [name]: !value.trim(), // Validate trimmed value
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { name, email, pass, repitPass } = e.target;
+    setIsSubmit(false);
+
+    const { password, repitPass } = e.target;
 
     const draft = {
-      ...isInvalid,
-      name: !name.value,
-      pass: !pass.value,
-      email: !email.value,
-      repitPass: !repitPass.value,
+      name: !formData.name.trim(),
+      email: !formData.email.trim(),
+      password: !formData.password.trim(),
+      repitPass: !repitPass.value.trim(),
     };
 
     if (Object.values(draft).every((value) => value === false)) {
-      setIsSubmit(true);
-      if (pass !== repitPass) {
+      if (password.value !== repitPass.value) {
+        setIsInvalid({ ...isInvalid, repitPass: true }); // Set repitPass error
+        setErrMsgpass("Las contraseñas no coinciden");
+      } else {
+        setErrMsgpass("");
+        registerResponse();
       }
     } else {
-      setIsSubmit(false);
+      // Set error messages for empty fields
+      setIsInvalid({
+        ...isInvalid,
+        name: !formData.name.trim(),
+        email: !formData.email.trim(),
+        password: !formData.password.trim(),
+      });
     }
-    setIsInvalid(draft);
   };
 
   return (
@@ -48,21 +107,24 @@ function RegistroUsuario() {
           placeholder="Nombre completo"
           type="text"
           classNames={classNames}
-          isInvalid={isInvalid.name}
+          errorMessage={isInvalid.name ? "Nombre es requerido" : ""} // Set error based on isInvalid state
+          onChange={handleChange}
         />
         <CustomInput
           name="email"
           placeholder="Email"
           type="email"
           classNames={classNames}
-          isInvalid={isInvalid.email}
+          errorMessage={isInvalid.email ? "Email es requerido" : ""}
+          onChange={handleChange}
         />
         <CustomInput
-          name="pass"
+          name="password"
           placeholder="Contraseña"
           type="password"
           classNames={classNames}
-          isInvalid={isInvalid.pass}
+          errorMessage={isInvalid.password ? "Contraseña es requerida" : ""}
+          onChange={handleChange}
         />
         <CustomInput
           name="repitPass"
@@ -70,9 +132,12 @@ function RegistroUsuario() {
           type="password"
           classNames={classNames}
           isInvalid={isInvalid.repitPass}
+          errorMessage={errMsgpass} // Specific error for repeat password
+          onChange={handleChange}
         />
 
         {isSubmit ? <p className="text-green-600">Perfil creado</p> : <></>}
+        {<p className="text-red-600">{responseError}</p>}
         <CustomButton type="submit">Crear perfil</CustomButton>
       </div>
     </form>
