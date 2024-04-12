@@ -1,11 +1,7 @@
-import ProductClient from "@/components/productos/ProductClient";
+import ProductosPageClient from "./page.client";
 
 const ProductosPage = () => {
-  return (
-    <>
-      <ProductClient />
-    </>
-  );
+  return <ProductosPageClient />;
 };
 
 export default ProductosPage;

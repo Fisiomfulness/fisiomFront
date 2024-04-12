@@ -11,31 +11,49 @@ export const SearchProd = ({ prods, setProdFiltrados }) => {
     name: "",
   });
   const [categories, setCategories] = useState([]);
+
   useEffect(() => {
-    fetch(apiEndpoints.categories, { method: "GET" })
+    const abortController = new AbortController();
+
+    fetch(apiEndpoints.categories, {
+      method: "GET",
+      signal: abortController.signal,
+    })
       .then((res) => res.json())
       .then((data) => {
-        setCategories([...data.categories.sort((a, b) => a.name.localeCompare(b.name))]);
+        setCategories(
+          data.categories.toSorted((a, b) => a.name.localeCompare(b.name)),
+        );
+      })
+      .catch((err) => {
+        if (err.name === "AbortError") return;
+        throw err;
       });
+
+    return () => abortController.abort();
   }, []);
 
   useEffect(() => {
     setProdFiltrados(
-      prods.filter(
-        (prod) =>
-          (filter.category === 'All' || prod.category._id === filter.category) &&
-          prod.name.toLowerCase().includes(filter.name.toLowerCase())
-      )
+      prods.filter((prod) => {
+        const isValidCategory =
+          filter.category === "All" || prod.category._id === filter.category;
+        const nameMatches = prod.name
+          .toLowerCase()
+          .includes(filter.name.toLowerCase());
+        return isValidCategory && nameMatches;
+      }),
     );
-  }, [filter, prods, setProdFiltrados]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter]);
 
   const handleOnChange = (e) => {
     setFilter({ ...filter, [e.target.id]: e.target.value });
   };
 
   return (
-    <div className="flex flex-col sm:flex-row w-full items-center justify-center gap-5 mt-4 mb-4">
-     <Input
+    <div className="center sm:flex-row w-full gap-5 my-4">
+      <Input
         id="name"
         value={filter.name}
         className="border-none outline-none w-[250px]"
@@ -57,13 +75,11 @@ export const SearchProd = ({ prods, setProdFiltrados }) => {
           <option value="All" className="">
             Todas
           </option>
-          {
-            categories?.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.name}
-              </option>
-            ))
-          }
+          {categories?.map((category) => (
+            <option key={category._id} value={category._id}>
+              {category.name}
+            </option>
+          ))}
         </select>
       </div>
     </div>
