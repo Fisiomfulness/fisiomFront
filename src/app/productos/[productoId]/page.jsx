@@ -1,10 +1,9 @@
-import Detail from "@/components/productos/detail/Detail";
-import data from "@/components/productos/data/productos.json";
+import ProductDetailPageClient from "./page.client";
 
-const ProductDetail = async ({ params }) => {
-  const producto = await data.productos.find((e) => e.id === params.productoId);
+const ProductDetailPage = ({ params }) => {
+  const { productoId } = params;
 
-  return <Detail prod={producto} />;
+  return <ProductDetailPageClient productId={productoId} />;
 };
 
-export default ProductDetail;
+export default ProductDetailPage;

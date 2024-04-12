@@ -1,11 +1,37 @@
+"use client";
+import { useEffect, useState } from "react";
 import MetodosDePago from "./MetodosDePago";
 import ProdRelacionados from "./ProdRelacionados";
-import data from "@/components/productos/data/productos.json";
+import { apiEndpoints } from "@/api_endpoints";
 
-const Aside = async ({ prod }) => {
-  const prods = await data.productos.filter(
-    (e) => e.categoria === prod.categoria
-  );
+const Aside = ({ prod }) => {
+  const [prods, setProds] = useState([]);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    fetch(apiEndpoints.products, {
+      method: "GET",
+      signal: abortController.signal,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setProds(
+          data.products.filter(
+            (product) =>
+              product.category._id === prod.category?._id &&
+              product._id !== prod._id,
+          ),
+        );
+      })
+      .catch((err) => {
+        if (err.name === "AbortError") return;
+        throw err;
+      });
+
+    return () => abortController.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <aside className=" min-h-full xl:w-[30%]">
