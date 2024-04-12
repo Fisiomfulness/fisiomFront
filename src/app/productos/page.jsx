@@ -1,12 +1,7 @@
-import data from "@/components/productos/data/productos.json";
-import ProductClient from "@/components/productos/ProductClient";
+import ProductosPageClient from "./page.client";
 
-const ProductosPage = async () => {
-  return (
-    <>
-      <ProductClient data={data.productos} />
-    </>
-  );
+const ProductosPage = () => {
+  return <ProductosPageClient />;
 };
 
 export default ProductosPage;

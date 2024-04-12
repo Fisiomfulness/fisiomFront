@@ -4,10 +4,13 @@ import BlogList from '@/components/Blog/BlogList';
 
 const BlogPage = async () => {
   const { blogs } = await getBlogs();
+  // * For better UI
+  const LAST_BLOGS = blogs.length >= 12 ? 12 : 8;
+
   return (
-    <div className="flex flex-col gap-y-7 gap-x-10 lg:flex-row w-full h-full mt-10 mb-14">
+    <div className="grid gap-y-7 gap-x-10 lg:grid-cols-[auto,30%] w-full h-full mt-10 mb-14">
       <BlogCards blogs={blogs} />
-      <BlogList blogs={blogs} />
+      <BlogList blogs={blogs.slice(0, LAST_BLOGS)} />
     </div>
   );
 };
