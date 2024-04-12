@@ -9,6 +9,8 @@ import RegistroUsuario from "./RegistroUsuario";
 
 function Registro() {
   const [selected, setSelected] = useState("usuario");
+  const [aceptoCondiciones, setAceptoCondiciones] = useState(false);
+  const [recibirInformacion, setRecibirInformacion] = useState(false);
 
   return (
     <Card className="flex items-center h-auto w-full min-[440px]:w-4/5 md:w-[1028px] min-h-[512px]">
@@ -30,13 +32,22 @@ function Registro() {
           {selected === "profesional" && (
             <div className="py-8 w-2/3">
               <label className="text-[9px]">
-                <input type="checkbox" /> Acepto los{" "}
+                <input
+                  type="checkbox"
+                  checked={aceptoCondiciones}
+                  onChange={() => setAceptoCondiciones(!aceptoCondiciones)}
+                />
+                Acepto los{" "}
                 <a className="text-primary"> términos y condiciones </a> del
                 servicio de fisiom fulness. Declaro haber leído y entiendo la
                 política de privacidad
               </label>
               <br />
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                checked={recibirInformacion}
+                onChange={() => setRecibirInformacion(!recibirInformacion)}
+              />
               <label className="text-[9px]">
                 {" "}
                 Doy mi consentimiento y acepto recibir información sobre los{" "}
@@ -47,11 +58,20 @@ function Registro() {
             </div>
           )}
         </div>
-        {selected === "usuario" ? <RegistroUsuario /> : <RegistroProfesional />}
+        {selected === "usuario" ? (
+          <RegistroUsuario />
+        ) : (
+          <RegistroProfesional
+            terminos={
+              aceptoCondiciones == false || recibirInformacion == false
+                ? false
+                : true
+            }
+          />
+        )}
       </CardBody>
     </Card>
   );
 }
 
 export default Registro;
-

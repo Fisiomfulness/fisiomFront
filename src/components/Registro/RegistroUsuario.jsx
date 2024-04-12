@@ -12,13 +12,6 @@ function RegistroUsuario() {
 
   const [errMsgpass, setErrMsgpass] = useState("");
 
-  const [isInvalid, setIsInvalid] = useState({
-    name: false,
-    email: false,
-    password: false,
-    repitPass: false,
-  });
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -41,6 +34,7 @@ function RegistroUsuario() {
   }, [response]); // Dependency array: re-run on response changes
 
   const registerResponse = async () => {
+    formData.role = "user";
     const res = await registerForm(formData);
     setResponse(res);
 
@@ -54,12 +48,6 @@ function RegistroUsuario() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-
-    // Update isInvalid state based on input value
-    setIsInvalid({
-      ...isInvalid,
-      [name]: !value.trim(), // Validate trimmed value
-    });
   };
 
   const handleSubmit = (e) => {
@@ -67,29 +55,16 @@ function RegistroUsuario() {
 
     const { password, repitPass } = e.target;
 
-    const draft = {
-      name: !formData.name.trim(),
-      email: !formData.email.trim(),
-      password: !formData.password.trim(),
-      repitPass: !repitPass.value.trim(),
-    };
-
-    if (Object.values(draft).every((value) => value === false)) {
+    if (Object.values(formData).every((value) => value.trim().length != 0)) {
       if (password.value !== repitPass.value) {
-        setIsInvalid({ ...isInvalid, repitPass: true }); // Set repitPass error
         setErrMsgpass("Las contraseñas no coinciden");
+        toast.error("Las contraseñas no coinciden");
       } else {
         setErrMsgpass("");
         registerResponse();
       }
     } else {
-      // Set error messages for empty fields
-      setIsInvalid({
-        ...isInvalid,
-        name: !formData.name.trim(),
-        email: !formData.email.trim(),
-        password: !formData.password.trim(),
-      });
+      toast.error("Completa los campos correctamente");
     }
   };
 
@@ -101,7 +76,7 @@ function RegistroUsuario() {
           placeholder="Nombre completo"
           type="text"
           classNames={classNames}
-          errorMessage={isInvalid.name ? "Nombre es requerido" : ""} // Set error based on isInvalid state
+          errorMessage={!formData.name.length ? "Nombre es requerido" : ""} // Set error based on isInvalid state
           onChange={handleChange}
         />
         <CustomInput
@@ -109,7 +84,7 @@ function RegistroUsuario() {
           placeholder="Email"
           type="email"
           classNames={classNames}
-          errorMessage={isInvalid.email ? "Email es requerido" : ""}
+          errorMessage={!formData.email.length ? "Email es requerido" : ""}
           onChange={handleChange}
         />
         <CustomInput
@@ -117,7 +92,9 @@ function RegistroUsuario() {
           placeholder="Contraseña"
           type="password"
           classNames={classNames}
-          errorMessage={isInvalid.password ? "Contraseña es requerida" : ""}
+          errorMessage={
+            !formData.password.length ? "Contraseña es requerida" : ""
+          }
           onChange={handleChange}
         />
         <CustomInput
@@ -125,7 +102,6 @@ function RegistroUsuario() {
           placeholder="Repita contraseña"
           type="password"
           classNames={classNames}
-          isInvalid={isInvalid.repitPass}
           errorMessage={errMsgpass} // Specific error for repeat password
           onChange={handleChange}
         />

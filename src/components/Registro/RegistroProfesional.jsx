@@ -6,7 +6,7 @@ import { registerForm } from "@/services/register";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
-function RegistroProfesional() {
+function RegistroProfesional({ terminos }) {
   const [file, setFile] = useState(null);
 
   const [response, setResponse] = useState(undefined);
@@ -69,11 +69,14 @@ function RegistroProfesional() {
         setErrMsgpass("Las contraseñas no coinciden");
         toast.error("Las contraseñas no coinciden");
       } else {
-        setErrMsgpass("");
-        registerResponse();
+        if (!terminos) {
+          toast.error("Acepte los terminos y condiciones");
+        } else {
+          setErrMsgpass("");
+          registerResponse();
+        }
       }
     } else {
-      // Set error messages for empty fields with property names
       toast.error("Completa los campos correctamente");
     }
   };
@@ -159,13 +162,7 @@ function RegistroProfesional() {
             />
           </div>
         </div>
-        <CustomButton
-          color="primary"
-          type="submit"
-          className="bg-primary-400 mt-2"
-        >
-          Registrarse
-        </CustomButton>
+        <CustomButton type="submit">Registrarse</CustomButton>
 
         <div className="flex flex-row justify-center items-center gap-4 mt-8">
           <p>¿Ya esta registrado?</p>
