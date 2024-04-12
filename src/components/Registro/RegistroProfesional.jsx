@@ -3,15 +3,13 @@ import React, { useEffect, useState } from "react";
 import CustomInput from "@/features/ui/components/CustomInput/CustomInput";
 import CustomButton from "@/features/ui/components/CustomButton/CustomButton";
 import { registerForm } from "@/services/register";
+import toast from "react-hot-toast";
+import Link from "next/link";
 
 function RegistroProfesional() {
-  const [isSubmit, setIsSubmit] = useState(false);
-
   const [file, setFile] = useState(null);
 
   const [response, setResponse] = useState(undefined);
-
-  const [responseError, setResponseError] = useState("");
 
   const [errMsgpass, setErrMsgpass] = useState("");
 
@@ -22,18 +20,7 @@ function RegistroProfesional() {
     password: "",
     license: "",
     city: "",
-    curriculum: "",
-    role: "profesional", // Pre-fill role for clarity
-  });
-  const [isInvalid, setIsInvalid] = useState({
-    name: false,
-    phone: false,
-    email: false,
-    password: false,
-    repitPass: false,
-    license: false,
-    city: false,
-    curriculum: false,
+    // curriculum: "", // Pre-fill role for clarity
   });
 
   const classNames = {
@@ -52,27 +39,20 @@ function RegistroProfesional() {
   }, [response]); // Dependency array: re-run on response changes
 
   const registerResponse = async () => {
+    formData.role = "profesional";
     const res = await registerForm(formData);
     setResponse(res);
 
     if (res.status == "201") {
-      setResponseError(res.data.message);
-      setIsSubmit(false);
+      toast.error(res.data.message);
     } else {
-      setIsSubmit(true);
-      setResponseError("");
+      toast.success("Registrado con exito!");
     }
   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-
-    // Update isInvalid state based on input value
-    setIsInvalid({
-      ...isInvalid,
-      [name]: !value.trim(), // Validate trimmed value
-    });
   };
 
   const onChangeFile = (e) => {
@@ -82,43 +62,19 @@ function RegistroProfesional() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setIsSubmit(false);
-
     const { password, repitPass } = e.target;
 
-    const draft = {
-      name: !formData.name.trim(),
-      phone: !formData.phone.trim(),
-      email: !formData.email.trim(),
-      password: !formData.password.trim(),
-      repitPass: !repitPass.value.trim(),
-      license: !formData.license.trim(),
-      city: !formData.city.trim(),
-      // curriculum: !formData.curriculum.trim(),
-    };
-
-    if (Object.values(draft).every((value) => value === false)) {
+    if (Object.values(formData).every((value) => value.trim().length != 0)) {
       if (password.value !== repitPass.value) {
-        setIsInvalid({ ...isInvalid, repitPass: true });
         setErrMsgpass("Las contraseñas no coinciden");
+        toast.error("Las contraseñas no coinciden");
       } else {
         setErrMsgpass("");
-        console.log(formData);
         registerResponse();
       }
     } else {
-      // Set error messages for empty fields
-      setIsInvalid({
-        ...isInvalid,
-        name: !formData.name.trim(),
-        phone: !formData.phone.trim(),
-        email: !formData.email.trim(),
-        password: !formData.password.trim(),
-        repitPass: !repitPass.value.trim(),
-        license: !formData.license.trim(),
-        city: !formData.city.trim(),
-        // curriculum: !formData.curriculum.trim(),
-      });
+      // Set error messages for empty fields with property names
+      toast.error("Completa los campos correctamente");
     }
   };
 
@@ -130,8 +86,7 @@ function RegistroProfesional() {
           placeholder="Nombre completo"
           type="text"
           classNames={classNames}
-          isInvalid={isInvalid.name}
-          errorMessage={isInvalid.name ? "Nombre es requerido" : ""}
+          errorMessage={!formData.name.length ? "Nombre es requerido" : ""}
           onChange={handleChange}
         />
         <CustomInput
@@ -139,8 +94,7 @@ function RegistroProfesional() {
           placeholder="Telefono"
           type="text"
           classNames={classNames}
-          isInvalid={isInvalid.phone}
-          errorMessage={isInvalid.phone ? "Telefono es requerido" : ""}
+          errorMessage={!formData.phone.length ? "Telefono es requerido" : ""}
           onChange={handleChange}
         />
         <CustomInput
@@ -148,8 +102,7 @@ function RegistroProfesional() {
           placeholder="Email"
           type="email"
           classNames={classNames}
-          isInvalid={isInvalid.email}
-          errorMessage={isInvalid.email ? "Email es requerido" : ""}
+          errorMessage={!formData.email.length ? "Email es requerido" : ""}
           onChange={handleChange}
         />
         <CustomInput
@@ -157,8 +110,9 @@ function RegistroProfesional() {
           placeholder="Contraseña"
           type="password"
           classNames={classNames}
-          isInvalid={isInvalid.password}
-          errorMessage={isInvalid.password ? "Contraseña es requerida" : ""}
+          errorMessage={
+            !formData.password.length ? "Contraseña es requerida" : ""
+          }
           onChange={handleChange}
         />
         <CustomInput
@@ -166,7 +120,6 @@ function RegistroProfesional() {
           placeholder="Repita contraseña"
           type="password"
           classNames={classNames}
-          isInvalid={isInvalid.repitPass}
           errorMessage={errMsgpass} // Specific error for repeat password
           onChange={handleChange}
         />
@@ -175,8 +128,7 @@ function RegistroProfesional() {
           placeholder="Numero colegiado"
           type="text"
           classNames={classNames}
-          isInvalid={isInvalid.license}
-          errorMessage={isInvalid.license ? "Licencia es requerida" : ""}
+          errorMessage={!formData.license.length ? "Licencia es requerida" : ""}
           onChange={handleChange}
         />
         <CustomInput
@@ -184,8 +136,7 @@ function RegistroProfesional() {
           placeholder="Ciudad"
           type="text"
           classNames={classNames}
-          isInvalid={isInvalid.city}
-          errorMessage={isInvalid.city ? "City es requerida" : ""}
+          errorMessage={!formData.city.length ? "City es requerida" : ""}
           onChange={handleChange}
         />
         <div className="flex flex-row justify-between items-center mt-4 rounded">
@@ -205,18 +156,27 @@ function RegistroProfesional() {
               placeholder="asdas"
               className="hidden"
               onChange={onChangeFile}
-              isInvalid={isInvalid.curriculum}
             />
           </div>
         </div>
-        <p className="text-red-500 text-sm">
-          {isInvalid.curriculum ? "Requerido" : ""}
-        </p>
-        {isSubmit ? <p className="text-green-600">Perfil creado</p> : <></>}
-        {<p className="text-red-600">{responseError}</p>}
-        <CustomButton color="primary" type="submit" className="mt-4 w-full">
-          Crear perfil
+        <CustomButton
+          color="primary"
+          type="submit"
+          className="bg-primary-400 mt-2"
+        >
+          Registrarse
         </CustomButton>
+
+        <div className="flex flex-row justify-center items-center gap-4 mt-8">
+          <p>¿Ya esta registrado?</p>
+          <CustomButton
+            className="bg-primary-400 min-w-fit !w-fit py-2"
+            as={Link}
+            href="/login"
+          >
+            Ingresar
+          </CustomButton>
+        </div>
       </div>
     </form>
   );

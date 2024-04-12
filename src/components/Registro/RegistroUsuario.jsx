@@ -4,13 +4,11 @@ import React, { useEffect, useState } from "react";
 import CustomInput from "@/features/ui/components/CustomInput/CustomInput";
 import CustomButton from "@/features/ui/components/CustomButton/CustomButton";
 import { registerForm } from "@/services/register";
+import toast from "react-hot-toast";
+import Link from "next/link";
 
 function RegistroUsuario() {
-  const [isSubmit, setIsSubmit] = useState(false);
-
   const [response, setResponse] = useState(undefined);
-
-  const [responseError, setResponseError] = useState("");
 
   const [errMsgpass, setErrMsgpass] = useState("");
 
@@ -47,11 +45,9 @@ function RegistroUsuario() {
     setResponse(res);
 
     if (res.status == "201") {
-      setResponseError(res.data.message);
-      setIsSubmit(false);
+      toast.error(res.data.message);
     } else {
-      setIsSubmit(true);
-      setResponseError("");
+      toast.success("Registrado con exito!");
     }
   };
 
@@ -68,8 +64,6 @@ function RegistroUsuario() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setIsSubmit(false);
 
     const { password, repitPass } = e.target;
 
@@ -136,9 +130,18 @@ function RegistroUsuario() {
           onChange={handleChange}
         />
 
-        {isSubmit ? <p className="text-green-600">Perfil creado</p> : <></>}
-        {<p className="text-red-600">{responseError}</p>}
-        <CustomButton type="submit">Crear perfil</CustomButton>
+        <CustomButton type="submit">Registrarse</CustomButton>
+
+        <div className="flex flex-row justify-center items-center gap-4 mt-8">
+          <p>¿Ya esta registrado?</p>
+          <CustomButton
+            className="bg-primary-400 min-w-fit !w-fit py-2"
+            as={Link}
+            href="/login"
+          >
+            Ingresar
+          </CustomButton>
+        </div>
       </div>
     </form>
   );
