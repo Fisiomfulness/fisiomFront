@@ -12,6 +12,7 @@
     "@custom-react-hooks/all": "^1.4.19",
     "@nextui-org/react": "^2.2.10",
     "@react-stately/data": "^3.11.2",
+    "formik": "^2.4.5",
     "framer-motion": "^11.0.27",
     "jotai": "^2.8.0",
     "leaflet": "^1.9.4",
@@ -23,7 +24,8 @@
     "react-leaflet": "^4.2.1",
     "react-star-ratings": "^2.3.0",
     "react-syntax-highlighter": "^15.5.0",
-    "tailwind-merge": "^2.2.2"
+    "tailwind-merge": "^2.2.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.6.4",
