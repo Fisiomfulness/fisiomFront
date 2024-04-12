@@ -1,15 +1,21 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import CustomInput from "@/features/ui/components/CustomInput/CustomInput";
 import CustomButton from "@/features/ui/components/CustomButton/CustomButton";
+import { registerForm } from "@/services/register";
+import toast from "react-hot-toast";
+import Link from "next/link";
 
 function RegistroUsuario() {
-  const [isSubmit, setIsSubmit] = useState(false);
-  const [isInvalid, setIsInvalid] = useState({
-    name: false,
-    pass: false,
-    email: false,
-    repitPass: false,
+  const [response, setResponse] = useState(undefined);
+
+  const [errMsgpass, setErrMsgpass] = useState("");
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
   });
 
   const classNames = {
@@ -17,27 +23,49 @@ function RegistroUsuario() {
     inputWrapper: "border-none !bg-zinc-100 my-5",
   };
 
+  useEffect(() => {
+    const fetchData = () => {
+      if (response) {
+        // Check if response exists before fetching
+        console.log(response);
+      }
+    };
+    fetchData();
+  }, [response]); // Dependency array: re-run on response changes
+
+  const registerResponse = async () => {
+    formData.role = "user";
+    const res = await registerForm(formData);
+    setResponse(res);
+
+    if (res.status == "201") {
+      toast.error(res.data.message);
+    } else {
+      toast.success("Registrado con exito!");
+    }
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { name, email, pass, repitPass } = e.target;
+    const { password, repitPass } = e.target;
 
-    const draft = {
-      ...isInvalid,
-      name: !name.value,
-      pass: !pass.value,
-      email: !email.value,
-      repitPass: !repitPass.value,
-    };
-
-    if (Object.values(draft).every((value) => value === false)) {
-      setIsSubmit(true);
-      if (pass !== repitPass) {
+    if (Object.values(formData).every((value) => value.trim().length != 0)) {
+      if (password.value !== repitPass.value) {
+        setErrMsgpass("Las contraseñas no coinciden");
+        toast.error("Las contraseñas no coinciden");
+      } else {
+        setErrMsgpass("");
+        registerResponse();
       }
     } else {
-      setIsSubmit(false);
+      toast.error("Completa los campos correctamente");
     }
-    setIsInvalid(draft);
   };
 
   return (
@@ -48,32 +76,48 @@ function RegistroUsuario() {
           placeholder="Nombre completo"
           type="text"
           classNames={classNames}
-          isInvalid={isInvalid.name}
+          errorMessage={!formData.name.length ? "Nombre es requerido" : ""} // Set error based on isInvalid state
+          onChange={handleChange}
         />
         <CustomInput
           name="email"
           placeholder="Email"
           type="email"
           classNames={classNames}
-          isInvalid={isInvalid.email}
+          errorMessage={!formData.email.length ? "Email es requerido" : ""}
+          onChange={handleChange}
         />
         <CustomInput
-          name="pass"
+          name="password"
           placeholder="Contraseña"
           type="password"
           classNames={classNames}
-          isInvalid={isInvalid.pass}
+          errorMessage={
+            !formData.password.length ? "Contraseña es requerida" : ""
+          }
+          onChange={handleChange}
         />
         <CustomInput
           name="repitPass"
           placeholder="Repita contraseña"
           type="password"
           classNames={classNames}
-          isInvalid={isInvalid.repitPass}
+          errorMessage={errMsgpass} // Specific error for repeat password
+          onChange={handleChange}
         />
 
-        {isSubmit ? <p className="text-green-600">Perfil creado</p> : <></>}
-        <CustomButton type="submit">Crear perfil</CustomButton>
+        <CustomButton type="submit">Registrarse</CustomButton>
+
+        <div className="flex flex-row justify-center items-center gap-4 mt-8">
+          <p>¿Ya esta registrado?</p>
+          <CustomButton
+            className="bg-primary-400 min-w-fit !w-fit py-2"
+            as={Link}
+            href="/login"
+          >
+            Ingresar
+          </CustomButton>
+        </div>
       </div>
     </form>
   );

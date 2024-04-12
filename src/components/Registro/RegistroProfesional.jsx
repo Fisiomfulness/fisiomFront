@@ -1,24 +1,58 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomInput from "@/features/ui/components/CustomInput/CustomInput";
 import CustomButton from "@/features/ui/components/CustomButton/CustomButton";
-function RegistroProfesional() {
-  const [isSubmit, setIsSubmit] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
+import { registerForm } from "@/services/register";
+import toast from "react-hot-toast";
+import Link from "next/link";
+
+function RegistroProfesional({ terminos }) {
   const [file, setFile] = useState(null);
-  const [isInvalid, setIsInvalid] = useState({
-    name: false,
-    tel: false,
-    email: false,
-    pass: false,
-    repitPass: false,
-    numCol: false,
-    city: false,
-    cv: false,
+
+  const [response, setResponse] = useState(undefined);
+
+  const [errMsgpass, setErrMsgpass] = useState("");
+
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
+    license: "",
+    city: "",
+    // curriculum: "", // Pre-fill role for clarity
   });
+
   const classNames = {
     innerWrapper: "w-[300px]",
     inputWrapper: "border-none !bg-zinc-100 my-3",
+  };
+
+  useEffect(() => {
+    const fetchData = () => {
+      if (response) {
+        // Check if response exists before fetching
+        console.log(response);
+      }
+    };
+    fetchData();
+  }, [response]); // Dependency array: re-run on response changes
+
+  const registerResponse = async () => {
+    formData.role = "profesional";
+    const res = await registerForm(formData);
+    setResponse(res);
+
+    if (res.status == "201") {
+      toast.error(res.data.message);
+    } else {
+      toast.success("Registrado con exito!");
+    }
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const onChangeFile = (e) => {
@@ -27,32 +61,24 @@ function RegistroProfesional() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, tel, email, pass, repitPass, numCol, city, cv } = e.target;
 
-    const draft = {
-      ...isInvalid,
-      name: !name.value,
-      tel: !tel.value,
-      email: !email.value,
-      pass: !pass.value,
-      repitPass: !repitPass.value,
-      numCol: !numCol.value,
-      city: !city.value,
-      cv: !cv.value,
-    };
+    const { password, repitPass } = e.target;
 
-    if (Object.values(draft).every((value) => value === false)) {
-      if (pass.value !== repitPass.value) {
-        setErrMsg("Las contraseñas no coinciden");
+    if (Object.values(formData).every((value) => value.trim().length != 0)) {
+      if (password.value !== repitPass.value) {
+        setErrMsgpass("Las contraseñas no coinciden");
+        toast.error("Las contraseñas no coinciden");
       } else {
-        setErrMsg("");
-        console.log("Submit");
-        setIsSubmit(true);
+        if (!terminos) {
+          toast.error("Acepte los terminos y condiciones");
+        } else {
+          setErrMsgpass("");
+          registerResponse();
+        }
       }
     } else {
-      setIsSubmit(false);
+      toast.error("Completa los campos correctamente");
     }
-    setIsInvalid(draft);
   };
 
   return (
@@ -63,77 +89,91 @@ function RegistroProfesional() {
           placeholder="Nombre completo"
           type="text"
           classNames={classNames}
-          isInvalid={isInvalid.name}
+          errorMessage={!formData.name.length ? "Nombre es requerido" : ""}
+          onChange={handleChange}
         />
         <CustomInput
-          name="tel"
+          name="phone"
           placeholder="Telefono"
           type="text"
           classNames={classNames}
-          isInvalid={isInvalid.tel}
+          errorMessage={!formData.phone.length ? "Telefono es requerido" : ""}
+          onChange={handleChange}
         />
         <CustomInput
           name="email"
           placeholder="Email"
           type="email"
           classNames={classNames}
-          isInvalid={isInvalid.email}
+          errorMessage={!formData.email.length ? "Email es requerido" : ""}
+          onChange={handleChange}
         />
         <CustomInput
-          name="pass"
+          name="password"
           placeholder="Contraseña"
           type="password"
           classNames={classNames}
-          isInvalid={isInvalid.pass}
+          errorMessage={
+            !formData.password.length ? "Contraseña es requerida" : ""
+          }
+          onChange={handleChange}
         />
         <CustomInput
           name="repitPass"
           placeholder="Repita contraseña"
           type="password"
           classNames={classNames}
-          isInvalid={isInvalid.repitPass}
-          errorMessage={errMsg}
+          errorMessage={errMsgpass} // Specific error for repeat password
+          onChange={handleChange}
         />
         <CustomInput
-          name="numCol"
+          name="license"
           placeholder="Numero colegiado"
           type="text"
           classNames={classNames}
-          isInvalid={isInvalid.numCol}
+          errorMessage={!formData.license.length ? "Licencia es requerida" : ""}
+          onChange={handleChange}
         />
         <CustomInput
           name="city"
           placeholder="Ciudad"
           type="text"
           classNames={classNames}
-          isInvalid={isInvalid.city}
+          errorMessage={!formData.city.length ? "City es requerida" : ""}
+          onChange={handleChange}
         />
         <div className="flex flex-row justify-between items-center mt-4 rounded">
-          {(file?.name && <p>{file?.name}</p>) || <p>Agregar diploma o cv</p>}
+          {(file?.name && <p>{file?.name}</p>) || (
+            <p>Agregar diploma o curriculum</p>
+          )}
           <div>
             <label
-              for="cv"
+              htmlFor="curriculum"
               className="p-3 bg-primary text-white cursor-pointer border rounded-lg hover:bg-sky-500"
             >
               AGREGAR
             </label>
             <CustomInput
               type="file"
-              id="cv"
+              id="curriculum"
               placeholder="asdas"
               className="hidden"
               onChange={onChangeFile}
-              isInvalid={isInvalid.cv}
             />
           </div>
         </div>
-        <p className="text-red-500 text-sm">
-          {isInvalid.cv ? "Requerido" : ""}
-        </p>
-        {isSubmit ? <p className="text-green-600">Perfil creado</p> : <></>}
-        <CustomButton color="primary" type="submit" className="mt-4 w-full">
-          Crear perfil
-        </CustomButton>
+        <CustomButton type="submit">Registrarse</CustomButton>
+
+        <div className="flex flex-row justify-center items-center gap-4 mt-8">
+          <p>¿Ya esta registrado?</p>
+          <CustomButton
+            className="bg-primary-400 min-w-fit !w-fit py-2"
+            as={Link}
+            href="/login"
+          >
+            Ingresar
+          </CustomButton>
+        </div>
       </div>
     </form>
   );
