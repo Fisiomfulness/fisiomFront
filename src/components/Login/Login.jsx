@@ -70,7 +70,11 @@ export const Login = () => {
             LOGIN
           </CustomButton>
 
-          {response?.status == "201" ? <p>{response.data.message}</p> : <p></p>}
+          {response?.status == "201" ? (
+            <p className="text-red-600">{response.data.message}</p>
+          ) : (
+            <p></p>
+          )}
 
           <Link href="/recupero" className="w-full italic mt-1">
             Contraseña <strong>olvidada ?</strong>
