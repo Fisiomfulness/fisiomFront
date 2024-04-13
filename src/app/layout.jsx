@@ -4,6 +4,7 @@ import { Overlay } from "./overlay";
 
 import "./globals.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { Toaster } from "react-hot-toast";
 
 const raleway = Raleway({
   weight: ["200", "300", "400", "700"],
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
       <body className={raleway.className}>
         <Providers>
           <Overlay>{children}</Overlay>
+          <Toaster position="top-right" />
         </Providers>
       </body>
     </html>
