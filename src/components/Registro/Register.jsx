@@ -41,9 +41,8 @@ function Register() {
                 checked={aceptoCondiciones}
                 onChange={() => setAceptoCondiciones(!aceptoCondiciones)}
               />
-              Acepto los{" "}
-              <a className="text-primary"> términos y condiciones </a> del
-              servicio de fisiom fulness. Declaro haber leído y entiendo la
+              Acepto los <a className="text-primary">Términos y condiciones </a>{" "}
+              del servicio de FISIOMFULNESS. Declaro haber leído y entiendo la
               política de privacidad
             </label>
             <br />
@@ -56,7 +55,7 @@ function Register() {
               {" "}
               Doy mi consentimiento y acepto recibir información sobre los{" "}
               <a className="text-primary">
-                servicios y novedades de fisiom fulness . Qué significa esto?
+                servicios y novedades de FISIOMFULNESS. Qué significa esto?
               </a>
             </label>
           </div>
