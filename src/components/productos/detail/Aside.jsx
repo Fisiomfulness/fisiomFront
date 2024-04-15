@@ -30,8 +30,7 @@ const Aside = ({ prod }) => {
       });
 
     return () => abortController.abort();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [prod]);
 
   return (
     <aside className=" min-h-full xl:w-[30%]">
