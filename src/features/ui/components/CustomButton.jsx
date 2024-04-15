@@ -1,6 +1,10 @@
+// @ts-check
 import { Button } from "@nextui-org/react";
 import { twMerge } from "tailwind-merge";
 
+/**
+ * @type {React.FC<import("@nextui-org/react").ButtonProps>} props
+ */
 const CustomButton = (props) => {
   const { children, className, ...otherProps } = props;
 
@@ -9,7 +13,7 @@ const CustomButton = (props) => {
       color="primary"
       className={twMerge(
         "h-auto py-2.5",
-        "rounded-md font-bold text-sm uppercase",
+        "rounded-md font-bold text-sm capitalize",
         className,
       )}
       {...otherProps}
