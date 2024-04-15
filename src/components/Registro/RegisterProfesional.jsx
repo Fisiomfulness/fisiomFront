@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import CustomInput from "@/features/ui/components/CustomInput/CustomInput";
 import CustomButton from "@/features/ui/components/CustomButton/CustomButton";
@@ -6,7 +7,7 @@ import { registerForm } from "@/services/register";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
-function RegistroProfesional({ terminos }) {
+function RegisterProfesional({ Condicions }) {
   const [file, setFile] = useState(null);
 
   const [response, setResponse] = useState(undefined);
@@ -17,6 +18,7 @@ function RegistroProfesional({ terminos }) {
     name: "",
     phone: "",
     email: "",
+    dateOfBirth: "",
     password: "",
     license: "",
     city: "",
@@ -50,7 +52,7 @@ function RegistroProfesional({ terminos }) {
     }
   };
 
-  const handleChange = (event) => {
+  const handleChangeInput = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
@@ -59,30 +61,41 @@ function RegistroProfesional({ terminos }) {
     setFile(e.target.files[0]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmitRegister = (e) => {
     e.preventDefault();
 
     const { password, repitPass } = e.target;
 
-    if (Object.values(formData).every((value) => value.trim().length != 0)) {
-      if (password.value !== repitPass.value) {
-        setErrMsgpass("Las contraseñas no coinciden");
-        toast.error("Las contraseñas no coinciden");
-      } else {
-        if (!terminos) {
-          toast.error("Acepte los terminos y condiciones");
+    if (Condicions()) {
+      if (Object.values(formData).every((value) => value.trim().length != 0)) {
+        const birthDate = new Date(Date.parse(formData.dateOfBirth)); // Convert to Date object
+        const currentDate = new Date(); // Get current date
+        const age = Math.floor(
+          (currentDate.getTime() - birthDate.getTime()) /
+            (1000 * 60 * 60 * 24 * 365),
+        ); // Calculate age in years
+
+        if (age < 18) {
+          toast.error("El Usuario debe ser mayor a 18 años");
         } else {
-          setErrMsgpass("");
-          registerResponse();
+          if (password.value !== repitPass.value) {
+            setErrMsgpass("Las contraseñas no coinciden");
+            toast.error("Las contraseñas no coinciden");
+          } else {
+            setErrMsgpass("");
+            registerResponse();
+          }
         }
+      } else {
+        toast.error("Completa los campos correctamente");
       }
     } else {
-      toast.error("Completa los campos correctamente");
+      toast.error("Porfavor acepte los terminos y condiciones");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmitRegister}>
       <div>
         <CustomInput
           name="name"
@@ -90,7 +103,7 @@ function RegistroProfesional({ terminos }) {
           type="text"
           classNames={classNames}
           errorMessage={!formData.name.length ? "Nombre es requerido" : ""}
-          onChange={handleChange}
+          onChange={handleChangeInput}
         />
         <CustomInput
           name="phone"
@@ -98,7 +111,7 @@ function RegistroProfesional({ terminos }) {
           type="text"
           classNames={classNames}
           errorMessage={!formData.phone.length ? "Telefono es requerido" : ""}
-          onChange={handleChange}
+          onChange={handleChangeInput}
         />
         <CustomInput
           name="email"
@@ -106,7 +119,17 @@ function RegistroProfesional({ terminos }) {
           type="email"
           classNames={classNames}
           errorMessage={!formData.email.length ? "Email es requerido" : ""}
-          onChange={handleChange}
+          onChange={handleChangeInput}
+        />
+        <CustomInput
+          name="dateOfBirth"
+          placeholder="Fecha de nacimiento"
+          type="date"
+          classNames={classNames}
+          errorMessage={
+            !formData.email.length ? "Fecha de nacimiento requerida" : ""
+          }
+          onChange={handleChangeInput}
         />
         <CustomInput
           name="password"
@@ -116,7 +139,7 @@ function RegistroProfesional({ terminos }) {
           errorMessage={
             !formData.password.length ? "Contraseña es requerida" : ""
           }
-          onChange={handleChange}
+          onChange={handleChangeInput}
         />
         <CustomInput
           name="repitPass"
@@ -124,7 +147,7 @@ function RegistroProfesional({ terminos }) {
           type="password"
           classNames={classNames}
           errorMessage={errMsgpass} // Specific error for repeat password
-          onChange={handleChange}
+          onChange={handleChangeInput}
         />
         <CustomInput
           name="license"
@@ -132,7 +155,7 @@ function RegistroProfesional({ terminos }) {
           type="text"
           classNames={classNames}
           errorMessage={!formData.license.length ? "Licencia es requerida" : ""}
-          onChange={handleChange}
+          onChange={handleChangeInput}
         />
         <CustomInput
           name="city"
@@ -140,7 +163,7 @@ function RegistroProfesional({ terminos }) {
           type="text"
           classNames={classNames}
           errorMessage={!formData.city.length ? "City es requerida" : ""}
-          onChange={handleChange}
+          onChange={handleChangeInput}
         />
         <div className="flex flex-row justify-between items-center mt-4 rounded">
           {(file?.name && <p>{file?.name}</p>) || (
@@ -179,4 +202,4 @@ function RegistroProfesional({ terminos }) {
   );
 }
 
-export default RegistroProfesional;
+export default RegisterProfesional;

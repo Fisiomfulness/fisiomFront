@@ -7,7 +7,7 @@ import { registerForm } from "@/services/register";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
-function RegistroUsuario() {
+function RegistroUsuario({ Condicions }) {
   const [response, setResponse] = useState(undefined);
 
   const [errMsgpass, setErrMsgpass] = useState("");
@@ -15,6 +15,7 @@ function RegistroUsuario() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    dateOfBirth: "",
     password: "",
   });
 
@@ -34,7 +35,8 @@ function RegistroUsuario() {
   }, [response]); // Dependency array: re-run on response changes
 
   const registerResponse = async () => {
-    formData.role = "user";
+    // role user por defecto en el back
+    //formData.role = "user";
     const res = await registerForm(formData);
     setResponse(res);
 
@@ -45,7 +47,7 @@ function RegistroUsuario() {
     }
   };
 
-  const handleChange = (event) => {
+  const handleChangeInput = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
@@ -55,16 +57,31 @@ function RegistroUsuario() {
 
     const { password, repitPass } = e.target;
 
-    if (Object.values(formData).every((value) => value.trim().length != 0)) {
-      if (password.value !== repitPass.value) {
-        setErrMsgpass("Las contraseñas no coinciden");
-        toast.error("Las contraseñas no coinciden");
+    if (Condicions()) {
+      if (Object.values(formData).every((value) => value.trim().length != 0)) {
+        const birthDate = new Date(Date.parse(formData.dateOfBirth)); // Convert to Date object
+        const currentDate = new Date(); // Get current date
+        const age = Math.floor(
+          (currentDate.getTime() - birthDate.getTime()) /
+            (1000 * 60 * 60 * 24 * 365),
+        ); // Calculate age in years
+
+        if (age < 18) {
+          toast.error("El Usuario debe ser mayor a 18 años");
+        } else {
+          if (password.value !== repitPass.value) {
+            setErrMsgpass("Las contraseñas no coinciden");
+            toast.error("Las contraseñas no coinciden");
+          } else {
+            setErrMsgpass("");
+            registerResponse();
+          }
+        }
       } else {
-        setErrMsgpass("");
-        registerResponse();
+        toast.error("Completa los campos correctamente");
       }
     } else {
-      toast.error("Completa los campos correctamente");
+      toast.error("Porfavor acepte los terminos y condiciones");
     }
   };
 
@@ -76,26 +93,36 @@ function RegistroUsuario() {
           placeholder="Nombre completo"
           type="text"
           classNames={classNames}
-          errorMessage={!formData.name.length ? "Nombre es requerido" : ""} // Set error based on isInvalid state
-          onChange={handleChange}
+          errorMessage={
+            !formData.name.length ? "Nombre completo requerido" : ""
+          }
+          onChange={handleChangeInput}
         />
         <CustomInput
           name="email"
           placeholder="Email"
           type="email"
           classNames={classNames}
-          errorMessage={!formData.email.length ? "Email es requerido" : ""}
-          onChange={handleChange}
+          errorMessage={!formData.email.length ? "Email requerido" : ""}
+          onChange={handleChangeInput}
+        />
+        <CustomInput
+          name="dateOfBirth"
+          placeholder="Fecha de nacimiento"
+          type="date"
+          classNames={classNames}
+          errorMessage={
+            !formData.email.length ? "Fecha de nacimiento requerida" : ""
+          }
+          onChange={handleChangeInput}
         />
         <CustomInput
           name="password"
           placeholder="Contraseña"
           type="password"
           classNames={classNames}
-          errorMessage={
-            !formData.password.length ? "Contraseña es requerida" : ""
-          }
-          onChange={handleChange}
+          errorMessage={!formData.password.length ? "Contraseña requerida" : ""}
+          onChange={handleChangeInput}
         />
         <CustomInput
           name="repitPass"
@@ -103,7 +130,7 @@ function RegistroUsuario() {
           type="password"
           classNames={classNames}
           errorMessage={errMsgpass} // Specific error for repeat password
-          onChange={handleChange}
+          onChange={handleChangeInput}
         />
 
         <CustomButton type="submit">Registrarse</CustomButton>
