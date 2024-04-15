@@ -14,7 +14,7 @@ const DetailClient = ({ prod }) => {
     <section className=" min-h-full flex justify-center xl:w-[70%]">
       <div className="flex flex-col mt-10 mb-10 pr-5 pl-5">
         <div className="flex flex-col w-full">
-          <span className="font-black text-3xl">{prod.name}</span>
+          <span className="font-black text-3xl">{prod?.name}</span>
           <span className="flex items-center pl-2 text-[#ffffff] bg-[#369DCC] w-[157px] h-[29px] rounded-sm">
             ${prod.price}
           </span>

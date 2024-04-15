@@ -20,8 +20,8 @@ const Aside = ({ prod }) => {
           data.products.filter(
             (product) =>
               product.category._id === prod.category?._id &&
-              product._id !== prod._id,
-          ),
+              product._id !== prod?._id
+          )
         );
       })
       .catch((err) => {
