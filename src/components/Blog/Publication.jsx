@@ -3,12 +3,11 @@ import { truncateText, dateFormatter } from '@/utils/helpers';
 
 function Publication({ data }) {
   return (
-    <div className="size-fit grid grid-cols-[25%,auto] gap-3 sm:gap-5">
+    <div className="size-fit grid grid-cols-[20%,auto] gap-3 sm:gap-5">
       <Image
-        isBlurred
         src={data.image}
         alt="Blog picture"
-        className="h-full min-h-[80px] object-cover rounded-md object-center lg:min-h-[60px]"
+        className="h-[80px] object-cover rounded-md object-center xl:h-[60px]"
       />
       <div className="flex flex-col">
         <h2 className="text-[0.85rem] mb-0 capitalize">{data.title}</h2>
