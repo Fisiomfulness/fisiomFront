@@ -5,8 +5,11 @@ import Link from "next/link";
 import { CustomButton, CustomInput, CustomLogo } from "@/features/ui";
 import { login } from "@/services/login";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export const Login = () => {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [response, setResponse] = useState(undefined);
@@ -21,16 +24,20 @@ export const Login = () => {
     fetchData();
   }, [response]); // Dependency array: re-run on response changes
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     const res = await login({ email, password });
+
     setResponse(res);
 
     if (res?.status == "201") {
       toast.error(res.data.message);
     } else {
+      localStorage.setItem("token", res.data.token);
       toast.success("Logeado con exito!");
+      router.push("/");
+      // console.log(jwtDecode(res.data.token));
     }
   };
 
@@ -49,7 +56,7 @@ export const Login = () => {
       >
         <CustomLogo width="220" color="dark" />
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
           <div className="flex flex-col gap-2 max-w-xs w-full z-10">
             <CustomInput
               variant="flat"
