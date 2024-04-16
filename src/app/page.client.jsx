@@ -67,14 +67,14 @@ const fetcher = (url) =>
 const CitaDomiciliaria = () => {
   /** @type {import("swr").SWRResponse<Specialty[]>} */
   const { data } = useSWRImmutable("/specialty", fetcher);
-  const specialty = data || [{ _id: "1", name: "..." }];
+  const specialties = data || [{ _id: "1", name: "..." }];
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">
       <CustomSelect
         label="Especialidad"
         placeholder="Seleccione una especialidad"
-        items={specialty}
+        items={specialties}
         itemsStartContent={FaBriefcaseMedical}
       />
 
@@ -95,14 +95,14 @@ const CitaDomiciliaria = () => {
 const CitaOnline = () => {
   /** @type {import("swr").SWRResponse<Specialty[]>} */
   const { data } = useSWRImmutable("/specialty", fetcher);
-  const specialty = data || [{ _id: "1", name: "..." }];
+  const specialties = data || [{ _id: "1", name: "..." }];
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">
       <CustomSelect
         label="Especialidad"
         placeholder="Seleccione una especialidad"
-        items={specialty}
+        items={specialties}
         itemsStartContent={FaBriefcaseMedical}
       />
 
