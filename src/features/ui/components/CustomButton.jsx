@@ -1,9 +1,12 @@
 // @ts-check
-import { Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 import { twMerge } from "tailwind-merge";
 
 /**
- * @type {React.FC<import("@nextui-org/react").ButtonProps>} props
+ * @typedef {import("@nextui-org/react").ButtonProps} ButtonProps
+ *
+ * @type {React.FC<ButtonProps>} props
+ * @returns {React.ReactNode}
  */
 const CustomButton = (props) => {
   const { children, className, ...otherProps } = props;

@@ -1,22 +1,26 @@
+// @ts-check
 import {
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from "@nextui-org/react";
+} from "@nextui-org/modal";
 import { CustomModalClient } from "./CustomModalClient";
 import { twMerge } from "tailwind-merge";
 
+/**
+ * @typedef {import("@nextui-org/react").ModalBodyProps} ModalBodyProps
+ * @typedef {import("@nextui-org/react").ModalFooterProps} ModalFooterProps
+ * @typedef {import("@nextui-org/react").ModalHeaderProps} ModalHeaderProps
+ * @typedef {import("@nextui-org/react").ModalProps} ModalProps
+ */
+
+/**
+ * @type {React.FC<ModalProps>}
+ */
 const CustomModal = (props) => {
   const { children, className, ...otherProps } = props;
-
-  const content =
-    typeof children === "function" ? (
-      (onClose) => <div className="overflow-x-auto">{children(onClose)}</div>
-    ) : (
-      <div className="overflow-x-auto">{children}</div>
-    );
 
   return (
     <CustomModalClient isOpen={otherProps.isOpen}>
@@ -29,13 +33,16 @@ const CustomModal = (props) => {
         {...otherProps}
       >
         <ModalContent className="rounded-md p-6 overflow-x-auto">
-          {content}
+          <div className="overflow-x-auto">{children}</div>
         </ModalContent>
       </Modal>
     </CustomModalClient>
   );
 };
 
+/**
+ * @type {React.FC<React.HTMLAttributes<HTMLDivElement>>}
+ */
 const CustomModalSmallContent = (props) => {
   const { children, className, ...otherProps } = props;
 
@@ -49,6 +56,9 @@ const CustomModalSmallContent = (props) => {
   );
 };
 
+/**
+ * @type {React.FC<ModalHeaderProps>}
+ */
 const CustomModalHeader = (props) => {
   const { children, className, ...otherProps } = props;
 
@@ -62,6 +72,9 @@ const CustomModalHeader = (props) => {
   );
 };
 
+/**
+ * @type {React.FC<ModalBodyProps>}
+ */
 const CustomModalBody = (props) => {
   const { children, className, ...otherProps } = props;
 
@@ -79,6 +92,9 @@ const CustomModalBody = (props) => {
   );
 };
 
+/**
+ * @type {React.FC<ModalFooterProps>}
+ */
 const CustomModalFooter = (props) => {
   const { children, className, ...otherProps } = props;
 

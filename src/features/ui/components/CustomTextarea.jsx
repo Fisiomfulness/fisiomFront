@@ -1,9 +1,21 @@
-import { Textarea } from "@nextui-org/react";
-import { mergeKeepValues } from "../../utils";
+// @ts-check
+import { Textarea } from "@nextui-org/input";
+import { mergeKeepValues } from "../utils";
 import { twMerge } from "tailwind-merge";
 
+/**
+ * @typedef {import("@nextui-org/react").TextAreaProps} TextAreaProps
+ * @typedef {{
+ *   variant?: "flat" | "bordered";
+ * } & Omit<TextAreaProps, "color" | "variant">} Props
+ */
+
+/**
+ * @type {React.FC<Props>} CustomTextarea
+ * @returns {React.ReactNode} ReactNode
+ */
 const CustomTextarea = (props) => {
-  const { variant: _variant, color: _color, classNames, ...otherProps } = props;
+  const { variant: _variant, classNames, ...otherProps } = props;
 
   const errorMessage = otherProps.isInvalid ? "Requerido" : "";
 
