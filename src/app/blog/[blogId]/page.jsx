@@ -1,5 +1,5 @@
 import { getBlogDetail } from '@/services/blogs';
-import BlogDetail from '@/components/Blog/Detail/BlogDetail';
+import BlogDetail from '@/components/Blog/detail/BlogDetail';
 
 const BlogDetailPage = async ({ params }) => {
   const { blog } = await getBlogDetail(params.blogId);
