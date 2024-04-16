@@ -1,14 +1,16 @@
 // @ts-check
 "use client";
 
-import { especialidadesMedicas, ciudadesPeru } from "./data";
+import { ciudadesPeru } from "./data";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BiSolidWebcam, BiSolidHome } from "react-icons/bi";
 import { FaBriefcaseMedical, FaLocationDot } from "react-icons/fa6";
 
-import { Tabs, Tab, Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem } from "@nextui-org/select";
+import { Tabs, Tab } from "@nextui-org/tabs";
 import { CustomButton } from "@/features/ui";
+import useSWRImmutable from "swr/immutable";
 
 /**
  * @typedef {{_id: string; name: string}} Specialty
@@ -42,7 +44,6 @@ const CustomSelect = ({
       placeholder={placeholder}
       labelPlacement="outside"
       disableAnimation
-      className="min-w-60"
     >
       {items.map((item) => (
         <SelectItem
@@ -59,45 +60,17 @@ const CustomSelect = ({
   );
 };
 
-/**
- * @param {AbortSignal} signal
- * @returns {Promise<Specialty[]>}
- */
-const getSpecialties = async (signal) => {
-  try {
-    const res = await fetch("http://localhost:3000/specialty", {
-      signal,
-    });
-
-    if (!res.ok) return [];
-
-    return res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      if (error.name === "AbortError") return [];
-    }
-    throw error;
-  }
-};
+/** @param {string} url */
+const fetcher = (url) =>
+  fetch(`http://localhost:3000${url}`).then((r) => r.json());
 
 const CitaDomiciliaria = () => {
-  // NOTE: https://github.com/microsoft/TypeScript/issues/27387
-  const [specialties, setSpecialties] = useState(
-    /** @type {Specialty[]} */ ([]),
-  );
-
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    getSpecialties(abortController.signal).then((data) => {
-      setSpecialties(data);
-    });
-
-    return () => abortController.abort();
-  }, []);
+  /** @type {import("swr").SWRResponse<Specialty[]>} */
+  const { data } = useSWRImmutable("/specialty", fetcher);
+  const specialties = data || [{ _id: "1", name: "..." }];
 
   return (
-    <form className="flex md:flex-row flex-col gap-4">
+    <form className="flex sm:flex-row flex-col gap-4">
       <CustomSelect
         label="Especialidad"
         placeholder="Seleccione una especialidad"
@@ -112,7 +85,7 @@ const CitaDomiciliaria = () => {
         itemsStartContent={FaLocationDot}
       />
 
-      <CustomButton className="rounded-xl sm:self-end self-start">
+      <CustomButton className="rounded-xl sm:self-end self-start px-12 shrink-0">
         Buscar
       </CustomButton>
     </form>
@@ -120,19 +93,9 @@ const CitaDomiciliaria = () => {
 };
 
 const CitaOnline = () => {
-  const [specialties, setSpecialties] = useState(
-    /** @type {Specialty[]} */ ([]),
-  );
-
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    getSpecialties(abortController.signal).then((data) => {
-      setSpecialties(data);
-    });
-
-    return () => abortController.abort();
-  }, []);
+  /** @type {import("swr").SWRResponse<Specialty[]>} */
+  const { data } = useSWRImmutable("/specialty", fetcher);
+  const specialties = data || [{ _id: "1", name: "..." }];
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">
@@ -143,7 +106,7 @@ const CitaOnline = () => {
         itemsStartContent={FaBriefcaseMedical}
       />
 
-      <CustomButton className="rounded-xl sm:self-end self-start">
+      <CustomButton className="rounded-xl sm:self-end self-start px-12 shrink-0">
         Buscar
       </CustomButton>
     </form>
@@ -151,12 +114,15 @@ const CitaOnline = () => {
 };
 
 export default function HomeClient() {
+  /** @typedef {import('react-aria-components').Key} Key */
+
+  // NOTE: https://github.com/microsoft/TypeScript/issues/27387
   const [selected, setSelected] = useState(
-    /** @type {import('react-aria-components').Key} */ ("citaDomiciliaria"),
+    /** @type {Key} */ ("citaDomiciliaria"),
   );
 
   return (
-    <div className="mb-20 shadow-xl border-1 rounded-xl bg-white p-3">
+    <div className="mb-20 max-w-2xl shadow-xl border-1 rounded-xl bg-white p-3">
       <Tabs
         fullWidth
         color="primary"

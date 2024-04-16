@@ -25,6 +25,7 @@
     "react-leaflet": "^4.2.1",
     "react-star-ratings": "^2.3.0",
     "react-syntax-highlighter": "^15.5.0",
+    "swr": "^2.2.5",
     "tailwind-merge": "^2.2.2",
     "yup": "^1.4.0"
   },

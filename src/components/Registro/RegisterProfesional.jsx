@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import CustomInput from "@/features/ui/components/CustomInput/CustomInput";
-import CustomButton from "@/features/ui/components/CustomButton/CustomButton";
+import { useEffect, useState } from "react";
 import { registerForm } from "@/services/register";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { CustomButton, CustomInput } from "@/features/ui";
 
 function RegisterProfesional({ Condicions }) {
   const [file, setFile] = useState(null);
