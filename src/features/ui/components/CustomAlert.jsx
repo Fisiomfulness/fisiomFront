@@ -1,14 +1,14 @@
+// @ts-check
 import { AiOutlineQuestionCircle } from "react-icons/ai";
+import { MdOutlineCached, MdOutlineCheckCircle } from "react-icons/md";
+import { MdErrorOutline } from "react-icons/md";
 import {
   CustomModalBody,
   CustomModalFooter,
   CustomModalSmallContent,
   CustomButton,
   CustomModal,
-} from "../..";
-
-import { MdOutlineCached, MdOutlineCheckCircle } from "react-icons/md";
-import { MdErrorOutline } from "react-icons/md";
+} from "..";
 
 const defaultIconMapping = {
   success: <MdOutlineCheckCircle className="w-10 h-10 text-primary mb-4" />,
@@ -30,6 +30,21 @@ const Status = Object.freeze({
   Info: "info",
 });
 
+/**
+ * @typedef {import("@nextui-org/react").ButtonProps} ButtonProps
+ * @typedef {import("@nextui-org/react").ModalProps} ModalProps
+ */
+
+/**
+ * @typedef {{
+ *   status?: "success" | "error" | "loading" | "question" | "info";
+ *   onAccept?: ButtonProps["onPress"];
+ *   onCancel?: ButtonProps["onPress"];
+ * } & React.HTMLAttributes<HTMLDivElement>
+ *   & Pick<ModalProps, "isOpen" | "onOpenChange" | "onClose" | "isDismissable">
+ * } Props
+ * @type {React.FC<Props>}
+ */
 const CustomAlert = (props) => {
   const {
     className,
@@ -74,7 +89,9 @@ const CustomAlert = (props) => {
         </CustomModalBody>
         <CustomModalFooter>
           {status !== Status.Loading
-            ? buttons[status] || buttons.default
+            ? // NOTE: https://www.totaltypescript.com/concepts/type-string-cannot-be-used-to-index-type
+              buttons[/** @type {keyof typeof buttons} */ (status)] ||
+              buttons.default
             : null}
         </CustomModalFooter>
       </CustomModalSmallContent>
