@@ -1,4 +1,6 @@
-import { Link, Card, CardFooter, Image } from "@nextui-org/react";
+import { Link } from "@nextui-org/link";
+import { Card, CardFooter } from "@nextui-org/card";
+import { Image } from "@nextui-org/image";
 
 const TreatmentCard = ({ treat }) => {
   return (

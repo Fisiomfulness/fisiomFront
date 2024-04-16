@@ -1,9 +1,10 @@
 "use client";
-import { Button, Input, Card, CardBody, Image } from "@nextui-org/react";
-import CustomInput from "@/features/ui/components/CustomInput/CustomInput";
+
+import { Button, Card, CardBody } from "@nextui-org/react";
 import { useState } from "react";
 import { validation } from "./Validation";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
+import { CustomInput } from "@/features/ui";
 
 const initialValues = {
   name: "",
