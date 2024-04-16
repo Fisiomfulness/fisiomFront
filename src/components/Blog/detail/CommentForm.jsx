@@ -19,16 +19,17 @@ const commentSchema = Yup.object({
 });
 
 // ! TODO: DB ID HARDCODED. CHANGE FOR THE ACTUAL SESSION ID
-const userId = '6619e8ce7fb17c7f565841d3';
+const userId = '661df9cf4d019890d80057ac';
 
 const CommentForm = ({ blogId }) => {
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      const finalComment = { ...values, user_id: userId, blog_id: blogId };
+      const finalComment = { ...values, sender_id: userId, blog_id: blogId };
       await createComment(finalComment);
       resetForm();
       toast.success('Comentario añadido correctamente!');
     } catch (error) {
+      console.error(error);
       toast.error('Oops! Vuelva a intentarlo');
     }
   };

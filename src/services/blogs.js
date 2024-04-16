@@ -1,7 +1,8 @@
 import { BASE_URL } from '@/utils/api';
 
-export const getBlogs = async ({ page = 1, limit = 999, sortBy, order }) => {
+export const getBlogs = async ({ page = 1, limit = 9, sortBy, order, search = '' }) => {
   let query = `?page=${page}&limit=${limit}`;
+  if (search !== '') query += `&search=${search}`; 
   if (sortBy && order) query += `&sortBy=${sortBy}&order=${order}`;
 
   const res = await fetch(`${BASE_URL}/blogs${query}`, {

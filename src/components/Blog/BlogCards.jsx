@@ -1,31 +1,24 @@
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Pagination, Card, CardHeader, Image } from '@nextui-org/react';
 import { truncateText } from '@/utils/helpers';
 import { getBlogs } from '@/services/blogs';
 
-const CARDS_PER_PAGE = 9;
-
-export default function BlogCards({ blogs, iniTotalPages, setBlogs }) {
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(iniTotalPages);
+export default function BlogCards({
+  blogs,
+  page,
+  totalPages,
+  query,
+  setBlogs,
+  setPage,
+}) {
   const router = useRouter();
 
-  const handleChange = (page) => {
-    setPage(page);
-  };
-
-  useEffect(() => {
-    getBlogs({
-      page,
-      limit: CARDS_PER_PAGE,
-      sortBy: 'title',
-      order: 'asc',
-    }).then((res) => {
+  const handleChange = (selectedPage) => {
+    getBlogs({ ...query, page: selectedPage }).then((res) => {
+      setPage(res.page);
       setBlogs(res.blogs);
-      setTotalPages(res.totalPages);
     });
-  }, [page]);
+  };
 
   return (
     <div className="flex flex-col items-center gap-5">
@@ -62,16 +55,12 @@ export default function BlogCards({ blogs, iniTotalPages, setBlogs }) {
             ))}
           </div>
           <Pagination
-            loop
             showControls
             total={totalPages}
             initialPage={1}
             page={page}
             onChange={handleChange}
-            color={'bg-primary-100'}
-            classNames={{
-              ellipsis: 'bg-primary-100',
-            }}
+            className="w-full flex justify-center"
           />
         </>
       ) : (
