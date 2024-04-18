@@ -1,15 +1,27 @@
-import { Input } from "@nextui-org/react";
-import { mergeKeepValues } from "../../utils";
+// @ts-check
+import { Input } from "@nextui-org/input";
+import { mergeKeepValues } from "../utils";
 import { twMerge } from "tailwind-merge";
 
+/**
+ * @typedef {import("@nextui-org/react").InputProps} InputProps
+ * @typedef {{
+ *   variant?: "flat" | "bordered";
+ * } & Omit<InputProps, "color" | "variant">} Props
+ */
+
+/**
+ * @type {React.FC<Props>}
+ * @returns {React.ReactNode}
+ */
 const CustomInput = (props) => {
-  const { variant: _variant, color: _color, classNames, ...otherProps } = props;
+  const { variant: _variant, classNames, ...otherProps } = props;
 
   const errorMessage = otherProps.isInvalid ? "Requerido" : "";
 
   const defaultClassNames = {
     label: "m-0 font-normal text-base !text-inherit",
-    base: twMerge(_variant === "bordered" && otherProps.label && "!mt-8"),
+    base: twMerge(_variant === "bordered" && otherProps.label ? "!mt-8" : ""),
     input:
       "placeholder:!not-italic placeholder:text-gray-500 " +
       "text-base flex-1 !w-auto overflow-hidden",

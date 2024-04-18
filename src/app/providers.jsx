@@ -1,6 +1,6 @@
 "use client";
 
-import { NextUIProvider } from "@nextui-org/react";
+import { NextUIProvider } from "@nextui-org/system";
 import { Provider as JotaiProvider } from "jotai";
 
 export function Providers({ children }) {

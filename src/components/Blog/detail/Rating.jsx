@@ -1,17 +1,14 @@
 'use client';
-import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 const StarRatings = dynamic(() => import('react-star-ratings'), {
   ssr: false,
 });
 
-const Rating = () => {
-  const [rating, setRating] = useState(0);
-
+const Rating = ({ value, setFieldValue }) => {
+  // ? Works with formik => changing the value of the formik state field.
   const handleRatingChange = (newRating) => {
-    setRating(newRating);
+    setFieldValue('rating', newRating);
   };
-
   return (
     <div>
       <div>
@@ -19,7 +16,7 @@ const Rating = () => {
           starRatedColor="#ffb829"
           starHoverColor="#ffb829"
           isSelectable={true}
-          rating={rating}
+          rating={value}
           changeRating={handleRatingChange}
           numberOfStars={5}
           starDimension="20px"

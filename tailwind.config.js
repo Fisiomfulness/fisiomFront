@@ -3,7 +3,6 @@ import { nextui } from "@nextui-org/react";
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./index.html",
     "./src/**/*.{js,ts,jsx,tsx,html}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
@@ -89,8 +88,8 @@ module.exports = {
           900: "#020709",
           950: "#010304",
         },
-        white: "#FAFAFA",
-        black: "#0D0D0D",
+        // white: "#FAFAFA",
+        // black: "#0D0D0D",
       },
     },
   },

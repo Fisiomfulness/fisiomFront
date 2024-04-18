@@ -1,3 +1,11 @@
+// @ts-check
+
+/**
+ * @param {{
+ *   headers: string[];
+ * }} props
+ * @returns {React.ReactNode}
+ */
 export default function CustomTableHeader({ headers }) {
   return (
     <thead className="text-white bg-primary text-center">

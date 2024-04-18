@@ -1,3 +1,11 @@
+// @ts-check
+
+/**
+ * @param {{
+ *   color?: "light" | "dark";
+ * } & React.ImgHTMLAttributes<HTMLImageElement>} props
+ * @returns {React.ReactNode}
+ */
 export default function CustomLogo(props) {
   const { color, ...otherProps } = props;
 
