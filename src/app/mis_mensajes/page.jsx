@@ -1,5 +1,5 @@
 import { Chat } from "@/features/chat";
-import { Avatar } from "@nextui-org/react";
+import { Avatar } from "@nextui-org/avatar";
 import { twMerge } from "tailwind-merge";
 
 export default function MisMensajesPage() {

@@ -5,6 +5,7 @@ import { CustomButton, CustomInput } from "@/features/ui";
 import { registerUserForm } from "@/services/register";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { CustomButton, CustomInput } from "@/features/ui";
 
 function RegistroUsuario({ Condicions }) {
   const [errMsgpass, setErrMsgpass] = useState("");
