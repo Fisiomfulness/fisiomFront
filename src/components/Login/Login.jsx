@@ -1,20 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { CustomButton, CustomInput, CustomLogo } from "@/features/ui";
 import { login } from "@/services/login";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@/context/User";
 
 export const Login = () => {
   const router = useRouter();
 
+  const { setUser, user } = useContext(UserContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  });
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    (await login({ email, password })) ? router.push("/") : "";
+
+    const response = await login({ email, password });
+
+    if (response) {
+      localStorage.setItem("token", response.data.token);
+      setUser(response.data);
+      router.push("/");
+    }
   };
 
   return (

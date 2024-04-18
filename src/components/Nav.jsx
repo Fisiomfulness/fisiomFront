@@ -12,8 +12,9 @@ import {
 import LoginDropDown from "./LoginDropDown";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CustomButton } from "@/features/ui";
+import { UserContext } from "@/context/User";
 
 const menuItems = [
   { name: "Servicios", href: "/servicios" },
@@ -39,7 +40,8 @@ function NavbarLink({ item, onClick }) {
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLogged, setIsLogged] = useState(true);
+
+  const { user } = useContext(UserContext);
 
   const path = usePathname();
 
@@ -95,10 +97,10 @@ export default function Nav() {
 
       <NavbarContent justify="end" className="max-lg:!flex-grow-0">
         <NavbarItem>
-          {isLogged ? (
+          {user ? (
             <LoginDropDown />
           ) : (
-            <CustomButton onClick={setIsLogged} as={Link} href="/login">
+            <CustomButton as={Link} href="/login">
               Login
             </CustomButton>
           )}

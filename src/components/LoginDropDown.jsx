@@ -12,10 +12,14 @@ import {
   PopoverContent,
   Button,
 } from "@nextui-org/react";
+import { UserContext } from "@/context/User";
+import { useContext } from "react";
 
 export default function LoginDropDown() {
+  const { user, setUser } = useContext(UserContext);
+
   const handleClickLogout = () => {
-    localStorage.removeItem("token");
+    setUser(false);
   };
 
   return (
