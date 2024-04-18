@@ -1,28 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import CustomInput from "@/features/ui/components/CustomInput/CustomInput";
-import CustomButton from "@/features/ui/components/CustomButton/CustomButton";
-import { registerForm } from "@/services/register";
+import React, { useState } from "react";
+import { CustomButton, CustomInput, CustomTable } from "@/features/ui";
+import { registerProfesionalForm } from "@/services/register";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
 function RegisterProfesional({ Condicions }) {
-  const [file, setFile] = useState(null);
-
-  const [response, setResponse] = useState(undefined);
-
   const [errMsgpass, setErrMsgpass] = useState("");
+
+  const [selectedFile, setSelectedFile] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     dateOfBirth: "",
+    gender: "Masculino",
     password: "",
     license: "",
     city: "",
-    // curriculum: "", // Pre-fill role for clarity
   });
 
   const classNames = {
@@ -30,35 +27,23 @@ function RegisterProfesional({ Condicions }) {
     inputWrapper: "border-none !bg-zinc-100 my-3",
   };
 
-  useEffect(() => {
-    const fetchData = () => {
-      if (response) {
-        // Check if response exists before fetching
-        console.log(response);
-      }
-    };
-    fetchData();
-  }, [response]); // Dependency array: re-run on response changes
-
   const registerResponse = async () => {
-    formData.role = "profesional";
-    const res = await registerForm(formData);
-    setResponse(res);
-
-    if (res.status == "201") {
-      toast.error(res.data.message);
-    } else {
-      toast.success("Registrado con exito!");
+    const newformData = new FormData();
+    for (const [key, value] of Object.entries(formData)) {
+      newformData.append(key, value);
     }
+    newformData.append("curriculum", selectedFile);
+
+    await registerProfesionalForm(newformData);
+  };
+
+  const onChangeFile = (e) => {
+    setSelectedFile(e.target.files[0]);
   };
 
   const handleChangeInput = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const onChangeFile = (e) => {
-    setFile(e.target.files[0]);
   };
 
   const handleSubmitRegister = (e) => {
@@ -99,6 +84,7 @@ function RegisterProfesional({ Condicions }) {
       <div>
         <CustomInput
           name="name"
+          value={formData.name}
           placeholder="Nombre completo"
           type="text"
           classNames={classNames}
@@ -107,6 +93,7 @@ function RegisterProfesional({ Condicions }) {
         />
         <CustomInput
           name="phone"
+          value={formData.phone}
           placeholder="Telefono"
           type="text"
           classNames={classNames}
@@ -115,6 +102,7 @@ function RegisterProfesional({ Condicions }) {
         />
         <CustomInput
           name="email"
+          value={formData.email}
           placeholder="Email"
           type="email"
           classNames={classNames}
@@ -123,6 +111,7 @@ function RegisterProfesional({ Condicions }) {
         />
         <CustomInput
           name="dateOfBirth"
+          value={formData.birthDate}
           placeholder="Fecha de nacimiento"
           type="date"
           classNames={classNames}
@@ -131,8 +120,18 @@ function RegisterProfesional({ Condicions }) {
           }
           onChange={handleChangeInput}
         />
+        <select
+          defaultValue="Masculino"
+          name="gender"
+          onChange={handleChangeInput}
+        >
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Prefiero no responder">Prefiero no responder</option>
+        </select>
         <CustomInput
           name="password"
+          value={formData.password}
           placeholder="Contraseña"
           type="password"
           classNames={classNames}
@@ -143,14 +142,15 @@ function RegisterProfesional({ Condicions }) {
         />
         <CustomInput
           name="repitPass"
+          value={undefined}
           placeholder="Repita contraseña"
           type="password"
           classNames={classNames}
           errorMessage={errMsgpass} // Specific error for repeat password
-          onChange={handleChangeInput}
         />
         <CustomInput
           name="license"
+          value={formData.license}
           placeholder="Numero colegiado"
           type="text"
           classNames={classNames}
@@ -159,6 +159,7 @@ function RegisterProfesional({ Condicions }) {
         />
         <CustomInput
           name="city"
+          value={formData.city}
           placeholder="Ciudad"
           type="text"
           classNames={classNames}
@@ -166,7 +167,7 @@ function RegisterProfesional({ Condicions }) {
           onChange={handleChangeInput}
         />
         <div className="flex flex-row justify-between items-center mt-4 rounded">
-          {(file?.name && <p>{file?.name}</p>) || (
+          {(selectedFile?.name && <p>{selectedFile?.name}</p>) || (
             <p>Agregar diploma o curriculum</p>
           )}
           <div>
@@ -177,16 +178,16 @@ function RegisterProfesional({ Condicions }) {
               AGREGAR
             </label>
             <CustomInput
+              value={undefined}
+              name="curriculum"
               type="file"
               id="curriculum"
-              placeholder="asdas"
               className="hidden"
               onChange={onChangeFile}
             />
           </div>
         </div>
         <CustomButton type="submit">Registrarse</CustomButton>
-
         <div className="flex flex-row justify-center items-center gap-4 mt-8">
           <p>¿Ya esta registrado?</p>
           <CustomButton
