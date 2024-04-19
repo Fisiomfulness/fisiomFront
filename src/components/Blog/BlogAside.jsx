@@ -46,7 +46,7 @@ export default function BlogAside({
   }, [debouncedSearch, sortOrder]);
 
   return (
-    <div className="flex flex-col py-12 bg-[#D8EEF8] px-4 sm:px-6 ml-0 xl:max-h-[1200px]">
+    <aside className="w-full overflow-hidden flex flex-col py-12 bg-[#D8EEF8] px-4 sm:px-6 ml-0 xl:max-h-[1200px]">
       <Input
         classNames={{
           base: 'w-full h-10',
@@ -81,7 +81,7 @@ export default function BlogAside({
       </Select>
 
       <h4 className="mt-10 mb-4">Últimas publicaciones</h4>
-      <div className="flex flex-col gap-5 overflow-y-auto xl:h-max xl:max-h-[40rem] sm:items-start p-0">
+      <div className="flex flex-col gap-5 overflow-y-auto overflow-x-hidden xl:h-max xl:max-h-[40rem] sm:items-start p-0">
         {lastsBlogs?.length > 0 ? (
           <>
             {lastsBlogs.map((blog) => (
@@ -94,6 +94,6 @@ export default function BlogAside({
           </h1>
         )}
       </div>
-    </div>
+    </aside>
   );
 }

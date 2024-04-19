@@ -33,3 +33,15 @@ export const dateFormatter = (timeStamp, hours = true) => {
 
   return displayedDate;
 };
+
+export const scrollTo = (elementId, direction = 'top') => {
+  const scrollContainer = document.getElementById(elementId);
+  if (scrollContainer && (direction == 'top' || direction == 'bottom')) {
+    const scrollOptions = {
+      top: direction === 'top' ? 0 : scrollContainer.scrollHeight,
+      left: 0,
+      behavior: 'smooth',
+    };
+    scrollContainer.scrollTo(scrollOptions);
+  }
+};

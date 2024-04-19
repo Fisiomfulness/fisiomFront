@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { registerForm } from "@/services/register";
+import React, { useState } from "react";
+import { CustomButton, CustomInput } from "@/features/ui";
+import { registerUserForm } from "@/services/register";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { CustomButton, CustomInput } from "@/features/ui";
 
 function RegistroUsuario({ Condicions }) {
-  const [response, setResponse] = useState(undefined);
-
   const [errMsgpass, setErrMsgpass] = useState("");
 
   const [formData, setFormData] = useState({
@@ -16,6 +15,8 @@ function RegistroUsuario({ Condicions }) {
     email: "",
     dateOfBirth: "",
     password: "",
+    gender: "Masculino",
+    phone: "",
   });
 
   const classNames = {
@@ -23,27 +24,8 @@ function RegistroUsuario({ Condicions }) {
     inputWrapper: "border-none !bg-zinc-100 my-5",
   };
 
-  useEffect(() => {
-    const fetchData = () => {
-      if (response) {
-        // Check if response exists before fetching
-        console.log(response);
-      }
-    };
-    fetchData();
-  }, [response]); // Dependency array: re-run on response changes
-
   const registerResponse = async () => {
-    // role user por defecto en el back
-    //formData.role = "user";
-    const res = await registerForm(formData);
-    setResponse(res);
-
-    if (res.status == "201") {
-      toast.error(res.data.message);
-    } else {
-      toast.success("Registrado con exito!");
-    }
+    await registerUserForm(formData);
   };
 
   const handleChangeInput = (event) => {
@@ -98,6 +80,15 @@ function RegistroUsuario({ Condicions }) {
           onChange={handleChangeInput}
         />
         <CustomInput
+          name="phone"
+          value={formData.phone}
+          placeholder="Telefono"
+          type="text"
+          classNames={classNames}
+          errorMessage={!formData.phone.length ? "Telefono es requerido" : ""}
+          onChange={handleChangeInput}
+        />
+        <CustomInput
           name="email"
           placeholder="Email"
           type="email"
@@ -115,6 +106,15 @@ function RegistroUsuario({ Condicions }) {
           }
           onChange={handleChangeInput}
         />
+        <select
+          defaultValue="Masculino"
+          name="gender"
+          onChange={handleChangeInput}
+        >
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Prefiero no responder">Prefiero no responder</option>
+        </select>
         <CustomInput
           name="password"
           placeholder="Contraseña"
