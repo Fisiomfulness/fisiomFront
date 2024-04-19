@@ -44,7 +44,7 @@ export default function BlogCards({
                   <h3 className="truncate w-full text-xs m-0 lg:text-sm text-black uppercase font-bold">
                     {blog.title}
                   </h3>
-                  <p className="text-xs h-full line-clamp-5 lg:text-sm lg:line-clamp-4 text-black font-medium">
+                  <p className="text-xs h-full line-clamp-5 lg:text-sm lg:line-clamp-4 text-black font-medium break-words">
                     {blog.text}
                   </p>
                 </CardHeader>

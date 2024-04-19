@@ -13,7 +13,7 @@ function Publication({ data }) {
         <h2 className="truncate text-[0.85rem] mb-0 capitalize">
           {data.title}
         </h2>
-        <p className="overflow-hidden line-clamp-3 text-[0.75rem] mt-[0.1rem] xl:line-clamp-2">
+        <p className="overflow-hidden line-clamp-3 text-[0.75rem] mt-[0.1rem] xl:line-clamp-2 break-words">
           {data.text}
         </p>
         <span className="text-[0.65rem] tracking-wide mt-auto justify-self-end">
