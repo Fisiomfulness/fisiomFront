@@ -1,43 +1,35 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { CustomButton, CustomInput, CustomLogo } from "@/features/ui";
 import { login } from "@/services/login";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@/context/User";
 
 export const Login = () => {
   const router = useRouter();
 
+  const { setUser, user } = useContext(UserContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [response, setResponse] = useState(undefined);
 
   useEffect(() => {
-    const fetchData = () => {
-      if (response) {
-        // Check if response exists before fetching
-        console.log(response);
-      }
-    };
-    fetchData();
-  }, [response]); // Dependency array: re-run on response changes
+    if (user) {
+      router.push("/");
+    }
+  });
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const res = await login({ email, password });
+    const response = await login({ email, password });
 
-    setResponse(res);
-
-    if (res?.status == "201") {
-      toast.error(res.data.message);
-    } else {
-      localStorage.setItem("token", res.data.token);
-      toast.success("Logeado con exito!");
+    if (response) {
+      localStorage.setItem("token", response.data.token);
+      setUser(response.data);
       router.push("/");
-      // console.log(jwtDecode(res.data.token));
     }
   };
 

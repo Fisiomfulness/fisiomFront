@@ -17,6 +17,7 @@ export const getBlogs = async ({ page = 1, limit = 9, sortBy, order, search = ''
 export const getBlogDetail = async (blogId) => {
   const res = await fetch(`${BASE_URL}/blogs/detail/${blogId}`, {
     method: 'GET',
+    next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error('Error fetching detail');
   return await res.json();

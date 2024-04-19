@@ -1,16 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CustomLogo } from "@/features/ui";
 import Link from "next/link";
 import { Card, CardBody, RadioGroup, Radio } from "@nextui-org/react";
 import RegistroProfesional from "./RegisterProfesional";
 import RegistroUsuario from "./RegisterUsuario";
+import { UserContext } from "@/context/User";
+import { useRouter } from "next/navigation";
 
 function Register() {
+  const router = useRouter();
+
   const [selected, setSelected] = useState("usuario");
   const [aceptoCondiciones, setAceptoCondiciones] = useState(false);
   const [recibirInformacion, setRecibirInformacion] = useState(false);
+
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  });
 
   const verifyCondicions = () => {
     return aceptoCondiciones && recibirInformacion ? true : false;
