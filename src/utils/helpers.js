@@ -14,7 +14,9 @@ export const hourTime = (timeStamp) => {
 
 // * Works for ISO 8601 and UNIX timestamps
 export const dateFormatter = (timeStamp, hours = true) => {
-  let displayedDate = new Date(typeof timeStamp === 'number' ? timeStamp * 1000 : timeStamp);
+  let displayedDate = new Date(
+    typeof timeStamp === 'number' ? timeStamp * 1000 : timeStamp
+  );
   const today = new Date();
   today.setHours(0, 0, 0, 0); // * For an accurate comparison
   const yesterday = new Date(today);
@@ -44,4 +46,10 @@ export const scrollTo = (elementId, direction = 'top') => {
     };
     scrollContainer.scrollTo(scrollOptions);
   }
+};
+
+export const stripHTMLTags = (string) => {
+  if (string === null || string === '') return false;
+  else string = string.toString();
+  return string.replace(/<[^>]*>/g, ' ');
 };
