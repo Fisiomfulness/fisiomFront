@@ -1,5 +1,5 @@
 import { Image } from '@nextui-org/react';
-import { dateFormatter } from '@/utils/helpers';
+import { dateFormatter, stripHTMLTags } from '@/utils/helpers';
 
 function Publication({ data }) {
   return (
@@ -14,7 +14,7 @@ function Publication({ data }) {
           {data.title}
         </h2>
         <p className="overflow-hidden line-clamp-3 text-[0.75rem] mt-[0.1rem] xl:line-clamp-2 break-words">
-          {data.text}
+          {stripHTMLTags(data.text)}
         </p>
         <span className="text-[0.65rem] tracking-wide mt-auto justify-self-end">
           {dateFormatter(data.createdDate)}

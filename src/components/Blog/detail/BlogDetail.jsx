@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Image } from '@nextui-org/react';
+import DOMPurify from 'isomorphic-dompurify';
 import ScrollBlog from './ScrollBlog';
 import CommentForm from './CommentForm';
 import dynamic from 'next/dynamic';
@@ -38,9 +39,10 @@ const BlogDetail = ({ data, iniComments, totalComments }) => {
             />
           </div>
         </div>
-        <p className="block mb-7 leading-relaxed grow break-words">
-          {data.text}
-        </p>
+        <div
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.text) }}
+          className="grow"
+        />
         <ScrollBlog
           blogId={data._id}
           comments={comments}
