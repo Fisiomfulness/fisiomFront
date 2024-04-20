@@ -5,7 +5,6 @@ import { CustomButton, CustomInput, CustomTable } from "@/features/ui";
 import { registerProfesionalForm } from "@/services/register";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { CustomButton, CustomInput } from "@/features/ui";
 
 function RegisterProfesional({ Condicions }) {
   const [errMsgpass, setErrMsgpass] = useState("");

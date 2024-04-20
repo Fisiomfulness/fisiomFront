@@ -5,7 +5,6 @@ import { CustomButton, CustomInput } from "@/features/ui";
 import { registerUserForm } from "@/services/register";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { CustomButton, CustomInput } from "@/features/ui";
 
 function RegistroUsuario({ Condicions }) {
   const [errMsgpass, setErrMsgpass] = useState("");
@@ -38,8 +37,14 @@ function RegistroUsuario({ Condicions }) {
 
     const { password, repitPass } = e.target;
 
+    console.log(formData);
+
+    //se fija si las propiedaes del objeto del estado formdata estan vacias
+    const checkFormData = (formData) =>
+      Object.values(formData).every((value) => value.trim().length != 0);
+
     if (Condicions()) {
-      if (Object.values(formData).every((value) => value.trim().length != 0)) {
+      if (checkFormData(formData)) {
         const birthDate = new Date(Date.parse(formData.dateOfBirth)); // Convert to Date object
         const currentDate = new Date(); // Get current date
         const age = Math.floor(
