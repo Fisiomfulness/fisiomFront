@@ -7,7 +7,7 @@ function Publication({ data }) {
       <Image
         src={data.image}
         alt="Blog picture"
-        className="h-[90px] object-cover rounded-md object-center xl:h-[70px] xl:rounded-none"
+        className="h-[90px] min-[830px]:w-[144px] object-cover rounded-md object-center xl:h-[70px] xl:w-full xl:rounded-none"
       />
       <div className="flex flex-col w-full overflow-hidden">
         <h2 className="truncate text-[0.85rem] mb-0 capitalize">
