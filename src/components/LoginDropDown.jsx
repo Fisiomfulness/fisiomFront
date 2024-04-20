@@ -65,7 +65,7 @@ export default function LoginDropDown() {
               <PopoverTrigger>Blog</PopoverTrigger>
               <PopoverContent>
                 <Button className="w-56 bg-white hover:bg-[#cce3fd] hover:text-primary">
-                  <Link href="/createBlog">Crear blog</Link>
+                  <Link href="/blog/crear">Crear blog</Link>
                 </Button>
                 <Button
                   className="bg-white hover:bg-[#cce3fd] hover:text-primary"
