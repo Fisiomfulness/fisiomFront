@@ -15,6 +15,23 @@ i {
   @apply italic;
 }
 
+blockquote {
+  @apply pl-4 border-l-2 border-secondary-300 italic;
+}
+
+ul {
+  @apply list-disc;
+}
+
+ol {
+  @apply list-decimal;
+}
+
+ol,
+ul {
+  @apply px-4;
+}
+
 @layer components {
   .debug {
     @apply border border-red-500;
