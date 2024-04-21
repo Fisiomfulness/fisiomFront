@@ -1,11 +1,11 @@
 import { ProductCard } from "./ProductCard";
 
-const ProductCardContainer = ({ prods }) => {
-return (
+const ProductCardContainer = ({ productos }) => {
+  return (
     <>
-      {prods.length ? (
+      {productos.length ? (
         <div className="w-full justify-items-center gap-6 px-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {prods?.map((prod) => (
+          {productos?.map((prod) => (
             <ProductCard key={prod._id} prod={prod} />
           ))}
         </div>

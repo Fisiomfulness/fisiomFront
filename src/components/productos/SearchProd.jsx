@@ -1,53 +1,36 @@
 "use client";
+import axios from "axios";
 import { MdOutlineSearch } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from "../SearchIcon";
 import { apiEndpoints } from "@/api_endpoints";
 
-export const SearchProd = ({ prods, setProdFiltrados }) => {
-  const [filter, setFilter] = useState({
-    category: "All",
-    name: "",
-  });
+export const SearchProd = ({ filter, setFilter, setPage }) => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const abortController = new AbortController();
 
-    fetch(apiEndpoints.categories, {
-      method: "GET",
-      signal: abortController.signal,
-    })
-      .then((res) => res.json())
-      .then((data) => {
+    axios
+      .get(apiEndpoints.categories, {
+        signal: abortController.signal,
+      })
+      .then(({ data }) => {
         setCategories(
-          data.categories.toSorted((a, b) => a.name.localeCompare(b.name)),
+          data.categories.toSorted((a, b) => a.name.localeCompare(b.name))
         );
       })
       .catch((err) => {
-        if (err.name === "AbortError") return;
+        if (err.name === "CanceledError") return;
         throw err;
       });
 
     return () => abortController.abort();
   }, []);
 
-  useEffect(() => {
-    setProdFiltrados(
-      prods.filter((prod) => {
-        const isValidCategory =
-          filter.category === "All" || prod.category._id === filter.category;
-        const nameMatches = prod.name
-          .toLowerCase()
-          .includes(filter.name.toLowerCase());
-        return isValidCategory && nameMatches;
-      }),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
-
   const handleOnChange = (e) => {
+    setPage(1);
     setFilter({ ...filter, [e.target.id]: e.target.value });
   };
 
@@ -65,14 +48,13 @@ export const SearchProd = ({ prods, setProdFiltrados }) => {
       />
       <div className="flex text-sm">
         <select
-          value={filter.category}
-          id="category"
+          value={filter.categoryId}
+          id="categoryId"
           className="w-[200px] p-3 rounded-sm cursor-pointer outline-none"
           style={{ boxShadow: "0px 2px 2px 0px #00000040" }}
           onChange={(e) => handleOnChange(e)}
-          placeholder={filter.category}
         >
-          <option value="All" className="">
+          <option value="" className="">
             Todas
           </option>
           {categories?.map((category) => (
