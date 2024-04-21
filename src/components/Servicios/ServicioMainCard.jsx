@@ -23,27 +23,33 @@ const ServicioMainCard = ({ profesional }) => {
           <div className="flex flex-col  ">
             <div className="flex items-center p-2 gap-4">
               <Avatar
-                src="/doctor-ejemplo.png"
+                src={profesional.image || "/doctor-ejemplo.png"} //"/doctor-ejemplo.png"
                 className="w-20 h-20 text-large"
               />
               <div className="flex flex-col gap-0">
                 <h1 className="font-semibold text-medium">
-                  {profesional.nombre}
+                  {profesional.name}
                 </h1>
-                <div className="flex justify-between">
-                  <Chip
-                    className="bg-primary-300"
-                    variant="faded"
-                    size="sm"
-                    startContent={<FaUserDoctor />}
-                  >
-                    <p className="text-small text-foreground/80">
-                      {profesional.especialidad}
-                    </p>
-                  </Chip>
+                <div className="flex justify-between flex-wrap">
+                  {profesional.specialties.length
+                    ? profesional.specialties.map((specialty) => (
+                        <div key={specialty.id}>
+                          <Chip
+                            className="bg-primary-300"
+                            variant="faded"
+                            size="sm"
+                            startContent={<FaUserDoctor />}
+                          >
+                            <p className="text-small text-foreground/80">
+                              {specialty.name}
+                            </p>
+                          </Chip>
+                        </div>
+                      ))
+                    : null}
                   <div className="pl-2">
                     <StarRatings
-                      rating={profesional.rating}
+                      rating={profesional.avgScore}
                       starRatedColor="#ffb829"
                       numberOfStars={5}
                       starDimension="14px"
@@ -55,7 +61,7 @@ const ServicioMainCard = ({ profesional }) => {
                 <Link
                   className="text-small p-2 text text-decoration-line: underline"
                   as={NextLink}
-                  href={`./servicios/detalles${profesional.matricula}/perfil`}
+                  href={`./servicios/detalles${profesional._id}/perfil`}
                 >
                   Ver mas
                 </Link>
@@ -65,10 +71,8 @@ const ServicioMainCard = ({ profesional }) => {
             <div className="flex flex-col gap-1">
               <div className="flex  items-center gap-2 ">
                 <CiLocationOn className="text-primary-300 w-8 h-8" />
-                <div className="flex  flex-col">
-                  <p className="font-bold">{profesional.Direccion}</p>
-
-                  <p>{profesional.CP}</p>
+                <div className="flex  flex-col max-w-[70%]">
+                  <p className="font-bold">{profesional.address}</p>
                 </div>
               </div>
               <div className="flex  items-center gap-2 ">
@@ -76,14 +80,14 @@ const ServicioMainCard = ({ profesional }) => {
                 <div className="flex  flex-col">
                   <p className="font-bold">Consulta</p>
 
-                  <p>${profesional.valor}</p>
+                  <p>$ {profesional.consultationPrice || "-"}</p>
                 </div>
               </div>
             </div>
             <div className="flex items-center justify-center">
               <Button
                 as={NextLink}
-                href={`./servicios/detalle${profesional.matricula}/turno`}
+                href={`./servicios/detalle${profesional._id}/turno`}
                 color="secondary"
                 size="sm"
                 className="w-[50%]"
