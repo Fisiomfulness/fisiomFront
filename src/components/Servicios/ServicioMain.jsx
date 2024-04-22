@@ -19,13 +19,20 @@ const markers = [
 
 const ServicioMain = ({ data }) => {
   const [professionals, setProfessionals] = useState([]);
+  const [filters, setFilters] = useState({
+    search: "",
+    specialtyId: "", // TODO: Add specialty filter
+  });
 
   useEffect(() => {
     const abortController = new AbortController();
     axios
       .get(apiEndpoints.professionals, {
         signal: abortController.signal,
-        params: {},
+        params: {
+          search: filters.search,
+          specialtyId: filters.specialtyId,
+        },
       })
       .then(({ data }) => {
         setProfessionals(data.professionals);
@@ -36,14 +43,11 @@ const ServicioMain = ({ data }) => {
         throw err;
       });
     return () => abortController.abort();
-  }, []);
+  }, [filters]);
 
   return (
     <div className="flex flex-col w-full m-4">
-      <SearchProfesional
-        profesionales={professionals}
-        setProfesionalesFiltrados={setProfessionals}
-      />
+      <SearchProfesional filters={filters} setFilters={setFilters} />
       <div className="flex w-full min-h-min">
         <ServicioMainContainer profesionales={professionals} />
         <div className="min-h-[900px] w-full">

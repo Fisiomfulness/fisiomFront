@@ -23,17 +23,17 @@ const ServicioMainCard = ({ profesional }) => {
           <div className="flex flex-col  ">
             <div className="flex items-center p-2 gap-4">
               <Avatar
-                src={profesional.image || "/doctor-ejemplo.png"} //"/doctor-ejemplo.png"
+                src={profesional.image || "/doctor-ejemplo.png"}
                 className="w-20 h-20 text-large"
               />
               <div className="flex flex-col gap-0">
                 <h1 className="font-semibold text-medium">
                   {profesional.name}
                 </h1>
-                <div className="flex justify-between flex-wrap">
+                <div className="flex flex-wrap gap-1">
                   {profesional.specialties.length
                     ? profesional.specialties.map((specialty) => (
-                        <div key={specialty.id}>
+                        <div key={specialty._id}>
                           <Chip
                             className="bg-primary-300"
                             variant="faded"
@@ -47,6 +47,7 @@ const ServicioMainCard = ({ profesional }) => {
                         </div>
                       ))
                     : null}
+                  <div className="w-full"></div>
                   <div className="pl-2">
                     <StarRatings
                       rating={profesional.avgScore}
