@@ -1,54 +1,39 @@
+"use-client";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { FaUserDoctor } from "react-icons/fa6";
 import { AiFillHome } from "react-icons/ai";
 import { Autocomplete, AutocompleteItem, Input } from "@nextui-org/react";
 import { MdOutlineSearch } from "react-icons/md";
-import { useState } from "react";
+import { apiEndpoints } from "@/api_endpoints";
 
-const SearchProfesional = ({ profesionales, setProfesionalesFiltrados }) => {
-  const [inputValue, setInputValue] = useState("");
-  let contador = 1;
-  const especialidadesUnicas = Array.from(
-    new Set(profesionales.map((profesional) => profesional.especialidad))
-  ).map((profesion) => ({
-    profesion,
-    index: contador++,
-  }));
+const SearchProfesional = ({ filters, setFilters }) => {
+  const [specialties, setSpecialties] = useState([]);
 
-  const filtrarPorEspecialidad = (especialidad) => {
-    const profesionalesFiltrados = profesionales.filter((profesional) =>
-      profesional.especialidad.includes(especialidad)
-    );
-    setProfesionalesFiltrados(profesionalesFiltrados);
-  };
-
-  const filtrarPorNombre = (nombre) => {
-    const profesionalesFiltradosNombre = profesionales.filter((profesional) =>
-      profesional.nombre.includes(nombre)
-    );
-    setProfesionalesFiltrados(profesionalesFiltradosNombre);
-  };
-
-  const onSelectionChange = (especialidad) => {
-    if (especialidad === "" || especialidad === null) {
-      setProfesionalesFiltrados([...profesionales]);
-    } else {
-      filtrarPorEspecialidad(especialidad);
-    }
-  };
+  useEffect(() => {
+    const abortController = new AbortController();
+    axios
+      .get(apiEndpoints.specialties, {
+        signal: abortController.signal,
+      })
+      .then(({ data }) => {
+        setSpecialties(data);
+      })
+      .catch((err) => {
+        if (err.name === "CanceledError") return;
+        throw err;
+      })
+      .finally(() => {
+        abortController.abort();
+      });
+    return () => abortController.abort();
+  }, []);
   const onChange = (e) => {
-    setInputValue(e.target.value);
-  };
-  const onClear = () => {
-    setProfesionalesFiltrados([...profesionales]);
-    setInputValue("");
+    setFilters({ ...filters, search: e.target.value });
   };
 
-  const onInputChange = (value) => {
-    if (value === "" || value === null) {
-      setProfesionalesFiltrados([...profesionales]);
-    } else {
-      filtrarPorEspecialidad(value);
-    }
+  const onSelectionChange = (value) => {
+    setFilters({ ...filters, specialtyId: value });
   };
 
   return (
@@ -58,9 +43,8 @@ const SearchProfesional = ({ profesionales, setProfesionalesFiltrados }) => {
         isClearable
         radius="lg"
         onChange={onChange}
-        value={inputValue}
-        onValueChange={filtrarPorNombre}
-        onClear={onClear}
+        value={filters.search}
+        onClear={() => setFilters({ ...filters, search: "" })}
         placeholder="Busqueda del profesional..."
         startContent={<MdOutlineSearch color="#62CFE4" size="20px" />}
       />
@@ -69,19 +53,18 @@ const SearchProfesional = ({ profesionales, setProfesionalesFiltrados }) => {
         label="Seleccione:"
         placeholder="Especialidad"
         className="max-w-xs md:mr-2 mr-0"
-        defaultItems={especialidadesUnicas}
+        defaultItems={specialties}
         listboxProps={{
           color: "primary",
         }}
         allowsCustomValue={true}
-        onInputChange={onInputChange}
         onSelectionChange={onSelectionChange}
       >
         {(item) => (
-          <AutocompleteItem key={item.index} textValue={item.profesion}>
+          <AutocompleteItem key={item._id} textValue={item.name}>
             <div className="flex items-center gap-2">
-              <FaUserDoctor alt={item.profesion} className="text-primary-300" />
-              <span>{item.profesion}</span>
+              <FaUserDoctor alt={item.name} className="text-primary-300" />
+              <span>{item.name}</span>
             </div>
           </AutocompleteItem>
         )}
