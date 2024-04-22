@@ -28,10 +28,9 @@ const ServicioMain = ({ data }) => {
       />
       <div className="flex w-full min-h-min">
         <ServicioMainContainer profesionales={profesionalesFiltrados} />
-      <div className="min-h-[900px] w-full">
-        <Map markers={markers} />
-
-      </div>
+        <div className="min-h-[900px] w-full">
+          <Map markers={markers} />
+        </div>
       </div>
     </div>
   );

@@ -72,3 +72,9 @@ export const scrollTo = (elementId, direction = "top") => {
     scrollContainer.scrollTo(scrollOptions);
   }
 };
+
+export const stripHTMLTags = (string) => {
+  if (string === null || string === "") return false;
+  else string = string.toString();
+  return string.replace(/<[^>]*>/g, " ");
+};
