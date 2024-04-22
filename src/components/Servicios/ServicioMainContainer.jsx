@@ -5,10 +5,7 @@ const ServicioMainContainer = ({ profesionales }) => {
     <div className="flex flex-col ">
       {profesionales.length ? (
         profesionales?.map((profesional) => (
-          <ServicioMainCard
-            key={profesional.matricula}
-            profesional={profesional}
-          />
+          <ServicioMainCard key={profesional._id} profesional={profesional} />
         ))
       ) : (
         <div>No hay servicios disponibles.</div>
