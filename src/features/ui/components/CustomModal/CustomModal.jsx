@@ -6,7 +6,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/modal";
-import { CustomModalClient } from "./CustomModalClient";
 import { twMerge } from "tailwind-merge";
 
 /**
@@ -23,20 +22,18 @@ const CustomModal = (props) => {
   const { children, className, ...otherProps } = props;
 
   return (
-    <CustomModalClient isOpen={otherProps.isOpen}>
-      <Modal
-        placement="center"
-        className={twMerge("!rounded-md max-w-fit !mx-4", className)}
-        classNames={{
-          closeButton: "p-1.5",
-        }}
-        {...otherProps}
-      >
-        <ModalContent className="rounded-md p-6 overflow-x-auto">
-          <div className="overflow-x-auto">{children}</div>
-        </ModalContent>
-      </Modal>
-    </CustomModalClient>
+    <Modal
+      placement="center"
+      className={twMerge("!rounded-md max-w-fit !mx-4", className)}
+      classNames={{
+        closeButton: "p-1.5",
+      }}
+      {...otherProps}
+    >
+      <ModalContent className="rounded-md p-6 overflow-x-auto">
+        <div className="overflow-x-auto">{children}</div>
+      </ModalContent>
+    </Modal>
   );
 };
 

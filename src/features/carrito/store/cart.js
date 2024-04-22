@@ -1,96 +1,98 @@
+// @ts-check
 import { atom } from "jotai";
 
-const products = new Array(4).fill().map((_, index) => ({
-  key: index + 1,
+/**
+ * @typedef {{
+ *   id: string;
+ *   name: string;
+ *   description: string;
+ *   price: number;
+ *   image: string;
+ *   quantity: number;
+ * }} Product
+ */
+
+/** @param {number} max */
+function getRandomInt(max) {
+  let randomNum = Math.random() * max;
+  // Redondear al primer decimal
+  randomNum = Math.round(randomNum * 10) / 10;
+  // Asegurarse de que no sea menor de 10
+  randomNum = Math.max(10, randomNum);
+  return randomNum;
+}
+
+/** @type {Product[]} */
+const products = new Array(10).fill(null).map((_, index) => ({
+  id: crypto.randomUUID(),
   name: `Producto ${index + 1}`,
-  price: 100,
-  description: `
-    Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
-    labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet.
-    Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum
-    Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident.
-    Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
-    occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat
-    officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in
-    Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non
-    excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut
-    ea consectetur et est culpa et culpa duis.
-  `,
-  img: "/prod1Prueba.png",
+  price: getRandomInt(50),
+  description: `Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.`,
+  image: "/prod1Prueba.png",
   quantity: 1,
 }));
 
-// TODO: Implementar total y quantity
-export const cartAtom = atom({
-  cart: products,
-  total: products.length * 100,
-  quantity: products.length,
-});
+export const cartAtom = atom(
+  new Map(products.map((product) => [product.id, product])),
+);
 
-export const removeItemAtom = atom(null, (get, set, item) => {
-  const { cart } = get(cartAtom);
-  const isInCart = cart.some((cartItem) => cartItem.key === item.key);
+export const totalAtom = atom((get) =>
+  Array.from(get(cartAtom).values()).reduce(
+    (acc, item) => acc + item.quantity * item.price,
+    0,
+  ),
+);
+export const quantityAtom = atom((get) =>
+  Array.from(get(cartAtom).values()).reduce(
+    (acc, item) => acc + item.quantity,
+    0,
+  ),
+);
 
-  if (!isInCart) {
-    const draft = cart.concat({ ...item, quantity: 1 });
-    set(cartAtom, (prev) => ({
-      ...prev,
-      cart: draft,
-    }));
-    return;
-  }
+// NOTE: Usa la misma logica que `updateItemAtom`
+export const addItemAtom = atom(
+  null,
+  /**
+   * @param {string} id
+   * @param {Product} value
+   */
+  (get, set, id, value) => {
+    const products = get(cartAtom);
 
-  const draft = cart.reduce((acc, cartItem) => {
-    if (item.key !== cartItem.key) {
-      return acc.concat(cartItem);
-    } else {
-      if (cartItem.quantity === 1) {
-        set(cartAtom, (prev) => ({
-          ...prev,
-          quantity: prev.quantity - 1,
-        }));
-        return acc;
-      }
-      return acc.concat({ ...item, quantity: item.quantity - 1 });
-    }
-  }, []);
+    // NOTE: Tal vez se deba establecer el `id` automaticamente
+    products.set(id, value);
 
-  set(cartAtom, (prev) => ({
-    ...prev,
-    cart: draft,
-  }));
-});
+    set(cartAtom, new Map(products));
+  },
+);
 
-export const addItemAtom = atom(null, (get, set, item) => {
-  const { cart } = get(cartAtom);
-  const isInCart = cart.some((cartItem) => cartItem.key === item.key);
+export const updateItemAtom = atom(
+  null,
+  /**
+   * @param {string} id
+   * @param {Product} value
+   */
+  (get, set, id, value) => {
+    const products = get(cartAtom);
 
-  if (!isInCart) {
-    const draft = cart.concat({ ...item, quantity: 1 });
-    set(cartAtom, (prev) => ({
-      ...prev,
-      cart: draft,
-    }));
-    return;
-  }
+    products.set(id, value);
 
-  const draft = cart.reduce((acc, cartItem) => {
-    if (item.key !== cartItem.key) {
-      return acc.concat(cartItem);
-    } else {
-      return acc.concat({ ...item, quantity: item.quantity + 1 });
-    }
-  }, []);
+    set(cartAtom, new Map(products));
+  },
+);
 
-  set(cartAtom, (prev) => ({
-    ...prev,
-    cart: draft,
-  }));
-});
+export const removeItemAtom = atom(
+  null,
+  /** @param {string} id */
+  (get, set, id) => {
+    const products = get(cartAtom);
+
+    products.delete(id);
+
+    set(cartAtom, new Map(products));
+  },
+);
 
 export const clearCartAtom = atom(null, (_get, set) => {
-  set(cartAtom, (prev) => ({
-    ...prev,
-    cart: [],
-  }));
+  set(cartAtom, new Map());
 });

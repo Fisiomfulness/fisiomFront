@@ -21,7 +21,8 @@ export const Login = () => {
     if (user) {
       router.push("/");
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <Card className="flex items-center h-auto w-full min-[440px]:w-4/5 md:w-[1028px] min-h-[512px]">

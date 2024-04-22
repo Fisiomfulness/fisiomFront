@@ -6,7 +6,7 @@ export default function Home() {
       className={[
         "bg-[url('/Home.jpg')] bg-no-repeat bg-cover",
         "w-full !max-w-[unset]",
-        "center flex-row [&>div]:flex-1",
+        "center [&>div]:grow",
       ].join(" ")}
     >
       <HomeClient />
