@@ -8,7 +8,12 @@ export const login = async (user) => {
     toast.success("Logeado con exito!");
     return response;
   } catch (error) {
-    toast.error(error.response.data);
-    return false;
+    if (error.response) {
+      toast.error(error.response.data);
+      return false;
+    } else {
+      toast.error(error.message);
+      return false;
+    }
   }
 };
