@@ -66,8 +66,10 @@ const fetcher = (url) =>
 
 const CitaDomiciliaria = () => {
   /** @type {import("swr").SWRResponse<Specialty[]>} */
-  const { data } = useSWRImmutable("/specialty", fetcher);
-  const specialties = data || [{ _id: "1", name: "..." }];
+  const { data } = useSWRImmutable("/specialty", fetcher, {
+    shouldRetryOnError: false,
+  });
+  const specialties = data ?? [{ _id: "1", name: "..." }];
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">
@@ -94,8 +96,10 @@ const CitaDomiciliaria = () => {
 
 const CitaOnline = () => {
   /** @type {import("swr").SWRResponse<Specialty[]>} */
-  const { data } = useSWRImmutable("/specialty", fetcher);
-  const specialties = data || [{ _id: "1", name: "..." }];
+  const { data } = useSWRImmutable("/specialty", fetcher, {
+    shouldRetryOnError: false,
+  });
+  const specialties = data ?? [{ _id: "1", name: "..." }];
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">

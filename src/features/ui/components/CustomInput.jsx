@@ -21,7 +21,7 @@ const CustomInput = (props) => {
 
   const defaultClassNames = {
     label: "m-0 font-normal text-base !text-inherit",
-    base: twMerge(_variant === "bordered" && otherProps.label ? "!mt-8" : ""),
+    base: twMerge(_variant === "bordered" && otherProps.label && "!mt-8"),
     input:
       "placeholder:!not-italic placeholder:text-gray-500 " +
       "text-base flex-1 !w-auto overflow-hidden",
