@@ -19,18 +19,18 @@ blockquote {
   @apply pl-4 border-l-2 border-secondary-300 italic;
 }
 
-ul {
-  @apply list-disc;
-}
+/* ul { */
+/*   @apply list-disc; */
+/* } */
 
-ol {
-  @apply list-decimal;
-}
+/* ol { */
+/*   @apply list-decimal; */
+/* } */
 
-ol,
-ul {
-  @apply px-4;
-}
+/* ol, */
+/* ul { */
+/*   @apply px-4; */
+/* } */
 
 @layer components {
   .debug {
@@ -38,7 +38,7 @@ ul {
   }
 
   .center {
-    @apply flex flex-col justify-center items-center;
+    @apply flex justify-center items-center;
   }
 }
 
