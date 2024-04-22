@@ -1,6 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { Pagination, Card, CardHeader, Image } from '@nextui-org/react';
 import { getBlogs } from '@/services/blogs';
+import { stripHTMLTags } from '@/utils/helpers';
 
 export default function BlogCards({
   blogs,
@@ -19,8 +20,6 @@ export default function BlogCards({
     });
   };
 
-  // ! TODO: MODIFY FOR LARGE TITLE AND DESCRIPTION
-  // ! ALSO SIDEBAR.
   return (
     <div className="w-full flex flex-col items-center gap-5">
       {blogs.length > 0 ? (
@@ -44,8 +43,8 @@ export default function BlogCards({
                   <h3 className="truncate w-full text-xs m-0 lg:text-sm text-black uppercase font-bold">
                     {blog.title}
                   </h3>
-                  <p className="text-xs h-full line-clamp-5 lg:text-sm lg:line-clamp-4 text-black font-medium">
-                    {blog.text}
+                  <p className="text-xs h-full line-clamp-5 lg:text-sm lg:line-clamp-4 text-black font-medium break-words">
+                    {stripHTMLTags(blog.text)}
                   </p>
                 </CardHeader>
               </Card>

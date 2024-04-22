@@ -37,12 +37,17 @@ function Register() {
           </Link>
           <div className="flex justify-center">
             <RadioGroup
-              label="Registrate"
-              value={selected}
+              className="font-semibold"
+              label="Registrate como:"
+              Avalue={selected}
               onValueChange={setSelected}
             >
-              <Radio value="usuario">Usuario</Radio>
-              <Radio value="profesional">Profesional</Radio>
+              <Radio className="font-semibold text-lg" value="usuario">
+                Usuario
+              </Radio>
+              <Radio className="font-semibold text-lg" value="profesional">
+                Profesional
+              </Radio>
             </RadioGroup>
           </div>
 
