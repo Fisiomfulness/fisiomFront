@@ -2,23 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-input::-ms-reveal,
-input::-ms-clear {
-  display: none;
-}
-
-b {
-  @apply font-bold;
-}
-
-i {
-  @apply italic;
-}
-
-blockquote {
-  @apply pl-4 border-l-2 border-secondary-300 italic;
-}
-
 /* ul { */
 /*   @apply list-disc; */
 /* } */
@@ -31,16 +14,6 @@ blockquote {
 /* ul { */
 /*   @apply px-4; */
 /* } */
-
-@layer components {
-  .debug {
-    @apply border border-red-500;
-  }
-
-  .center {
-    @apply flex justify-center items-center;
-  }
-}
 
 @layer base {
   h1 {
@@ -80,5 +53,22 @@ blockquote {
   ::-webkit-scrollbar-track {
     @apply bg-zinc-300;
     @apply rounded-full;
+  }
+
+  blockquote {
+    @apply pl-4 border-l-2 border-secondary-300 italic;
+  }
+
+  input::-ms-reveal,
+  input::-ms-clear {
+    display: none;
+  }
+
+  b {
+    @apply font-bold;
+  }
+
+  i {
+    @apply italic;
   }
 }

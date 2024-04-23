@@ -3,9 +3,9 @@ import { Login } from "../../components/Login";
 
 const Page = () => {
   return (
-    <div className="flex justify-center items-center bg-[#68BCE3] w-full static">
+    <main className="px-auto min-h-screen center bg-primary-400">
       <Login />
-    </div>
+    </main>
   );
 };
 export default Page;

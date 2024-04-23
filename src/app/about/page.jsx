@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <div className="flex flex-col justify-between !p-0">
+    <main className="min-h-screen vstack justify-between">
       <img src="/border.svg" alt="border_top" className="max-h-40 mr-auto" />
       <div className="container px-10 md:px-12 lg:px-14 mx-auto">
         <h2 className="py-4">
@@ -57,6 +57,6 @@ export default function About() {
         alt="border_down"
         className="rotate-180 max-h-40 ml-auto"
       />
-    </div>
+    </main>
   );
 }

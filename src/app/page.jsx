@@ -2,14 +2,15 @@ import HomeClient from "./page.client";
 
 export default function Home() {
   return (
-    <div
+    <main
       className={[
         "bg-[url('/Home.jpg')] bg-no-repeat bg-cover",
-        "w-full !max-w-[unset]",
-        "center [&>div]:grow",
+        "px-auto center min-h-[92vh]",
       ].join(" ")}
     >
-      <HomeClient />
-    </div>
+      <div className="grow bg-white p-3 mb-20 max-w-2xl shadow-xl border-1 rounded-xl">
+        <HomeClient />
+      </div>
+    </main>
   );
 }
