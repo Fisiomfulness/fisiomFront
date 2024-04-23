@@ -5,5 +5,6 @@ export const apiEndpoints = {
     categories: baseUrl + "category/",
     professionals: baseUrl + "professionals/",
     professionalsDetail: baseUrl + "professionals/detail/",
+    professionalScore: baseUrl + "profesional_score/",
     specialties: baseUrl + "specialty/",
 }

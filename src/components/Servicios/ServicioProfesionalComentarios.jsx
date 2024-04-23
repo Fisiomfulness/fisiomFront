@@ -28,7 +28,7 @@ const ServicioProfesionalComentarios = ({ comentarios }) => {
             title={comentario.name}
             subtitle={
               <StarRatings
-                rating={comentario.rating}
+                rating={comentario.score}
                 starRatedColor="#ffb829"
                 numberOfStars={5}
                 starDimension="20px"
@@ -38,7 +38,7 @@ const ServicioProfesionalComentarios = ({ comentarios }) => {
             }
           >
             <div className="flex justify-between">
-              {comentario.comentario}
+              {comentario.description}
               <ServicioReportComentario />
             </div>
           </AccordionItem>

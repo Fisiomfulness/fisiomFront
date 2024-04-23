@@ -20,15 +20,15 @@ const StarRatings = dynamic(() => import("react-star-ratings"), {
 
 const ServicioProfesionalCard = ({ profesional }) => {
   return (
-    <div className="flex flex-col lg:flex-row gap-1 items-center h-[500px] lg:items-start">
+    <div className="flex flex-col lg:flex-row gap-1 items-center lg:items-start">
       <Card
         isBlurred
         className="border-none bg-background/60 dark:bg-default-100/50 max-w-[800px] rounded-r-none lg:rounded"
         shadow="sm"
       >
         <CardBody>
-          <div className="grid grid-cols-6 lg:grid-cols-12 gap-6 lg:gap-4 items-center justify-center">
-            <div className="relative col-span-6 lg:col-span-4">
+          <div className="grid grid-cols-6 lg:grid-cols-12 gap-6 lg:gap-4 items-start">
+            <div className="relative col-span-6 lg:col-span-4 mt-2">
               <Image
                 alt={profesional.name}
                 className="object-cover"
@@ -77,7 +77,7 @@ const ServicioProfesionalCard = ({ profesional }) => {
 
               <div className="flex flex-col mt-3 gap-1">
                 <div className="flex justify-between">
-                  <p className="text-small">{profesional.curriculum}</p>
+                  <p className="text-small">{profesional.resume}</p>
                 </div>
               </div>
             </div>
@@ -112,9 +112,6 @@ const ServicioProfesionalCard = ({ profesional }) => {
           removeWrapper
           alt={profesional.name}
           className="h-full w-full object-cover"
-          // layout="responsive"
-          // height={200}
-          // width="100%"
           shadow="sm"
           fill
           src="/servicio-ubicacion-profesionales.png"
