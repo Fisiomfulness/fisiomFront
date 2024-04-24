@@ -50,7 +50,7 @@ const ServicioMain = () => {
   }, [filters, page]);
 
   return (
-    <main className="vstack px-auto mx-auto max-w-8xl w-full">
+    <main className="vstack px-auto mx-auto max-w-8xl w-full mb-4">
       <SearchProfesional filters={filters} setFilters={setFilters} setPage={setPage} />
       <div className="flex w-full min-h-min justify-between">
         <div className="w-full flex flex-col gap-2 items-center">
