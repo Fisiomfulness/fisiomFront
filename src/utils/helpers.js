@@ -25,7 +25,9 @@ export const dateFormatter = (timeStamp, hours = true) => {
   if (displayedDate.toLocaleDateString() === today.toLocaleDateString()) {
     // ? Today... show hours? => hour:minute am/pm
     displayedDate = hours ? hourTime(timeStamp) : 'Hoy';
-  } else if (displayedDate.toLocaleDateString() === yesterday.toLocaleDateString()) {
+  } else if (
+    displayedDate.toLocaleDateString() === yesterday.toLocaleDateString()
+  ) {
     // ? Yesterday
     displayedDate = 'Ayer';
   } else {
@@ -34,6 +36,29 @@ export const dateFormatter = (timeStamp, hours = true) => {
   }
 
   return displayedDate;
+};
+
+export const actualMinDate = () => {
+  // Convertir la fecha actual a un objeto Date
+  const ActualDate = new Date();
+
+  // Calcular los milisegundos por año
+  const millisecondsForYear = 1000 * 60 * 60 * 24 * 365;
+
+  // Restar 18 años en milisegundos a la fecha actual
+  const milliseconds18years = millisecondsForYear * 18;
+  const minimalDateMillisecMillisec =
+    ActualDate.getTime() - milliseconds18years;
+
+  // Convertir los milisegundos de la fecha mínima a un objeto Date
+  const minimalDate = new Date(minimalDateMillisecMillisec);
+
+  // Formatear la fecha mínima a YYYY-MM-DD
+  const minimalDateString = minimalDate.toISOString().slice(0, 10);
+
+  //retorna "yyyy-mm-dd"
+  console.log(minimalDateString);
+  return minimalDateString;
 };
 
 export const scrollTo = (elementId, direction = 'top') => {

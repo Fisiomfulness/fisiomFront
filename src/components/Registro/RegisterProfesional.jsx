@@ -1,206 +1,253 @@
 "use client";
 
-import React, { useState } from "react";
-import { CustomButton, CustomInput, CustomTable } from "@/features/ui";
-import { registerProfesionalForm } from "@/services/register";
+import React, { useState, useCallback } from "react";
+import { CustomButton, CustomTable } from "@/features/ui";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { CustomButton, CustomInput } from "@/features/ui";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { Button, SelectItem, Select } from "@nextui-org/react";
 
+import { actualMinDate } from "@/utils/helpers";
+import { useDropzone } from "react-dropzone";
+
+import { registerProfesionalForm } from "@/services/register";
+import { Label } from "react-aria-components";
+
+//#region Formik config
+const initialValues = {
+  name: "",
+  phone: "",
+  email: "",
+  dateOfBirth: "",
+  gender: "Masculino",
+  password: "",
+  repitPass: "",
+  license: "",
+  city: "",
+};
+
+const yupRequired = Yup.string().required("requerido");
+
+const registerSchemaValidation = Yup.object({
+  name: Yup.string()
+    .required("El nombre es requerido")
+    .min(3, "El nombre debe tener al menos 3 caracteres"),
+  phone: yupRequired,
+  email: yupRequired.email("No es un email"),
+  dateOfBirth: Yup.date()
+    .required("La fecha de nacimiento es requerida")
+    .max(actualMinDate(), "Debes ser mayor de 18 años"),
+  password: Yup.string()
+    .required("La contraseña es requerida")
+    .min(8, "La contraseña debe tener al menos 8 caracteres"),
+  repitPass: Yup.string()
+    .required("Requerido")
+    .oneOf([Yup.ref("password")], "Las contraseñas deben coincidir"),
+  license: yupRequired,
+  city: yupRequired,
+});
+
+//#region Component
 function RegisterProfesional({ Condicions }) {
-  const [errMsgpass, setErrMsgpass] = useState("");
+  const onDrop = useCallback((acceptedFiles) => {
+    // Do something with the files
+  }, []);
 
-  const [selectedFile, setSelectedFile] = useState("");
+  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
+    useDropzone({ onDrop });
 
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    dateOfBirth: "",
-    gender: "Masculino",
-    password: "",
-    license: "",
-    city: "",
-  });
-
-  const classNames = {
-    innerWrapper: "w-[300px]",
-    inputWrapper: "border-none !bg-zinc-100 my-3",
-  };
-
-  const registerResponse = async () => {
+  const registerResponse = async (values) => {
+    let { repitPass, ...newValues } = values;
     const newformData = new FormData();
-    for (const [key, value] of Object.entries(formData)) {
+
+    for (const [key, value] of Object.entries(newValues)) {
       newformData.append(key, value);
     }
-    newformData.append("curriculum", selectedFile);
+    newformData.append("curriculum", acceptedFiles[0]);
 
     await registerProfesionalForm(newformData);
   };
 
-  const onChangeFile = (e) => {
-    setSelectedFile(e.target.files[0]);
-  };
-
-  const handleChangeInput = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSubmitRegister = (e) => {
-    e.preventDefault();
-
-    const { password, repitPass } = e.target;
-
+  const handleSubmitRegister = (values) => {
     if (Condicions()) {
-      if (Object.values(formData).every((value) => value.trim().length != 0)) {
-        const birthDate = new Date(Date.parse(formData.dateOfBirth)); // Convert to Date object
-        const currentDate = new Date(); // Get current date
-        const age = Math.floor(
-          (currentDate.getTime() - birthDate.getTime()) /
-            (1000 * 60 * 60 * 24 * 365),
-        ); // Calculate age in years
-
-        if (age < 18) {
-          toast.error("El Usuario debe ser mayor a 18 años");
-        } else {
-          if (password.value !== repitPass.value) {
-            setErrMsgpass("Las contraseñas no coinciden");
-            toast.error("Las contraseñas no coinciden");
-          } else {
-            setErrMsgpass("");
-            registerResponse();
-          }
-        }
-      } else {
-        toast.error("Completa los campos correctamente");
-      }
+      registerResponse(values);
     } else {
-      toast.error("Porfavor acepte los terminos y condiciones");
+      toast.error("Acepte las condiciones");
     }
   };
 
   return (
-    <form onSubmit={handleSubmitRegister}>
-      <div>
-        <CustomInput
-          name="name"
-          value={formData.name}
-          placeholder="Nombre completo"
-          type="text"
-          classNames={classNames}
-          errorMessage={!formData.name.length ? "Nombre es requerido" : ""}
-          onChange={handleChangeInput}
-        />
-        <CustomInput
-          name="phone"
-          value={formData.phone}
-          placeholder="Telefono"
-          type="text"
-          classNames={classNames}
-          errorMessage={!formData.phone.length ? "Telefono es requerido" : ""}
-          onChange={handleChangeInput}
-        />
-        <CustomInput
-          name="email"
-          value={formData.email}
-          placeholder="Email"
-          type="email"
-          classNames={classNames}
-          errorMessage={!formData.email.length ? "Email es requerido" : ""}
-          onChange={handleChangeInput}
-        />
-        <CustomInput
-          name="dateOfBirth"
-          value={formData.birthDate}
-          placeholder="Fecha de nacimiento"
-          type="date"
-          classNames={classNames}
-          errorMessage={
-            !formData.email.length ? "Fecha de nacimiento requerida" : ""
-          }
-          onChange={handleChangeInput}
-        />
-        <select
-          defaultValue="Masculino"
-          name="gender"
-          onChange={handleChangeInput}
-        >
-          <option value="Masculino">Masculino</option>
-          <option value="Femenino">Femenino</option>
-          <option value="Prefiero no responder">Prefiero no responder</option>
-        </select>
-        <CustomInput
-          name="password"
-          value={formData.password}
-          placeholder="Contraseña"
-          type="password"
-          classNames={classNames}
-          errorMessage={
-            !formData.password.length ? "Contraseña es requerida" : ""
-          }
-          onChange={handleChangeInput}
-        />
-        <CustomInput
-          name="repitPass"
-          value={undefined}
-          placeholder="Repita contraseña"
-          type="password"
-          classNames={classNames}
-          errorMessage={errMsgpass} // Specific error for repeat password
-        />
-        <CustomInput
-          name="license"
-          value={formData.license}
-          placeholder="Numero colegiado"
-          type="text"
-          classNames={classNames}
-          errorMessage={!formData.license.length ? "Licencia es requerida" : ""}
-          onChange={handleChangeInput}
-        />
-        <CustomInput
-          name="city"
-          value={formData.city}
-          placeholder="Ciudad"
-          type="text"
-          classNames={classNames}
-          errorMessage={!formData.city.length ? "City es requerida" : ""}
-          onChange={handleChangeInput}
-        />
-        <div className="flex flex-row justify-between items-center mt-4 rounded">
-          {(selectedFile?.name && <p>{selectedFile?.name}</p>) || (
-            <p>Agregar diploma o curriculum</p>
-          )}
-          <div>
-            <label
-              htmlFor="curriculum"
-              className="p-3 bg-primary text-white cursor-pointer border rounded-lg hover:bg-sky-500"
-            >
-              AGREGAR
-            </label>
-            <CustomInput
-              value={undefined}
-              name="curriculum"
-              type="file"
-              id="curriculum"
-              className="hidden"
-              onChange={onChangeFile}
+    <Formik
+      onSubmit={handleSubmitRegister}
+      initialValues={initialValues}
+      validationSchema={registerSchemaValidation}
+    >
+      {({ values, handleChange }) => (
+        <Form className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1">
+            <Field
+              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
+              name="name"
+              type="String"
+              placeholder="Nombre"
+            />
+            <ErrorMessage
+              name="name"
+              component="span"
+              className="text-danger-500"
             />
           </div>
-        </div>
-        <CustomButton type="submit">Registrarse</CustomButton>
-        <div className="flex flex-row justify-center items-center gap-4 mt-8">
-          <p>¿Ya esta registrado?</p>
-          <CustomButton
-            className="bg-primary-400 min-w-fit !w-fit py-2"
-            as={Link}
-            href="/login"
+
+          <div className="flex flex-col gap-1">
+            <Field
+              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
+              name="phone"
+              type="string"
+              placeholder="Telefono"
+            />
+            <ErrorMessage
+              name="phone"
+              component="span"
+              className="text-danger-500"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <Field
+              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
+              name="email"
+              type="email"
+              placeholder="email"
+            />
+            <ErrorMessage
+              name="email"
+              component="span"
+              className="text-danger-500"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <Field
+              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
+              name="dateOfBirth"
+              type="date"
+              placeholder="Fecha de nacimiento"
+            />
+            <ErrorMessage
+              name="dateOfBirth"
+              component="span"
+              className="text-danger-500"
+            />
+          </div>
+          <Select
+            onChange={handleChange}
+            name="gender"
+            aria-labelledby="gender" // Add this line
           >
-            Ingresar
-          </CustomButton>
-        </div>
-      </div>
-    </form>
+            <SelectItem value="Masculino" label="Masculino">
+              Masculino
+            </SelectItem>
+
+            <SelectItem value="Femenino" label="Femenino">
+              Femenino
+            </SelectItem>
+
+            <SelectItem
+              value="Prefiero no responder"
+              label="Prefiero no responder"
+            >
+              Prefiero no responder
+            </SelectItem>
+          </Select>
+
+          <div className="flex flex-col gap-1">
+            <Field
+              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
+              name="password"
+              type="password"
+              placeholder="contraseña"
+            />
+            <ErrorMessage
+              name="password"
+              component="span"
+              className="text-danger-500"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <Field
+              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
+              name="repitPass"
+              type="password"
+              placeholder="Repita la contraseñ"
+            />
+            <ErrorMessage
+              name="repitPass"
+              component="span"
+              className="text-danger-500"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <Field
+              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
+              name="license"
+              type="string"
+              placeholder="license"
+            />
+            <ErrorMessage
+              name="license"
+              component="span"
+              className="text-danger-500"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <Field
+              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
+              name="city"
+              type="string"
+              placeholder="ciudad"
+            />
+            <ErrorMessage
+              name="city"
+              component="span"
+              className="text-danger-500"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <div
+              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
+              {...getRootProps()}
+            >
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p>Suelta tus Curriculum aqui...</p>
+              ) : (
+                <p>Suelta tu Curriculum aqui, o has click para seleccionar</p>
+              )}
+            </div>
+          </div>
+
+          <Button className="bg-primary-500 text-white font-sans" type="submit">
+            Logearse
+          </Button>
+
+          <div className="flex flex-row justify-center items-center gap-4 mt-8">
+            <p>¿Ya esta registrado?</p>
+            <Button
+              className="bg-primary-500 text-white font-sans"
+              as={Link}
+              href="/login"
+            >
+              Ingresar
+            </Button>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 }
 

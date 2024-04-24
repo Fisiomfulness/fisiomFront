@@ -1,7 +1,7 @@
-import { useRouter } from 'next/navigation';
-import { Pagination, Card, CardHeader, Image } from '@nextui-org/react';
-import { getBlogs } from '@/services/blogs';
-import { stripHTMLTags } from '@/utils/helpers';
+import { useRouter } from "next/navigation";
+import { Pagination, Card, CardHeader, Image } from "@nextui-org/react";
+import { getBlogs } from "@/services/blogs";
+import { stripHTMLTags } from "@/utils/helpers";
 
 export default function BlogCards({
   blogs,

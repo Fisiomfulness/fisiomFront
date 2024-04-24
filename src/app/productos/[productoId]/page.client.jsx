@@ -29,15 +29,15 @@ const ProductDetailPageClient = ({ productId }) => {
   }, []);
 
   return (
-    <div
+    <main
       className={[
-        "flex flex-col w-full min-h-screen items-center justify-between",
-        "sm:flex-row sm:items-start",
+        "px-auto flex flex-col w-full items-center",
+        "sm:justify-between sm:flex-row sm:items-start",
       ].join(" ")}
     >
       <DetailClient prod={prod} />
       <Aside prod={prod} />
-    </div>
+    </main>
   );
 };
 

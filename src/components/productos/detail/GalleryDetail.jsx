@@ -2,7 +2,7 @@ import { twMerge } from "tailwind-merge";
 
 const GalleryDetail = ({ setSelected, images, selected }) => {
   return (
-    <div className="flex w-full h-full md:flex-col max-w-0">
+    <div className="flex w-full h-full md:flex-col basis-0">
       {images?.map((img, index) => (
         <div
           onClick={() => setSelected(index)}

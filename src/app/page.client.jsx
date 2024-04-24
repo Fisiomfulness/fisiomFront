@@ -66,8 +66,10 @@ const fetcher = (url) =>
 
 const CitaDomiciliaria = () => {
   /** @type {import("swr").SWRResponse<Specialty[]>} */
-  const { data } = useSWRImmutable("/specialty", fetcher);
-  const specialties = data || [{ _id: "1", name: "..." }];
+  const { data } = useSWRImmutable("/specialty", fetcher, {
+    shouldRetryOnError: false,
+  });
+  const specialties = data ?? [{ _id: "1", name: "..." }];
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">
@@ -94,8 +96,10 @@ const CitaDomiciliaria = () => {
 
 const CitaOnline = () => {
   /** @type {import("swr").SWRResponse<Specialty[]>} */
-  const { data } = useSWRImmutable("/specialty", fetcher);
-  const specialties = data || [{ _id: "1", name: "..." }];
+  const { data } = useSWRImmutable("/specialty", fetcher, {
+    shouldRetryOnError: false,
+  });
+  const specialties = data ?? [{ _id: "1", name: "..." }];
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">
@@ -122,38 +126,36 @@ export default function HomeClient() {
   );
 
   return (
-    <div className="mb-20 max-w-2xl shadow-xl border-1 rounded-xl bg-white p-3">
-      <Tabs
-        fullWidth
-        color="primary"
-        aria-label="Tabs-form"
-        disableAnimation
-        selectedKey={selected}
-        onSelectionChange={setSelected}
+    <Tabs
+      fullWidth
+      color="primary"
+      aria-label="Tabs-form"
+      disableAnimation
+      selectedKey={selected}
+      onSelectionChange={setSelected}
+    >
+      <Tab
+        key="citaDomiciliaria"
+        title={
+          <div className="flex items-center space-x-2">
+            <BiSolidHome />
+            <span>Cita Domiciliaria</span>
+          </div>
+        }
       >
-        <Tab
-          key="citaDomiciliaria"
-          title={
-            <div className="flex items-center space-x-2">
-              <BiSolidHome />
-              <span>Cita Domiciliaria</span>
-            </div>
-          }
-        >
-          <CitaDomiciliaria />
-        </Tab>
-        <Tab
-          key="citaOnline"
-          title={
-            <div className="flex items-center space-x-2">
-              <BiSolidWebcam />
-              <span>Cita Online</span>
-            </div>
-          }
-        >
-          <CitaOnline />
-        </Tab>
-      </Tabs>
-    </div>
+        <CitaDomiciliaria />
+      </Tab>
+      <Tab
+        key="citaOnline"
+        title={
+          <div className="flex items-center space-x-2">
+            <BiSolidWebcam />
+            <span>Cita Online</span>
+          </div>
+        }
+      >
+        <CitaOnline />
+      </Tab>
+    </Tabs>
   );
 }

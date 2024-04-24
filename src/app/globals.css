@@ -2,45 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-input::-ms-reveal,
-input::-ms-clear {
-  display: none;
-}
+/* ul { */
+/*   @apply list-disc; */
+/* } */
 
-b {
-  @apply font-bold;
-}
+/* ol { */
+/*   @apply list-decimal; */
+/* } */
 
-i {
-  @apply italic;
-}
-
-blockquote {
-  @apply pl-4 border-l-2 border-secondary-300 italic;
-}
-
-ul {
-  @apply list-disc;
-}
-
-ol {
-  @apply list-decimal;
-}
-
-ol,
-ul {
-  @apply px-4;
-}
-
-@layer components {
-  .debug {
-    @apply border border-red-500;
-  }
-
-  .center {
-    @apply flex flex-col justify-center items-center;
-  }
-}
+/* ol, */
+/* ul { */
+/*   @apply px-4; */
+/* } */
 
 @layer base {
   h1 {
@@ -80,5 +53,22 @@ ul {
   ::-webkit-scrollbar-track {
     @apply bg-zinc-300;
     @apply rounded-full;
+  }
+
+  blockquote {
+    @apply pl-4 border-l-2 border-secondary-300 italic;
+  }
+
+  input::-ms-reveal,
+  input::-ms-clear {
+    display: none;
+  }
+
+  b {
+    @apply font-bold;
+  }
+
+  i {
+    @apply italic;
   }
 }
