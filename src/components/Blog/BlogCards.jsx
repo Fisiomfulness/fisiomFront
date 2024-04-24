@@ -60,7 +60,7 @@ export default function BlogCards({
           />
         </>
       ) : (
-        <h3 className="m-auto">No results</h3>
+        <h3 className="m-auto">Sin resultados</h3>
       )}
     </div>
   );
