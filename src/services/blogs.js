@@ -3,15 +3,29 @@ import { BASE_URL } from '@/utils/api';
 export const getBlogs = async ({
   page = 1,
   limit = 9,
+  professionalId,
   sortBy,
   order,
   search = '',
 }) => {
   let query = `?page=${page}&limit=${limit}`;
+  if (professionalId) query += `&professionalId=${professionalId}`;
   if (search !== '') query += `&search=${search}`;
   if (sortBy && order) query += `&sortBy=${sortBy}&order=${order}`;
 
   const res = await fetch(`${BASE_URL}/blogs${query}`, {
+    method: 'GET',
+    next: { revalidate: 20 }, // ? Revalidate last blogs after 20 seconds
+  });
+  if (!res.ok) throw new Error('Error fetching blogs');
+
+  return await res.json();
+};
+
+export const getProfessionalBlogs = async (professionalId, { page = 1, limit = 6 }) => {
+  let query = `?page=${page}&limit=${limit}`;
+
+  const res = await fetch(`${BASE_URL}/blogs/${professionalId}${query}`, {
     method: 'GET',
     next: { revalidate: 20 }, // ? Revalidate last blogs after 20 seconds
   });
