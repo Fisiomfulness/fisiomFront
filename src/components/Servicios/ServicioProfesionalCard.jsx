@@ -105,7 +105,7 @@ const ServicioProfesionalCard = ({ profesional }) => {
       </Card>
       <Card
         isBlurred
-        className="relative h-full border-none p-3 bg-background/60 dark:bg-default-100/50 max-w-[610px] min-w-[290px] rounded lg:rounded-l-none"
+        className="relative max-lg:hidden h-full border-none p-3 bg-background/60 dark:bg-default-100/50 max-w-[610px] min-w-[290px] rounded lg:rounded-l-none"
         shadow="sm"
       >
         <Image
@@ -113,7 +113,8 @@ const ServicioProfesionalCard = ({ profesional }) => {
           alt={profesional.name}
           className="h-full w-full object-cover"
           shadow="sm"
-          fill
+          width={300}
+          height={300}
           src="/servicio-ubicacion-profesionales.png"
         />
       </Card>

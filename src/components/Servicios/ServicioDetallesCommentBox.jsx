@@ -2,14 +2,19 @@
 import axios from "axios";
 import { apiEndpoints } from "@/api_endpoints";
 import { Input, Chip, Button } from "@nextui-org/react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import dynamic from "next/dynamic";
 import { FaBullseye } from "react-icons/fa";
+import { UserContext } from "@/context/User";
+import { useRouter } from "next/navigation";
+
 const StarRatings = dynamic(() => import("react-star-ratings"), {
   ssr: false,
 });
 
-const ServicioDetallesCommentBox = ({profesional}) => {
+const ServicioDetallesCommentBox = ({ profesional }) => {
+  const router = useRouter();
+  const { user } = useContext(UserContext);
   const [rating, setRating] = useState(0);
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
@@ -19,25 +24,21 @@ const ServicioDetallesCommentBox = ({profesional}) => {
     setRating(newRating);
   };
 
-  const onSubmitComment = (e) => {
+  const onSubmitComment = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true)
-      axios
-      .post(apiEndpoints.professionalScore, {
+      setLoading(true);
+      await axios.post(apiEndpoints.professionalScore, {
         score: rating,
         description: comment,
         name,
-        _professional: profesional._id,
-        _user: "" // TODO: get user
-      })
-      setRating(0);
-      setName("");
-      setComment("");
-      setLoading(false)
+        _profesional: profesional._id,
+        _user: user.id,
+      });
+      router.refresh();
     } catch (error) {
-      console.log(error) // TODO: move to toast
-      setLoading(false)
+      console.log(error.message); // TODO: move to toast
+      setLoading(false);
     }
   };
 
@@ -73,7 +74,7 @@ const ServicioDetallesCommentBox = ({profesional}) => {
             name="rating"
           />
         </Chip>
-        <Button color="primary" radius="md" type="submit">
+        <Button color="primary" radius="md" type="submit" loading={loading}>
           Comentar
         </Button>
       </div>

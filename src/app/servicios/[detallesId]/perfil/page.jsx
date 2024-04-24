@@ -1,14 +1,16 @@
 "use client";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import ServicioDetallesCommentBox from "@/components/Servicios/ServicioDetallesCommentBox";
 import ServicioProfesionalCard from "@/components/Servicios/ServicioProfesionalCard";
 import ServicioProfesionalComentarios from "@/components/Servicios/ServicioProfesionalComentarios";
 import { apiEndpoints } from "@/api_endpoints";
+import { UserContext } from "@/context/User";
 
 const ServicioDetalles = ({ params }) => {
   const profesionalId = params.detallesId;
   const [profesional, setProfesional] = useState({});
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -29,8 +31,10 @@ const ServicioDetalles = ({ params }) => {
   return (
     <div>
       <ServicioProfesionalCard profesional={profesional} />
-      <ServicioDetallesCommentBox profesional={profesional} />
-      <ServicioProfesionalComentarios comentarios={profesional.profesionalScore} />
+      {user ? <ServicioDetallesCommentBox profesional={profesional} /> : null}
+      <ServicioProfesionalComentarios
+        comentarios={profesional.profesionalScore}
+      />
     </div>
   );
 };
