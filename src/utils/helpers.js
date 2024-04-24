@@ -24,10 +24,10 @@ export const dateFormatter = (timeStamp, hours = true) => {
 
   if (displayedDate.toLocaleDateString() === today.toLocaleDateString()) {
     // ? Today... show hours? => hour:minute am/pm
-    displayedDate = hours ? hourTime(timeStamp) : 'Today';
+    displayedDate = hours ? hourTime(timeStamp) : 'Hoy';
   } else if (displayedDate.toLocaleDateString() === yesterday.toLocaleDateString()) {
     // ? Yesterday
-    displayedDate = 'Yesterday';
+    displayedDate = 'Ayer';
   } else {
     // ? Before yesterday, display the date => day/month/year
     displayedDate = displayedDate.toLocaleDateString();
