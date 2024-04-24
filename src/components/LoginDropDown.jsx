@@ -71,7 +71,7 @@ export default function LoginDropDown() {
                   className="bg-white hover:bg-[#cce3fd] hover:text-primary"
                   fullWidth={true}
                 >
-                  <Link href="#">Mis blogs</Link>
+                  <Link href="/blog/mis-blogs">Mis blogs</Link>
                 </Button>
               </PopoverContent>
             </Popover>
