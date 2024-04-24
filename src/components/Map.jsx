@@ -2,8 +2,9 @@
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
+import ServicioMainCard from "./Servicios/ServicioMainCard";
 
-const Map = ({ markers }) => {
+const Map = ({ markers, profesional }) => {
   const custtomIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/128/684/684908.png",
     iconSize: [38, 38],
@@ -24,7 +25,10 @@ const Map = ({ markers }) => {
       {markers.map((e, i) => {
         return (
           <Marker key={i} position={e.position} icon={custtomIcon}>
-            <Popup>{e.popup}</Popup>
+            <Popup>
+              {/* <ServicioMainCard profesional={profesional}/> */}
+              {e.popup}	
+            </Popup>
           </Marker>
         );
       })}

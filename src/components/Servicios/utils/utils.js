@@ -1,10 +1,8 @@
-const profesionalFinder = async (params, data) => {
+const profesionalFinder = async (params) => {
   const url = params.detallesId;
-  const matricula = url.match(/[0-9-]/g).join("");
-  const profesional = await data.profesionales.find(
-    (e) => e.matricula === matricula
-  );
-  return profesional;
+  const profId = url.split("detalles")[1]
+  console.log(url)
+  return;
 };
 
 export default profesionalFinder;
