@@ -3,9 +3,9 @@ import data from "@/components/Tratamientos/data/treatmentsList.json";
 
 const TreatmentsPage = () => {
   return (
-    <div className="container mx-auto w-fit p-4 pb-4">
+    <main className="maw-w-8xl center px-auto pt-16 pb-28">
       <TreatmentCardContainer treats={data.treatments} />
-    </div>
+    </main>
   );
 };
 

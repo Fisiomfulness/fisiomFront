@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="flex justify-center items-center">
+    <main className="center">
       <div role="status">
         <svg
           aria-hidden="true"
@@ -20,6 +20,6 @@ export default function Loading() {
         </svg>
         <span className="sr-only">Cargando...</span>
       </div>
-    </div>
+    </main>
   );
 }

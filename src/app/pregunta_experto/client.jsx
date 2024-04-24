@@ -24,7 +24,7 @@ function PreguntaExpertoClient() {
   }, [comments]);
 
   return (
-    <div className="p-4 w-full max-w-4xl flex flex-col items-center mx-auto gap-4">
+    <main className="p-4 w-full max-w-4xl flex flex-col items-center mx-auto gap-4">
       <Question comments={comments} setComments={setComments} />
       {comments.length > 0 && (
         <button
@@ -50,7 +50,7 @@ function PreguntaExpertoClient() {
           ))
         )}
       </div>
-    </div>
+    </main>
   );
 }
 

@@ -8,7 +8,7 @@ const Recupero = () => {
   const [email, setEmail] = useState("");
 
   return (
-    <div className="center bg-primary-400">
+    <main className="px-auto min-h-screen center bg-primary-400">
       <img
         className="absolute bottom-0 left-0 h-1/2 max-sm:w-2/3 max-sm:h-auto"
         alt="logo_overlay"
@@ -42,7 +42,7 @@ const Recupero = () => {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

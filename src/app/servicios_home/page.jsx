@@ -17,7 +17,7 @@ const links = [
 
 export default function ServiciosHomePage() {
   return (
-    <div className="grid md:grid-cols-3 !p-0 grid-rows-3 md:grid-rows-1">
+    <main className="min-h-screen grid md:grid-cols-3 !p-0 grid-rows-3 md:grid-rows-1">
       {links.map((item) => (
         <Link
           key={item.name}
@@ -36,6 +36,6 @@ export default function ServiciosHomePage() {
           </div>
         </Link>
       ))}
-    </div>
+    </main>
   );
 }

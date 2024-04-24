@@ -5,10 +5,10 @@ import SearchUsers from "./SearchUser";
 import UsersContainer from "./UsersContainer";
 import dynamic from "next/dynamic";
 
-const Map = dynamic(()=> import ("@/components/Map"), {
+const Map = dynamic(() => import("@/components/Map"), {
   loading: () => <p>loading...</p>,
-  ssr: false
-})
+  ssr: false,
+});
 
 const ComunidadClient = ({ users }) => {
   const [usersFiltered, setUsersFiltered] = useState([...users]);
@@ -20,8 +20,8 @@ const ComunidadClient = ({ users }) => {
   ];
 
   return (
-    <div className="w-full min-h-screen mb-10 flex flex-row gap-5 pt-6 md:pr-5 md:pl-5">
-      <div className="w-full flex flex-col items-center gap-10 md:w-1/2 md:max-h-screen">
+    <main className="max-w-8xl mx-auto w-full mb-10 hstack gap-5 px-auto">
+      <div className="w-full flex flex-col items-center gap-10 md:w-1/2">
         <SearchUsers
           usersFiltered={usersFiltered}
           setUsersFiltered={setUsersFiltered}
@@ -29,10 +29,10 @@ const ComunidadClient = ({ users }) => {
         />
         <UsersContainer users={usersFiltered} />
       </div>
-      <div className="hidden md:w-1/2 md:flex h-screen">
+      <div className="hidden md:w-1/2 md:flex">
         <Map markers={markers} />
       </div>
-    </div>
+    </main>
   );
 };
 

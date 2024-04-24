@@ -52,7 +52,7 @@ const TrabajaConNosotrosClient = () => {
   };
 
   return (
-    <div className="p-14 justify-center w-full">
+    <main className="max-w-8xl mx-auto p-14 w-full">
       <div className="flex items-center gap-10">
         <img width="40" src="/logo_simple.webp" alt="logo" />
         <p>
@@ -253,7 +253,7 @@ const TrabajaConNosotrosClient = () => {
           )}
         </div>
       </form>
-    </div>
+    </main>
   );
 };
 

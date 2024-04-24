@@ -1,7 +1,7 @@
-'use client';
-import { useState } from 'react';
-import BlogCards from './BlogCards';
-import BlogAside from './BlogAside';
+"use client";
+import { useState } from "react";
+import BlogCards from "./BlogCards";
+import BlogAside from "./BlogAside";
 
 const CARDS_PER_PAGE = 9;
 
@@ -12,12 +12,18 @@ const BlogSection = ({ data, lastsBlogs }) => {
   const [totalPages, setTotalPages] = useState(data.totalPages);
   const [query, setQuery] = useState({
     limit: CARDS_PER_PAGE,
-    sortBy: 'title',
-    order: 'asc',
+    sortBy: "title",
+    order: "asc",
   });
 
   return (
-    <div className="w-full grid gap-y-7 gap-x-10 py-4 md:py-6 xl:grid-cols-[auto,30%]">
+    <main
+      className={[
+        "max-w-8xl mx-auto px-auto",
+        "grid gap-y-7 gap-x-10",
+        "py-4 md:py-6 xl:grid-cols-[auto,30%]",
+      ].join(" ")}
+    >
       <BlogCards
         blogs={blogs}
         page={page}
@@ -33,7 +39,7 @@ const BlogSection = ({ data, lastsBlogs }) => {
         setTotalPages={setTotalPages}
         setQuery={setQuery}
       />
-    </div>
+    </main>
   );
 };
 

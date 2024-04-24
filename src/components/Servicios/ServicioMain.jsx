@@ -46,7 +46,7 @@ const ServicioMain = ({ data }) => {
   }, [filters]);
 
   return (
-    <div className="flex flex-col w-full m-4">
+    <main className="vstack px-auto mx-auto max-w-8xl w-full">
       <SearchProfesional filters={filters} setFilters={setFilters} />
       <div className="flex w-full min-h-min">
         <ServicioMainContainer profesionales={professionals} />
@@ -54,7 +54,7 @@ const ServicioMain = ({ data }) => {
           <Map markers={markers} />
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 
