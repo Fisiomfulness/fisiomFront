@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { FaBullseye } from "react-icons/fa";
 import { UserContext } from "@/context/User";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 const StarRatings = dynamic(() => import("react-star-ratings"), {
   ssr: false,
@@ -35,9 +36,10 @@ const ServicioDetallesCommentBox = ({ profesional }) => {
         _profesional: profesional._id,
         _user: user.id,
       });
+      toast.success("Gracias por tu valoración!");
       router.refresh();
     } catch (error) {
-      console.log(error.message); // TODO: move to toast
+      toast.error("Oops! Vuelva a intentarlo");
       setLoading(false);
     }
   };
