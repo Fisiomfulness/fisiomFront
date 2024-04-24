@@ -28,14 +28,14 @@ const blogSchema = Yup.object({
 });
 
 // ! TODO: HARDCODED... CHANGE THIS FOR REAL SESSION ID LATER.
-const userId = '661c010429f18ef908538975';
+const sessionId = '6621996c532167844b1923a5';
 
 const CreationForm = ({ types }) => {
   const editorRef = useRef(null);
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      await createBlog({ ...values, user_id: userId });
+      await createBlog({ ...values, professional_id: sessionId });
       // * Clears content of editor from tiptap
       if (editorRef) editorRef.current?.commands.clearContent(true);
       resetForm();
