@@ -1,3 +1,4 @@
+// @ts-check
 "use client";
 
 import {
@@ -9,11 +10,10 @@ import {
   NavbarMenuToggle,
   NavbarMenuItem,
 } from "@nextui-org/react";
-import LoginDropDown from "./LoginDropDown";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
-import { CustomButton } from "@/features/ui";
+import { useContext, useState } from "react";
+import { CustomButton, DropdownUser } from "@/features/ui";
 import { UserContext } from "@/context/User";
 
 const menuItems = [
@@ -26,6 +26,15 @@ const menuItems = [
   { name: "Productos", href: "/productos" },
 ];
 
+/**
+ * @param {{
+ *   item: {
+ *     name: string,
+ *     href: string
+ *   },
+ *   onClick?: () => void
+ * }} props
+ */
 function NavbarLink({ item, onClick }) {
   return (
     <Link
@@ -98,9 +107,13 @@ export default function Nav() {
       <NavbarContent justify="end" className="max-lg:!flex-grow-0">
         <NavbarItem>
           {user ? (
-            <LoginDropDown />
+            <DropdownUser />
           ) : (
-            <CustomButton as={Link} href="/login">
+            <CustomButton
+              as={Link}
+              // onClick={() => setUser(true)}
+              href="/login"
+            >
               Login
             </CustomButton>
           )}

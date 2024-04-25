@@ -4,5 +4,7 @@ export const apiEndpoints = {
     productsDetail: baseUrl + "products/detail/",
     categories: baseUrl + "category/",
     professionals: baseUrl + "professionals/",
+    professionalsDetail: baseUrl + "professionals/detail/",
+    professionalScore: baseUrl + "profesional_score/",
     specialties: baseUrl + "specialty/",
 }
