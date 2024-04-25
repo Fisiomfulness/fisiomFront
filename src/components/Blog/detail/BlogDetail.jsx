@@ -13,7 +13,7 @@ const BlogDetail = ({ data, iniComments, totalComments }) => {
   const [comments, setComments] = useState(iniComments);
 
   return (
-    <div className="grid grid-rows-[max-content,auto] gap-3 items-stretch m-4 md:mx-0 lg:grid-rows-none lg:grid-cols-[20%,auto] lg:gap-10">
+    <div className="size-full grid grid-rows-[max-content,auto] gap-3 items-stretch lg:grid-rows-none lg:grid-cols-[20%,auto] lg:gap-10">
       <Image
         src={data.image}
         alt="Blog picture"

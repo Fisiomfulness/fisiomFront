@@ -5,7 +5,7 @@ import { Pagination, Spinner } from '@nextui-org/react';
 import InfoCard from './InfoCard';
 
 // ! TODO: Change for session id [professional | context]
-const sessionId = '6621996c532167844b1923a5';
+const sessionId = '662a6a6d5b6db4c8ed71ba5d';
 
 const CARDS_PER_PAGE = 6;
 

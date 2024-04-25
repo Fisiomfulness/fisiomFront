@@ -8,6 +8,12 @@ import Tiptap from '@/components/Tiptap';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 
+const countHtmlCharacters = (htmlString) => {
+  // ? Tag <br> count like a character like tiptap
+  const text = htmlString.replace(/<br\s*\/?>/g, ' ').replace(/<[^>]+>/g, '');
+  return text.length;
+}
+
 const initialValues = {
   title: '',
   text: '',
@@ -20,7 +26,13 @@ const blogSchema = Yup.object({
     .required('Requerido')
     .min(3, 'Al menos 3 caracteres')
     .max(100, 'No mas de 100 caracteres'),
-  text: Yup.string().required('Requerido').min(300, 'Mínimo: 300 caracteres'),
+  text: Yup.string()
+    .required('Requerido')
+    .test(
+      'len',
+      'Mínimo: 300 caracteres',
+      (value) => value && countHtmlCharacters(value) >= 300
+    ),
   type_id: Yup.string().required('Seleccione el tipo de blog'),
   image: Yup.string()
     .required('Adjunte una imagen')
@@ -28,7 +40,7 @@ const blogSchema = Yup.object({
 });
 
 // ! TODO: HARDCODED... CHANGE THIS FOR REAL SESSION ID LATER.
-const sessionId = '6621996c532167844b1923a5';
+const sessionId = '662a6a6d5b6db4c8ed71ba5d';
 
 const CreationForm = ({ types }) => {
   const editorRef = useRef(null);

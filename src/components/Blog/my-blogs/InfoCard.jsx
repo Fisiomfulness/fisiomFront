@@ -28,7 +28,7 @@ const InfoCard = ({ blog }) => {
             {dateFormatter(blog.createdDate, false)}
           </span>
           <span className="rounded-full bg-secondary-300 text-gray-100 px-3 py-1 text-xs font-medium">
-            Personal
+            {blog.type.name}
           </span>
         </div>
 
