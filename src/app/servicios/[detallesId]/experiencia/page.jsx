@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { apiEndpoints } from "@/api_endpoints";
 import ServicioExperienciaCard from "@/components/Servicios/ServicioExperienciaCard";
 
-
-const ServicioExperiencia = async ({ params }) => {
+const ServicioExperiencia = ({ params }) => {
   const profesionalId = params.detallesId;
   const [profesional, setProfesional] = useState({});
 
@@ -26,7 +25,7 @@ const ServicioExperiencia = async ({ params }) => {
   }, [profesionalId]);
 
   return (
-    <div>
+    <div className="w-full">
       <ServicioExperienciaCard experiencia={profesional.experience} />
     </div>
   );

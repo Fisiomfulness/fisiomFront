@@ -35,7 +35,7 @@ const ServicioMain = () => {
         params: {
           search: filters.search,
           specialtyId: filters.specialtyId,
-          page: page
+          page: page,
         },
       })
       .then(({ data }) => {
@@ -51,7 +51,11 @@ const ServicioMain = () => {
 
   return (
     <main className="vstack px-auto mx-auto max-w-8xl w-full mb-4">
-      <SearchProfesional filters={filters} setFilters={setFilters} setPage={setPage} />
+      <SearchProfesional
+        filters={filters}
+        setFilters={setFilters}
+        setPage={setPage}
+      />
       <div className="flex w-full min-h-min justify-between">
         <div className="w-full flex flex-col gap-2 items-center">
           <ServicioMainContainer profesionales={professionals} />
@@ -60,7 +64,7 @@ const ServicioMain = () => {
           </div>
         </div>
         <div className="min-h-[900px] w-full">
-          <Map markers={markers} profesional={professionals[0]} />
+          <Map markers={markers} profesionales={professionals} />
         </div>
       </div>
     </main>
