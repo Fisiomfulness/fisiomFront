@@ -50,7 +50,7 @@ const ServicioMainCard = ({ profesional }) => {
                   <div className="w-full"></div>
                   <div className="pl-2">
                     <StarRatings
-                      rating={profesional.avgScore}
+                      rating={profesional.averageScore.average}
                       starRatedColor="#ffb829"
                       numberOfStars={5}
                       starDimension="14px"

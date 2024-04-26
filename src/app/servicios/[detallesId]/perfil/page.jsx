@@ -32,9 +32,7 @@ const ServicioDetalles = ({ params }) => {
     <div>
       <ServicioProfesionalCard profesional={profesional} />
       {user ? <ServicioDetallesCommentBox profesional={profesional} /> : null}
-      <ServicioProfesionalComentarios
-        comentarios={profesional.profesionalScore}
-      />
+      <ServicioProfesionalComentarios profesionalId={profesionalId} />
     </div>
   );
 };

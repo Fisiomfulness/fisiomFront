@@ -1,49 +1,33 @@
 "use client";
-import { Accordion, AccordionItem, Avatar } from "@nextui-org/react";
-import ServicioReportComentario from "./ServicioReportComentario";
-import dynamic from "next/dynamic";
-const StarRatings = dynamic(() => import("react-star-ratings"), {
-  ssr: false,
-});
+import axios from "axios";
+import { apiEndpoints } from "@/api_endpoints";
+import { useState, useEffect } from "react";
+import ProfessionalComment from "./ProfessionalComment";
 
-const ServicioProfesionalComentarios = ({ comentarios }) => {
-  
-  const indexes = comentarios?.map((_, index) => String(index));
+const ServicioProfesionalComentarios = ({ profesionalId }) => {
+  const [comentarios, setComentarios] = useState([]);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    axios
+      .get(apiEndpoints.professionalScore + profesionalId, {
+        signal: abortController.signal,
+      })
+      .then(({ data }) => {
+        setComentarios(data.findProfesional.professionalScore);
+      })
+      .catch((err) => {
+        if (err.name === "CanceledError") return;
+        throw err;
+      });
+    return () => abortController.abort();
+  }, [profesionalId]);
 
   return (
-    <div className="m-2">
-      { <Accordion selectionMode="multiple" defaultExpandedKeys={indexes}>
-        {comentarios?.map((comentario, index) => (
-          <AccordionItem
-            key={index}
-            aria-label={comentario.name}
-            startContent={
-              <Avatar
-                isBordered
-                color="primary"
-                radius="lg"
-                src={comentario.avatarSrc}
-              />
-            }
-            title={comentario.name}
-            subtitle={
-              <StarRatings
-                rating={comentario.score}
-                starRatedColor="#ffb829"
-                numberOfStars={5}
-                starDimension="20px"
-                starSpacing="2px"
-                name="rating"
-              />
-            }
-          >
-            <div className="flex justify-between">
-              {comentario.description}
-              <ServicioReportComentario />
-            </div>
-          </AccordionItem>
-        ))}
-      </Accordion> }
+    <div className="m-2 flex flex-col gap-2">
+      {comentarios?.map((comentario) => (
+        <ProfessionalComment key={comentario._id} comment={comentario} />
+      ))}
     </div>
   );
 };
