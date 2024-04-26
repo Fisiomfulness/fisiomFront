@@ -17,7 +17,7 @@ const SearchProfesional = ({ filters, setFilters, setPage }) => {
         signal: abortController.signal,
       })
       .then(({ data }) => {
-        setSpecialties(data);
+        setSpecialties(data.results);
       })
       .catch((err) => {
         if (err.name === "CanceledError") return;
