@@ -20,7 +20,7 @@ const commentSchema = Yup.object({
 });
 
 // ! TODO: DB ID HARDCODED. CHANGE FOR THE ACTUAL SESSION ID
-const userId = '661df9cf4d019890d80057ac';
+const userId = '662a711a5b6db4c8ed71ba73';
 
 const CommentForm = ({ blogId, setComments }) => {
   const handleSubmit = async (values, { resetForm }) => {
