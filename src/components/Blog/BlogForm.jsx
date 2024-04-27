@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Select, SelectItem, Image } from '@nextui-org/react';
 import { CldUploadWidget } from 'next-cloudinary';
-import { createBlog } from '@/services/blogs';
+import { createBlog, updateBlog } from '@/services/blogs';
 import Tiptap from '@/components/Tiptap';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
@@ -12,9 +12,9 @@ const countHtmlCharacters = (htmlString) => {
   // ? Tag <br> count like a character like tiptap
   const text = htmlString.replace(/<br\s*\/?>/g, ' ').replace(/<[^>]+>/g, '');
   return text.length;
-}
+};
 
-const initialValues = {
+const emptyValues = {
   title: '',
   text: '',
   type_id: '',
@@ -42,10 +42,15 @@ const blogSchema = Yup.object({
 // ! TODO: HARDCODED... CHANGE THIS FOR REAL SESSION ID LATER.
 const sessionId = '662a6a6d5b6db4c8ed71ba5d';
 
-const CreationForm = ({ types }) => {
+const BlogForm = ({
+  handleUpdate,
+  types,
+  initialValues = emptyValues,
+  mode = 'create',
+}) => {
   const editorRef = useRef(null);
 
-  const handleSubmit = async (values, { resetForm }) => {
+  const handleCreate = async (values, resetForm) => {
     try {
       await createBlog({ ...values, professional_id: sessionId });
       // * Clears content of editor from tiptap
@@ -61,15 +66,19 @@ const CreationForm = ({ types }) => {
     <Formik
       initialValues={initialValues}
       validationSchema={blogSchema}
-      onSubmit={handleSubmit}
-      className="space-y-6"
+      onSubmit={(values, { resetForm }) => {
+        mode === 'create'
+          ? handleCreate(values, resetForm)
+          : handleUpdate('update', values);
+      }}
+      className="space-y-6 max-h-full overflow-hidden"
     >
       {({ setFieldValue, values, errors, isSubmitting }) => (
-        <Form className="flex flex-col gap-3">
+        <Form className="flex flex-col gap-3 overflow-y-auto h-full">
           <div>
             <Select
               size="md"
-              aria-label="blog-type"
+              aria-label="tipo de blog"
               selectedKeys={[values.type_id]}
               label="Tipo de blog"
               name="type_id"
@@ -78,8 +87,8 @@ const CreationForm = ({ types }) => {
                 trigger: 'bg-gray-100 border border-gray-300',
               }}
             >
-              {types.map((type) => (
-                <SelectItem key={type._id} value={type.name}>
+              {types?.map((type) => (
+                <SelectItem key={type._id} value={type._id}>
                   {type.name}
                 </SelectItem>
               ))}
@@ -159,6 +168,7 @@ const CreationForm = ({ types }) => {
               {({ open }) => {
                 return (
                   <button
+                    type="button"
                     className="bg-primary-600 rounded-md min-w-fit w-full max-w-48 px-3 py-2 text-white"
                     onClick={() => open()}
                   >
@@ -182,10 +192,10 @@ const CreationForm = ({ types }) => {
 
           <Button
             isDisabled={isSubmitting || Object.keys(errors).length > 0}
-            className="w-full inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-500 border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-200"
+            className="mt-auto w-full inline-flex items-center p-5 text-sm font-medium text-white bg-primary-500 border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-200"
             type="submit"
           >
-            Publicar
+            {mode === 'create' ? 'Publicar' : 'Actualizar'}
           </Button>
         </Form>
       )}
@@ -193,4 +203,4 @@ const CreationForm = ({ types }) => {
   );
 };
 
-export default CreationForm;
+export default BlogForm;

@@ -9,7 +9,13 @@ const StarRatings = dynamic(() => import('react-star-ratings'), {
   ssr: false,
 });
 
-const InfoCard = ({ blog }) => {
+const InfoCard = ({
+  blog,
+  setEditIniValues,
+  setEditModalOpen,
+  setConfirmModalOpen,
+  setBlogIdToHandle,
+}) => {
   const router = useRouter();
   return (
     <Card className="group bg-secondary-50/60 w-full max-w-[400px] grid grid-rows-2 rounded-lg shadow-lg overflow-hidden hover:shadow-xl">
@@ -51,16 +57,29 @@ const InfoCard = ({ blog }) => {
           </div>
           <div className="flex items-center gap-2 text-sm text-secondary-400 ">
             <MdOutlineComment className="h-5 w-5" />
-            <span className="text-sm">24</span>
+            <span className="text-sm">{blog.activeComments}</span>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <Button className="flex text-primary-800 items-center gap-1 rounded-md bg-primary-50 border-2 border-primary-100 hover:bg-primary-950 hover:text-white">
+          <Button
+            className="flex text-primary-800 items-center gap-1 rounded-md bg-primary-50 border-2 border-primary-100 hover:bg-primary-950 hover:text-white"
+            onClick={() => {
+              setEditIniValues({...blog, type_id: blog.type._id});
+              setBlogIdToHandle(blog._id);
+              setEditModalOpen(true);
+            }}
+          >
             <FiEdit />
             <span>Editar</span>
           </Button>
-          <Button className="flex text-danger-500 items-center gap-1 rounded-md bg-primary-50 border-2 border-primary-100 hover:bg-danger-500 hover:text-white">
+          <Button
+            className="flex text-danger-500 items-center gap-1 rounded-md bg-primary-50 border-2 border-primary-100 hover:bg-danger-500 hover:text-white"
+            onClick={() => {
+              setBlogIdToHandle(blog._id);
+              setConfirmModalOpen(true);
+            }}
+          >
             <FaRegTrashAlt />
             <span>Eliminar</span>
           </Button>
