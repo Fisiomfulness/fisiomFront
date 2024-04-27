@@ -14,6 +14,7 @@ import useSWRImmutable from "swr/immutable";
 
 /**
  * @typedef {{_id: string; name: string}} Specialty
+ * @typedef {{count: number, results: Specialty[]}} SpecialtyResponse
  */
 
 /**
@@ -65,11 +66,13 @@ const fetcher = (url) =>
   fetch(`http://localhost:3000${url}`).then((r) => r.json());
 
 const CitaDomiciliaria = () => {
-  /** @type {import("swr").SWRResponse<Specialty[]>} */
+  /** @type {import("swr").SWRResponse<SpecialtyResponse>} */
   const { data } = useSWRImmutable("/specialty", fetcher, {
     shouldRetryOnError: false,
   });
-  const specialties = data ?? [{ _id: "1", name: "..." }];
+  const specialties = data?.results.length
+    ? data.results
+    : [{ _id: "1", name: "..." }];
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">
@@ -95,11 +98,13 @@ const CitaDomiciliaria = () => {
 };
 
 const CitaOnline = () => {
-  /** @type {import("swr").SWRResponse<Specialty[]>} */
+  /** @type {import("swr").SWRResponse<SpecialtyResponse>} */
   const { data } = useSWRImmutable("/specialty", fetcher, {
     shouldRetryOnError: false,
   });
-  const specialties = data ?? [{ _id: "1", name: "..." }];
+  const specialties = data?.results.length
+    ? data.results
+    : [{ _id: "1", name: "..." }];
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">
