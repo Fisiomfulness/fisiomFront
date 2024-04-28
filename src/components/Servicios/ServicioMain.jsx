@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import useGeolocation from "@/hooks/useGeolocation";
 import ServicioMainContainer from "./ServicioMainContainer";
 import SearchProfesional from "./SearchProfesional/SearchProfesional";
 import dynamic from "next/dynamic";
@@ -12,42 +13,43 @@ const Map = dynamic(() => import("@/components/Map"), {
   ssr: false,
 });
 
-const markers = [
-  { position: [51.505, -0.09], popup: "Profesional 1" },
-  { position: [51.504, -0.06], popup: "Profesional 2" },
-  { position: [51.5, -0.11], popup: "Profesional 3" },
-];
-
 const ServicioMain = () => {
+  const userCoords = useGeolocation({
+    defaultLocation: [-12.057822374374036, -77.06708360541617],
+  });
   const [professionals, setProfessionals] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState({
     search: "",
     specialtyId: "",
+    pos: "",
   });
 
   useEffect(() => {
     const abortController = new AbortController();
-    axios
-      .get(apiEndpoints.professionals, {
-        signal: abortController.signal,
-        params: {
-          search: filters.search,
-          specialtyId: filters.specialtyId,
-          page: page,
-        },
-      })
-      .then(({ data }) => {
-        setProfessionals(data.professionals);
-        setTotalPages(data.totalPages);
-      })
-      .catch((err) => {
-        if (err.name === "CanceledError") return;
-        throw err;
-      });
+    if (userCoords[0] !== 0) {
+      axios
+        .get(apiEndpoints.professionals, {
+          signal: abortController.signal,
+          params: {
+            search: filters.search,
+            specialtyId: filters.specialtyId,
+            pos: userCoords.join(","),
+            page: page,
+          },
+        })
+        .then(({ data }) => {
+          setProfessionals(data.professionals);
+          setTotalPages(data.totalPages);
+        })
+        .catch((err) => {
+          if (err.name === "CanceledError") return;
+          throw err;
+        });
+    }
     return () => abortController.abort();
-  }, [filters, page]);
+  }, [filters, page, userCoords]);
 
   return (
     <main className="vstack px-auto mx-auto max-w-8xl w-full mb-4">
@@ -64,7 +66,7 @@ const ServicioMain = () => {
           </div>
         </div>
         <div className="min-h-[900px] w-full">
-          <Map markers={markers} profesionales={professionals} />
+          <Map profesionales={professionals} userCoords={userCoords} />
         </div>
       </div>
     </main>
