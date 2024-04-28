@@ -1,7 +1,7 @@
-import { useRouter } from "next/navigation";
-import { Pagination, Card, CardHeader, Image } from "@nextui-org/react";
-import { getBlogs } from "@/services/blogs";
-import { stripHTMLTags } from "@/utils/helpers";
+import { useRouter } from 'next/navigation';
+import { Pagination, Card, CardHeader, Image } from '@nextui-org/react';
+import { getBlogs } from '@/services/blogs';
+import { stripHTMLTags } from '@/utils/helpers';
 
 export default function BlogCards({
   blogs,
@@ -21,10 +21,10 @@ export default function BlogCards({
   };
 
   return (
-    <div className="w-full flex flex-col items-center gap-5">
+    <div className="size-full flex flex-col items-center gap-5">
       {blogs.length > 0 ? (
         <>
-          <div className="xl:h-[1020px] size-fit gap-x-6 gap-y-8 grid sm:grid-cols-2 md:grid-cols-3">
+          <div className="size-fit gap-x-6 gap-y-8 grid sm:grid-cols-2 md:grid-cols-3">
             {blogs.map((blog) => (
               <Card
                 key={blog._id}
@@ -56,11 +56,11 @@ export default function BlogCards({
             initialPage={1}
             page={page}
             onChange={handleChange}
-            className="w-full flex justify-center"
+            className="w-full flex justify-center mt-auto"
           />
         </>
       ) : (
-        <h3 className="m-auto">No results</h3>
+        <h3 className="m-auto">Sin resultados</h3>
       )}
     </div>
   );
