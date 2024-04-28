@@ -12,6 +12,7 @@ const selectItems = [
 ];
 
 export default function BlogAside({
+  cardsPerPage,
   lastsBlogs,
   setBlogs,
   setPage,
@@ -32,7 +33,7 @@ export default function BlogAside({
   useEffect(() => {
     const filterQuery = {
       page: 1,
-      limit: 9, // * Cards per page
+      limit: cardsPerPage,
       search: debouncedSearch,
       sortBy: sortOrder !== 'default' ? 'avg_rating' : 'title',
       order: sortOrder === 'highest' ? 'desc' : 'asc',
@@ -46,7 +47,7 @@ export default function BlogAside({
   }, [debouncedSearch, sortOrder]);
 
   return (
-    <aside className="w-full overflow-hidden flex flex-col py-12 bg-[#D8EEF8] px-4 sm:px-6 ml-0 xl:max-h-[1200px]">
+    <aside className="w-full overflow-hidden grid grid-cols-1 grid-rows-[max-content,max-content,auto] py-12 bg-[#D8EEF8] px-4 sm:px-6 ml-0 xl:max-h-[1200px]">
       <Input
         classNames={{
           base: 'w-full h-10',
@@ -80,19 +81,21 @@ export default function BlogAside({
         ))}
       </Select>
 
-      <h4 className="mt-10 mb-4">Últimas publicaciones</h4>
-      <div className="flex flex-col gap-5 overflow-y-auto overflow-x-hidden xl:h-max xl:max-h-[40rem] sm:items-start p-0">
-        {lastsBlogs?.length > 0 ? (
-          <>
-            {lastsBlogs.map((blog) => (
-              <Publication key={blog._id} data={blog} />
-            ))}
-          </>
-        ) : (
-          <h1 className="text-sm text-secondary-400 justify-self-center">
-            No hay publicaciones
-          </h1>
-        )}
+      <div className="flex flex-col mt-10 gap-4 overflow-hidden">
+        <h4>Últimas publicaciones</h4>
+        <div className="flex flex-col gap-5 overflow-y-auto overflow-x-hidden xl:h-max xl:max-h-[40rem] sm:items-start p-0">
+          {lastsBlogs?.length > 0 ? (
+            <>
+              {lastsBlogs.map((blog) => (
+                <Publication key={blog._id} data={blog} />
+              ))}
+            </>
+          ) : (
+            <h1 className="text-sm text-secondary-400 justify-self-center">
+              No hay publicaciones
+            </h1>
+          )}
+        </div>
       </div>
     </aside>
   );
