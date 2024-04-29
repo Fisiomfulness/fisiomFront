@@ -7,13 +7,11 @@ import {
   updateBlog,
 } from '@/services/blogs';
 import { Pagination, Spinner } from '@nextui-org/react';
+import { useUser } from '@/hooks/useUser';
 import InfoCard from './InfoCard';
 import EditBlogModal from './EditBlogModal';
 import ConfirmModal from './ConfirmModal';
 import toast from 'react-hot-toast';
-
-// ! TODO: Change for session id [professional | context]
-const sessionId = '662a6a6d5b6db4c8ed71ba5d';
 
 const initialValues = {
   title: '',
@@ -25,6 +23,7 @@ const initialValues = {
 const CARDS_PER_PAGE = 6;
 
 const MyBlogs = ({ types }) => {
+  const { user } = useUser();
   const [isLoading, setIsLoading] = useState(true);
   const [myBlogs, setMyBlogs] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -37,7 +36,7 @@ const MyBlogs = ({ types }) => {
 
   const fetchBlogs = (page = 1) => {
     setIsLoading(true);
-    getProfessionalBlogs(sessionId, { limit: CARDS_PER_PAGE, page })
+    getProfessionalBlogs(user?.userId, { limit: CARDS_PER_PAGE, page })
       .then((res) => {
         setMyBlogs(res.blogs);
         setPage(res.page);

@@ -1,5 +1,6 @@
 'use client';
 import { useRef } from 'react';
+import { useUser } from '@/hooks/useUser';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Select, SelectItem, Image } from '@nextui-org/react';
 import { CldUploadWidget } from 'next-cloudinary';
@@ -39,20 +40,18 @@ const blogSchema = Yup.object({
     .url('No es una url valida'),
 });
 
-// ! TODO: HARDCODED... CHANGE THIS FOR REAL SESSION ID LATER.
-const sessionId = '662a6a6d5b6db4c8ed71ba5d';
-
 const BlogForm = ({
   handleUpdate,
   types,
   initialValues = emptyValues,
   mode = 'create',
 }) => {
+  const { user } = useUser();
   const editorRef = useRef(null);
 
   const handleCreate = async (values, resetForm) => {
     try {
-      await createBlog({ ...values, professional_id: sessionId });
+      await createBlog({ ...values, professional_id: user?.userId });
       // * Clears content of editor from tiptap
       if (editorRef) editorRef.current?.commands.clearContent(true);
       resetForm();
