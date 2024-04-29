@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { serverSideVerify } from './services/auth';
 import { isDynamicIdPath } from './utils/helpers';
+import roles from './utils/roles';
 import {
   signRoutes,
   adminRoutes,
@@ -9,13 +10,6 @@ import {
   userRoutes,
   superAdminRoutes,
 } from './utils/routes';
-
-const roles = {
-  USER: 'user',
-  PROFESSIONAL: 'professional',
-  ADMIN: 'admin',
-  SUPER_ADMIN: 'super_admin',
-};
 
 const roleRoutes = {
   [roles.USER]: userRoutes,
