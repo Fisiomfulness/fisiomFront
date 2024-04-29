@@ -13,40 +13,35 @@ import {
   DropdownSection,
 } from "@nextui-org/react";
 import { FaChevronLeft } from "react-icons/fa";
+import { useUser } from "@/hooks/useUser";
 import Link from "next/link";
-import { useContext } from "react";
-import { UserContext } from "@/context/User";
 
 const items = [
+  { key: "/edit_profile", label: "Editar perfil" },
   {
     key: "root_mis_servicios",
     label: "Mis servicios",
     root: true,
     children: [
-      { key: "pacientes", label: "Pacientes" },
-      { key: "calendario", label: "Calendario" },
+      { key: "/pacientes", label: "Pacientes" },
+      { key: "/calendario", label: "Calendario" },
     ],
   },
-  { key: "edit_profile", label: "Editar perfil" },
+  { key: "/mis_compras", label: "Mis compras" },
+  { key: "/mis_mensajes", label: "Mis mensajes" },
   {
     key: "root_blog",
     label: "Blog",
     root: true,
     children: [
-      { key: "blog/crear", label: "Crear blog" },
-      { key: "blog", label: "Mis blogs" },
+      { key: "/blog/crear", label: "Crear blog" },
+      { key: "/blog/mis-blogs", label: "Mis blogs" },
     ],
   },
-  { key: "mis_compras", label: "Mis compras" },
-  { key: "mis_mensajes", label: "Mis mensajes" },
 ];
 
 export default function DropdownUser() {
-  const { setUser } = useContext(UserContext);
-
-  const handleClickLogout = () => {
-    setUser(false);
-  };
+  const { logout } = useUser();
 
   return (
     <Dropdown
@@ -84,8 +79,9 @@ export default function DropdownUser() {
                 <Popover
                   radius="sm"
                   showArrow
-                  placement="right"
-                  classNames={{ content: "!px-1" }}
+                  shouldFlip
+                  placement="left"
+                  classNames={{ content: "!px-1"}}
                 >
                   <PopoverTrigger>
                     <div className="relative">
@@ -117,7 +113,7 @@ export default function DropdownUser() {
           )}
         </DropdownSection>
         <DropdownSection className="!m-0">
-          <DropdownItem key="cerrar_sesion" onClick={handleClickLogout}>
+          <DropdownItem key="cerrar_sesion" onClick={logout}>
             Cerrar sesion
           </DropdownItem>
         </DropdownSection>

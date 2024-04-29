@@ -30,6 +30,7 @@ export const getProfessionalBlogs = async (
 
   const res = await fetch(`${BASE_URL}/blogs/${professionalId}${query}`, {
     method: 'GET',
+    credentials: 'include',
     next: { revalidate: 60 },
   });
   if (!res.ok) throw new Error('Error fetching blogs');
@@ -49,6 +50,7 @@ export const getBlogDetail = async (blogId) => {
 export const createBlog = async (newBlog) => {
   const res = await fetch(`${BASE_URL}/blogs/create`, {
     method: 'POST',
+    credentials: 'include',
     body: JSON.stringify(newBlog),
     headers: { 'Content-Type': 'application/json' },
   });
@@ -59,6 +61,7 @@ export const createBlog = async (newBlog) => {
 export const updateBlog = async (blogId, updatedValues) => {
   const res = await fetch(`${BASE_URL}/blogs/update/${blogId}`, {
     method: 'PUT',
+    credentials: 'include',
     body: JSON.stringify(updatedValues),
     headers: { 'Content-Type': 'application/json' },
   });
@@ -70,6 +73,7 @@ export const updateBlog = async (blogId, updatedValues) => {
 export const deleteBlog = async (blogId) => {
   const res = await fetch(`${BASE_URL}/blogs/status/${blogId}`, {
     method: 'PATCH',
+    credentials: 'include',
     body: JSON.stringify({ status: false }),
     headers: { 'Content-Type': 'application/json' },
   });

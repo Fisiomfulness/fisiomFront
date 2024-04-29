@@ -12,10 +12,10 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { CustomButton, DropdownUser } from "@/features/ui";
-import { UserContext } from "@/context/User";
 import { CarritoModal } from "@/features/carrito";
+import { useUser } from "@/hooks/useUser";
 
 const menuItems = [
   { name: "Servicios", href: "/servicios" },
@@ -51,10 +51,7 @@ function NavbarLink({ item, onClick }) {
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const {
-    user,
-    // setUser,
-  } = useContext(UserContext);
+  const { user } = useUser();
 
   const path = usePathname();
 
@@ -119,7 +116,6 @@ export default function Nav() {
             <CustomButton
               as={Link}
               href="/login"
-              // onClick={() => setUser(true)}
             >
               Login
             </CustomButton>

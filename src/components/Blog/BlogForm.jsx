@@ -58,7 +58,7 @@ const BlogForm = ({
       resetForm();
       toast.success('Blog creado correctamente!');
     } catch (error) {
-      toast.error('Oops! Vuelva a intentarlo');
+      toast.error('Oops! Vuelva a intentarlo mas tarde...');
     }
   };
 

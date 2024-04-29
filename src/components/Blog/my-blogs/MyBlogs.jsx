@@ -59,7 +59,7 @@ const MyBlogs = ({ types }) => {
       await fetchBlogs();
       toast.success(`Blog ${option === 'update' ? 'actualizado' : 'eliminado'} correctamente`);
     } catch (error) {
-      toast.success('Oops! vuelva a intentarlo mas tarde...');
+      toast.error('Oops! vuelva a intentarlo mas tarde...');
     }
   };
 
