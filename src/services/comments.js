@@ -3,6 +3,7 @@ import { BASE_URL } from '@/utils/api';
 export const createComment = async (newComment) => {
   const res = await fetch(`${BASE_URL}/comments/create`, {
     method: 'POST',
+    credentials: 'include',
     body: JSON.stringify(newComment),
     headers: { 'Content-Type': 'application/json' },
   });

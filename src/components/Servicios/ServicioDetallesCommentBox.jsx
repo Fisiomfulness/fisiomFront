@@ -2,10 +2,10 @@
 import axios from "axios";
 import { apiEndpoints } from "@/api_endpoints";
 import { Input, Chip, Button } from "@nextui-org/react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import { FaBullseye } from "react-icons/fa";
-import { UserContext } from "@/context/User";
+import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
@@ -15,7 +15,7 @@ const StarRatings = dynamic(() => import("react-star-ratings"), {
 
 const ServicioDetallesCommentBox = ({ profesional }) => {
   const router = useRouter();
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
   const [rating, setRating] = useState(0);
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");

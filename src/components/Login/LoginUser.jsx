@@ -1,34 +1,31 @@
-import { useContext } from "react";
-import { ErrorMessage, Field, Formik, Form } from "formik";
-import { Button } from "@nextui-org/react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import * as Yup from "yup";
+import { ErrorMessage, Field, Formik, Form } from 'formik';
+import { Button } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@/hooks/useUser';
+import { login } from '@/services/users';
 
-import { login } from "@/services/login";
-import { UserContext } from "@/context/User";
+import Link from 'next/link';
+import * as Yup from 'yup';
 
 const initialValues = {
-  email: "",
-  password: "",
+  email: '',
+  password: '',
 };
 
 const userSchemaValidation = Yup.object({
-  email: Yup.string().required("requerido").email("No es un email"),
-  password: Yup.string().required("requerido"),
+  email: Yup.string().required('requerido').email('No es un email'),
+  password: Yup.string().required('requerido'),
 });
 
 const LoginUser = () => {
   const router = useRouter();
-  const { setUser, user } = useContext(UserContext);
+  const { setUser, user } = useUser();
 
   const handleLogin = async (values) => {
     const response = await login(values);
-
     if (response) {
-      localStorage.setItem("token", response.data.token);
       setUser(response.data);
-      router.push("/");
+      router.push('/');
     }
   };
 
@@ -42,13 +39,13 @@ const LoginUser = () => {
         <Form className="flex flex-col gap-3">
           <div className="flex flex-col gap-1">
             <label className="font-sans" htmlFor="email">
-              email
+              Email
             </label>
             <Field
               className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
               name="email"
               type="email"
-              placeholder="email"
+              placeholder="example@mail.com"
             />
             <ErrorMessage
               name="email"
@@ -59,13 +56,12 @@ const LoginUser = () => {
 
           <div className="flex flex-col gap-1">
             <label className="font-sans" htmlFor="password">
-              password
+              Contraseña
             </label>
             <Field
               className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
               name="password"
               type="password"
-              placeholder="password"
             />
             <ErrorMessage
               name="password"
@@ -79,7 +75,7 @@ const LoginUser = () => {
             type="submit"
             isDisabled={isSubmitting || Object.keys(errors).length > 0}
           >
-            Logearse
+            Ingresar
           </Button>
 
           <div className="flex flex-row justify-center items-center gap-4 mt-8">

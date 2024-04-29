@@ -90,7 +90,7 @@ function RegisterProfesional({ Condicions }) {
               className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
               name="name"
               type="String"
-              placeholder="Nombre"
+              placeholder="nombre"
             />
             <ErrorMessage
               name="name"
@@ -104,7 +104,7 @@ function RegisterProfesional({ Condicions }) {
               className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
               name="phone"
               type="string"
-              placeholder="Telefono"
+              placeholder="telefono"
             />
             <ErrorMessage
               name="phone"
@@ -180,7 +180,7 @@ function RegisterProfesional({ Condicions }) {
               className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
               name="repitPass"
               type="password"
-              placeholder="Repita la contraseñ"
+              placeholder="repita la contraseña"
             />
             <ErrorMessage
               name="repitPass"
@@ -194,7 +194,7 @@ function RegisterProfesional({ Condicions }) {
               className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
               name="license"
               type="string"
-              placeholder="license"
+              placeholder="licencia"
             />
             <ErrorMessage
               name="license"
@@ -232,7 +232,7 @@ function RegisterProfesional({ Condicions }) {
           </div>
 
           <Button className="bg-primary-500 text-white font-sans" type="submit">
-            Logearse
+            Registrarse
           </Button>
 
           <div className="flex flex-row justify-center items-center gap-4 mt-8">
