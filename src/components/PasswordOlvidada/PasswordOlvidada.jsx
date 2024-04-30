@@ -3,9 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { CustomButton, CustomInput, CustomLogo } from "@/features/ui";
+import { sendEmail } from "@/services/recoveryAcount";
 
-const Recupero = () => {
+const PasswordOLvidada = () => {
   const [email, setEmail] = useState("");
+
+  const handleSend = () => {
+    sendEmail({ email });
+  };
 
   return (
     <div className="center bg-primary-400">
@@ -33,10 +38,14 @@ const Recupero = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <CustomButton className="bg-primary-400 mt-2" as={Link} href="/">
+          <CustomButton
+            onClick={handleSend}
+            className="bg-primary-400 mt-2"
+            href="/"
+          >
             ENVIAR
           </CustomButton>
-          <Link href="/recupero" className="w-full italic mt-1">
+          <Link href="/password_olvidada" className="w-full italic mt-1">
             Ingrese su <strong>email</strong> para recuperar la{" "}
             <strong>contraseña</strong>
           </Link>
@@ -46,4 +55,4 @@ const Recupero = () => {
   );
 };
 
-export default Recupero;
+export default PasswordOLvidada;

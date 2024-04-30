@@ -7,7 +7,6 @@ import { Card, CardBody, RadioGroup, Radio } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
 
-import LoginProfesional from "./LoginProfesional";
 import LoginUser from "./LoginUser";
 import { UserContext } from "@/context/User";
 
@@ -30,24 +29,8 @@ export const Login = () => {
           <Link href="/" className="pb-16">
             <CustomLogo width={220} color="dark" />
           </Link>
-          <div className="flex justify-center">
-            <RadioGroup
-              className="font-semibold"
-              label="Logeate como:"
-              value={selected}
-              onValueChange={setSelected}
-            >
-              <Radio className="font-semibold text-lg" value="usuario">
-                Usuario
-              </Radio>
-              <Radio className="font-semibold text-lg" value="profesional">
-                Profesional
-              </Radio>
-            </RadioGroup>
-          </div>
         </div>
-
-        {selected === "usuario" ? <LoginUser /> : <LoginProfesional />}
+        <LoginUser />
       </CardBody>
     </Card>
   );
