@@ -1,28 +1,18 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import { CustomButton, CustomInput, CustomLogo } from "@/features/ui";
 import { Card, CardBody, RadioGroup, Radio } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
+import Link from "next/link";
 
 import LoginProfesional from "./LoginProfesional";
 import LoginUser from "./LoginUser";
-import { UserContext } from "@/context/User";
+import { useUser } from "@/hooks/useUser";
 
 export const Login = () => {
-  const router = useRouter();
+  const { user, setUser } = useUser();
   const [selected, setSelected] = useState("usuario");
-
-  const { setUser, user } = useContext(UserContext);
-
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
 
   return (
     <Card className="flex items-center h-auto w-full min-[440px]:w-4/5 md:w-[1028px] min-h-[512px]">
@@ -34,7 +24,7 @@ export const Login = () => {
           <div className="flex justify-center">
             <RadioGroup
               className="font-semibold"
-              label="Logeate como:"
+              label="Ingresa como:"
               value={selected}
               onValueChange={setSelected}
             >

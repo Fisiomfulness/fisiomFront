@@ -1,28 +1,16 @@
-"use client";
+'use client';
 
-import { useContext, useEffect, useState } from "react";
-import { CustomLogo } from "@/features/ui";
-import Link from "next/link";
-import { Card, CardBody, RadioGroup, Radio } from "@nextui-org/react";
-import RegistroProfesional from "./RegisterProfesional";
-import RegistroUsuario from "./RegisterUsuario";
-import { UserContext } from "@/context/User";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from 'react';
+import { CustomLogo } from '@/features/ui';
+import { Card, CardBody, RadioGroup, Radio } from '@nextui-org/react';
+import Link from 'next/link';
+import RegistroProfesional from './RegisterProfesional';
+import RegistroUsuario from './RegisterUsuario';
 
 function Register() {
-  const router = useRouter();
-
-  const [selected, setSelected] = useState("usuario");
+  const [selected, setSelected] = useState('usuario');
   const [aceptoCondiciones, setAceptoCondiciones] = useState(false);
   const [recibirInformacion, setRecibirInformacion] = useState(false);
-
-  const { user } = useContext(UserContext);
-
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  });
 
   const verifyCondicions = () => {
     return aceptoCondiciones && recibirInformacion ? true : false;
@@ -51,34 +39,39 @@ function Register() {
             </RadioGroup>
           </div>
 
-          <div className="py-8 w-2/3">
-            <label className="text-[9px]">
+          <div className="py-8 w-2/3 flex flex-col gap-2">
+            <label className="text-[9px] flex items-center gap-2">
               <input
                 type="checkbox"
                 checked={aceptoCondiciones}
                 onChange={() => setAceptoCondiciones(!aceptoCondiciones)}
+                className="size-5"
               />
-              Acepto los <a className="text-primary">Términos y condiciones </a>{" "}
-              del servicio de FISIOMFULNESS. Declaro haber leído y entiendo la
-              política de privacidad
+              <span>
+                Acepto los
+                <a className="text-primary"> términos y condiciones </a> del
+                servicio de FISIOMFULNESS. Declaro haber leído y entiendo la
+                política de privacidad
+              </span>
             </label>
-            <br />
-            <input
-              type="checkbox"
-              checked={recibirInformacion}
-              onChange={() => setRecibirInformacion(!recibirInformacion)}
-            />
-            <label className="text-[9px]">
-              {" "}
-              Doy mi consentimiento y acepto recibir información sobre los{" "}
-              <a className="text-primary">
-                servicios y novedades de FISIOMFULNESS. Qué significa esto?
-              </a>
+            <label className="text-[9px] flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={recibirInformacion}
+                onChange={() => setRecibirInformacion(!recibirInformacion)}
+                className="size-5"
+              />
+              <span>
+                Doy mi consentimiento y acepto recibir información sobre los{' '}
+                <a className="text-primary">
+                  servicios y novedades de FISIOMFULNESS. Qué significa esto?
+                </a>
+              </span>
             </label>
           </div>
         </div>
 
-        {selected === "usuario" ? (
+        {selected === 'usuario' ? (
           <RegistroUsuario Condicions={verifyCondicions} />
         ) : (
           <RegistroProfesional Condicions={verifyCondicions} />

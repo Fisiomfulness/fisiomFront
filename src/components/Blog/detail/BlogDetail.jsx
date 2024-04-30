@@ -41,7 +41,7 @@ const BlogDetail = ({ data, iniComments, totalComments }) => {
         </div>
         <div
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.text) }}
-          className="grow mb-2 md:mb-3"
+          className="htmlField grow mb-2 md:mb-3"
         />
         <ScrollBlog
           blogId={data._id}

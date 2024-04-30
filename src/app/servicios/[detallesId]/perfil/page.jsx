@@ -1,16 +1,16 @@
 "use client";
 import axios from "axios";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import ServicioDetallesCommentBox from "@/components/Servicios/ServicioDetallesCommentBox";
 import ServicioProfesionalCard from "@/components/Servicios/ServicioProfesionalCard";
 import ServicioProfesionalComentarios from "@/components/Servicios/ServicioProfesionalComentarios";
 import { apiEndpoints } from "@/api_endpoints";
-import { UserContext } from "@/context/User";
+import { useUser } from "@/hooks/useUser";
 
 const ServicioDetalles = ({ params }) => {
   const profesionalId = params.detallesId;
   const [profesional, setProfesional] = useState({});
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
 
   useEffect(() => {
     const abortController = new AbortController();
