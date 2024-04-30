@@ -2,15 +2,14 @@ import { BASE_URL } from "@/utils/api";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export const login = async (user) => {
+export const sendConfirmacion = async (token) => {
   return axios
-    .post(`${BASE_URL}/login`, user)
+    .get(`${BASE_URL}/login/confirm_email/${token}`)
     .then((response) => {
       toast.success(response.data.message);
-      return false;
     })
     .catch((error) => {
+      console.log(error);
       toast.error(error.response.data.message);
-      return false;
     });
 };

@@ -48,6 +48,12 @@ const registerSchemaValidation = Yup.object({
   city: yupRequired,
 });
 
+const genderArray = [
+  { label: "Femenino", value: "Femenino" },
+  { label: "Masculino", value: "Masculino" },
+  { label: "Prefiero no responder", value: "Prefiero no responder" },
+];
+
 //#region Component
 function RegisterProfesional({ Condicions }) {
   const onDrop = useCallback((acceptedFiles) => {
@@ -141,24 +147,16 @@ function RegisterProfesional({ Condicions }) {
             />
           </div>
           <Select
+            placeholder="Seleccione un genero"
             onChange={handleChange}
             name="gender"
-            aria-labelledby="gender" // Add this line
+            aria-labelledby="gender"
           >
-            <SelectItem value="Masculino" label="Masculino">
-              Masculino
-            </SelectItem>
-
-            <SelectItem value="Femenino" label="Femenino">
-              Femenino
-            </SelectItem>
-
-            <SelectItem
-              value="Prefiero no responder"
-              label="Prefiero no responder"
-            >
-              Prefiero no responder
-            </SelectItem>
+            {genderArray.map((gender) => (
+              <SelectItem key={gender.value} value={gender.value}>
+                {gender.label}
+              </SelectItem>
+            ))}
           </Select>
 
           <div className="flex flex-col gap-1">
@@ -232,7 +230,7 @@ function RegisterProfesional({ Condicions }) {
           </div>
 
           <Button className="bg-primary-500 text-white font-sans" type="submit">
-            Logearse
+            Registrarse
           </Button>
 
           <div className="flex flex-row justify-center items-center gap-4 mt-8">

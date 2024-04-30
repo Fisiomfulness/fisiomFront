@@ -3,31 +3,25 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export const registerUserForm = async (user) => {
-  try {
-    await axios.post(`${BASE_URL}/register/user`, user);
-    toast.success("Registrado con exito!");
-  } catch (error) {
-    if (error.response) {
-      toast.error(error.response.data);
+  return axios
+    .post(`${BASE_URL}/login/register/user`, user)
+    .then((response) => {
+      toast.success(response.data.message);
+    })
+    .catch((error) => {
+      toast.error(error.response.data.message);
       return false;
-    } else {
-      toast.error(error.message);
-      return false;
-    }
-  }
+    });
 };
 
 export const registerProfesionalForm = async (user) => {
-  try {
-    await axios.post(`${BASE_URL}/register/profesional`, user);
-    toast.success("Registrado con exito!");
-  } catch (error) {
-    if (error.response) {
-      toast.error(error.response.data);
+  return axios
+    .post(`${BASE_URL}/login/register/professional`, user)
+    .then((response) => {
+      toast.success(response.data.message);
+    })
+    .catch((error) => {
+      toast.error(error.response.data.message);
       return false;
-    } else {
-      toast.error(error.message);
-      return false;
-    }
-  }
+    });
 };

@@ -56,7 +56,7 @@ const LoginUser = () => {
               className="text-danger-500"
             />
           </div>
-
+          //DARLE LA OPCION DE VER LA PASSWORD AL USER
           <div className="flex flex-col gap-1">
             <label className="font-sans" htmlFor="password">
               password
@@ -73,7 +73,6 @@ const LoginUser = () => {
               className="text-danger-500"
             />
           </div>
-
           <Button
             className="bg-primary-500 text-white font-sans"
             type="submit"
@@ -81,7 +80,6 @@ const LoginUser = () => {
           >
             Logearse
           </Button>
-
           <div className="flex flex-row justify-center items-center gap-4 mt-8">
             <p>No tienes cuenta?</p>
             <Button
@@ -90,6 +88,16 @@ const LoginUser = () => {
               href="/registro"
             >
               Registrarse
+            </Button>
+          </div>
+          <div className="flex flex-row justify-center items-center gap-4 mt-8">
+            <p>Olvidaste tu password?</p>
+            <Button
+              className="bg-primary-500 text-white font-sans"
+              as={Link}
+              href="/password_olvidada"
+            >
+              Cambiar password
             </Button>
           </div>
         </Form>
