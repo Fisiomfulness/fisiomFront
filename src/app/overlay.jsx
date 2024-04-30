@@ -7,14 +7,50 @@ import { usePathname } from "next/navigation";
 const exclude = [
   "/login",
   "/servicios_home",
-  "/recupero",
+  "/password_olvidada",
   "/registro",
   "/about",
 ];
 export function Overlay({ children }) {
   const pathname = usePathname();
+  return exclude.includes(pathname) ? (
+    <main
+      className={[
+        // center
+        "flex justify-center items-center",
+        // container
+        "[&>div]:relative [&>div]:mx-auto",
+        "[&>div]:px-4 [&>div]:md:px-6 [&>div]:lg:px-8",
+        // NOTE: disable max width
+        // "[&>div]:max-w-[90rem]",
+        // extras
+        "min-h-screen",
+        "[&>div]:min-h-screen [&>div]:flex-1 [&>div]:overflow-hidden",
+      ].join(" ")}
+    >
+      {children}
+    </main>
+  ) : (
+    <div className="min-h-screen flex flex-col">
+      <Nav />
+      <main
+        className={[
+          // container
+          "[&>div]:relative [&>div]:mx-auto",
+          "[&>div]:px-4 [&>div]:md:px-6 [&>div]:lg:px-8",
+          "[&>div]:max-w-[90rem]",
+          // extras
+          "flex min-h-[92vh] [&>div]:overflow-hidden",
+        ].join(" ")}
+      >
+        {children}
+      </main>
+      <Footer />
+    </div>
+  );
+}
 
-  if (exclude.includes(pathname)) {
+/*   if (exclude.includes(pathname)) {
     return (
       <main
         className={[
@@ -52,5 +88,4 @@ export function Overlay({ children }) {
       </main>
       <Footer />
     </div>
-  );
-}
+  ); */
