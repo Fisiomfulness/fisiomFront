@@ -23,7 +23,7 @@ export const publicRoutes = [
   '/productos',
   '/not-found',
   '/_not-found',
-  '/trabajaConNosotros',
+  '/trabajo',
   '/servicios',
   ...testRoutes,
 ];

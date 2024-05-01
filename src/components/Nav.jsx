@@ -22,7 +22,7 @@ const menuItems = [
   { name: "Pregunta a un experto", href: "/pregunta_experto" },
   { name: "Comunidad", href: "/comunidad" },
   // { name: "Tratamientos", href: "/tratamientos" },
-  { name: "Trabaja Con Nosotros", href: "/trabajaConNosotros" },
+  { name: "Trabaja Con Nosotros", href: "/trabajo" },
   { name: "Blog", href: "/blog" },
   { name: "Productos", href: "/productos" },
 ];
@@ -39,7 +39,7 @@ const menuItems = [
 function NavbarLink({ item, onClick }) {
   return (
     <Link
-      className="block w-full hover:text-primary hover:font-bold"
+      className="block w-full hover:text-primary"
       href={item.href}
       onClick={onClick}
     >
