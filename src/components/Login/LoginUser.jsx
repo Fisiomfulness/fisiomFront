@@ -1,20 +1,21 @@
-import { ErrorMessage, Field, Formik, Form } from 'formik';
-import { Button } from '@nextui-org/react';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/hooks/useUser';
-import { login } from '@/services/users';
+import { ErrorMessage, Field, Formik, Form } from "formik";
+import { Button } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/hooks/useUser";
+// import { login } from '@/services/users';
+import { login } from "@/services/login";
 
-import Link from 'next/link';
-import * as Yup from 'yup';
+import Link from "next/link";
+import * as Yup from "yup";
 
 const initialValues = {
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 };
 
 const userSchemaValidation = Yup.object({
-  email: Yup.string().required('requerido').email('No es un email'),
-  password: Yup.string().required('requerido'),
+  email: Yup.string().required("requerido").email("No es un email"),
+  password: Yup.string().required("requerido"),
 });
 
 const LoginUser = () => {
@@ -25,7 +26,7 @@ const LoginUser = () => {
     const response = await login(values);
     if (response) {
       setUser(response.data);
-      router.push('/');
+      router.push("/");
     }
   };
 
@@ -53,7 +54,7 @@ const LoginUser = () => {
               className="text-danger-500"
             />
           </div>
-
+          //DARLE LA OPCION DE VER LA PASSWORD AL USER
           <div className="flex flex-col gap-1">
             <label className="font-sans" htmlFor="password">
               Contraseña
@@ -69,7 +70,6 @@ const LoginUser = () => {
               className="text-danger-500"
             />
           </div>
-
           <Button
             className="bg-primary-500 text-white font-sans"
             type="submit"
@@ -77,7 +77,6 @@ const LoginUser = () => {
           >
             Ingresar
           </Button>
-
           <div className="flex flex-row justify-center items-center gap-4 mt-8">
             <p>No tienes cuenta?</p>
             <Button
@@ -86,6 +85,16 @@ const LoginUser = () => {
               href="/registro"
             >
               Registrarse
+            </Button>
+          </div>
+          <div className="flex flex-row justify-center items-center gap-4 mt-8">
+            <p>Olvidaste tu password?</p>
+            <Button
+              className="bg-primary-500 text-white font-sans"
+              as={Link}
+              href="/password_olvidada"
+            >
+              Cambiar password
             </Button>
           </div>
         </Form>

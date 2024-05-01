@@ -129,6 +129,7 @@ function RegistroUsuario({ Condicions }) {
           </div>
 
           <Select
+            placeholder="Seleccione un genero"
             onChange={handleChange}
             name="gender"
             aria-labelledby="gender" // Add this line
@@ -168,7 +169,7 @@ function RegistroUsuario({ Condicions }) {
               className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
               name="repitPass"
               type="password"
-              placeholder="repita la contraseña"
+              placeholder="Repita la contraseña"
             />
             <ErrorMessage
               name="repitPass"

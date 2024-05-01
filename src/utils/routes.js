@@ -14,6 +14,8 @@ const testRoutes = [
   '/dashboard-blog',
   '/only_dev',
   '/mis_productos',
+  '/blog/mis-blogs',
+  '/blog/crear',
 ];
 
 export const publicRoutes = [
@@ -25,13 +27,18 @@ export const publicRoutes = [
   '/_not-found',
   '/trabajo',
   '/servicios',
+  '/password_olvidada',
   ...testRoutes,
 ];
 
 // ! To fill
-export const userRoutes = ['/mis_compras', '/carrito'];
+export const userRoutes = ['/mis_compras', '/pregunta_experto', '/carrito'];
 
-export const professionalRoutes = ['/blog/crear', '/blog/mis-blogs'];
+export const professionalRoutes = [
+  '/blog/crear',
+  '/pregunta_experto',
+  '/blog/mis-blogs',
+];
 
 // ! To fill
 export const adminRoutes = [

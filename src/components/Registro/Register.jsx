@@ -27,7 +27,7 @@ function Register() {
             <RadioGroup
               className="font-semibold"
               label="Registrate como:"
-              Avalue={selected}
+              value={selected}
               onValueChange={setSelected}
             >
               <Radio className="font-semibold text-lg" value="usuario">

@@ -1,14 +1,13 @@
+import CustomToast from "@/components/CustomToast"; // Import if needed
 import { BASE_URL } from "@/utils/api";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export const registerUserForm = async (user) => {
+export const resetPassword = async (data) => {
   const toastPromise = toast.promise(
-    axios.post(`${BASE_URL}/login/register/user`, user, {
-      withCredentials: true,
-    }),
+    axios.post(`${BASE_URL}/login/reset_password/`, data),
     {
-      loading: "Registrandose...",
+      loading: "Cambiando la contraseña...",
       success: (response) => response.data.message,
       error: (error) => {
         if (error.response) {
@@ -24,13 +23,11 @@ export const registerUserForm = async (user) => {
   return toastPromise;
 };
 
-export const registerProfesionalForm = async (user) => {
+export const sendEmail = async (data) => {
   const toastPromise = toast.promise(
-    axios.post(`${BASE_URL}/login/register/professional`, user, {
-      withCredentials: true,
-    }),
+    axios.post(`${BASE_URL}/login/send_email`, data),
     {
-      loading: "Registrandose...",
+      loading: "Enviando EMail...",
       success: (response) => response.data.message,
       error: (error) => {
         if (error.response) {
@@ -43,5 +40,6 @@ export const registerProfesionalForm = async (user) => {
   );
 
   const response = await toastPromise;
+
   return toastPromise;
 };
