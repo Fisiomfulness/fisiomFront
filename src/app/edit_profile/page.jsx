@@ -1,13 +1,13 @@
 import Form from "@/components/Form/Form";
 const EditProfilePage = () => {
   return (
-    <div className="w-full">
+    <main className="center pt-8 pb-12">
       <div className="flex justify-center items-center h-full">
         <Form />
       </div>
-    </div>
+    </main>
   );
 };
 
 export default EditProfilePage;
- 
+

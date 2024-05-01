@@ -1,10 +1,10 @@
-import Registro from "../../components/Registro/Registro";
+import Register from "../../components/Registro/Register";
 
 const RegistroPage = () => {
   return (
-    <div className="flex justify-center items-center bg-[#68BCE3] w-full static">
-     <Registro />
-    </div>
+    <main className="px-auto min-h-screen center bg-primary-400">
+      <Register />
+    </main>
   );
 };
 

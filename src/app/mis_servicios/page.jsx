@@ -1,6 +1,9 @@
 import { CustomTable, CustomTableHeader } from "@/features/ui";
-import { RxTrash } from "react-icons/rx";
-import { HiOutlinePencil } from "react-icons/hi2";
+import { RxTrash, RxPencil1 } from "react-icons/rx";
+
+// NOTE: Hero icons broken
+//       https://github.com/react-icons/react-icons/issues/931
+// import { HiOutlinePencil } from "react-icons/hi2";
 
 const items = new Array(20).fill().map((_, index) => ({
   key: index + 1,
@@ -16,7 +19,7 @@ const items = new Array(20).fill().map((_, index) => ({
     "mollit anim id est laborum.",
 }));
 
-function CustomTableBody({}) {
+function CustomTableBody() {
   return (
     <tbody className="whitespace-nowrap text-center">
       {items.map((item) => (
@@ -36,7 +39,7 @@ function CustomTableBody({}) {
           <td className="px-12 py-3">
             <div className="flex flex-row gap-8">
               <RxTrash className="text-primary text-2xl" />
-              <HiOutlinePencil className="text-primary text-2xl" />
+              <RxPencil1 className="text-primary text-2xl" />
             </div>
           </td>
         </tr>
@@ -47,14 +50,14 @@ function CustomTableBody({}) {
 
 function MisServiciosPage() {
   return (
-    <div className="p-6 overflow-hidden m-auto w-full">
+    <main className="px-auto center pt-8 pb-12">
       <CustomTable>
         <CustomTableHeader
           headers={["Servicio", "Descripción", "Precio", ""]}
         />
         <CustomTableBody />
       </CustomTable>
-    </div>
+    </main>
   );
 }
 export default MisServiciosPage;

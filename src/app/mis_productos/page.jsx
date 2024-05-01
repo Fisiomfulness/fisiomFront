@@ -26,8 +26,8 @@ function TablaCompras() {
 
 export default function MisComprasPage() {
   return (
-    <div className="p-8 w-full m-auto">
+    <main className="px-auto center pt-8 pb-12">
       <TablaCompras />
-    </div>
+    </main>
   );
 }

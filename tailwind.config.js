@@ -1,12 +1,51 @@
 import { nextui } from "@nextui-org/react";
+import plugin from "tailwindcss/plugin";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./index.html",
     "./src/**/*.{js,ts,jsx,tsx,html}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
+  plugins: [
+    plugin(function ({ addComponents, addUtilities, theme }) {
+      addComponents({
+        ".hstack": {
+          display: "flex",
+          flexDirection: "row",
+        },
+        ".vstack": {
+          display: "flex",
+          flexDirection: "column",
+        },
+        ".debug": {
+          border: "1px solid",
+          borderColor: theme("colors.red.500"),
+        },
+        ".center": {
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        },
+      });
+      addUtilities({
+        ".px-auto": {
+          "@apply px-4 md:px-6 lg:px-8": {},
+        },
+      });
+    }),
+    nextui({
+      themes: {
+        light: {
+          colors: {
+            background: "#FFFFFF",
+            foreground: "#000000",
+          },
+        },
+      },
+    }),
+  ],
+  darkMode: "class",
   theme: {
     extend: {
       maxWidth: {
@@ -89,22 +128,9 @@ module.exports = {
           900: "#020709",
           950: "#010304",
         },
-        white: "#FAFAFA",
-        black: "#0D0D0D",
+        // white: "#FAFAFA",
+        // black: "#0D0D0D",
       },
     },
   },
-  darkMode: "class",
-  plugins: [
-    nextui({
-      themes: {
-        light: {
-          colors: {
-            background: "#FAFAFA",
-            foreground: "#0D0D0D",
-          },
-        },
-      },
-    }),
-  ],
 };

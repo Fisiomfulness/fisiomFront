@@ -1,102 +1,45 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { CustomButton, CustomInput, CustomLogo } from '@/features/ui';
-import { login } from '@/services/login';
-import toast from 'react-hot-toast';
+import { Card, CardBody, RadioGroup, Radio } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
+import Link from 'next/link';
+
+import LoginProfesional from './LoginProfesional';
+import LoginUser from './LoginUser';
+import { useUser } from '@/hooks/useUser';
 
 export const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [response, setResponse] = useState(undefined);
-
-  useEffect(() => {
-    const fetchData = () => {
-      if (response) {
-        // Check if response exists before fetching
-        console.log(response);
-      }
-    };
-    fetchData();
-  }, [response]); // Dependency array: re-run on response changes
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const res = await login({ email, password });
-    setResponse(res);
-
-    if (res?.status == '201') {
-      toast.error(res.data.message);
-    } else {
-      toast.success('Logeado con exito!');
-    }
-  };
+  const { user, setUser } = useUser();
+  const [selected, setSelected] = useState('usuario');
 
   return (
-    <div className="center bg-primary-400">
-      <img
-        className="absolute bottom-0 left-0 h-1/2 max-sm:w-2/3 max-sm:h-auto"
-        alt="logo_overlay"
-        src="/logo_overlay.webp"
-      />
-      <div
-        className={[
-          'max-w-3xl w-full rounded-md bg-white max-sm:px-4 py-20',
-          'flex flex-row max-sm:flex-col max-sm:gap-8 items-center justify-evenly',
-        ].join(' ')}
-      >
-        <CustomLogo width="220" color="dark" />
-
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-2 max-w-xs w-full z-10">
-            <CustomInput
-              variant="flat"
-              className={email.length > 0 && 'pb-7'}
-              isInvalid={!email.length} // TODO: mejorar la condicion
-              type="email"
-              placeholder="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <CustomInput
-              variant="flat"
-              className={password.length > 0 && 'pb-7'}
-              isInvalid={!password.length} // TODO: mejorar la condicion
-              type="password"
-              placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <CustomButton
-              type="submit"
-              isDisabled={!password.length || !email.length}
-              className="bg-primary-400 mt-2"
-              // as={Link}
-              href="/"
+    <Card className="flex items-center h-auto w-full min-[440px]:w-4/5 md:w-[1028px] min-h-[512px]">
+      <CardBody className="flex justify-between items-center w-full md:flex-row md:w-4/5">
+        <div className="flex flex-col justify-center items-center">
+          <Link href="/" className="pb-16">
+            <CustomLogo width={220} color="dark" />
+          </Link>
+          <div className="flex justify-center">
+            <RadioGroup
+              className="font-semibold"
+              label="Ingresa como:"
+              value={selected}
+              onValueChange={setSelected}
             >
-              LOGIN
-            </CustomButton>
-
-            <Link href="/recupero" className="w-full italic mt-1">
-              Contraseña <strong>olvidada ?</strong>
-            </Link>
-
-            <div className="flex flex-row justify-center items-center gap-4 mt-8">
-              <p>No tiene cuenta?</p>
-              <CustomButton
-                className="bg-primary-400 min-w-fit !w-fit py-2"
-                as={Link}
-                href="/registro"
-              >
-                Registrarse
-              </CustomButton>
-            </div>
+              <Radio className="font-semibold text-lg" value="usuario">
+                Usuario
+              </Radio>
+              <Radio className="font-semibold text-lg" value="profesional">
+                Profesional
+              </Radio>
+            </RadioGroup>
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+
+        {selected === 'usuario' ? <LoginUser /> : <LoginProfesional />}
+      </CardBody>
+    </Card>
   );
 };

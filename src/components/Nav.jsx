@@ -1,3 +1,4 @@
+// @ts-check
 'use client';
 
 import {
@@ -9,11 +10,12 @@ import {
   NavbarMenuToggle,
   NavbarMenuItem,
 } from '@nextui-org/react';
-import LoginDropDown from './LoginDropDown';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { CustomButton } from '@/features/ui';
+import { CustomButton, DropdownUser } from '@/features/ui';
+import { CarritoModal } from '@/features/carrito';
+import { useUser } from '@/hooks/useUser';
 
 const menuItems = [
   { name: 'Servicios', href: '/servicios' },
@@ -25,6 +27,15 @@ const menuItems = [
   { name: 'Productos', href: '/productos' },
 ];
 
+/**
+ * @param {{
+ *   item: {
+ *     name: string,
+ *     href: string
+ *   },
+ *   onClick?: () => void
+ * }} props
+ */
 function NavbarLink({ item, onClick }) {
   return (
     <Link
@@ -39,7 +50,8 @@ function NavbarLink({ item, onClick }) {
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLogged, setIsLogged] = useState(true);
+
+  const { user } = useUser();
 
   const path = usePathname();
 
@@ -96,10 +108,13 @@ export default function Nav() {
 
       <NavbarContent justify="end" className="max-lg:!flex-grow-0">
         <NavbarItem>
-          {isLogged ? (
-            <LoginDropDown />
+          {user ? (
+            <div className="hstack gap-2">
+              <CarritoModal />
+              <DropdownUser />
+            </div>
           ) : (
-            <CustomButton onClick={setIsLogged} as={Link} href="/login">
+            <CustomButton as={Link} href="/login">
               Login
             </CustomButton>
           )}

@@ -5,6 +5,7 @@ import { Overlay } from './overlay';
 import './globals.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Toaster } from 'react-hot-toast';
+import { UserProvider } from '@/context/User';
 
 const raleway = Raleway({
   weight: ['200', '300', '400', '700'],
@@ -17,8 +18,10 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body className={`${raleway.className} `}>
         <Providers>
-          <Overlay>{children}</Overlay>
-          <Toaster position="top-right" />
+          <UserProvider>
+            <Overlay>{children}</Overlay>
+            <Toaster position="top-right" />
+          </UserProvider>
         </Providers>
       </body>
     </html>

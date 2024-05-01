@@ -2,6 +2,10 @@ import React from "react";
 import { Login } from "../../components/Login";
 
 const Page = () => {
-  return <Login />
-  };
+  return (
+    <main className="px-auto min-h-screen center bg-primary-400">
+      <Login />
+    </main>
+  );
+};
 export default Page;
