@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { CustomLogo } from '@/features/ui';
-import { Card, CardBody, RadioGroup, Radio } from '@nextui-org/react';
-import Link from 'next/link';
-import RegistroProfesional from './RegisterProfesional';
-import RegistroUsuario from './RegisterUsuario';
+import { CustomLogo } from "@/features/ui";
+import { Card, CardBody, Radio, RadioGroup } from "@nextui-org/react";
+import Link from "next/link";
+import { useState } from "react";
+import RegistroProfesional from "./RegisterProfesional";
+import RegistroUsuario from "./RegisterUsuario";
 
 function Register() {
-  const [selected, setSelected] = useState('usuario');
+  const [selected, setSelected] = useState("usuario");
   const [aceptoCondiciones, setAceptoCondiciones] = useState(false);
   const [recibirInformacion, setRecibirInformacion] = useState(false);
 
@@ -17,7 +17,7 @@ function Register() {
   };
 
   return (
-    <Card className="flex items-center h-auto w-full min-[440px]:w-4/5 md:w-[1028px] min-h-[512px]">
+    <Card className="grid md:grid-cols-[60%,auto] items-center h-auto w-full min-[440px]:w-4/5 md:w-[1028px] min-h-[512px] p-10">
       <CardBody className="flex justify-between items-center w-full md:flex-row md:w-4/5">
         <div className="flex flex-col justify-center items-center">
           <Link href="/" className="pb-16">
@@ -62,7 +62,7 @@ function Register() {
                 className="size-5"
               />
               <span>
-                Doy mi consentimiento y acepto recibir información sobre los{' '}
+                Doy mi consentimiento y acepto recibir información sobre los{" "}
                 <a className="text-primary">
                   servicios y novedades de FISIOMFULNESS. Qué significa esto?
                 </a>
@@ -70,13 +70,12 @@ function Register() {
             </label>
           </div>
         </div>
-
-        {selected === 'usuario' ? (
-          <RegistroUsuario Condicions={verifyCondicions} />
-        ) : (
-          <RegistroProfesional Condicions={verifyCondicions} />
-        )}
       </CardBody>
+      {selected === "usuario" ? (
+        <RegistroUsuario Condicions={verifyCondicions} />
+      ) : (
+        <RegistroProfesional Condicions={verifyCondicions} />
+      )}
     </Card>
   );
 }
