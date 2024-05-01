@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { CustomButton, CustomInput, CustomLogo } from "@/features/ui";
-import { login } from "@/services/login";
-import toast from "react-hot-toast";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { CustomButton, CustomInput, CustomLogo } from '@/features/ui';
+import { login } from '@/services/login';
+import toast from 'react-hot-toast';
 
 export const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [response, setResponse] = useState(undefined);
 
   useEffect(() => {
@@ -27,10 +27,10 @@ export const Login = () => {
     const res = await login({ email, password });
     setResponse(res);
 
-    if (res?.status == "201") {
+    if (res?.status == '201') {
       toast.error(res.data.message);
     } else {
-      toast.success("Logeado con exito!");
+      toast.success('Logeado con exito!');
     }
   };
 
@@ -43,9 +43,9 @@ export const Login = () => {
       />
       <div
         className={[
-          "max-w-3xl w-full rounded-md bg-white max-sm:px-4 py-20",
-          "flex flex-row max-sm:flex-col max-sm:gap-8 items-center justify-evenly",
-        ].join(" ")}
+          'max-w-3xl w-full rounded-md bg-white max-sm:px-4 py-20',
+          'flex flex-row max-sm:flex-col max-sm:gap-8 items-center justify-evenly',
+        ].join(' ')}
       >
         <CustomLogo width="220" color="dark" />
 
@@ -53,7 +53,7 @@ export const Login = () => {
           <div className="flex flex-col gap-2 max-w-xs w-full z-10">
             <CustomInput
               variant="flat"
-              className={email.length > 0 && "pb-7"}
+              className={email.length > 0 && 'pb-7'}
               isInvalid={!email.length} // TODO: mejorar la condicion
               type="email"
               placeholder="email"
@@ -62,7 +62,7 @@ export const Login = () => {
             />
             <CustomInput
               variant="flat"
-              className={password.length > 0 && "pb-7"}
+              className={password.length > 0 && 'pb-7'}
               isInvalid={!password.length} // TODO: mejorar la condicion
               type="password"
               placeholder="password"

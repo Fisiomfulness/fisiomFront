@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Navbar,
@@ -8,21 +8,21 @@ import {
   NavbarMenu,
   NavbarMenuToggle,
   NavbarMenuItem,
-} from "@nextui-org/react";
-import LoginDropDown from "./LoginDropDown";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { CustomButton } from "@/features/ui";
+} from '@nextui-org/react';
+import LoginDropDown from './LoginDropDown';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { CustomButton } from '@/features/ui';
 
 const menuItems = [
-  { name: "Servicios", href: "/servicios" },
-  { name: "Pregunta a un experto", href: "/pregunta_experto" },
-  { name: "Comunidad", href: "/comunidad" },
+  { name: 'Servicios', href: '/servicios' },
+  { name: 'Pregunta a un experto', href: '/pregunta_experto' },
+  { name: 'Comunidad', href: '/comunidad' },
   // { name: "Tratamientos", href: "/tratamientos" },
-  { name: "Trabaja Con Nosotros", href: "/trabajaConNosotros" },
-  { name: "Blog", href: "/blog" },
-  { name: "Productos", href: "/productos" },
+  { name: 'Trabaja Con Nosotros', href: '/trabajaConNosotros' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Productos', href: '/productos' },
 ];
 
 function NavbarLink({ item, onClick }) {
@@ -49,21 +49,22 @@ export default function Nav() {
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       classNames={{
-        wrapper: "max-w-8xl !relative !px-4 md:!px-6 lg:!px-8 !gap-6",
+        wrapper:
+          'max-w-8xl bg-primary-200 !relative !px-4 md:!px-6 lg:!px-8 !gap-6',
         item: [
-          "data-[active=true]:text-primary",
-          "data-[active=true]:font-bold",
+          'data-[active=true]:text-primary',
+          'data-[active=true]:font-bold',
         ],
         menuItem: [
-          "data-[active=true]:text-primary",
-          "data-[active=true]:font-bold",
+          'data-[active=true]:text-primary',
+          'data-[active=true]:font-bold',
         ],
-        toggle: "mr-2",
+        toggle: 'mr-2',
       }}
     >
       <NavbarContent justify="start">
         <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           className="lg:hidden"
         />
         <NavbarBrand>
