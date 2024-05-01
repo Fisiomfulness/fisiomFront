@@ -79,8 +79,8 @@ export const stripHTMLTags = (string) => {
   return string.replace(/<[^>]*>/g, ' ');
 };
 
-export const isDynamicIdPath = (path, basePath) => {
+export const isDynamicIdPath = (path) => {
   // * Working with mongo objectId.
-  const dynamicRouteRegExp = new RegExp(`^${basePath}/[0-9a-fA-F]{24}$`);
-  return dynamicRouteRegExp.test(path);
+  const objectIdRegExp = /[0-9a-fA-F]{24}/;
+  return objectIdRegExp.test(path);
 };

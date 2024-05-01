@@ -23,8 +23,9 @@ export async function middleware(request) {
   const url = request.nextUrl.clone();
   const token = request.cookies?.get('accessToken')?.value;
 
-  // ? If is a public route (or blog public detail), don't do the protected logic
-  if (publicRoutes.includes(pathname) || isDynamicIdPath(pathname, '/blog')) {
+  // ? If is a public route OR has a dynamic id[objectId] in his path let him continue
+  // !! IMPORTANT => PROTECT THIS DYNAMIC ROUTES IN THE COMPONENT.
+  if (publicRoutes.includes(pathname) || isDynamicIdPath(pathname)) {
     return NextResponse.next();
   }
 
