@@ -20,9 +20,6 @@ export const resetPassword = async (data) => {
   );
 
   const response = await toastPromise;
-  // You can access the response data here if needed
-  // console.log(response.data);
-
   return toastPromise;
 };
 
@@ -43,8 +40,6 @@ export const sendEmail = async (data) => {
   );
 
   const response = await toastPromise;
-  // You can access the response data here if needed
-  // console.log(response.data);
 
   return toastPromise;
 };

@@ -10,9 +10,8 @@ import {
 import { RadioGroup, Radio } from "@nextui-org/react";
 import TablaServicios from "./TablaServicios";
 import { useEffect, useState } from "react";
-
 import { IoIosArrowBack } from "react-icons/io";
-import { useStep } from "@custom-react-hooks/all";
+import { useStep } from "@/hooks";
 
 function TablaPagar() {
   return (
@@ -221,14 +220,6 @@ function SecondModal({ onOpenChange, onCheck, onBack }) {
   );
 }
 
-const Step = Object.freeze({
-  // NOTE: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1008#additional-zero-value-field-names
-  None: 0,
-  ChoosePayment: 1,
-  InputCard: 2,
-  ConfirmPayment: 3,
-});
-
 const content = {
   loading: (
     <p>
@@ -244,9 +235,19 @@ const content = {
   success: <p>Pago realizado con exito</p>,
 };
 
+const Step = Object.freeze({
+  // NOTE: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1008#additional-zero-value-field-names
+  None: 0,
+  ChoosePayment: 1,
+  InputCard: 2,
+  ConfirmPayment: 3,
+});
+
 function ModalBase() {
   const [status, setStatus] = useState("");
-  const { currentStep, goToStep, nextStep, prevStep, reset } = useStep({});
+  const { currentStep, goToStep, nextStep, prevStep, reset } = useStep({
+    totalSteps: 4,
+  });
 
   useEffect(() => {
     if (status !== "loading") return;

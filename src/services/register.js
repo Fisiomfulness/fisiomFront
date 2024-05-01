@@ -3,25 +3,45 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export const registerUserForm = async (user) => {
-  return axios
-    .post(`${BASE_URL}/login/register/user`, user)
-    .then((response) => {
-      toast.success(response.data.message);
-    })
-    .catch((error) => {
-      toast.error(error.response.data.message);
-      return false;
-    });
+  const toastPromise = toast.promise(
+    axios.post(`${BASE_URL}/login/register/user`, user, {
+      withCredentials: true,
+    }),
+    {
+      loading: "Registrandose...",
+      success: (response) => response.data.message,
+      error: (error) => {
+        if (error.response) {
+          return error.response.data.message;
+        } else {
+          return error.message;
+        }
+      },
+    },
+  );
+
+  const response = await toastPromise;
+  return toastPromise;
 };
 
 export const registerProfesionalForm = async (user) => {
-  return axios
-    .post(`${BASE_URL}/login/register/professional`, user)
-    .then((response) => {
-      toast.success(response.data.message);
-    })
-    .catch((error) => {
-      toast.error(error.response.data.message);
-      return false;
-    });
+  const toastPromise = toast.promise(
+    axios.post(`${BASE_URL}/login/register/professional`, user, {
+      withCredentials: true,
+    }),
+    {
+      loading: "Registrandose...",
+      success: (response) => response.data.message,
+      error: (error) => {
+        if (error.response) {
+          return error.response.data.message;
+        } else {
+          return error.message;
+        }
+      },
+    },
+  );
+
+  const response = await toastPromise;
+  return toastPromise;
 };

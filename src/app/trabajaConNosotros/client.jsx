@@ -36,7 +36,6 @@ const TrabajaConNosotrosClient = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const validateError = validation(form);
-    console.log("validate", validateError);
     setErrors(validateError);
 
     if (Object.keys(validateError).length === 0) {
@@ -52,7 +51,7 @@ const TrabajaConNosotrosClient = () => {
   };
 
   return (
-    <div className="p-14 justify-center w-full">
+    <main className="max-w-8xl mx-auto p-14 w-full">
       <div className="flex items-center gap-10">
         <img width="40" src="/logo_simple.webp" alt="logo" />
         <p>
@@ -253,7 +252,7 @@ const TrabajaConNosotrosClient = () => {
           )}
         </div>
       </form>
-    </div>
+    </main>
   );
 };
 

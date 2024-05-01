@@ -1,5 +1,5 @@
 import { User, Link } from '@nextui-org/react';
-import Stars from './Star';
+import Stars from './Stars';
 
 export default function Comment({ comment }) {
   return (

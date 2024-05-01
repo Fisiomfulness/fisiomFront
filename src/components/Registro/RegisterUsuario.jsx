@@ -77,7 +77,7 @@ function RegistroUsuario({ Condicions }) {
               className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
               name="name"
               type="String"
-              placeholder="Nombre"
+              placeholder="nombre"
             />
             <ErrorMessage
               name="name"
@@ -91,7 +91,7 @@ function RegistroUsuario({ Condicions }) {
               className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
               name="phone"
               type="string"
-              placeholder="Telefono"
+              placeholder="telefono"
             />
             <ErrorMessage
               name="phone"

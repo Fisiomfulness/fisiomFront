@@ -50,7 +50,7 @@ const ServicioMainCard = ({ profesional }) => {
                   <div className="w-full"></div>
                   <div className="pl-2">
                     <StarRatings
-                      rating={profesional.avgScore}
+                      rating={profesional.averageScore.average}
                       starRatedColor="#ffb829"
                       numberOfStars={5}
                       starDimension="14px"
@@ -62,7 +62,7 @@ const ServicioMainCard = ({ profesional }) => {
                 <Link
                   className="text-small p-2 text text-decoration-line: underline"
                   as={NextLink}
-                  href={`./servicios/detalles${profesional._id}/perfil`}
+                  href={`./servicios/${profesional._id}/perfil`}
                 >
                   Ver mas
                 </Link>
@@ -88,7 +88,7 @@ const ServicioMainCard = ({ profesional }) => {
             <div className="flex items-center justify-center">
               <Button
                 as={NextLink}
-                href={`./servicios/detalle${profesional._id}/turno`}
+                href={`./servicios/${profesional._id}/turno`}
                 color="secondary"
                 size="sm"
                 className="w-[50%]"

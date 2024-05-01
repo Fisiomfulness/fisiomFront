@@ -21,7 +21,7 @@ const Tiptap = ({ editorRef, content, onChange, limitCharacters = 1000 }) => {
     editorProps: {
       attributes: {
         class:
-          'w-full px-3 py-2 bg-white border border-gray-300 rounded-bl-md rounded-br-md shadow-sm outline-none focus:border-primary-500',
+          'htmlField w-full px-3 py-2 bg-white border border-gray-300 rounded-bl-md rounded-br-md shadow-sm outline-none focus:border-primary-500',
       },
     },
     onUpdate: ({ editor }) => {

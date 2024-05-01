@@ -7,7 +7,7 @@ import { Autocomplete, AutocompleteItem, Input } from "@nextui-org/react";
 import { MdOutlineSearch } from "react-icons/md";
 import { apiEndpoints } from "@/api_endpoints";
 
-const SearchProfesional = ({ filters, setFilters }) => {
+const SearchProfesional = ({ filters, setFilters, setPage }) => {
   const [specialties, setSpecialties] = useState([]);
 
   useEffect(() => {
@@ -17,23 +17,22 @@ const SearchProfesional = ({ filters, setFilters }) => {
         signal: abortController.signal,
       })
       .then(({ data }) => {
-        setSpecialties(data);
+        setSpecialties(data.results);
       })
       .catch((err) => {
         if (err.name === "CanceledError") return;
         throw err;
       })
-      .finally(() => {
-        abortController.abort();
-      });
     return () => abortController.abort();
   }, []);
   const onChange = (e) => {
     setFilters({ ...filters, search: e.target.value });
+    setPage(1);
   };
 
   const onSelectionChange = (value) => {
     setFilters({ ...filters, specialtyId: value });
+    setPage(1);
   };
 
   return (

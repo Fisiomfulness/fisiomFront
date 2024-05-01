@@ -1,81 +1,125 @@
+// @ts-check
 "use client";
 
 import { CustomButton, CustomModal, CustomAlert } from "@/features/ui";
 import { Badge, useDisclosure } from "@nextui-org/react";
-import { useAtom } from "jotai";
 import { MdShoppingCart } from "react-icons/md";
-import { cartAtom } from "../store";
 import { useCart } from "../hooks";
 
-function ListProducts() {
-  const [{ cart }, { removeItem }] = useCart();
+/**
+ * @typedef {import("../store/cart").Product} Product
+ */
+
+/** @param {number} value */
+function parseCurrency(value) {
+  return new Intl.NumberFormat("es-PE", {
+    style: "currency",
+    currency: "PEN",
+  })
+    .format(value)
+    .replace(/\s/g, "");
+}
+
+/**
+ * @typedef {ReturnType<typeof useDisclosure>} UseDisclosure
+ * @param {{
+ *   isOpen: UseDisclosure["isOpen"],
+ *   onOpenChange: UseDisclosure["onOpenChange"]
+ * }} props
+ */
+function ListProducts({ isOpen, onOpenChange }) {
+  const { products, removeItem, updateItem, total, clearCart } = useCart();
+
+  /**
+   * @param {string} id
+   * @param {Product} item
+   */
+  function handleUpdateCart(id, item) {
+    if (!item.quantity) {
+      removeItem(id);
+      return;
+    }
+
+    updateItem(id, item);
+  }
 
   return (
-    <div
-      className={
-        "flex flex-col gap-4 text-secondary my-8 h-80 overflow-auto px-6"
-      }
+    <CustomModal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      className="max-w-3xl"
     >
-      {cart.map((product) => (
-        <div key={product.key} className="flex flex-row gap-5">
-          <img
-            src={product.img}
-            alt={product.name}
-            className="min-w-[160px] h-24 object-cover object-bottom rounded-lg"
-          />
-          <div className="w-80">
-            <p className="font-bold text-md">{product.name}</p>
-            <p className="line-clamp-3">{product.description}</p>
-          </div>
-          <div className="text-right flex flex-col gap-2 justify-center">
-            <p className="font-bold text-xl">${product.price}</p>
-            <CustomButton
-              color="danger"
-              size="sm"
-              className="px-2 py-1 lowercase"
-              onPress={() => removeItem(product)}
-            >
-              eliminar
-            </CustomButton>
-          </div>
+      <p className="border-b border-primary w-fit text-lg font-semibold">
+        Tu Carrito - <span className="font-mono">{parseCurrency(total)}</span>
+      </p>
+      <div className="mx-auto max-w-fit">
+        <div className="space-y-4 text-secondary my-6 h-80 overflow-auto px-6">
+          {Array.from(products, ([key, product]) => (
+            <div key={key} className="flex flex-row gap-5">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="min-w-[160px] h-24 object-cover object-bottom rounded-lg"
+              />
+              <div className="w-80">
+                <p className="font-bold text-md">{product.name}</p>
+                <p className="line-clamp-3">{product.description}</p>
+              </div>
+              <div className="text-right flex flex-col gap-2 justify-center">
+                <p className="font-semibold text-xl font-mono">
+                  {parseCurrency(product.price)}
+                </p>
+                <CustomButton
+                  color="danger"
+                  size="sm"
+                  className="px-2 py-1"
+                  onPress={() => {
+                    handleUpdateCart(key, {
+                      ...product,
+                      quantity: product.quantity - 1,
+                    });
+                  }}
+                >
+                  eliminar
+                </CustomButton>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+        <div className="w-64 flex flex-col gap-2 mx-auto">
+          <CustomButton onPress={onOpenChange}>Checkout</CustomButton>
+          <CustomButton color="danger" onPress={clearCart}>
+            Borrar todo
+          </CustomButton>
+        </div>
+      </div>
+    </CustomModal>
   );
 }
 
 export default function CarritoModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [{ cart, quantity }] = useAtom(cartAtom);
-  const [, { clearCart }] = useCart();
+  const { quantity } = useCart();
 
   return (
-    <div className="h-10 overflow-hidden">
-      <button onClick={onOpen} className="p-2 pb-0">
-        <Badge content={quantity} color="danger" placement="top-left" size="md">
+    <>
+      <button onClick={onOpen} className="p-2 pb-0 block">
+        <Badge
+          content={quantity}
+          color="danger"
+          placement="top-left"
+          size="md"
+          classNames={{ base: "block" }}
+        >
           <MdShoppingCart className="w-8 h-8 text-primary" />
         </Badge>
       </button>
-      <CustomModal
-        isOpen={isOpen && cart.length}
+      <ListProducts
+        isOpen={isOpen && Boolean(quantity)}
         onOpenChange={onOpenChange}
-        className="max-w-3xl"
-      >
-        <p className="border-b border-primary w-fit text-lg font-semibold">
-          Tu Carro
-        </p>
-        <div className="mx-auto max-w-fit">
-          <ListProducts />
-          <div className="w-64 flex flex-col gap-2 mx-auto">
-            <CustomButton onPress={onOpenChange}>Checkout</CustomButton>
-            <CustomButton color="danger" onPress={clearCart}>
-              Borrar todo
-            </CustomButton>
-          </div>
-        </div>
-      </CustomModal>
+      />
       <CustomAlert
-        isOpen={isOpen && !cart.length}
+        isOpen={isOpen && !quantity}
         onOpenChange={onOpenChange}
         status="info"
         onClose={onOpenChange}
@@ -83,6 +127,6 @@ export default function CarritoModal() {
       >
         No tienes items en tu carro
       </CustomAlert>
-    </div>
+    </>
   );
 }

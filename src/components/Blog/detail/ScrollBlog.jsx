@@ -41,7 +41,7 @@ export default function ScrollBlog({
             {loading && <Spinner size="md" color="primary" />}
           </>
         ) : (
-          <p className="text-secondary-500 font-bold text-center">
+          <p className={`text-secondary-500 font-bold text-center border-t border-gray-200 pt-[1.5rem]`}>
             Sin comentarios
           </p>
         )}

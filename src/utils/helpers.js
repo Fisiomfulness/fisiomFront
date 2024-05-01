@@ -24,12 +24,12 @@ export const dateFormatter = (timeStamp, hours = true) => {
 
   if (displayedDate.toLocaleDateString() === today.toLocaleDateString()) {
     // ? Today... show hours? => hour:minute am/pm
-    displayedDate = hours ? hourTime(timeStamp) : "Today";
+    displayedDate = hours ? hourTime(timeStamp) : "Hoy";
   } else if (
     displayedDate.toLocaleDateString() === yesterday.toLocaleDateString()
   ) {
     // ? Yesterday
-    displayedDate = "Yesterday";
+    displayedDate = "Ayer";
   } else {
     // ? Before yesterday, display the date => day/month/year
     displayedDate = displayedDate.toLocaleDateString();
@@ -57,7 +57,6 @@ export const actualMinDate = () => {
   const minimalDateString = minimalDate.toISOString().slice(0, 10);
 
   //retorna "yyyy-mm-dd"
-  console.log(minimalDateString);
   return minimalDateString;
 };
 
@@ -77,4 +76,10 @@ export const stripHTMLTags = (string) => {
   if (string === null || string === "") return false;
   else string = string.toString();
   return string.replace(/<[^>]*>/g, " ");
+};
+
+export const isDynamicIdPath = (path, basePath) => {
+  // * Working with mongo objectId.
+  const dynamicRouteRegExp = new RegExp(`^${basePath}/[0-9a-fA-F]{24}$`);
+  return dynamicRouteRegExp.test(path);
 };
