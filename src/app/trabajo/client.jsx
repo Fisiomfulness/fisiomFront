@@ -9,7 +9,6 @@ import { MdCheckCircleOutline } from 'react-icons/md';
 import { latamDniExp, phoneRegExp } from '@/utils/regExp';
 import { sendJobPostulation } from '@/services/mails';
 import * as Yup from 'yup';
-import validation from './validation';
 import toast from 'react-hot-toast';
 
 const initialValues = {
@@ -50,9 +49,7 @@ const validationSchema = Yup.object({
     .max(1000, 'Max: 1000 caracteres'),
 });
 
-const FileInput = ({ setFieldValue }) => {
-  const [fileName, setFileName] = useState('');
-
+const FileInput = ({ fileName, setFileName, setFieldValue }) => {
   const handleFileChange = (event) => {
     const file = event.currentTarget.files[0];
     if (file) {
@@ -84,6 +81,8 @@ const FileInput = ({ setFieldValue }) => {
 };
 
 const TrabajaConNosotrosClient = () => {
+  const [fileName, setFileName] = useState('');
+
   const handleSubmit = async (values, { resetForm }) => {
     try {
       const formData = new FormData();
@@ -92,9 +91,9 @@ const TrabajaConNosotrosClient = () => {
       }
       await sendJobPostulation(formData);
       resetForm();
+      setFileName('');
       toast.success('Solicitud enviada!');
     } catch (error) {
-      console.error(error);
       toast.error('Oops! Vuelva a intentarlo mas tarde...');
     }
   };
@@ -182,7 +181,11 @@ const TrabajaConNosotrosClient = () => {
               <label htmlFor="curriculum" className="font-bold">
                 Agrega tu CV
               </label>
-              <FileInput setFieldValue={setFieldValue} />
+              <FileInput
+                fileName={fileName}
+                setFileName={setFileName}
+                setFieldValue={setFieldValue}
+              />
               {errors.curriculum && (
                 <span className="text-danger-500"> {errors.curriculum}</span>
               )}
