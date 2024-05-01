@@ -19,10 +19,7 @@ const commentSchema = Yup.object({
     .max(100, 'Limite: 100 caracteres'),
 });
 
-// ! TODO: DB ID HARDCODED. CHANGE FOR THE ACTUAL SESSION ID
-const userId = '662a711a5b6db4c8ed71ba73';
-
-const CommentForm = ({ blogId, setComments }) => {
+const CommentForm = ({ userId, blogId, setComments }) => {
   const handleSubmit = async (values, { resetForm }) => {
     try {
       const finalComment = { ...values, sender_id: userId, blog_id: blogId };
