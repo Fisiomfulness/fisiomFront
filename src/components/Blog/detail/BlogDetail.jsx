@@ -1,6 +1,8 @@
 'use client';
 import { useState } from 'react';
+import { useUser } from '@/hooks/useUser';
 import { Image } from '@nextui-org/react';
+import roles from '@/utils/roles';
 import DOMPurify from 'isomorphic-dompurify';
 import ScrollBlog from './ScrollBlog';
 import CommentForm from './CommentForm';
@@ -10,6 +12,7 @@ const StarRatings = dynamic(() => import('react-star-ratings'), {
 });
 
 const BlogDetail = ({ data, iniComments, totalComments }) => {
+  const { user } = useUser();
   const [comments, setComments] = useState(iniComments);
 
   return (
@@ -49,7 +52,33 @@ const BlogDetail = ({ data, iniComments, totalComments }) => {
           totalComments={totalComments}
           setComments={setComments}
         />
-        <CommentForm blogId={data._id} setComments={setComments} />
+        {user ? (
+          user.role === roles.USER ? (
+            <CommentForm
+              userId={user.userId}
+              blogId={data._id}
+              setComments={setComments}
+            />
+          ) : (
+            <div className="text-center bg-primary-600 mt-5 md:mt-7 text-white p-5">
+              <p>Solo usuarios comunes pueden dejar un comentario</p>
+            </div>
+          )
+        ) : (
+          <div className="text-center bg-primary-600 mt-5 md:mt-7 text-white p-5">
+            <p>
+              <span>
+                <a
+                  href="/login"
+                  className="font-semibold tracking-wider text-primary-50 underline hover:no-underline hover:text-secondary-900"
+                >
+                  Inicie sesión
+                </a>
+              </span>{' '}
+              para dejar un comentario
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
