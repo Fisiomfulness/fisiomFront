@@ -1,6 +1,11 @@
 import { getTypes } from '@/services/types';
 import MyBlogs from '@/components/Blog/my-blogs/MyBlogs';
 
+export const metadata = {
+  title: 'Mis blogs',
+  description: 'Todas las publicaciones pertenecientes a un profesional',
+};
+
 const page = async () => {
   const { types } = await getTypes();
 

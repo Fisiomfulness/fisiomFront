@@ -1,5 +1,9 @@
 import HomeClient from "./page.client";
 
+export const metadata = {
+  title: "Página Principal"
+}
+
 export default function Home() {
   return (
     <main
