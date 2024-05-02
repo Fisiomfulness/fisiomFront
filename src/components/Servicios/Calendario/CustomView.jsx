@@ -6,7 +6,6 @@ import * as dates from "date-arithmetic";
 import { Calendar, Views, Navigate, DateLocalizer } from "react-big-calendar";
 import TimeGrid from "react-big-calendar/lib/TimeGrid"; // use 'react-big-calendar/lib/TimeGrid'. Can't 'alias' in Storybook
 
-
 function MyWeek({
   date,
   localizer,
@@ -18,7 +17,7 @@ function MyWeek({
 }) {
   const currRange = useMemo(
     () => MyWeek.range(date, { localizer }),
-    [date, localizer]
+    [date, localizer],
   );
 
   return (
@@ -77,7 +76,6 @@ MyWeek.title = (date) => {
 };
 
 export default function CustomView({ localizer, events }) {
-    console.log(events)
   const { views } = useMemo(
     () => ({
       views: {
@@ -85,11 +83,11 @@ export default function CustomView({ localizer, events }) {
         myWeek: MyWeek,
       },
     }),
-    []
+    [],
   );
   const [date, setDate] = useState(new Date());
   const onNavigate = useCallback((newDate) => setDate(newDate), [setDate]);
- 
+
   return (
     <div className="h-[600px]">
       <Calendar

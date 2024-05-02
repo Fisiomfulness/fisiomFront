@@ -39,7 +39,7 @@ const menuItems = [
 function NavbarLink({ item, onClick }) {
   return (
     <Link
-      className="block w-full hover:text-primary hover:font-bold"
+      className="block w-full hover:text-primary"
       href={item.href}
       onClick={onClick}
     >
