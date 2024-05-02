@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { CustomLogo } from '@/features/ui';
-import { Card, CardBody } from '@nextui-org/react';
-import Link from 'next/link';
-import { useState } from 'react';
+import { CustomLogo } from "@/features/ui";
+import { Card, CardBody } from "@nextui-org/react";
+import Link from "next/link";
+import { useState } from "react";
 
 import { useUser } from "@/hooks/useUser";
-import LoginUser from "./LoginUser";
+import UserLoginComponent from "./UserLoginComponent";
 
 export const Login = () => {
   const { user, setUser } = useUser();
-  const [selected, setSelected] = useState('usuario');
+  const [selected, setSelected] = useState("usuario");
 
   return (
     <Card className="flex items-center h-auto w-full min-[440px]:w-4/5 md:w-[1028px] min-h-[512px]">
@@ -20,7 +20,7 @@ export const Login = () => {
             <CustomLogo width={220} color="dark" />
           </Link>
         </div>
-        <LoginUser />
+        <UserLoginComponent />
       </CardBody>
     </Card>
   );
