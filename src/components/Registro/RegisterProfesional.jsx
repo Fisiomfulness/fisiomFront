@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
-import { CustomButton, CustomTable } from "@/features/ui";
-import toast from "react-hot-toast";
-import Link from "next/link";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { Button, SelectItem, Select } from "@nextui-org/react";
+import { useCallback } from "react";
 
+import Link from "next/link";
+import toast from "react-hot-toast";
+import * as Yup from "yup";
+
+import { registerProfesionalForm } from "@/services/register";
 import { actualMinDate } from "@/utils/helpers";
 import { useDropzone } from "react-dropzone";
 
-import { registerProfesionalForm } from "@/services/register";
-import { Label } from "react-aria-components";
+import { Button, Input } from "@nextui-org/react";
+import { Form, Formik } from "formik";
+import { InputsFormRegister } from "./InputsFormsRegister";
 
 //#region Formik config
 const initialValues = {
@@ -20,30 +20,30 @@ const initialValues = {
   phone: "",
   email: "",
   dateOfBirth: "",
-  gender: "Masculino",
+  gender: "",
   password: "",
   repitPass: "",
   license: "",
   city: "",
 };
 
-const yupRequired = Yup.string().required("requerido");
+const yupRequired = Yup.string().required("");
 
 const registerSchemaValidation = Yup.object({
-  name: Yup.string()
-    .required("El nombre es requerido")
-    .min(3, "El nombre debe tener al menos 3 caracteres"),
+  name: yupRequired.min(3, "El nombre debe tener al menos 3 caracteres"),
   phone: yupRequired,
-  email: yupRequired.email("No es un email"),
+  email: yupRequired,
   dateOfBirth: Yup.date()
-    .required("La fecha de nacimiento es requerida")
+    .required("")
     .max(actualMinDate(), "Debes ser mayor de 18 años"),
-  password: Yup.string()
-    .required("La contraseña es requerida")
-    .min(8, "La contraseña debe tener al menos 8 caracteres"),
-  repitPass: Yup.string()
-    .required("Requerido")
-    .oneOf([Yup.ref("password")], "Las contraseñas deben coincidir"),
+  password: yupRequired.min(
+    8,
+    "La contraseña debe tener al menos 8 caracteres",
+  ),
+  repitPass: yupRequired.oneOf(
+    [Yup.ref("password")],
+    "Las contraseñas deben coincidir",
+  ),
   license: yupRequired,
   city: yupRequired,
 });
@@ -83,139 +83,41 @@ function RegisterProfesional({ Condicions }) {
       initialValues={initialValues}
       validationSchema={registerSchemaValidation}
     >
-      {({ values, handleChange }) => (
+      {({ handleChange, errors }) => (
         <Form className="flex flex-col gap-3">
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="name"
-              type="String"
-              placeholder="nombre"
-            />
-            <ErrorMessage
-              name="name"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
+          <InputsFormRegister handleChange={handleChange} errors={errors} />
 
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="phone"
-              type="string"
-              placeholder="telefono"
-            />
-            <ErrorMessage
-              name="phone"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="email"
-              type="email"
-              placeholder="email"
-            />
-            <ErrorMessage
-              name="email"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="dateOfBirth"
-              type="date"
-              placeholder="Fecha de nacimiento"
-            />
-            <ErrorMessage
-              name="dateOfBirth"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
-          <Select
-            onChange={handleChange}
-            name="gender"
-            aria-labelledby="gender" // Add this line
-          >
-            <SelectItem value="Masculino" label="Masculino">
-              Masculino
-            </SelectItem>
-
-            <SelectItem value="Femenino" label="Femenino">
-              Femenino
-            </SelectItem>
-
-            <SelectItem
-              value="Prefiero no responder"
-              label="Prefiero no responder"
-            >
-              Prefiero no responder
-            </SelectItem>
-          </Select>
-
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="password"
-              type="password"
-              placeholder="contraseña"
-            />
-            <ErrorMessage
-              name="password"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="repitPass"
-              type="password"
-              placeholder="repita la contraseña"
-            />
-            <ErrorMessage
-              name="repitPass"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
+          <>
+            <Input
+              isRequired
               name="license"
               type="string"
-              placeholder="licencia"
+              variant="underlined"
+              label="Licencia"
+              placeholder="Coloca tu licencia"
+              onChange={handleChange}
+              size="lg"
             />
-            <ErrorMessage
-              name="license"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
+            {errors.license && (
+              <span className="text-danger-500 text-xs">{errors.license}</span>
+            )}
+          </>
 
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
+          <>
+            <Input
               name="city"
               type="string"
-              placeholder="ciudad"
+              isRequired
+              variant="underlined"
+              label="Ciudad"
+              placeholder="Coloca tu ciudad"
+              onChange={handleChange}
+              size="lg"
             />
-            <ErrorMessage
-              name="city"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
+            {errors.city && (
+              <span className="text-danger-500 text-xs">{errors.city}</span>
+            )}
+          </>
 
           <div className="flex flex-col gap-1">
             <div
