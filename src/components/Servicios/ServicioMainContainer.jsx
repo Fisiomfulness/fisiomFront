@@ -2,7 +2,7 @@ import ServicioMainCard from "./ServicioMainCard";
 
 const ServicioMainContainer = ({ profesionales }) => {
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col">
       {profesionales.length ? (
         profesionales?.map((profesional) => (
           <ServicioMainCard key={profesional._id} profesional={profesional} />
