@@ -1,12 +1,13 @@
 "use client";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useGeolocation from "@/hooks/useGeolocation";
 import ServicioMainContainer from "./ServicioMainContainer";
 import SearchProfesional from "./SearchProfesional/SearchProfesional";
 import dynamic from "next/dynamic";
 import { apiEndpoints } from "@/api_endpoints";
-import Paginate from "../Paginate/Paginate";
+import { useInView } from "framer-motion"
+//import Paginate from "../Paginate/Paginate";
 
 const Map = dynamic(() => import("@/components/Map"), {
   loading: () => <p>loading...</p>,
@@ -14,9 +15,13 @@ const Map = dynamic(() => import("@/components/Map"), {
 });
 
 const ServicioMain = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { amount: 1 });
+
   const userCoords = useGeolocation({
     defaultLocation: [-12.057822374374036, -77.06708360541617],
   });
+
   const [professionals, setProfessionals] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -40,7 +45,11 @@ const ServicioMain = () => {
           },
         })
         .then(({ data }) => {
-          setProfessionals(data.professionals);
+          if (page === 1) {
+            setProfessionals(data.professionals);
+          } else {
+            setProfessionals(prev => [...prev, ...data.professionals]);
+          }
           setTotalPages(data.totalPages);
         })
         .catch((err) => {
@@ -49,7 +58,11 @@ const ServicioMain = () => {
         });
     }
     return () => abortController.abort();
-  }, [filters, page, userCoords]);
+  }, [page, filters, userCoords]);
+
+  useEffect(() => {
+    (isInView && page < totalPages) && setPage(prev => prev + 1)
+  }, [isInView])
 
   return (
     <main className="vstack px-auto mx-auto max-w-8xl w-full mb-4">
@@ -58,14 +71,12 @@ const ServicioMain = () => {
         setFilters={setFilters}
         setPage={setPage}
       />
-      <div className="flex w-full min-h-min justify-between">
-        <div className="w-full flex flex-col gap-2 items-center">
+      <div className="flex w-full min-h-min justify-between gap-4">
+        <div className="w-full flex flex-col gap-2 items-center h-[80vh] overflow-auto">
           <ServicioMainContainer profesionales={professionals} />
-          <div className="mt-auto">
-            <Paginate page={page} setPage={setPage} total={totalPages} />
-          </div>
+          <div ref={ref} className="h-1"></div>
         </div>
-        <div className="min-h-[900px] w-full">
+        <div className="min-h-[80vh] w-full">
           <Map profesionales={professionals} userCoords={userCoords} />
         </div>
       </div>

@@ -36,7 +36,6 @@ const TrabajaConNosotrosClient = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const validateError = validation(form);
-    console.log("validate", validateError);
     setErrors(validateError);
 
     if (Object.keys(validateError).length === 0) {
