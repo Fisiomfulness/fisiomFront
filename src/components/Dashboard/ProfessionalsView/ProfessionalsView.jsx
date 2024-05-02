@@ -206,7 +206,7 @@ export default function ProfessionalsView() {
               base: ' ',
               inputWrapper: 'border-1',
             }}
-            className="bg-zinc-200 w-full sm:max-w-[44%] border border-black rounded-lg"
+            className=" w-full sm:max-w-[44%] border border-black rounded-lg "
             placeholder="Filtrar por nombre"
             size="sm"
             startContent={<CiSearch className=" text-black" />}

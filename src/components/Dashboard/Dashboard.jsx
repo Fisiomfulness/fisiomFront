@@ -3,13 +3,13 @@
 import React from 'react';
 import UsersView from './UsersView/UsersView';
 import ProductsView from './ProductsView/ProductsView';
-import DrawerDashboard from './drawerDashboard/DrawerDashboard';
 import ProfessionalsView from './ProfessionalsView/ProfessionalsView';
+import DropdownDashboard from './DropdownDashboard/DropdownDashboard';
 
 export default function Dashboard() {
   //! ---------- HOOKS ----------
   const [tab, setTab] = React.useState(3);
-
+  //TODO Hacer el switch de las tablas CON useContext
   const switchTables = () => {
     switch (tab) {
       case 0:
@@ -25,8 +25,8 @@ export default function Dashboard() {
     }
   };
   return (
-    <section className="relative w-full flex flex-col items-center justify-center">
-      <DrawerDashboard />
+    <section className="relative w-full flex flex-col items-center justify-center mt-16 mb-5 ">
+      <DropdownDashboard />
       {switchTables(tab)}
     </section>
   );
