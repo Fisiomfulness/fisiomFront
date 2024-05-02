@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { CustomButton, CustomInput, CustomLogo } from "@/features/ui";
-import { Card, CardBody, RadioGroup, Radio } from "@nextui-org/react";
-import { Button } from "@nextui-org/react";
+import { CustomLogo } from "@/features/ui";
+import { Card, CardBody } from "@nextui-org/react";
 import Link from "next/link";
+import { useState } from "react";
 
-import LoginUser from "./LoginUser";
 import { useUser } from "@/hooks/useUser";
+import UserLoginComponent from "./UserLoginComponent";
 
 export const Login = () => {
   const { user, setUser } = useUser();
@@ -21,7 +20,7 @@ export const Login = () => {
             <CustomLogo width={220} color="dark" />
           </Link>
         </div>
-        <LoginUser />
+        <UserLoginComponent />
       </CardBody>
     </Card>
   );

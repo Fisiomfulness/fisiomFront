@@ -1,16 +1,15 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
-import toast from "react-hot-toast";
 import Link from "next/link";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import toast from "react-hot-toast";
 import * as Yup from "yup";
 
-import { CustomButton, CustomInput } from "@/features/ui";
 import { registerUserForm } from "@/services/register";
 import { actualMinDate } from "@/utils/helpers";
-import { useDropzone } from "react-dropzone";
-import { Button, Select, SelectItem } from "@nextui-org/react";
+
+import { Button } from "@nextui-org/react";
+import { Form, Formik } from "formik";
+import { InputsFormRegister } from "./InputsFormsRegister";
 
 //#region Formik config
 const initialValues = {
@@ -20,39 +19,34 @@ const initialValues = {
   dateOfBirth: "",
   password: "",
   repitPass: "",
-  gender: "Masculino",
+  gender: "",
 };
 
+const yupRequired = Yup.string().required("");
+
 const registerSchemaValidation = Yup.object({
-  name: Yup.string()
-    .required("El nombre es requerido")
-    .min(3, "El nombre debe tener al menos 3 caracteres"),
-  phone: Yup.string().required("Numero telefonico requerido"),
-  email: Yup.string()
-    .required("Correo electronico requerido")
-    .email("No es un email"),
+  name: yupRequired.min(3, "El nombre debe tener al menos 3 caracteres"),
+  phone: yupRequired,
+  email: yupRequired,
   dateOfBirth: Yup.date()
-    .required("La fecha de nacimiento es requerida")
+    .required("")
     .max(actualMinDate(), "Debes ser mayor de 18 años"),
-  password: Yup.string()
-    .required("La contraseña es requerida")
-    .min(8, "La contraseña debe tener al menos 8 caracteres"),
-  repitPass: Yup.string()
-    .required("Requerido")
-    .oneOf([Yup.ref("password")], "Las contraseñas deben coincidir"),
+  password: yupRequired.min(
+    8,
+    "La contraseña debe tener al menos 8 caracteres",
+  ),
+  repitPass: yupRequired.oneOf(
+    [Yup.ref("password")],
+    "Las contraseñas deben coincidir",
+  ),
+  gender: yupRequired,
 });
 
 //#region Component
 function RegistroUsuario({ Condicions }) {
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
-    useDropzone({ onDrop });
-
   const registerResponse = async (values) => {
-    await registerUserForm(values);
+    const { repitPass, ...newValues } = values;
+    await registerUserForm(newValues);
   };
 
   const handleSubmit = (values) => {
@@ -70,113 +64,9 @@ function RegistroUsuario({ Condicions }) {
       initialValues={initialValues}
       validationSchema={registerSchemaValidation}
     >
-      {(values, handleChange) => (
+      {({ handleChange, errors }) => (
         <Form className="flex flex-col gap-3">
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="name"
-              type="String"
-              placeholder="nombre"
-            />
-            <ErrorMessage
-              name="name"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="phone"
-              type="string"
-              placeholder="telefono"
-            />
-            <ErrorMessage
-              name="phone"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="email"
-              type="email"
-              placeholder="email"
-            />
-            <ErrorMessage
-              name="email"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="dateOfBirth"
-              type="date"
-              placeholder="Fecha de nacimiento"
-            />
-            <ErrorMessage
-              name="dateOfBirth"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
-
-          <Select
-            placeholder="Seleccione un genero"
-            onChange={handleChange}
-            name="gender"
-            aria-labelledby="gender" // Add this line
-          >
-            <SelectItem value="Masculino" label="Masculino">
-              Masculino
-            </SelectItem>
-
-            <SelectItem value="Femenino" label="Femenino">
-              Femenino
-            </SelectItem>
-
-            <SelectItem
-              value="Prefiero no responder"
-              label="Prefiero no responder"
-            >
-              Prefiero no responder
-            </SelectItem>
-          </Select>
-
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="password"
-              type="password"
-              placeholder="contraseña"
-            />
-            <ErrorMessage
-              name="password"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <Field
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="repitPass"
-              type="password"
-              placeholder="Repita la contraseña"
-            />
-            <ErrorMessage
-              name="repitPass"
-              component="span"
-              className="text-danger-500"
-            />
-          </div>
+          <InputsFormRegister handleChange={handleChange} errors={errors} />
 
           <Button className="bg-primary-500 text-white font-sans" type="submit">
             Registrarse
