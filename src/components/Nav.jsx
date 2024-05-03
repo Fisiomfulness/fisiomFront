@@ -62,7 +62,7 @@ export default function Nav() {
       onMenuOpenChange={setIsMenuOpen}
       classNames={{
         wrapper:
-          'max-w-8xl bg-primary-200 !relative !px-4 md:!px-6 lg:!px-8 !gap-6',
+          'max-w-8xl !relative !px-4 md:!px-6 lg:!px-8 !gap-6',
         item: [
           'data-[active=true]:text-primary',
           'data-[active=true]:font-bold',
