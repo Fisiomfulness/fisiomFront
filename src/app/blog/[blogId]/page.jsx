@@ -1,6 +1,11 @@
 import { getBlogDetail } from '@/services/blogs';
-import BlogDetail from '@/components/Blog/detail/BlogDetail';
 import { getBlogComments } from '@/services/comments';
+import BlogDetail from '@/components/Blog/detail/BlogDetail';
+
+export const metadata = {
+  title: 'Publicación',
+  description: 'Publicación profesional de fisiomfulness',
+};
 
 const BlogDetailPage = async ({ params }) => {
   const { blog } = await getBlogDetail(params.blogId);

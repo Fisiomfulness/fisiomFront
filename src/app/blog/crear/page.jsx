@@ -1,6 +1,11 @@
 import { getTypes } from '@/services/types';
 import BlogForm from '@/components/Blog/BlogForm';
 
+export const metadata = {
+  title: 'Crea un blog',
+  description: 'formulario de creación de un blog profesional',
+};
+
 const CreateBlog = async () => {
   const { types } = await getTypes();
 

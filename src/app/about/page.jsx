@@ -1,3 +1,8 @@
+export const metadata = {
+  title: 'Acerca de',
+  description: 'Descripción de la mision de fisiomfulness',
+};
+
 export default function About() {
   return (
     <main className="min-h-screen vstack justify-between">
