@@ -1,7 +1,7 @@
 'use client';
 import { CustomLogo } from '@/features/ui';
 import { Card, CardBody } from '@nextui-org/react';
-import Link from 'next/link';;
+import Link from 'next/link';
 import UserLoginComponent from './UserLoginComponent';
 
 export const Login = () => {
