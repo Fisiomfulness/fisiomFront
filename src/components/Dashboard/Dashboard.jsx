@@ -24,9 +24,10 @@ export default function Dashboard() {
         return <div>Administrar blogs</div>;
     }
   };
+
   return (
     <section className="relative w-full flex flex-col items-center justify-center mt-16 mb-5 ">
-      <DropdownDashboard />
+      <DropdownDashboard setTab={setTab} tab={tab} />
       {switchTables(tab)}
     </section>
   );

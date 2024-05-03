@@ -37,8 +37,10 @@ import {
   useDisclosure,
 } from '@nextui-org/react';
 import Image from 'next/image';
-import EditProductModal from '../Modals/EditProductModal';
-import DeleteProductModal from '../Modals/DeleteProductModal';
+import EditProductModal from '../Modals/ProductsViewModals/EditProductModal';
+import DeleteProductModal from '../Modals/ProductsViewModals/DeleteProductModal';
+import CreateProductModal from '../Modals/ProductsViewModals/CreateProductModal';
+import { getAllCategories } from '@/app/api/productsActions/getAllCategories';
 
 //Este array es para cambiar el color del punto de stock del producto, si hay más de 10, es verde, si hay menos de 10 es amarillo y si no hay es rojo.
 const stockColorMap = {
@@ -68,6 +70,9 @@ export default function ProductsView() {
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
   const [products, setProducts] = React.useState([]);
+  //Este estado es para determinar cuando se realizó una acción y sea necesario volver a pedir los productos al backend para actualizar la tabla.
+  const [fetchAgain, setFetchAgain] = React.useState(false);
+  const [categories, setCategories] = React.useState([]);
 
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState({
@@ -76,7 +81,8 @@ export default function ProductsView() {
   });
   React.useEffect(() => {
     getProducts();
-  }, []);
+    getCategories();
+  }, [fetchAgain]);
   //! ---------- FUNCTIONS ----------
   const getProducts = async () => {
     const { data, error } = await getAllProducts();
@@ -84,6 +90,13 @@ export default function ProductsView() {
       return toast.error(error);
     }
     return setProducts(data.products);
+  };
+  const getCategories = async () => {
+    const { data, error } = await getAllCategories();
+    if (error) {
+      return toast.error(error);
+    }
+    return setCategories(data.categories);
   };
   const [page, setPage] = React.useState(1);
 
@@ -140,9 +153,7 @@ export default function ProductsView() {
               description: 'text-default-500 ',
             }}
             name={<p className="capitalize">{cellValue}</p>}
-          >
-            {product.category.name}
-          </User>
+          ></User>
         );
       case 'price':
         return (
@@ -195,7 +206,11 @@ export default function ProductsView() {
               }}
               className="flex items-center justify-start rounded-full "
             >
-              <DeleteProductModal product={product} />
+              <DeleteProductModal
+                product={product}
+                setFetchAgain={setFetchAgain}
+                fetchAgain={fetchAgain}
+              />
             </button>
           </div>
         );
@@ -263,10 +278,10 @@ export default function ProductsView() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button className="flex gap-3 bg-zinc-300" size="sm">
-              <FaPlus className="text-small" />
-              Agregar producto
-            </Button>
+            <CreateProductModal
+              categories={categories}
+              setFetchAgain={setFetchAgain}
+            />
           </div>
         </div>
         <div className="flex justify-between items-center">

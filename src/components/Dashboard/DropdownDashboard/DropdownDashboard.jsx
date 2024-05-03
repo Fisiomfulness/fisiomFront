@@ -8,16 +8,10 @@ import {
 } from '@nextui-org/react';
 import { MdAdminPanelSettings } from 'react-icons/md';
 import { dashboardDropdown } from '../data/data';
-export default function DropdownDashboard() {
+export default function DropdownDashboard({setTab,tab}) {
   const [open, setOpen] = React.useState(false);
   return (
     <>
-      <div
-        onClick={() => setOpen(!open)}
-        className={`-z-10 absolute bg-zinc-600 bg-opacity-35 w-screen h-screen transition-all duration-150 ${
-          open ? 'block z-[9]' : 'hidden '
-        }`}
-      ></div>
       <Dropdown
         type="listbox"
         closeOnSelect
@@ -25,7 +19,7 @@ export default function DropdownDashboard() {
       >
         <DropdownTrigger>
           <Button
-            variant="bordered"
+            variant="faded"
             color="primary"
             className=" absolute -top-[55px] z-10"
             onClick={() => setOpen(!open)}
@@ -44,13 +38,13 @@ export default function DropdownDashboard() {
               <DropdownItem
                 key={option.tab}
                 startContent={option.icon}
-                className="w-full text-2xl bg-zinc-400 bg-opacity-30 transition-all text-primary-900 hover:bg-primary-500 z-10"
+                className={`w-full text-2xl  transition-all border border-zinc-300 text-primary-900 hover:bg-primary-200 z-10 ${tab === option.tab ? 'bg-primary-400' : 'bg-zinc-100'}`}
                 aria-label="Actions"
                 variant="primary"
                 onClick={() => {
                   setOpen(!open);
                   //TODO changeTab deberá cambiar la pestaña que se ve.
-                  // changeTab(option.tab);
+                  setTab(option.tab);
                 }}
               >
                 {option.name}

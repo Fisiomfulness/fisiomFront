@@ -25,7 +25,7 @@ import { CiSearch } from 'react-icons/ci';
 import { FaChevronCircleDown } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { getAllProfessionals } from '@/app/api/professionalsActions/getAllProfessionals';
-import ProfessionalInfoModal from '../Modals/ProfessionalInfoModal';
+import ProfessionalInfoModal from '../Modals/ProfessionalsViewModals/ProfessionalInfoModal';
 //Este array es para cambiar el color del Estado del usuario.
 const statusColorMap = {
   true: 'success',

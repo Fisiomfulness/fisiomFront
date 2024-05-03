@@ -142,18 +142,19 @@ export default function ProfessionalInfoModal({ professional }) {
               </ModalBody>
               <ModalFooter className="flex justify-between">
                 <AboutProfessionalModal professional={professional} />
-                <Button
-                  startContent={<ImProfile className="text-2xl" />}
-                  className="bg-primary-500 font-semibold text-white"
-                >
-                  <a
+                <a
                     href={professional.curriculum}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
+                <Button
+                  startContent={<ImProfile className="text-2xl" />}
+                  className="bg-primary-500 font-semibold text-white"
+                >
+               
                     Abrir CV
-                  </a>
                 </Button>
+                  </a>
                 <ProfessionalCommentsModal professional={professional} />
               </ModalFooter>
             </>
