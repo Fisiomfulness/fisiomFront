@@ -1,8 +1,8 @@
-import Register from "../../components/Registro/Register";
+import Register from '../../components/Registro/Register';
 
 const RegistroPage = () => {
   return (
-    <main className="px-auto min-h-screen center bg-primary-400">
+    <main className="px-auto py-4 min-h-screen center bg-primary-400">
       <Register />
     </main>
   );

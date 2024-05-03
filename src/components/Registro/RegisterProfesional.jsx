@@ -1,80 +1,102 @@
-"use client";
+'use client';
+import { Button } from '@nextui-org/react';
+import { CustomInput } from '@/features/ui';
+import { Form, Formik } from 'formik';
+import { InputsFormRegister } from './InputsFormsRegister';
+import { registerProfesionalForm } from '@/services/register';
+import { isDateOnRange, isValidPdf } from '@/utils/helpers';
+import {
+  nameRegex,
+  phoneRegExp,
+  cityRegex,
+  numericRegex,
+} from '@/utils/regExp';
 
-import { useCallback } from "react";
-
-import Link from "next/link";
-import toast from "react-hot-toast";
-import * as Yup from "yup";
-
-import { registerProfesionalForm } from "@/services/register";
-import { actualMinDate } from "@/utils/helpers";
-import { useDropzone } from "react-dropzone";
-
-import { Button, Input } from "@nextui-org/react";
-import { Form, Formik } from "formik";
-import { InputsFormRegister } from "./InputsFormsRegister";
+import FileUpload from './FileUpload';
+import Link from 'next/link';
+import toast from 'react-hot-toast';
+import * as Yup from 'yup';
 
 //#region Formik config
 const initialValues = {
-  name: "",
-  phone: "",
-  email: "",
-  dateOfBirth: "",
-  gender: "",
-  password: "",
-  repitPass: "",
-  license: "",
-  city: "",
+  name: '',
+  phone: '',
+  email: '',
+  dateOfBirth: '',
+  gender: '',
+  password: '',
+  repitPass: '',
+  license: '', // ? Opcional
+  city: '',
+  curriculum: null,
 };
 
-const yupRequired = Yup.string().required("");
+const yupRequired = Yup.string().required('Completa este campo');
+const genderList = ['Femenino', 'Masculino', 'Prefiero no responder'];
+const acceptedYears = { min: 18, max: 100 };
+const MAX_FILE_SIZE = 1048576; // ? 1MB
 
 const registerSchemaValidation = Yup.object({
-  name: yupRequired.min(3, "El nombre debe tener al menos 3 caracteres"),
-  phone: yupRequired,
-  email: yupRequired,
-  dateOfBirth: Yup.date()
-    .required("")
-    .max(actualMinDate(), "Debes ser mayor de 18 años"),
-  password: yupRequired.min(
-    8,
-    "La contraseña debe tener al menos 8 caracteres",
+  name: yupRequired
+    .matches(nameRegex, 'Debe contener solo letras')
+    .min(3, 'El nombre debe tener al menos 3 caracteres')
+    .max(30, 'No mas de 30 caracteres'),
+  phone: yupRequired.matches(phoneRegExp, 'No es un teléfono valido'),
+  email: yupRequired.email('No es un email'),
+  dateOfBirth: yupRequired.test(
+    'is-date-on-range',
+    `Debes tener mas de ${acceptedYears.min} y menos de ${acceptedYears.max} años`,
+    (value) => isDateOnRange(value, acceptedYears.min, acceptedYears.max)
   ),
+  password: yupRequired
+    .min(8, 'La contraseña debe tener al menos 8 caracteres')
+    .max(50, 'No mas de 50 caracteres'),
   repitPass: yupRequired.oneOf(
-    [Yup.ref("password")],
-    "Las contraseñas deben coincidir",
+    [Yup.ref('password')],
+    'Las contraseñas deben coincidir'
   ),
-  license: yupRequired,
-  city: yupRequired,
+  gender: Yup.mixed()
+    .required('Requerido')
+    .oneOf(genderList, 'Seleccione un genero'),
+  license: Yup.string()
+    .notRequired()
+    .min(3, 'El n° colegiado debe tener al menos 3 dígitos')
+    .max(10, 'No puede tener mas de 10 dígitos')
+    .matches(numericRegex, 'Debe ser numérico'),
+  city: yupRequired
+    .min(2, 'La ciudad debe tener al menos 2 caracteres')
+    .max(50, 'No puede contener mas de 50 caracteres')
+    .matches(
+      cityRegex,
+      'El nombre de la ciudad solo puede contener letras y espacios'
+    ),
+  curriculum: Yup.mixed()
+    .required('Suba un curriculum')
+    .test('is-valid-type', 'No es un PDF', (value) =>
+      isValidPdf(value && value.name.toLowerCase())
+    )
+    .test(
+      'is-valid-size',
+      'Tamaño de archivo máximo: 1MB',
+      (value) => value && value.size <= MAX_FILE_SIZE
+    ),
 });
 
-//#region Component
-function RegisterProfesional({ Condicions }) {
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
-    useDropzone({ onDrop });
-
-  const registerResponse = async (values) => {
-    let { repitPass, ...newValues } = values;
-    const newformData = new FormData();
-
-    for (const [key, value] of Object.entries(newValues)) {
-      newformData.append(key, value);
+function RegisterProfesional({ conditionsAccepted }) {
+  const handleSubmitRegister = async (values, { resetForm }) => {
+    if (!conditionsAccepted) {
+      toast.error('Por favor acepte los términos y condiciones');
+      return;
     }
-    newformData.append("curriculum", acceptedFiles[0]);
-
-    await registerProfesionalForm(newformData);
-  };
-
-  const handleSubmitRegister = (values) => {
-    if (Condicions()) {
-      registerResponse(values);
-    } else {
-      toast.error("Acepte las condiciones");
+    if (values.license === '') delete values.license;
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(values)) {
+      formData.append(key, value);
     }
+    try {
+      await registerProfesionalForm(formData);
+      resetForm();
+    } catch (error) {}
   };
 
   return (
@@ -83,64 +105,105 @@ function RegisterProfesional({ Condicions }) {
       initialValues={initialValues}
       validationSchema={registerSchemaValidation}
     >
-      {({ handleChange, errors }) => (
-        <Form className="flex flex-col gap-3">
-          <InputsFormRegister handleChange={handleChange} errors={errors} />
+      {({
+        handleChange,
+        handleBlur,
+        touched,
+        values,
+        errors,
+        isSubmitting,
+      }) => (
+        <Form className="flex flex-col gap-3 w-full min-[480px]:w-[80%] lg:w-2/3">
+          <CustomInput
+            name="name"
+            aria-label="Nombre completo"
+            type="string"
+            variant="flat"
+            placeholder="Nombre completo"
+            value={values.name}
+            isInvalid={touched.name && errors.name ? true : false}
+            errorMessage={touched.name && errors.name}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            size="lg"
+            classNames={{
+              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+            }}
+          />
 
-          <>
-            <Input
-              isRequired
-              name="license"
-              type="string"
-              variant="underlined"
-              label="Licencia"
-              placeholder="Coloca tu licencia"
-              onChange={handleChange}
-              size="lg"
-            />
-            {errors.license && (
-              <span className="text-danger-500 text-xs">{errors.license}</span>
-            )}
-          </>
+          <CustomInput
+            name="phone"
+            aria-label="Teléfono"
+            type="string"
+            variant="flat"
+            placeholder="Teléfono (sin espacios)"
+            value={values.phone}
+            isInvalid={touched.phone && errors.phone ? true : false}
+            errorMessage={touched.phone && errors.phone}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            size="lg"
+            classNames={{
+              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+            }}
+          />
 
-          <>
-            <Input
-              name="city"
-              type="string"
-              isRequired
-              variant="underlined"
-              label="Ciudad"
-              placeholder="Coloca tu ciudad"
-              onChange={handleChange}
-              size="lg"
-            />
-            {errors.city && (
-              <span className="text-danger-500 text-xs">{errors.city}</span>
-            )}
-          </>
+          <InputsFormRegister
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            touched={touched}
+            values={values}
+            errors={errors}
+          />
 
-          <div className="flex flex-col gap-1">
-            <div
-              className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              {...getRootProps()}
-            >
-              <input {...getInputProps()} />
-              {isDragActive ? (
-                <p>Suelta tus Curriculum aqui...</p>
-              ) : (
-                <p>Suelta tu Curriculum aqui, o has click para seleccionar</p>
-              )}
-            </div>
-          </div>
+          <CustomInput
+            name="city"
+            aria-label="Ciudad"
+            type="string"
+            variant="flat"
+            placeholder="Ciudad"
+            value={values.city}
+            isInvalid={touched.city && errors.city ? true : false}
+            errorMessage={touched.city && errors.city}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            size="lg"
+            classNames={{
+              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+            }}
+          />
 
-          <Button className="bg-primary-500 text-white font-sans" type="submit">
-            Registrarse
+          <CustomInput
+            name="license"
+            aria-label="Numero de colegiado"
+            type="string"
+            variant="flat"
+            placeholder="Numero de colegiado"
+            value={values.license}
+            isInvalid={touched?.license && errors.license ? true : false}
+            errorMessage={touched?.license && errors.license}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            size="lg"
+            classNames={{
+              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+            }}
+          />
+
+          <FileUpload name="curriculum" />
+
+          <Button
+            className="bg-primary-500 mt-2 text-white uppercase font-semibold rounded-sm"
+            type="submit"
+            isDisabled={Object.keys(errors).length > 0 || isSubmitting}
+          >
+            Crear perfil
           </Button>
 
           <div className="flex flex-row justify-center items-center gap-4 mt-8">
-            <p>¿Ya esta registrado?</p>
+            <p className="text-sm">¿Ya esta registrado?</p>
             <Button
-              className="bg-primary-500 text-white font-sans"
+              className="bg-primary-500 text-white rounded-md font-semibold"
               as={Link}
               href="/login"
             >
