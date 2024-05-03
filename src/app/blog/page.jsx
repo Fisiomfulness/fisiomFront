@@ -1,6 +1,11 @@
 import { getBlogs } from '@/services/blogs';
 import BlogSection from '@/components/Blog/BlogSection';
 
+export const metadata = {
+  title: "Blogs",
+  description: "Blogs publicados por profesionales de fisiomfulness",
+}
+
 const CARDS_PER_PAGE = 9;
 const MAX_LAST_BLOGS = 8;
 

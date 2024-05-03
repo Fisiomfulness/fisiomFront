@@ -3,12 +3,12 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export const login = async (user) => {
-  const toastPromise = toast.promise(
+  return toast.promise(
     axios.post(`${BASE_URL}/login`, user, {
       withCredentials: true,
     }),
     {
-      loading: "Iniciando seccion...",
+      loading: "Iniciando Sesion...",
       success: (response) => response.data.message,
       error: (error) => {
         if (error.response) {
@@ -19,7 +19,4 @@ export const login = async (user) => {
       },
     },
   );
-
-  const response = await toastPromise;
-  return toastPromise;
 };

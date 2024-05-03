@@ -5,7 +5,7 @@ export const verifyToken = async () => {
     method: 'GET',
     credentials: 'include',
   });
-  if (!res.ok) throw new Error('No autorizado');
+  if (!res.ok) return null;
   return await res.json();
 };
 

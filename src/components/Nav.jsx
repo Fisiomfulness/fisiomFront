@@ -22,7 +22,7 @@ const menuItems = [
   { name: 'Pregunta a un experto', href: '/pregunta_experto' },
   { name: 'Comunidad', href: '/comunidad' },
   // { name: "Tratamientos", href: "/tratamientos" },
-  { name: 'Trabaja Con Nosotros', href: '/trabajaConNosotros' },
+  { name: 'Trabaja Con Nosotros', href: '/trabajo' },
   { name: 'Blog', href: '/blog' },
   { name: 'Productos', href: '/productos' },
 ];
@@ -62,7 +62,7 @@ export default function Nav() {
       onMenuOpenChange={setIsMenuOpen}
       classNames={{
         wrapper:
-          'max-w-8xl bg-primary-200 !relative !px-4 md:!px-6 lg:!px-8 !gap-6',
+          'max-w-8xl !relative !px-4 md:!px-6 lg:!px-8 !gap-6',
         item: [
           'data-[active=true]:text-primary',
           'data-[active=true]:font-bold',
