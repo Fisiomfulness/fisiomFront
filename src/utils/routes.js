@@ -9,13 +9,12 @@ const testRoutes = [
   '/calendario',
   '/carrito',
   '/comunidad',
+  '/pacientes',
   '/comunidad/mensajes',
   '/dashboard',
   '/dashboard-blog',
   '/only_dev',
   '/mis_productos',
-  '/blog/mis-blogs',
-  '/blog/crear',
 ];
 
 export const publicRoutes = [
@@ -36,8 +35,8 @@ export const userRoutes = ['/mis_compras', '/pregunta_experto', '/carrito'];
 
 export const professionalRoutes = [
   '/blog/crear',
-  '/pregunta_experto',
   '/blog/mis-blogs',
+  '/pregunta_experto',
 ];
 
 // ! To fill
