@@ -2,11 +2,14 @@
 
 import { NextUIProvider } from "@nextui-org/system";
 import { Provider as JotaiProvider } from "jotai";
+import { SessionProvider } from "next-auth/react";
 
 export function Providers({ children }) {
   return (
     <NextUIProvider>
-      <JotaiProvider>{children}</JotaiProvider>
+      <SessionProvider>
+        <JotaiProvider>{children}</JotaiProvider>
+      </SessionProvider>
     </NextUIProvider>
   );
 }
