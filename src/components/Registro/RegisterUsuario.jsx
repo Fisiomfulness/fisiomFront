@@ -1,61 +1,66 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import toast from "react-hot-toast";
-import * as Yup from "yup";
+import Link from 'next/link';
+import toast from 'react-hot-toast';
+import * as Yup from 'yup';
 
-import { registerUserForm } from "@/services/register";
-import { actualMinDate } from "@/utils/helpers";
+import { registerUserForm } from '@/services/register';
+import { isDateOnRange } from '@/utils/helpers';
+import { nameRegex } from '@/utils/regExp';
 
-import { Button } from "@nextui-org/react";
-import { Form, Formik } from "formik";
-import { InputsFormRegister } from "./InputsFormsRegister";
+import { Button } from '@nextui-org/react';
+import { CustomInput } from '@/features/ui';
+import { Form, Formik } from 'formik';
+import { InputsFormRegister } from './InputsFormsRegister';
 
 //#region Formik config
 const initialValues = {
-  name: "",
-  phone: "",
-  email: "",
-  dateOfBirth: "",
-  password: "",
-  repitPass: "",
-  gender: "",
+  name: '',
+  email: '',
+  dateOfBirth: '',
+  password: '',
+  repitPass: '',
+  gender: '',
 };
 
-const yupRequired = Yup.string().required("");
+const genderList = ['Femenino', 'Masculino', 'Prefiero no responder'];
+const acceptedYears = { min: 18, max: 100 };
+const yupRequired = Yup.string().required('Completa este campo');
 
 const registerSchemaValidation = Yup.object({
-  name: yupRequired.min(3, "El nombre debe tener al menos 3 caracteres"),
-  phone: yupRequired,
-  email: yupRequired,
-  dateOfBirth: Yup.date()
-    .required("")
-    .max(actualMinDate(), "Debes ser mayor de 18 años"),
-  password: yupRequired.min(
-    8,
-    "La contraseña debe tener al menos 8 caracteres",
+  name: yupRequired
+    .matches(nameRegex, 'Debe contener solo letras')
+    .min(3, 'El nombre debe tener al menos 3 caracteres')
+    .max(30, 'No mas de 30 caracteres'),
+  email: yupRequired.email('No es un email'),
+  dateOfBirth: yupRequired.test(
+    'is-date-on-range',
+    `Debes tener mas de ${acceptedYears.min} y menos de ${acceptedYears.max} años`,
+    (value) => isDateOnRange(value, acceptedYears.min, acceptedYears.max)
   ),
+  gender: Yup.mixed()
+    .required('Requerido')
+    .oneOf(genderList, 'Seleccione un genero'),
+  password: yupRequired
+    .min(8, 'La contraseña debe tener al menos 8 caracteres')
+    .max(50, 'No mas de 50 caracteres'),
   repitPass: yupRequired.oneOf(
-    [Yup.ref("password")],
-    "Las contraseñas deben coincidir",
+    [Yup.ref('password')],
+    'Las contraseñas deben coincidir'
   ),
-  gender: yupRequired,
 });
 
 //#region Component
-function RegistroUsuario({ Condicions }) {
-  const registerResponse = async (values) => {
-    const { repitPass, ...newValues } = values;
-    await registerUserForm(newValues);
-  };
-
-  const handleSubmit = (values) => {
-    //se fija si las propiedaes del objeto del estado formdata estan vacias
-    if (Condicions()) {
-      registerResponse(values);
-    } else {
-      toast.error("Porfavor acepte los terminos y condiciones");
+function RegistroUsuario({ conditionsAccepted }) {
+  const handleSubmit = async (values, { resetForm }) => {
+    if (!conditionsAccepted) {
+      toast.error('Por favor acepte los términos y condiciones');
+      return;
     }
+    try {
+      await registerUserForm(values);
+      resetForm();
+    } catch (error) {}
   };
 
   return (
@@ -64,18 +69,52 @@ function RegistroUsuario({ Condicions }) {
       initialValues={initialValues}
       validationSchema={registerSchemaValidation}
     >
-      {({ handleChange, errors }) => (
-        <Form className="flex flex-col gap-3">
-          <InputsFormRegister handleChange={handleChange} errors={errors} />
+      {({
+        handleChange,
+        handleBlur,
+        touched,
+        values,
+        errors,
+        isSubmitting,
+      }) => (
+        <Form className="flex flex-col gap-3 w-full min-[480px]:w-[80%] lg:w-2/3">
+          <CustomInput
+            name="name"
+            aria-label="Nombre de usuario"
+            type="string"
+            variant="flat"
+            placeholder="Nombre de usuario"
+            value={values.name}
+            isInvalid={touched.name && errors.name ? true : false}
+            errorMessage={touched.name && errors.name}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            size="lg"
+            classNames={{
+              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+            }}
+          />
 
-          <Button className="bg-primary-500 text-white font-sans" type="submit">
+          <InputsFormRegister
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            touched={touched}
+            values={values}
+            errors={errors}
+          />
+
+          <Button
+            className="bg-primary-500 mt-2 text-white uppercase font-semibold rounded-sm"
+            type="submit"
+            isDisabled={Object.keys(errors).length > 0 || isSubmitting}
+          >
             Registrarse
           </Button>
 
           <div className="flex flex-row justify-center items-center gap-4 mt-8">
-            <p>¿Ya esta registrado?</p>
+            <p className="text-sm">¿Ya esta registrado?</p>
             <Button
-              className="bg-primary-500 text-white font-sans"
+              className="bg-primary-500 text-white rounded-md font-semibold"
               as={Link}
               href="/login"
             >

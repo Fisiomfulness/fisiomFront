@@ -6,6 +6,7 @@ import { CgAttachment } from 'react-icons/cg';
 import { IoAlertCircleOutline } from 'react-icons/io5';
 import { MdCheckCircleOutline } from 'react-icons/md';
 
+import { isValidPdf } from '@/utils/helpers';
 import { latamDniExp, phoneRegExp } from '@/utils/regExp';
 import { sendJobPostulation } from '@/services/mails';
 import * as Yup from 'yup';
@@ -20,10 +21,6 @@ const initialValues = {
 };
 
 const MAX_FILE_SIZE = 1048576; // ? 1MB
-
-function isValidPdf(fileName) {
-  return fileName && fileName.split('.').pop() === 'pdf';
-}
 
 const validationSchema = Yup.object({
   dniNumber: Yup.string()
