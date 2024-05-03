@@ -15,7 +15,7 @@ import { CiTrash } from 'react-icons/ci';
 import { deleteProductById } from '@/app/api/productsActions/deleteProduct';
 import toast from 'react-hot-toast';
 
-export default function DeleteProductModal({ product }) {
+export default function DeleteProductModal({ product, setFetchAgain }) {
   const [isLoading, setIsLoading] = React.useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -29,7 +29,9 @@ export default function DeleteProductModal({ product }) {
       return toast.error(error);
     }
     setIsLoading(false);
-    return toast.success(data.message);
+    //Acá cambio el estado de fetchAgain para volver a ejecutar el useEffect de ProductsView.
+    setFetchAgain((fetchAgain) => !fetchAgain);
+    return toast.success('Producto borrado con éxito.');
   };
   return (
     <>
@@ -51,14 +53,14 @@ export default function DeleteProductModal({ product }) {
               <ModalHeader className="flex flex-col gap-1 w-full">
                 {!isLoading ? (
                   <p className="text-center flex gap-1 items-center justify-center">
-                    <p>
+                    <span>
                       ¿Quieres {''}
                       <span className="font-bold underline text-red-600">
                         eliminar
                       </span>
                       {''} el producto:{' '}
                       <span className="text-default-500">{product.name}</span>?
-                    </p>
+                    </span>
                   </p>
                 ) : (
                   <p className="text-center">

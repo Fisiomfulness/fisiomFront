@@ -25,7 +25,7 @@ import { CiSearch } from 'react-icons/ci';
 import { FaChevronCircleDown } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { getAllProfessionals } from '@/app/api/professionalsActions/getAllProfessionals';
-import ProfessionalInfoModal from '../Modals/ProfessionalInfoModal';
+import ProfessionalInfoModal from '../Modals/ProfessionalsViewModals/ProfessionalInfoModal';
 //Este array es para cambiar el color del Estado del usuario.
 const statusColorMap = {
   true: 'success',
@@ -206,7 +206,7 @@ export default function ProfessionalsView() {
               base: ' ',
               inputWrapper: 'border-1',
             }}
-            className="bg-zinc-200 w-full sm:max-w-[44%] border border-black rounded-lg"
+            className=" w-full sm:max-w-[44%] border border-black rounded-lg "
             placeholder="Filtrar por nombre"
             size="sm"
             startContent={<CiSearch className=" text-black" />}

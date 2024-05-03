@@ -12,7 +12,6 @@ export const deleteProductById = async (id, token) => {
     const { data } = await axios.delete(
       `http://localhost:3000/products/delete/${id}`,
       config
-      // `${process.env.NEXT_PUBLIC_BACKEND_URL}/users`
     );
     return { data };
   } catch (error) {

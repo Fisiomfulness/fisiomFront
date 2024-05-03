@@ -369,16 +369,9 @@ export default function UsersView() {
         aria-label="Example table with custom cells, pagination and sorting"
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
-        checkboxesProps={{
-          classNames: {
-            wrapper:
-              'after:bg-foreground after:text-background text-background',
-          },
-        }}
         classNames={classNames}
         className="border border-black rounded-lg p-5 w-[85%] overflow-x-auto max-w-[60rem]"
         selectedKeys={selectedKeys}
-        selectionMode="multiple"
         sortDescriptor={sortDescriptor}
         topContent={topContent}
         topContentPlacement="outside"
