@@ -1,7 +1,8 @@
 import * as Yup from 'yup';
 import { cityRegex, nameRegex, numericRegex, phoneRegExp } from '../regExp';
+import { isDateOnRange, isValidPdf } from '../helpers';
 
-export const professionalRegisterInitialValues = {
+const initialValues = {
   name: '',
   phone: '',
   email: '',
@@ -19,7 +20,7 @@ const genderList = ['Femenino', 'Masculino', 'Prefiero no responder'];
 const acceptedYears = { min: 18, max: 100 };
 const MAX_FILE_SIZE = 1048576; // ? 1MB
 
-export const professionalRegisterValidationScheme = Yup.object({
+const professionalSchema = Yup.object({
   name: yupRequired
     .matches(nameRegex, 'Debe contener solo letras')
     .min(3, 'El nombre debe tener al menos 3 caracteres')
@@ -29,14 +30,14 @@ export const professionalRegisterValidationScheme = Yup.object({
   dateOfBirth: yupRequired.test(
     'is-date-on-range',
     `Debes tener mas de ${acceptedYears.min} y menos de ${acceptedYears.max} años`,
-    (value) => isDateOnRange(value, acceptedYears.min, acceptedYears.max),
+    (value) => isDateOnRange(value, acceptedYears.min, acceptedYears.max)
   ),
   password: yupRequired
     .min(8, 'La contraseña debe tener al menos 8 caracteres')
     .max(50, 'No mas de 50 caracteres'),
   repitPass: yupRequired.oneOf(
     [Yup.ref('password')],
-    'Las contraseñas deben coincidir',
+    'Las contraseñas deben coincidir'
   ),
   gender: Yup.mixed()
     .required('Requerido')
@@ -51,16 +52,18 @@ export const professionalRegisterValidationScheme = Yup.object({
     .max(50, 'No puede contener mas de 50 caracteres')
     .matches(
       cityRegex,
-      'El nombre de la ciudad solo puede contener letras y espacios',
+      'El nombre de la ciudad solo puede contener letras y espacios'
     ),
   curriculum: Yup.mixed()
     .required('Suba un curriculum')
     .test('is-valid-type', 'No es un PDF', (value) =>
-      isValidPdf(value && value.name.toLowerCase()),
+      isValidPdf(value && value.name.toLowerCase())
     )
     .test(
       'is-valid-size',
       'Tamaño de archivo máximo: 1MB',
-      (value) => value && value.size <= MAX_FILE_SIZE,
+      (value) => value && value.size <= MAX_FILE_SIZE
     ),
 });
+
+export { initialValues, professionalSchema };

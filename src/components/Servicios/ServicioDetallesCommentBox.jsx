@@ -76,7 +76,13 @@ const ServicioDetallesCommentBox = ({ profesional }) => {
             name="rating"
           />
         </Chip>
-        <Button color="primary" radius="md" type="submit" loading={loading}>
+        <Button 
+        color="primary" 
+        radius="md" 
+        type="submit" 
+        loading={loading} 
+        disabled={!comment || !name}
+        >
           Comentar
         </Button>
       </div>

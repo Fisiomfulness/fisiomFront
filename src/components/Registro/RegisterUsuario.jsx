@@ -2,12 +2,10 @@
 
 import toast from 'react-hot-toast';
 
+import { initialValues, userSchema } from '@/utils/validations/userSchema';
+
 import { CustomInput } from '@/features/ui';
 import { axiosRegisterUserForm } from '@/services/users';
-import {
-  userRegisterInitialValues,
-  userRegisterValidationScheme,
-} from '@/utils/validations/validationUserRegister';
 import { Button } from '@nextui-org/react';
 import { Form, Formik } from 'formik';
 import { InputsFormRegister } from './InputsFormsRegister';
@@ -28,8 +26,8 @@ export const RegisterUser = ({ conditionsAccepted }) => {
   return (
     <Formik
       onSubmit={handleSubmit}
-      initialValues={userRegisterInitialValues}
-      validationSchema={userRegisterValidationScheme}
+      initialValues={initialValues}
+      validationSchema={userSchema}
     >
       {({
         handleChange,
