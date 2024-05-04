@@ -9,6 +9,7 @@ import {
   professionalSchema,
   initialValues,
 } from '@/utils/validations/professionalSchema';
+import { formikZodValidator } from '@/utils/validations';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import FileUpload from './FileUpload';
@@ -36,7 +37,7 @@ function RegisterProfesional({ conditionsAccepted }) {
     <Formik
       onSubmit={handleSubmitRegister}
       initialValues={initialValues}
-      validationSchema={professionalSchema}
+      validate={formikZodValidator(professionalSchema)}
     >
       {({
         handleChange,

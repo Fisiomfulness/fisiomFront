@@ -8,17 +8,18 @@ import { useRouter } from 'next/navigation';
 
 import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
 import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
+import { formikZodValidator, zodStrRequired } from '@/utils/validations';
+import { z } from 'zod';
 import Link from 'next/link';
-import * as Yup from 'yup';
 
 const initialValues = {
   email: '',
   password: '',
 };
 
-const userSchemaValidation = Yup.object({
-  email: Yup.string().required('Requerido').email('No es un email'),
-  password: Yup.string().required('Requerido'),
+const loginSchema = z.object({
+  email: zodStrRequired().email('No es un email'),
+  password: zodStrRequired(),
 });
 
 const UserLoginComponent = () => {
@@ -40,12 +41,11 @@ const UserLoginComponent = () => {
     <Formik
       onSubmit={handleLogin}
       initialValues={initialValues}
-      validationSchema={userSchemaValidation}
+      validate={formikZodValidator(loginSchema)}
     >
       {({ handleChange, isSubmitting, errors }) => (
         <Form className="flex flex-col gap-3">
           <CustomInput
-            isRequired
             name="email"
             type="string"
             variant="flat"
@@ -60,7 +60,6 @@ const UserLoginComponent = () => {
           />
 
           <CustomInput
-            isRequired
             name="password"
             variant="flat"
             placeholder="Contraseña"

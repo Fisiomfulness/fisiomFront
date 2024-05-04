@@ -4,6 +4,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 
 import { userSchema, initialValues } from '@/utils/validations/userSchema';
+import { formikZodValidator } from '@/utils/validations';
 import { registerUserForm } from '@/services/register';
 
 import { CustomInput } from '@/features/ui';
@@ -28,7 +29,7 @@ function RegistroUsuario({ conditionsAccepted }) {
     <Formik
       onSubmit={handleSubmit}
       initialValues={initialValues}
-      validationSchema={userSchema}
+      validate={formikZodValidator(userSchema)}
     >
       {({
         handleChange,

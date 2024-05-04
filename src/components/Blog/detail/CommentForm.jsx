@@ -2,7 +2,7 @@ import { Button } from '@nextui-org/react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { createComment } from '@/services/comments';
 import { scrollTo } from '@/utils/helpers';
-import * as Yup from 'yup';
+import { z } from 'zod';
 import Rating from '@/components/Blog/detail/Rating';
 import toast from 'react-hot-toast';
 
@@ -11,10 +11,11 @@ const initialValues = {
   content: '',
 };
 
-const commentSchema = Yup.object({
-  rating: Yup.number().required().min(1, 'Debe puntuar el blog').max(5),
-  content: Yup.string()
-    .required('Requerido')
+const commentSchema = z.object({
+  rating: z.number().min(1, 'Debe puntuar el blog').max(5),
+  content: z
+    .string()
+    .min(1, 'Requerido')
     .min(3, 'Al menos 3 caracteres')
     .max(100, 'Limite: 100 caracteres'),
 });
@@ -36,7 +37,15 @@ const CommentForm = ({ userId, blogId, setComments }) => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={commentSchema}
+      validate={(values) => {
+        const result = commentSchema.safeParse(values);
+        if (result.success) return;
+        const errors = {};
+        result.error.issues.forEach((error) => {
+          errors[error.path[0]] = error.message;
+        });
+        return errors;
+      }}
       onSubmit={handleSubmit}
     >
       {({ setFieldValue, values, errors, touched, isSubmitting }) => (

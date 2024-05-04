@@ -5,9 +5,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Select, SelectItem, Image } from '@nextui-org/react';
 import { CldUploadWidget } from 'next-cloudinary';
 import { createBlog, updateBlog } from '@/services/blogs';
+import { z } from 'zod';
+import { formikZodValidator, zodStrRequired } from '@/utils/validations';
+
 import Tiptap from '@/components/Tiptap';
 import toast from 'react-hot-toast';
-import * as Yup from 'yup';
 
 const countHtmlCharacters = (htmlString) => {
   // ? Tag <br> count like a character like tiptap
@@ -22,22 +24,17 @@ const emptyValues = {
   image: '',
 };
 
-const blogSchema = Yup.object({
-  title: Yup.string()
-    .required('Requerido')
+// ! TODO = CAMBIAR NEXTCLOUDINARY POR SUBIR UN FILE.
+const blogSchema = z.object({
+  title: zodStrRequired()
     .min(3, 'Al menos 3 caracteres')
     .max(100, 'No mas de 100 caracteres'),
-  text: Yup.string()
-    .required('Requerido')
-    .test(
-      'len',
-      'Mínimo: 300 caracteres',
-      (value) => value && countHtmlCharacters(value) >= 300
-    ),
-  type_id: Yup.string().required('Seleccione el tipo de blog'),
-  image: Yup.string()
-    .required('Adjunte una imagen')
-    .url('No es una url valida'),
+  text: zodStrRequired().refine(
+    (value) => countHtmlCharacters(value) >= 300,
+    'Mínimo: 300 caracteres'
+  ),
+  type_id: zodStrRequired('Seleccione el tipo de blog'),
+  image: zodStrRequired('Adjunte una imagen'),
 });
 
 const BlogForm = ({
@@ -64,7 +61,7 @@ const BlogForm = ({
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={blogSchema}
+      validate={formikZodValidator(mode === 'create' ? blogSchema : blogSchema.partial())}
       onSubmit={(values, { resetForm }) => {
         mode === 'create'
           ? handleCreate(values, resetForm)
