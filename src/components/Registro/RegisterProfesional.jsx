@@ -6,9 +6,9 @@ import { Form, Formik } from 'formik';
 import { InputsFormRegister } from './InputsFormsRegister';
 
 import {
-  professionalRegisterInitialValues,
-  professionalregisterSchemaValidation,
-} from '@/utils/validations/validationProfessionalRegister';
+  professionalSchema,
+  initialValues,
+} from '@/utils/validations/professionalSchema';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import FileUpload from './FileUpload';
@@ -35,8 +35,8 @@ function RegisterProfesional({ conditionsAccepted }) {
   return (
     <Formik
       onSubmit={handleSubmitRegister}
-      initialValues={professionalRegisterInitialValues}
-      validationSchema={professionalregisterSchemaValidation}
+      initialValues={initialValues}
+      validationSchema={professionalSchema}
     >
       {({
         handleChange,

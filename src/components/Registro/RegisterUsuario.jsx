@@ -3,13 +3,10 @@
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 
+import { userSchema, initialValues } from '@/utils/validations/userSchema';
 import { registerUserForm } from '@/services/register';
 
 import { CustomInput } from '@/features/ui';
-import {
-  userRegisterInitialValues,
-  userRegisterValidationScheme,
-} from '@/utils/validations/validationUserRegister';
 import { Button } from '@nextui-org/react';
 import { Form, Formik } from 'formik';
 import { InputsFormRegister } from './InputsFormsRegister';
@@ -30,8 +27,8 @@ function RegistroUsuario({ conditionsAccepted }) {
   return (
     <Formik
       onSubmit={handleSubmit}
-      initialValues={userRegisterInitialValues}
-      validationSchema={userRegisterValidationScheme}
+      initialValues={initialValues}
+      validationSchema={userSchema}
     >
       {({
         handleChange,
