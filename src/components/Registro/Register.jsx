@@ -1,18 +1,19 @@
 'use client';
 
 import { CustomLogo } from '@/features/ui';
-import { Card, CardBody, Radio, RadioGroup } from '@nextui-org/react';
+import { Button, Card, CardBody, Radio, RadioGroup } from '@nextui-org/react';
 import Link from 'next/link';
 import { useState } from 'react';
-import RegistroProfesional from './RegisterProfesional';
-import RegistroUsuario from './RegisterUsuario';
+import { RegisterProfessional } from './RegisterProfesional';
+import { RegisterUser } from './RegisterUsuario';
 
-function Register() {
+export const Register = () => {
   const [selected, setSelected] = useState('usuario');
   const [aceptoCondiciones, setAceptoCondiciones] = useState(false);
   const [recibirInformacion, setRecibirInformacion] = useState(false);
 
-  const conditionsAccepted = (aceptoCondiciones && recibirInformacion) ? true : false
+  const conditionsAccepted =
+    aceptoCondiciones && recibirInformacion ? true : false;
 
   return (
     <Card className="grid md:grid-cols-[1.2fr,1fr] gap-6 md:gap-x-4 items-center justify-items-center p-6 md:p-10 md:py-20 rounded-sm w-full max-w-[1380px]">
@@ -72,12 +73,20 @@ function Register() {
         </div>
       </CardBody>
       {selected === 'usuario' ? (
-        <RegistroUsuario conditionsAccepted={conditionsAccepted} />
+        <RegisterUser conditionsAccepted={conditionsAccepted} />
       ) : (
-        <RegistroProfesional conditionsAccepted={conditionsAccepted} />
+        <RegisterProfessional conditionsAccepted={conditionsAccepted} />
       )}
+      <div className="flex flex-row justify-center items-center gap-4 mt-8">
+        <p className="text-sm">¿Ya esta registrado?</p>
+        <Button
+          className="bg-primary-500 text-white rounded-md font-semibold"
+          as={Link}
+          href="/login"
+        >
+          Ingresar
+        </Button>
+      </div>
     </Card>
   );
-}
-
-export default Register;
+};

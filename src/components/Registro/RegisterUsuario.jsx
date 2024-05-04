@@ -1,11 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import toast from 'react-hot-toast';
 
-import { registerUserForm } from '@/services/register';
-
 import { CustomInput } from '@/features/ui';
+import { axiosRegisterUserForm } from '@/services/users';
 import {
   userRegisterInitialValues,
   userRegisterValidationScheme,
@@ -15,14 +13,14 @@ import { Form, Formik } from 'formik';
 import { InputsFormRegister } from './InputsFormsRegister';
 
 //#region Component
-function RegistroUsuario({ conditionsAccepted }) {
+export const RegisterUser = ({ conditionsAccepted }) => {
   const handleSubmit = async (values, { resetForm }) => {
     if (!conditionsAccepted) {
       toast.error('Por favor acepte los términos y condiciones');
       return;
     }
     try {
-      await registerUserForm(values);
+      await axiosRegisterUserForm(values);
       resetForm();
     } catch (error) {}
   };
@@ -74,21 +72,8 @@ function RegistroUsuario({ conditionsAccepted }) {
           >
             Registrarse
           </Button>
-
-          <div className="flex flex-row justify-center items-center gap-4 mt-8">
-            <p className="text-sm">¿Ya esta registrado?</p>
-            <Button
-              className="bg-primary-500 text-white rounded-md font-semibold"
-              as={Link}
-              href="/login"
-            >
-              Ingresar
-            </Button>
-          </div>
         </Form>
       )}
     </Formik>
   );
-}
-
-export default RegistroUsuario;
+};

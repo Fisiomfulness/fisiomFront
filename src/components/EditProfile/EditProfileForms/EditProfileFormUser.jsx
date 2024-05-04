@@ -1,23 +1,13 @@
 'use client';
 
 import { Card, CardBody } from '@nextui-org/react';
-import { useState } from 'react';
-
-const initialValues = {
-  name: '',
-  city: '',
-  email: '',
-  password: '',
-  passwordRep: '',
-  imgProfile: '',
-};
 
 function EditProfileFormUser({ user }) {
-  const [isVisible, setIsVisible] = useState(false);
-  const toggleVisibility = () => setIsVisible(!isVisible);
-  // const [edit, setEdit] = useState(initialValues);
-  const [input, setInput] = useState(initialValues);
-  const [errors, setErrors] = useState(initialValues);
+  // const [isVisible, setIsVisible] = useState(false);
+  // const toggleVisibility = () => setIsVisible(!isVisible);
+  // // const [edit, setEdit] = useState(initialValues);
+  // const [input, setInput] = useState(initialValues);
+  // const [errors, setErrors] = useState(initialValues);
 
   const handleChange = () => {};
 

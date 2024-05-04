@@ -1,15 +1,15 @@
-import { useUser } from '@/hooks/useUser';
-import { login } from '@/services/login';
-import { Button } from '@nextui-org/react';
 import { CustomInput } from '@/features/ui';
+import { useUser } from '@/hooks/useUser';
+import { Button } from '@nextui-org/react';
 import { Form, Formik } from 'formik';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
-import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
+import { axiosLogin } from '@/services/users';
 import Link from 'next/link';
 import * as Yup from 'yup';
+import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
+import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
 
 const initialValues = {
   email: '',
@@ -29,11 +29,9 @@ const UserLoginComponent = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleLogin = async (values) => {
-    try {
-      const response = await login(values);
-      setUser(response.data);
-      router.push('/');
-    } catch (error) {}
+    const response = await axiosLogin(values);
+    setUser(response.data);
+    router.push('/');
   };
 
   return (
