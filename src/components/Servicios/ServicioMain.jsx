@@ -6,8 +6,8 @@ import ServicioMainContainer from "./ServicioMainContainer";
 import SearchProfesional from "./SearchProfesional/SearchProfesional";
 import dynamic from "next/dynamic";
 import { apiEndpoints } from "@/api_endpoints";
-import { useInView } from "framer-motion"
-//import Paginate from "../Paginate/Paginate";
+import { useInView } from "framer-motion";
+import Loading from "@/app/loading";
 
 const Map = dynamic(() => import("@/components/Map"), {
   loading: () => <p>loading...</p>,
@@ -21,7 +21,7 @@ const ServicioMain = () => {
   const userCoords = useGeolocation({
     defaultLocation: [-12.057822374374036, -77.06708360541617],
   });
-
+  const [loading, setLoading] = useState(true);
   const [professionals, setProfessionals] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -34,6 +34,7 @@ const ServicioMain = () => {
   useEffect(() => {
     const abortController = new AbortController();
     if (userCoords[0] !== 0) {
+      setLoading(true);
       axios
         .get(apiEndpoints.professionals, {
           signal: abortController.signal,
@@ -48,12 +49,14 @@ const ServicioMain = () => {
           if (page === 1) {
             setProfessionals(data.professionals);
           } else {
-            setProfessionals(prev => [...prev, ...data.professionals]);
+            setProfessionals((prev) => [...prev, ...data.professionals]);
           }
           setTotalPages(data.totalPages);
+          setLoading(false);
         })
         .catch((err) => {
           if (err.name === "CanceledError") return;
+          setLoading(false);
           throw err;
         });
     }
@@ -61,8 +64,8 @@ const ServicioMain = () => {
   }, [page, filters, userCoords]);
 
   useEffect(() => {
-    (isInView && page < totalPages) && setPage(prev => prev + 1)
-  }, [isInView])
+    isInView && page < totalPages && setPage((prev) => prev + 1);
+  }, [isInView]);
 
   return (
     <main className="vstack px-auto mx-auto max-w-8xl w-full mb-4">
@@ -72,11 +75,15 @@ const ServicioMain = () => {
         setPage={setPage}
       />
       <div className="flex w-full min-h-min justify-between gap-4">
-        <div className="w-full flex flex-col gap-2 items-center h-[80vh] overflow-auto">
-          <ServicioMainContainer profesionales={professionals} />
-          <div ref={ref} className="h-1"></div>
+        <div className="w-1/2 flex flex-col gap-2 items-center h-[80vh] overflow-y-auto overflow-x-hidden">
+          {(professionals.length || !loading) && (
+            <ServicioMainContainer profesionales={professionals} />
+          )}
+          <div ref={ref} className="h-1">
+            {loading && <Loading />}
+          </div>
         </div>
-        <div className="min-h-[80vh] w-full">
+        <div className="min-h-[80vh] w-1/2">
           <Map profesionales={professionals} userCoords={userCoords} />
         </div>
       </div>
