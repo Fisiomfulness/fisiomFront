@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
-const zodStrRequired = (message = 'Completa este campo') => {
-  return z.string().min(1, message);
-};
+const zodStrRequired = (message) => z.string().min(1, message);
 
 const formikZodValidator = (schema) => {
   return (values) => {
@@ -16,4 +14,4 @@ const formikZodValidator = (schema) => {
   };
 };
 
-export { zodStrRequired, formikZodValidator };
+export { formikZodValidator, zodStrRequired };

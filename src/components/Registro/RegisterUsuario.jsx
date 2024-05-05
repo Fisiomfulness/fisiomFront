@@ -1,11 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import toast from 'react-hot-toast';
 
-import { userSchema, initialValues } from '@/utils/validations/userSchema';
 import { formikZodValidator } from '@/utils/validations';
-import { registerUserForm } from '@/services/register';
+import { userInitialValues, userSchema } from '@/utils/validations/userSchema';
 
 import { CustomInput } from '@/features/ui';
 import { Button } from '@nextui-org/react';
@@ -19,16 +17,14 @@ function RegistroUsuario({ conditionsAccepted }) {
       toast.error('Por favor acepte los términos y condiciones');
       return;
     }
-    try {
-      await registerUserForm(values);
-      resetForm();
-    } catch (error) {}
+    await registerUserForm(values);
+    resetForm();
   };
 
   return (
     <Formik
       onSubmit={handleSubmit}
-      initialValues={initialValues}
+      initialValues={userInitialValues}
       validate={formikZodValidator(userSchema)}
     >
       {({

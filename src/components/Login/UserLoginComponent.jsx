@@ -1,16 +1,16 @@
-import { useUser } from '@/hooks/useUser';
-import { login } from '@/services/login';
-import { Button } from '@nextui-org/react';
 import { CustomInput } from '@/features/ui';
+import { useUser } from '@/hooks/useUser';
+import { Button } from '@nextui-org/react';
 import { Form, Formik } from 'formik';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
+import { login } from '@/services/users';
+import { formikZodValidator, zodStrRequired } from '@/utils/validations';
+import Link from 'next/link';
+import { z } from 'zod';
 import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
 import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
-import { formikZodValidator, zodStrRequired } from '@/utils/validations';
-import { z } from 'zod';
-import Link from 'next/link';
 
 const initialValues = {
   email: '',
@@ -18,8 +18,8 @@ const initialValues = {
 };
 
 const loginSchema = z.object({
-  email: zodStrRequired().email('No es un email'),
-  password: zodStrRequired(),
+  email: zodStrRequired.email('No es un email'),
+  password: zodStrRequired,
 });
 
 const UserLoginComponent = () => {
@@ -30,11 +30,9 @@ const UserLoginComponent = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleLogin = async (values) => {
-    try {
-      const response = await login(values);
-      setUser(response.data);
-      router.push('/');
-    } catch (error) {}
+    const response = await login(values);
+    setUser(response.data);
+    router.push('/');
   };
 
   return (

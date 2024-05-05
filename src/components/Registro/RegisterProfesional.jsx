@@ -5,11 +5,11 @@ import { Button } from '@nextui-org/react';
 import { Form, Formik } from 'formik';
 import { InputsFormRegister } from './InputsFormsRegister';
 
-import {
-  professionalSchema,
-  initialValues,
-} from '@/utils/validations/professionalSchema';
 import { formikZodValidator } from '@/utils/validations';
+import {
+  professionalInitialValues,
+  professionalSchema,
+} from '@/utils/validations/professionalSchema';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import FileUpload from './FileUpload';
@@ -27,16 +27,14 @@ function RegisterProfesional({ conditionsAccepted }) {
     for (const [key, value] of Object.entries(values)) {
       formData.append(key, value);
     }
-    try {
-      await registerProfesionalForm(formData);
-      resetForm();
-    } catch (error) {}
+    await registerProfesionalForm(formData);
+    resetForm();
   };
 
   return (
     <Formik
       onSubmit={handleSubmitRegister}
-      initialValues={initialValues}
+      initialValues={professionalInitialValues}
       validate={formikZodValidator(professionalSchema)}
     >
       {({
