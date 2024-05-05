@@ -7,7 +7,7 @@ import SearchProfesional from "./SearchProfesional/SearchProfesional";
 import dynamic from "next/dynamic";
 import { apiEndpoints } from "@/api_endpoints";
 import { useInView } from "framer-motion";
-import Loading from "@/app/loading";
+import Loader from "../Loader";
 
 const Map = dynamic(() => import("@/components/Map"), {
   loading: () => <p>loading...</p>,
@@ -79,12 +79,12 @@ const ServicioMain = () => {
           {(professionals.length || !loading) && (
             <ServicioMainContainer profesionales={professionals} />
           )}
-          <div ref={ref} className="h-1">
-            {loading && <Loading />}
+          <div ref={ref} className="h-full">
+            {loading && <Loader />}
           </div>
         </div>
         <div className="min-h-[80vh] w-1/2">
-          <Map profesionales={professionals} userCoords={userCoords} />
+          <Map professionals={professionals} userCoords={userCoords} />
         </div>
       </div>
     </main>

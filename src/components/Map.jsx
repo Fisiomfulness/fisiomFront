@@ -2,14 +2,15 @@
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
+import ServicioMainCardSmall from "./Servicios/ServicioMainCardSmall";
 
-const Map = ({ profesionales, userCoords }) => {
+const Map = ({ professionals, users, userCoords }) => {
   const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/128/684/684908.png",
     iconSize: [38, 38],
   });
   const userIcon = new Icon({
-    iconUrl: "/icons8-marcador-48.png",
+    iconUrl: "/pin_red.png",
     iconSize: [38, 38],
   });
 
@@ -26,10 +27,20 @@ const Map = ({ profesionales, userCoords }) => {
           attribution="https://www.openstreetmap.org/copyright contributors"
         />
         <Marker position={userCoords} icon={userIcon}></Marker>
-        {profesionales.map((e, i) => {
+        {professionals?.map((e, i) => {
           return (
             <Marker key={i} position={e.coordinates} icon={customIcon}>
-              <Popup>{e.popup}</Popup>
+              <Popup>
+                <ServicioMainCardSmall profesional={e} />
+              </Popup>
+            </Marker>
+          );
+        })}
+        <Marker position={userCoords} icon={userIcon}></Marker>
+        {users?.map((e, i) => {
+          return (
+            <Marker key={i} position={e.coordinates} icon={customIcon}>
+              <Popup>{/* <ServicioMainCardSmall profesional={e} /> */}</Popup>
             </Marker>
           );
         })}

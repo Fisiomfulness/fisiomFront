@@ -2,10 +2,12 @@ import CardUser from "./CardUser";
 
 const UsersContainer = ({ users }) => {
   return (
-    <div className="w-full flex flex-col gap-5 pr-2 pl-2 md:h-full md:overflow-scroll">
-      {users.map((e) => (
-        <CardUser key={e.name} user={e} />
-      ))}
+    <div className="flex flex-col gap-5 w-full pr-2">
+      {users.length ? (
+        users.map((user) => <CardUser key={user._id} user={user} />)
+      ) : (
+        <div>No hay usuarios.</div>
+      )}
     </div>
   );
 };
