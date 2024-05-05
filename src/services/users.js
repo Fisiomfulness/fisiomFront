@@ -3,21 +3,9 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 export const login = async (user) => {
-  try {
-    const response = await axios.post(`${BASE_URL}/login`, user, {
-      withCredentials: true,
-    });
-    toast.success('Logeado con exito!');
-    return response;
-  } catch (error) {
-    if (error.response) {
-      toast.error(error.response.data);
-      return false;
-    } else {
-      toast.error(error.message);
-      return false;
-    }
-  }
+  return await axios.post(`${BASE_URL}/login`, user, {
+    withCredentials: true,
+  });
 };
 
 // ? Cookie is httpOnly for more security, this is needed.

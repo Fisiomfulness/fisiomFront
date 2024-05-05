@@ -5,12 +5,13 @@ import { Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { z } from 'zod';
 import { login } from '@/services/users';
 import { formikZodValidator, zodStrRequired } from '@/utils/validations';
-import Link from 'next/link';
-import { z } from 'zod';
 import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
 import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
+import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 const initialValues = {
   email: '',
@@ -18,8 +19,8 @@ const initialValues = {
 };
 
 const loginSchema = z.object({
-  email: zodStrRequired.email('No es un email'),
-  password: zodStrRequired,
+  email: zodStrRequired().email('No es un email'),
+  password: zodStrRequired(),
 });
 
 const UserLoginComponent = () => {
@@ -30,9 +31,20 @@ const UserLoginComponent = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleLogin = async (values) => {
-    const response = await login(values);
-    setUser(response.data);
-    router.push('/');
+    try {
+      const response = await login(values);
+      setUser(response.data);
+      router.push('/');
+      toast.success('Logeado con exito!');
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+        return false;
+      } else {
+        toast.error(error.message);
+        return false;
+      }
+    }
   };
 
   return (
@@ -41,15 +53,24 @@ const UserLoginComponent = () => {
       initialValues={initialValues}
       validate={formikZodValidator(loginSchema)}
     >
-      {({ handleChange, isSubmitting, errors }) => (
+      {({
+        handleChange,
+        handleBlur,
+        isSubmitting,
+        touched,
+        values,
+        errors,
+      }) => (
         <Form className="flex flex-col gap-3">
           <CustomInput
             name="email"
             type="string"
             variant="flat"
             placeholder="Email"
-            isInvalid={errors.email ? true : false}
-            errorMessage={errors.email}
+            value={values.email}
+            isInvalid={touched.email && errors.email ? true : false}
+            errorMessage={touched.email && errors.email}
+            onBlur={handleBlur}
             onChange={handleChange}
             size="lg"
             classNames={{
@@ -61,8 +82,10 @@ const UserLoginComponent = () => {
             name="password"
             variant="flat"
             placeholder="Contraseña"
-            isInvalid={errors.password ? true : false}
-            errorMessage={errors.password}
+            value={values.password}
+            isInvalid={touched.password && errors.password ? true : false}
+            errorMessage={touched.password && errors.password}
+            onBlur={handleBlur}
             onChange={handleChange}
             size="lg"
             classNames={{

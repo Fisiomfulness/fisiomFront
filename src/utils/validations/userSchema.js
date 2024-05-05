@@ -8,7 +8,7 @@ const userInitialValues = {
   email: '',
   dateOfBirth: '',
   password: '',
-  repitPass: '',
+  confirmPass: '',
   gender: '',
 };
 
@@ -17,28 +17,27 @@ const acceptedYears = { min: 18, max: 100 };
 
 const userSchema = z
   .object({
-    name: zodStrRequired('Requerido')
+    name: zodStrRequired()
       .regex(nameRegex, 'Debe contener solo letras')
       .min(3, 'El nombre debe tener al menos 3 caracteres')
       .max(30, 'No mas de 30 caracteres'),
-    email: zodStrRequired('Requerido').email('No es un email'),
-    dateOfBirth: zodStrRequired('Requerido').refine(
-      (value) => isDateOnRange(value, acceptedYears.min, acceptedYears.max),
-      `Debes tener mas de ${acceptedYears.min} y menos de ${acceptedYears.max} años`,
-    ),
+    email: zodStrRequired().email('No es un email'),
+    dateOfBirth: z
+      .string()
+      .date('No es una fecha valida')
+      .refine(
+        (value) => isDateOnRange(value, acceptedYears.min, acceptedYears.max),
+        `Debes tener mas de ${acceptedYears.min} y menos de ${acceptedYears.max} años`
+      ),
     gender: z.enum(genderList, { message: 'Seleccione un genero' }),
-    password: zodStrRequired('Requerido')
+    password: zodStrRequired()
       .min(8, 'La contraseña debe tener al menos 8 caracteres')
       .max(50, 'No mas de 50 caracteres'),
-    repitPass: z.string().min(4),
+    confirmPass: zodStrRequired(),
   })
-  .superRefine(({ repitPass, password }, ctx) => {
-    if (repitPass !== password) {
-      ctx.addIssue({
-        path: ['repitPass'],
-        message: 'La contraseña no coincide',
-      });
-    }
+  .refine((data) => data.password === data.confirmPass, {
+    message: 'Las contraseñas no coinciden',
+    path: ['confirmPass'],
   });
 
 export { userInitialValues, userSchema };

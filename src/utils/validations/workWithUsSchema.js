@@ -1,7 +1,9 @@
 import { z } from 'zod';
-import { zodStrRequired } from '.';
+import { latamDniExp, phoneRegExp } from '../regExp';
+import { zodStrRequired } from './index';
+import { isValidPdf } from '../helpers';
 
-const workWithUsInitialValues = {
+const initialValues = {
   dniNumber: '',
   phone: '',
   email: '',
@@ -12,26 +14,28 @@ const workWithUsInitialValues = {
 const MAX_FILE_SIZE = 1048576; // ? 1MB
 
 const workWithUsSchema = z.object({
-  dniNumber: zodStrRequired('require').matches(
+  dniNumber: zodStrRequired('Requerido').regex(
     latamDniExp,
-    'No es un DNI valido',
+    'No es un DNI valido'
   ),
-  phone: Yup.string()
-    .required('Requerido')
-    .matches(phoneRegExp, 'No es un teléfono valido'),
-  email: Yup.string().required('Requerido').email('No es un email'),
-  curriculum: Yup.mixed()
-    .required('Requerido')
-    .test('is-valid-type', 'No es un pdf', (value) =>
-      isValidPdf(value && value.name.toLowerCase()),
+  phone: zodStrRequired('Requerido').regex(
+    phoneRegExp,
+    'No es un teléfono valido'
+  ),
+  email: zodStrRequired('Requerido').email('No es un email'),
+  curriculum: z
+    .instanceof(File, 'Curriculum requerido')
+    .refine(
+      (value) => isValidPdf(value && value.name.toLowerCase()),
+      'No es un pdf'
     )
-    .test(
-      'is-valid-size',
-      'Tamaño de archivo máximo: 1MB',
+    .refine(
       (value) => value && value.size <= MAX_FILE_SIZE,
+      'Tamaño de archivo máximo: 1MB'
     ),
-  message: Yup.string()
-    .required('Requerido')
+  message: zodStrRequired('Requerido')
     .min(30, 'Min: 30 caracteres')
     .max(1000, 'Max: 1000 caracteres'),
 });
+
+export { initialValues, workWithUsSchema };

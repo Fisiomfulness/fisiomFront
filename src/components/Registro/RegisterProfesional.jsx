@@ -6,6 +6,7 @@ import { Form, Formik } from 'formik';
 import { InputsFormRegister } from './InputsFormsRegister';
 
 import { formikZodValidator } from '@/utils/validations';
+import { removeObjFalsyValues } from '@/utils/helpers';
 import {
   professionalInitialValues,
   professionalSchema,
@@ -22,7 +23,7 @@ function RegisterProfesional({ conditionsAccepted }) {
       toast.error('Por favor acepte los términos y condiciones');
       return;
     }
-    if (values.license === '') delete values.license;
+    values = removeObjFalsyValues(values);
     const formData = new FormData();
     for (const [key, value] of Object.entries(values)) {
       formData.append(key, value);

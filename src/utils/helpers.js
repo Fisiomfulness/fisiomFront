@@ -41,7 +41,8 @@ export const dateFormatter = (timeStamp, hours = true) => {
 // * ISO Dates
 export const isDateOnRange = (value, minYearsAgo, maxYearsAgo) => {
   const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/;
-  if (!value || typeof value !== "string" || !isoDateRegex.test(value)) return false;
+  if (!value || typeof value !== 'string' || !isoDateRegex.test(value))
+    return false;
 
   const currentDate = new Date();
   const dateISO = new Date(value);
@@ -87,4 +88,11 @@ export const isDynamicIdPath = (path) => {
 
 export const isValidPdf = (fileName) => {
   return fileName && fileName.split('.').pop() === 'pdf';
+};
+
+export const removeObjFalsyValues = (object) => {
+  for (const key in object) {
+    if (!object[key]) delete object[key];
+  }
+  return object;
 };

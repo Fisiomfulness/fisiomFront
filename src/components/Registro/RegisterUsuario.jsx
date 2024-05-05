@@ -9,6 +9,8 @@ import { CustomInput } from '@/features/ui';
 import { Button } from '@nextui-org/react';
 import { Form, Formik } from 'formik';
 import { InputsFormRegister } from './InputsFormsRegister';
+import { registerUserForm } from '@/services/register';
+import toast from 'react-hot-toast';
 
 //#region Component
 function RegistroUsuario({ conditionsAccepted }) {

@@ -6,45 +6,13 @@ import { CgAttachment } from 'react-icons/cg';
 import { IoAlertCircleOutline } from 'react-icons/io5';
 import { MdCheckCircleOutline } from 'react-icons/md';
 
-import { isValidPdf } from '@/utils/helpers';
-import { latamDniExp, phoneRegExp } from '@/utils/regExp';
+import {
+  workWithUsSchema,
+  initialValues,
+} from '@/utils/validations/workWithUsSchema';
 import { sendJobPostulation } from '@/services/mails';
-import * as Yup from 'yup';
+import { formikZodValidator } from '@/utils/validations';
 import toast from 'react-hot-toast';
-
-const initialValues = {
-  dniNumber: '',
-  phone: '',
-  email: '',
-  curriculum: null,
-  message: '',
-};
-
-const MAX_FILE_SIZE = 1048576; // ? 1MB
-
-const validationSchema = Yup.object({
-  dniNumber: Yup.string()
-    .required('Requerido')
-    .matches(latamDniExp, 'No es un DNI valido'),
-  phone: Yup.string()
-    .required('Requerido')
-    .matches(phoneRegExp, 'No es un teléfono valido'),
-  email: Yup.string().required('Requerido').email('No es un email'),
-  curriculum: Yup.mixed()
-    .required('Requerido')
-    .test('is-valid-type', 'No es un pdf', (value) =>
-      isValidPdf(value && value.name.toLowerCase())
-    )
-    .test(
-      'is-valid-size',
-      'Tamaño de archivo máximo: 1MB',
-      (value) => value && value.size <= MAX_FILE_SIZE
-    ),
-  message: Yup.string()
-    .required('Requerido')
-    .min(30, 'Min: 30 caracteres')
-    .max(1000, 'Max: 1000 caracteres'),
-});
 
 const FileInput = ({ fileName, setFileName, setFieldValue }) => {
   const handleFileChange = (event) => {
@@ -98,7 +66,7 @@ const TrabajaConNosotrosClient = () => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      validate={formikZodValidator(workWithUsSchema)}
       onSubmit={handleSubmit}
     >
       {({ errors, isSubmitting, setFieldValue }) => (

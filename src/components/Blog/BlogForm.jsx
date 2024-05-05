@@ -5,8 +5,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Select, SelectItem, Image } from '@nextui-org/react';
 import { CldUploadWidget } from 'next-cloudinary';
 import { createBlog, updateBlog } from '@/services/blogs';
-import { z } from 'zod';
 import { formikZodValidator, zodStrRequired } from '@/utils/validations';
+import { z } from 'zod';
 
 import Tiptap from '@/components/Tiptap';
 import toast from 'react-hot-toast';

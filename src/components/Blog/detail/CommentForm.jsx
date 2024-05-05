@@ -2,7 +2,9 @@ import { Button } from '@nextui-org/react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { createComment } from '@/services/comments';
 import { scrollTo } from '@/utils/helpers';
+
 import { z } from 'zod';
+import { formikZodValidator, zodStrRequired } from '@/utils/validations';
 import Rating from '@/components/Blog/detail/Rating';
 import toast from 'react-hot-toast';
 
@@ -13,9 +15,7 @@ const initialValues = {
 
 const commentSchema = z.object({
   rating: z.number().min(1, 'Debe puntuar el blog').max(5),
-  content: z
-    .string()
-    .min(1, 'Requerido')
+  content: zodStrRequired('Requerido')
     .min(3, 'Al menos 3 caracteres')
     .max(100, 'Limite: 100 caracteres'),
 });
@@ -37,15 +37,7 @@ const CommentForm = ({ userId, blogId, setComments }) => {
   return (
     <Formik
       initialValues={initialValues}
-      validate={(values) => {
-        const result = commentSchema.safeParse(values);
-        if (result.success) return;
-        const errors = {};
-        result.error.issues.forEach((error) => {
-          errors[error.path[0]] = error.message;
-        });
-        return errors;
-      }}
+      validate={formikZodValidator(commentSchema)}
       onSubmit={handleSubmit}
     >
       {({ setFieldValue, values, errors, touched, isSubmitting }) => (
@@ -88,8 +80,8 @@ const CommentForm = ({ userId, blogId, setComments }) => {
           <Button
             type="submit"
             color="primary"
-            disabled={isSubmitting}
-            className="rounded-none p-4 !size-full bg-primary-500 disabled:opacity-15 disabled:cursor-wait"
+            isDisabled={Object.keys(errors).length > 0 || isSubmitting}
+            className="rounded-none cursor-pointer p-4 !size-full bg-primary-500"
           >
             Enviar
           </Button>
