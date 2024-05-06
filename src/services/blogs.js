@@ -51,8 +51,7 @@ export const createBlog = async (newBlog) => {
   const res = await fetch(`${BASE_URL}/blogs/create`, {
     method: 'POST',
     credentials: 'include',
-    body: JSON.stringify(newBlog),
-    headers: { 'Content-Type': 'application/json' },
+    body: newBlog,
   });
   if (!res.ok) throw new Error('Error creating blog');
   return await res.json();
@@ -65,7 +64,7 @@ export const updateBlog = async (blogId, updatedValues) => {
     body: JSON.stringify(updatedValues),
     headers: { 'Content-Type': 'application/json' },
   });
-  if (!res.ok) throw new Error('Error deleting blog');
+  if (!res.ok) throw new Error('Error updating blog');
   return await res.json();
 };
 
