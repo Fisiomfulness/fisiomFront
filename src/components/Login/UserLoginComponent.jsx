@@ -23,6 +23,7 @@ const initialValues = {
 const loginSchema = z.object({
   email: zodStrRequired().email('No es un email'),
   password: zodStrRequired(),
+});
 
 const UserLoginComponent = () => {
   const { setUser, user } = useUser();
