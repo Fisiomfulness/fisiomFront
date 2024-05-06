@@ -54,8 +54,7 @@ const handler = NextAuth({
         // NOTE: Next Auth retorna un objecto usuario con id, name y email.
         return {
           id: user.userId,
-          name: user.message,
-          email: user.role,
+          ...user,
         };
       },
     }),
@@ -65,6 +64,7 @@ const handler = NextAuth({
       return { ...token, ...user };
     },
     async session({ session, token }) {
+      delete token.userId // ? user.id already exists
       session.user = token;
       return session;
     },
