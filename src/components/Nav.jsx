@@ -48,7 +48,9 @@ function NavbarLink({ item, onClick }) {
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { data: user, status } = useSession();
+  const { data: session, status } = useSession();
+  const name = session?.user?.name ?? "";
+  const image = session?.user?.image ?? "";
 
   const path = usePathname();
 
@@ -104,10 +106,10 @@ export default function Nav() {
 
       <NavbarContent justify="end" className="max-lg:!flex-grow-0">
         <NavbarItem>
-          {user ? (
+          {session ? (
             <div className="hstack gap-2">
               <CarritoModal />
-              <DropdownUser />
+              <DropdownUser name={name} image={image} />
             </div>
           ) : (
             <CustomButton

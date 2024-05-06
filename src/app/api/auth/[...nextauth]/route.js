@@ -3,10 +3,9 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { cookies } from "next/headers";
 
-const handler = NextAuth({
-  pages: {
-    signIn: "/login",
-  },
+/** @type {import("next-auth").NextAuthOptions} */
+export const authOptions = {
+  pages: { signIn: "/login" },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -16,7 +15,7 @@ const handler = NextAuth({
           type: "email",
           placeholder: "Formulario Next Auth",
         },
-        password: { label: "Password", type: "password" },
+        password: { label: "Contraseña", type: "password" },
       },
       async authorize(credentials, _req) {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
@@ -29,6 +28,8 @@ const handler = NextAuth({
           // NOTE: no fue necesario incluir las credenciales
           // credentials: "include",
         });
+
+        if (!res.ok) throw new Error("No autorizado");
 
         const headerCookies = res.headers.getSetCookie();
         const accessTokenValues = Object.fromEntries(
@@ -47,15 +48,8 @@ const handler = NextAuth({
           path: "/",
         });
 
-        if (!res.ok) throw new Error("No autorizado");
-
         const user = await res.json();
-
-        // NOTE: Next Auth retorna un objecto usuario con id, name y email.
-        return {
-          id: user.userId,
-          ...user,
-        };
+        return user;
       },
     }),
   ],
@@ -64,7 +58,6 @@ const handler = NextAuth({
       return { ...token, ...user };
     },
     async session({ session, token }) {
-      delete token.userId // ? user.id already exists
       session.user = token;
       return session;
     },
@@ -74,7 +67,9 @@ const handler = NextAuth({
       cookies().delete("accessToken");
     },
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export const GET = handler;
 export const POST = handler;
