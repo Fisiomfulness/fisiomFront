@@ -1,8 +1,7 @@
 import ComunidadClient from "@/components/Comunidad/ComunidadClient";
-import data from "@/components/Comunidad/data/data.json";
 
 const Page = () => {
-  return <ComunidadClient users={data.users} />;
+  return <ComunidadClient />;
 };
 
 export default Page;
