@@ -73,7 +73,7 @@ const ServicioMainCard = ({ profesional }) => {
               <div className="flex  items-center gap-2 ">
                 <CiLocationOn className="text-primary-300 w-8 h-8" />
                 <div className="flex  flex-col max-w-[70%]">
-                  <p className="font-bold">{profesional.address}</p>
+                  <p className="font-bold">{profesional.address ? `${streetName} ${streetNumber}, ${city}, ${state ? state + ", " : null}${country}` : ""}</p>
                 </div>
               </div>
               <div className="flex  items-center gap-2 ">
