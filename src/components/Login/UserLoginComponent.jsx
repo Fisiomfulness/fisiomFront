@@ -26,6 +26,7 @@ const initialValues = {
 const loginSchema = z.object({
   email: zodStrRequired().email('No es un email'),
   password: zodStrRequired(),
+})
 
 const UserLoginComponent = () => {
   const { setUser, user } = useUser();
@@ -36,11 +37,11 @@ const UserLoginComponent = () => {
 
   const handleLogin = async (values) => {
 
-  const responseNextAuth = await signIn("credentials", {
-    email: values.email,
-    password: values.password,
-    redirect: false,
-  });
+    const responseNextAuth = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    });
 
     if (!responseNextAuth.ok) {
       return toast.error(responseNextAuth.error);
