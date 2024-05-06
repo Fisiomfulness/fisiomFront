@@ -10,8 +10,13 @@ const initialValues = {
   gender: '',
   password: '',
   repitPass: '',
-  license: '', // ? Opcional
+  streetName: '',
+  streetNumber: '',
+  floorAppartment: '',
   city: '',
+  state: '',
+  country: '',
+  license: '', // ? Opcional
   curriculum: null,
 };
 
@@ -47,13 +52,16 @@ const professionalSchema = Yup.object({
     .min(3, 'El n° colegiado debe tener al menos 3 dígitos')
     .max(10, 'No puede tener mas de 10 dígitos')
     .matches(numericRegex, 'Debe ser numérico'),
+  streetName: yupRequired
+    .min(2, 'La calle debe tener al menos 2 caracteres')
+    .max(50, 'No mas de 50 caracteres'),
+  streetNumber: yupRequired,
   city: yupRequired
     .min(2, 'La ciudad debe tener al menos 2 caracteres')
-    .max(50, 'No puede contener mas de 50 caracteres')
-    .matches(
-      cityRegex,
-      'El nombre de la ciudad solo puede contener letras y espacios'
-    ),
+    .max(50, 'No mas de 50 caracteres'),
+  country: yupRequired
+    .min(2, 'El pais debe tener al menos 2 caracteres')
+    .max(30, 'No mas de 30 caracteres'),
   curriculum: Yup.mixed()
     .required('Suba un curriculum')
     .test('is-valid-type', 'No es un PDF', (value) =>
