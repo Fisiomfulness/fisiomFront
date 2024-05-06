@@ -58,7 +58,7 @@ const BlogForm = ({
   const handleCreate = async (values, resetForm) => {
     try {
       const formData = new FormData();
-      formData.append('professional_id', session.user?.id);
+      formData.append('professional_id', session?.user.id);
       for (const name in values) {
         formData.append(name, values[name]);
       }
