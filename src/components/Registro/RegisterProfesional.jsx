@@ -90,23 +90,6 @@ function RegisterProfesional({ conditionsAccepted }) {
           />
 
           <CustomInput
-            name="city"
-            aria-label="Ciudad"
-            type="string"
-            variant="flat"
-            placeholder="Ciudad"
-            value={values.city}
-            isInvalid={touched.city && errors.city ? true : false}
-            errorMessage={touched.city && errors.city}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            size="lg"
-            classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-            }}
-          />
-
-          <CustomInput
             name="license"
             aria-label="Numero de colegiado"
             type="string"

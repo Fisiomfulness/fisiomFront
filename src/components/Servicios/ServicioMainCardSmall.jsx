@@ -1,4 +1,3 @@
-"use client";
 import { FaUserDoctor } from "react-icons/fa6";
 import { CiLocationOn } from "react-icons/ci";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
@@ -11,16 +10,12 @@ const StarRatings = dynamic(() => import("react-star-ratings"), {
   ssr: false,
 });
 
-const ServicioMainCard = ({ profesional }) => {
+const ServicioMainCardSmall = ({ profesional }) => {
   return (
     <div className="flex flex-col ">
-      <Card
-        isBlurred
-        className="border-none bg-background/60 w-[40vw] dark:bg-default-100/50  rounded-r-none lg:rounded "
-        shadow="sm"
-      >
+      <Card className="border-none bg-background/60 w-full dark:bg-default-100/50  rounded-r-none lg:rounded">
         <CardBody>
-          <div className="flex flex-col  ">
+          <div className="flex flex-col">
             <div className="flex items-center p-2 gap-4">
               <Avatar
                 src={profesional.image || "/doctor-ejemplo.png"}
@@ -68,34 +63,6 @@ const ServicioMainCard = ({ profesional }) => {
                 </Link>
               </div>
             </div>
-
-            <div className="flex flex-col gap-1">
-              <div className="flex  items-center gap-2 ">
-                <CiLocationOn className="text-primary-300 w-8 h-8" />
-                <div className="flex  flex-col max-w-[70%]">
-                  <p className="font-bold">{profesional?.address?.streetName ? `${profesional.address?.streetName} ${profesional.address?.streetNumber}, ${profesional.address?.city}, ${profesional.address?.state ? profesional.address?.state + ", " : null}${profesional.address?.country}` : ""}</p>
-                </div>
-              </div>
-              <div className="flex  items-center gap-2 ">
-                <RiMoneyDollarCircleLine className="text-primary-300 w-8 h-8" />
-                <div className="flex  flex-col">
-                  <p className="font-bold">Consulta</p>
-
-                  <p>$ {profesional.consultationPrice || "-"}</p>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <Button
-                as={NextLink}
-                href={`./servicios/${profesional._id}/turno`}
-                color="secondary"
-                size="sm"
-                className="w-[50%]"
-              >
-                Agenda turno
-              </Button>
-            </div>
           </div>
         </CardBody>
       </Card>
@@ -103,4 +70,4 @@ const ServicioMainCard = ({ profesional }) => {
   );
 };
 
-export default ServicioMainCard;
+export default ServicioMainCardSmall;

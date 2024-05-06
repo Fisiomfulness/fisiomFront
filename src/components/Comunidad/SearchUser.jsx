@@ -1,23 +1,32 @@
 "use client";
-import useFilteredUsers from "./useFilteredUsers";
+
 import { Select, SelectItem } from "@nextui-org/react";
 import { CustomInput } from "@/features/ui";
 import { MdOutlineSearch } from "react-icons/md";
 
-const SearchUsers = ({ users, setUsersFiltered }) => {
-  const interestSet = new Set(users.flatMap((user) => user.interests));
-  const interestArr = Array.from(interestSet).concat("Todos");
+// TODO: Replace when interests exist on database
+const interestArr = [
+  "running",
+  "futbol",
+  "yoga",
+  "tenis",
+  "musculación",
+  "nutrición",
+];
 
-  const { selectedInterest, setSelectedInterest, filter, handleOnChange } =
-    useFilteredUsers(users, setUsersFiltered);
+const SearchUsers = ({ filters, setFilters, setPage }) => {
+  const onChange = (e) => {
+    setFilters({ ...filters, search: e.target.value });
+    setPage(1);
+  };
 
   return (
     <div className="flex flex-col sm:flex-row w-full items-center justify-center gap-5">
       <div className="relative flex items-center text-sm">
         <CustomInput
-          id="name"
-          value={filter.name}
-          onChange={(e) => handleOnChange(e)}
+          id="search"
+          value={filters.search}
+          onChange={onChange}
           size="lg"
           placeholder="Buscar persona..."
           endContent={<MdOutlineSearch color="#62CFE4" size="20px" />}
@@ -27,13 +36,16 @@ const SearchUsers = ({ users, setUsersFiltered }) => {
         <Select
           label="Intereses:"
           variant="bordered"
-          placeholder="Selecciona un interes"
-          selectedKeys={new Set([selectedInterest])}
+          placeholder="Selecciona tus interes"
+          selectionMode="multiple"
+          selectedKeys={filters.interests}
           className="max-w-xs"
-          onSelectionChange={(keys) => {
-            const selectedKey = keys.values().next().value;
-            setSelectedInterest(selectedKey);
-          }}
+          onChange={(e) =>
+            setFilters({
+              ...filters,
+              interests: new Set(e.target.value.split(",")),
+            })
+          }
         >
           {interestArr.map((interest) => (
             <SelectItem key={interest} value={interest}>
