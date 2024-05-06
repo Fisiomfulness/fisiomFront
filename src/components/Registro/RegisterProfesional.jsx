@@ -1,27 +1,27 @@
-'use client';
-import { CustomInput } from '@/features/ui';
-import { registerProfesionalForm } from '@/services/register';
-import { Button } from '@nextui-org/react';
-import { Form, Formik } from 'formik';
-import { InputsFormRegister } from './InputsFormsRegister';
+"use client";
+import { CustomInput } from "@/features/ui";
+import { registerProfesionalForm } from "@/services/register";
+import { Button } from "@nextui-org/react";
+import { Form, Formik } from "formik";
+import { InputsFormRegister } from "./InputsFormsRegister";
 
 import {
   professionalSchema,
   initialValues,
-} from '@/utils/validations/professionalSchema';
-import Link from 'next/link';
-import toast from 'react-hot-toast';
-import FileUpload from './FileUpload';
+} from "@/utils/validations/professionalSchema";
+import Link from "next/link";
+import toast from "react-hot-toast";
+import FileUpload from "./FileUpload";
 
 //#region Formik config
 
 function RegisterProfesional({ conditionsAccepted }) {
   const handleSubmitRegister = async (values, { resetForm }) => {
     if (!conditionsAccepted) {
-      toast.error('Por favor acepte los términos y condiciones');
+      toast.error("Por favor acepte los términos y condiciones");
       return;
     }
-    if (values.license === '') delete values.license;
+    if (values.license === "") delete values.license;
     const formData = new FormData();
     for (const [key, value] of Object.entries(values)) {
       formData.append(key, value);
@@ -60,7 +60,7 @@ function RegisterProfesional({ conditionsAccepted }) {
             onChange={handleChange}
             size="lg"
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
             }}
           />
 
@@ -77,7 +77,7 @@ function RegisterProfesional({ conditionsAccepted }) {
             onChange={handleChange}
             size="lg"
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
             }}
           />
 
@@ -87,23 +87,6 @@ function RegisterProfesional({ conditionsAccepted }) {
             touched={touched}
             values={values}
             errors={errors}
-          />
-
-          <CustomInput
-            name="city"
-            aria-label="Ciudad"
-            type="string"
-            variant="flat"
-            placeholder="Ciudad"
-            value={values.city}
-            isInvalid={touched.city && errors.city ? true : false}
-            errorMessage={touched.city && errors.city}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            size="lg"
-            classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-            }}
           />
 
           <CustomInput
@@ -119,7 +102,7 @@ function RegisterProfesional({ conditionsAccepted }) {
             onChange={handleChange}
             size="lg"
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
             }}
           />
 

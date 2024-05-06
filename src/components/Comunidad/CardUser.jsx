@@ -26,7 +26,7 @@ const CardUser = ({ user }) => {
           </div>
           <div className="flex">
             <MdLocationPin size="17px" color="#62CFE4" />
-            <span className="ml-1"> ciudad: {user?.city}</span>
+            <span className="ml-1"> ciudad: {user?.address?.city ? `${user.address.city}, ${user.address.state ? user.address.state + ", " : null}${user.address.country}` : ""}</span>
           </div>
         </div>
       </div>

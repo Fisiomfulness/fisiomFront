@@ -9,6 +9,12 @@ const initialValues = {
   password: '',
   repitPass: '',
   gender: '',
+  streetName: '',
+  streetNumber: '',
+  floorAppartment: '',
+  city: '',
+  state: '',
+  country: ''
 };
 
 const genderList = ['Femenino', 'Masculino', 'Prefiero no responder'];
@@ -36,6 +42,16 @@ const userSchema = Yup.object({
     [Yup.ref('password')],
     'Las contraseñas deben coincidir'
   ),
+  streetName: yupRequired
+    .min(2, 'La calle debe tener al menos 2 caracteres')
+    .max(50, 'No mas de 50 caracteres'),
+  streetNumber: yupRequired,
+  city: yupRequired
+    .min(2, 'La ciudad debe tener al menos 2 caracteres')
+    .max(50, 'No mas de 50 caracteres'),
+  country: yupRequired
+    .min(2, 'El pais debe tener al menos 2 caracteres')
+    .max(30, 'No mas de 30 caracteres'),
 });
 
 export { initialValues, userSchema };
