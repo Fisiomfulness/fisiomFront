@@ -13,7 +13,7 @@ import { CustomButton } from "@/features/ui";
 import useSWRImmutable from "swr/immutable";
 
 /**
- * @typedef {{_id: string; name: string}} Specialty
+ * @typedef {{id: string; name: string}} Specialty
  * @typedef {{count: number, results: Specialty[]}} SpecialtyResponse
  */
 
@@ -48,11 +48,11 @@ const CustomSelect = ({
     >
       {items.map((item) => (
         <SelectItem
-          key={item._id}
+          key={item.id}
           startContent={
             <DynamicTag alt={item.name} className="text-primary-300" />
           }
-          value={item._id}
+          value={item.id}
         >
           {item.name}
         </SelectItem>
@@ -72,7 +72,7 @@ const CitaDomiciliaria = () => {
   });
   const specialties = data?.results.length
     ? data.results
-    : [{ _id: "1", name: "..." }];
+    : [{ id: "1", name: "..." }];
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">
@@ -104,7 +104,7 @@ const CitaOnline = () => {
   });
   const specialties = data?.results.length
     ? data.results
-    : [{ _id: "1", name: "..." }];
+    : [{ id: "1", name: "..." }];
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">

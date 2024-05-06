@@ -3,7 +3,7 @@ import { Providers } from "./providers";
 import { Overlay } from "./overlay";
 
 import "./globals.css";
-//import 'react-big-calendar/lib/css/react-big-calendar.css';
+import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Toaster } from "react-hot-toast";
 import { UserProvider } from "@/context/User";
 
