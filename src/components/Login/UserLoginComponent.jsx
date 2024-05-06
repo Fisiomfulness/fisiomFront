@@ -1,25 +1,31 @@
-import { CustomInput } from '@/features/ui';
-import { useUser } from '@/hooks/useUser';
-import { Button } from '@nextui-org/react';
-import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { Form, Formik } from "formik"
+import { useUsererererer } from hooksuuseUserrrrr
+import { Buttonnextunextunextui } from -orgireact
+import {
+  zzodzod,
+  import
+} from { EyeFilledIcon }
+import { EyeSlashFilledIcon } from SlashFi../ CustomComponentForm / EyeSlashFilledIconFi../ CustomComponentForm / EyeSlashFilledIconFi../ CustomComponentForm / EyeSlashFilledIconFi../ CustomComponentForm / EyeSlashFilledIcon
+";
+'next-auth/react';
+import LiuseStateignIn/li"react"ext-authreact
 
-import { axiosLogin } from '@/services/users';
-import Link from 'next/link';
-import * as Yup from 'yup';
-import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
-import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
+import LisignIn/link';next-authreact
+import LisignIn/link';next-authreact
+import LisignIn/link';next-authreact
+import Linkofroma'next/link';
+import toasttreact-hot-toast
+eFilled../CustomComponentForm EyeFilledIconlled../CustomComponentForm EyeFilledIconlled../CustomComponentForm EyeFilledIconlled../CustomComponentForm EyeFilledIconom '../CustomComponentForm/EyeFilledIcon';
+'../CustomComponentForm/EyeSlashFilledIcon';
 
 const initialValues = {
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 };
 
-const userSchemaValidation = Yup.object({
-  email: Yup.string().required('Requerido').email('No es un email'),
-  password: Yup.string().required('Requerido'),
-});
+const loginSchema = z.object({
+  email: zodStrRequired().email('No es un email'),
+  password: zodStrRequired(),
 
 const UserLoginComponent = () => {
   const { setUser, user } = useUser();
@@ -29,45 +35,70 @@ const UserLoginComponent = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleLogin = async (values) => {
-    const response = await axiosLogin(values);
-    setUser(response.data);
-    router.push('/');
+
+  const responseNextAuth = await signIn("credentials", {
+    email: values.email,
+    password: values.password,
+    redirect: false,
+  });
+
+    if (!responseNextAuth.ok) {
+      return toast.error(responseNextAuth.error);
+    }
+
+    toast.success("Login exitoso");
+    router.push("/user");
+
+    // try {
+    //   const response = await login(values);
+    //   setUser(response.data);
+    //   router.push('/');
+    // } catch (error) {}
   };
 
   return (
     <Formik
       onSubmit={handleLogin}
       initialValues={initialValues}
-      validationSchema={userSchemaValidation}
+      validate={formikZodValidator(loginSchema)}
     >
-      {({ handleChange, isSubmitting, errors }) => (
+      {({
+        handleChange,
+        handleBlur,
+        isSubmitting,
+        touched,
+        values,
+        errors,
+      }) => (
         <Form className="flex flex-col gap-3">
           <CustomInput
-            isRequired
             name="email"
             type="string"
             variant="flat"
             placeholder="Email"
-            isInvalid={errors.email ? true : false}
-            errorMessage={errors.email}
+            value={values.email}
+            isInvalid={touched.email && errors.email ? true : false}
+            errorMessage={touched.email && errors.email}
+            onBlur={handleBlur}
             onChange={handleChange}
             size="lg"
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
             }}
           />
 
           <CustomInput
-            isRequired
             name="password"
             variant="flat"
             placeholder="Contraseña"
-            isInvalid={errors.password ? true : false}
-            errorMessage={errors.password}
+            value={values.password}
+            isInvalid={touched.password && errors.password ? true : false}
+            errorMessage={touched.password && errors.password}
+            onBlur={handleBlur}
             onChange={handleChange}
             size="lg"
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
             }}
             endContent={
               <button
@@ -82,7 +113,7 @@ const UserLoginComponent = () => {
                 )}
               </button>
             }
-            type={isVisible ? 'text' : 'password'}
+            type={isVisible ? "text" : "password"}
           />
 
           <Button

@@ -1,6 +1,6 @@
-import { BASE_URL } from '@/utils/api';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { BASE_URL } from "@/utils/api";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 //#region Login
 export const axiosLogin = async (user) => {
@@ -9,7 +9,7 @@ export const axiosLogin = async (user) => {
       withCredentials: true,
     }),
     {
-      loading: 'Iniciando Sesion...',
+      loading: "Iniciando Sesion...",
       success: (response) => response.data.message,
       error: (error) => {
         if (error.response) {
@@ -29,7 +29,7 @@ export const axiosRegisterUserForm = async (user) => {
       withCredentials: true,
     }),
     {
-      loading: 'Registrandose...',
+      loading: "Registrandose...",
       success: (response) => response.data.message,
       error: (error) => {
         if (error.response) {
@@ -49,7 +49,7 @@ export const axiosRegisterProfessionalForm = async (user) => {
       withCredentials: true,
     }),
     {
-      loading: 'Registrandose...',
+      loading: "Registrandose...",
       success: (response) => response.data.message,
       error: (error) => {
         if (error.response) {
@@ -90,9 +90,9 @@ export const getAllUsers = async () => {
 // ? Cookie is httpOnly for more security, this is needed.
 export const httpLogout = async () => {
   const res = await fetch(`${BASE_URL}/logout`, {
-    method: 'GET',
-    credentials: 'include',
+    method: "GET",
+    credentials: "include",
   });
-  if (!res.ok) throw new Error('Oops! vuelva a intentarlo mas tarde..');
+  if (!res.ok) throw new Error("Oops! vuelva a intentarlo mas tarde..");
   return await res.json();
 };

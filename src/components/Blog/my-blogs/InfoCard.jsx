@@ -61,11 +61,18 @@ const InfoCard = ({
           </div>
         </div>
 
+        {/* currentImage lo utilizo solo como una preview para el edit no afecta el form, 
+            e image lo sobrescribimos asi no choca con la validación de zod */}
         <div className="flex items-center gap-2">
           <Button
             className="flex text-primary-800 items-center gap-1 rounded-md bg-primary-50 border-2 border-primary-100 hover:bg-primary-950 hover:text-white"
             onClick={() => {
-              setEditIniValues({...blog, type_id: blog.type._id});
+              setEditIniValues({
+                ...blog,
+                image: undefined,
+                currentImage: blog.image,
+                type_id: blog.type._id,
+              });
               setBlogIdToHandle(blog._id);
               setEditModalOpen(true);
             }}

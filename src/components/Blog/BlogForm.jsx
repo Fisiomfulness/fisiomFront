@@ -3,11 +3,12 @@ import { useRef } from 'react';
 import { useUser } from '@/hooks/useUser';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Select, SelectItem, Image } from '@nextui-org/react';
-import { CldUploadWidget } from 'next-cloudinary';
 import { createBlog, updateBlog } from '@/services/blogs';
+import { formikZodValidator, zodStrRequired } from '@/utils/validations';
+import { z } from 'zod';
+
 import Tiptap from '@/components/Tiptap';
 import toast from 'react-hot-toast';
-import * as Yup from 'yup';
 
 const countHtmlCharacters = (htmlString) => {
   // ? Tag <br> count like a character like tiptap
@@ -19,25 +20,30 @@ const emptyValues = {
   title: '',
   text: '',
   type_id: '',
-  image: '',
+  image: null,
 };
 
-const blogSchema = Yup.object({
-  title: Yup.string()
-    .required('Requerido')
+const MAX_FILE_SIZE = 1024 * 1024 * 3; // ? 3MB
+
+const blogSchema = z.object({
+  title: zodStrRequired()
     .min(3, 'Al menos 3 caracteres')
     .max(100, 'No mas de 100 caracteres'),
-  text: Yup.string()
-    .required('Requerido')
-    .test(
-      'len',
-      'Mínimo: 300 caracteres',
-      (value) => value && countHtmlCharacters(value) >= 300
+  text: zodStrRequired().refine(
+    (value) => countHtmlCharacters(value) >= 300,
+    'Mínimo: 300 caracteres'
+  ),
+  type_id: zodStrRequired('Seleccione el tipo de blog'),
+  image: z
+    .instanceof(File, 'Imagen requerida')
+    .refine(
+      (value) => value && value.type.startsWith('image/'),
+      'El archivo no es una imagen'
+    )
+    .refine(
+      (value) => value && value.size <= MAX_FILE_SIZE,
+      'Tamaño de archivo máximo: 3MB'
     ),
-  type_id: Yup.string().required('Seleccione el tipo de blog'),
-  image: Yup.string()
-    .required('Adjunte una imagen')
-    .url('No es una url valida'),
 });
 
 const BlogForm = ({
@@ -51,7 +57,12 @@ const BlogForm = ({
 
   const handleCreate = async (values, resetForm) => {
     try {
-      await createBlog({ ...values, professional_id: user?.userId });
+      const formData = new FormData();
+      formData.append('professional_id', user?.userId);
+      for (const name in values) {
+        formData.append(name, values[name]);
+      }
+      await createBlog(formData);
       // * Clears content of editor from tiptap
       if (editorRef) editorRef.current?.commands.clearContent(true);
       resetForm();
@@ -64,16 +75,18 @@ const BlogForm = ({
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={blogSchema}
-      onSubmit={(values, { resetForm }) => {
+      validate={formikZodValidator(
+        mode === 'create' ? blogSchema : blogSchema.partial()
+      )}
+      onSubmit={async (values, { resetForm }) => {
         mode === 'create'
-          ? handleCreate(values, resetForm)
-          : handleUpdate('update', values);
+          ? await handleCreate(values, resetForm)
+          : await handleUpdate('update', values);
       }}
       className="space-y-6 max-h-full overflow-hidden"
     >
       {({ setFieldValue, values, errors, isSubmitting }) => (
-        <Form className="flex flex-col gap-3 overflow-y-auto h-full">
+        <Form className="flex flex-col gap-3 overflow-y-auto overflow-x-hidden h-full">
           <div>
             <Select
               size="md"
@@ -144,53 +157,43 @@ const BlogForm = ({
           </div>
 
           <div className="flex flex-col gap-2">
-            <label
-              className="text-sm md:text-base font-medium text-gray-700"
-              htmlFor="featured-image"
-            >
+            <label className="text-sm md:text-base font-medium text-gray-700">
               Imagen adjunta
             </label>
-
-            <CldUploadWidget
-              signatureEndpoint="/api/sign-cloudinary-upload"
-              options={{
-                sources: ['local', 'url'],
-                clientAllowedFormats: ['image'],
-                maxFiles: 1,
-                maxFileSize: 5500000,
-              }}
-              onSuccess={(result, { widget }) => {
-                setFieldValue('image', result?.info.secure_url);
-                widget.close();
-              }}
+            <input
+              id="blog-image-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => setFieldValue('image', e.target.files[0])}
+            />
+            <label
+              htmlFor="blog-image-upload"
+              className="py-2 px-3 w-48 text-center text-sm md:text-base bg-primary-500 rounded-md text-white cursor-pointer hover:opacity-90"
             >
-              {({ open }) => {
-                return (
-                  <button
-                    type="button"
-                    className="bg-primary-600 rounded-md min-w-fit w-full max-w-48 px-3 py-2 text-white"
-                    onClick={() => open()}
-                  >
-                    Sube una imagen
-                  </button>
-                );
-              }}
-            </CldUploadWidget>
+              {mode === 'create' ? 'Sube una imagen' : 'Cambiar la imagen'}
+            </label>
 
-            <div className="flex items-center justify-start w-full">
-              {values.image !== '' && (
-                <Image src={values.image} className="h-32 w-48" />
+            <div className="flex items-center w-full">
+              {values.image && values.image instanceof File && (
+                <p className="w-full mx-1 px-2 outline-dashed outline-2 outline-offset-2 outline-secondary-300 truncate text-center text-primary-900">
+                  {values.image.name}
+                </p>
               )}
-              {errors.image && (
-                <span className="text-sm md:text-base text-danger-500 text-balance">
-                  {errors.image}
-                </span>
+              {!values.image && initialValues.currentImage && (
+                <Image src={initialValues.currentImage} className="h-32 w-48" />
               )}
             </div>
+
+            {errors.image && (
+              <span className="text-sm md:text-base text-danger-500 text-balance">
+                {errors.image}
+              </span>
+            )}
           </div>
 
           <Button
-            isDisabled={isSubmitting || Object.keys(errors).length > 0}
+            isDisabled={Object.keys(errors).length > 0 || isSubmitting}
             className="mt-auto w-full inline-flex items-center p-5 text-sm font-medium text-white bg-primary-500 border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-200"
             type="submit"
           >

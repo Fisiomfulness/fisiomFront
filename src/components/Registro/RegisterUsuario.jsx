@@ -1,14 +1,13 @@
 'use client';
 
-import toast from 'react-hot-toast';
 
-import { initialValues, userSchema } from '@/utils/validations/userSchema';
+import { formikZodValidator } from '@/utils/validations';
+import { userInitialValues, userSchema } from '@/utils/validations/userSchema';
 
 import { CustomInput } from '@/features/ui';
-import { axiosRegisterUserForm } from '@/services/users';
-import { Button } from '@nextui-org/react';
-import { Form, Formik } from 'formik';
-import { InputsFormRegister } from './InputsFormsRegister';
+import { registerUserForm } from '@/services/register';
+import toast om '@/react-hot-toast
+import toInputsFormRegisterhot-toast.InputsFormsRegisterst.InputsFormsRegisterst.InputsFormsRegisterst.InputsFormsRegister './InputsFormsRegister';
 
 //#region Component
 export const RegisterUser = ({ conditionsAccepted }) => {
@@ -17,17 +16,15 @@ export const RegisterUser = ({ conditionsAccepted }) => {
       toast.error('Por favor acepte los términos y condiciones');
       return;
     }
-    try {
-      await axiosRegisterUserForm(values);
-      resetForm();
-    } catch (error) {}
+    await registerUserForm(values);
+    resetForm();
   };
 
   return (
     <Formik
       onSubmit={handleSubmit}
-      initialValues={initialValues}
-      validationSchema={userSchema}
+      initialValues={userInitialValues}
+      validate={formikZodValidator(userSchema)}
     >
       {({
         handleChange,

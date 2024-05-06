@@ -1,12 +1,6 @@
 import { useState } from 'react';
 
-import {
-  Button,
-  Select,
-  SelectItem,
-  Input,
-  DateInput,
-} from '@nextui-org/react';
+import { Button, Select, SelectItem, Input } from '@nextui-org/react';
 import { ErrorMessage, Field } from 'formik';
 import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
 import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
@@ -119,15 +113,15 @@ export const InputsFormRegister = ({
       />
 
       <CustomInput
-        name="repitPass"
+        name="confirmPass"
         aria-label="Repita la contraseña"
         autocomplete="repeat-password"
         variant="flat"
         placeholder="Repita la contraseña"
         size="lg"
-        value={values.repitPass}
-        isInvalid={touched.repitPass && errors.repitPass ? true : false}
-        errorMessage={touched.repitPass && errors.repitPass}
+        value={values.confirmPass}
+        isInvalid={touched.confirmPass && errors.confirmPass ? true : false}
+        errorMessage={touched.confirmPass && errors.confirmPass}
         onBlur={handleBlur}
         onChange={handleChange}
         type="password"
