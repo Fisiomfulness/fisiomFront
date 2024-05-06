@@ -71,6 +71,22 @@ export const axiosUserDetail = async (id) => {
     console.log(error);
   }
 };
+
+//#region Get all users
+export const getAllUsers = async () => {
+  try {
+    const { data } = await axios(
+      `${BASE_URL}/users/`,
+      // `${process.env.NEXT_PUBLIC_BACKEND_URL}/users`
+    );
+    return { data };
+  } catch (error) {
+    return {
+      error: getErrorMessage(error),
+    };
+  }
+};
+
 // ? Cookie is httpOnly for more security, this is needed.
 export const httpLogout = async () => {
   const res = await fetch(`${BASE_URL}/logout`, {
