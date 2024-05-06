@@ -55,7 +55,7 @@ const BlogDetail = ({ data, iniComments, totalComments }) => {
         {session?.user ? (
           session.user.role === roles.USER ? (
             <CommentForm
-              userId={user.userId}
+              userId={session.user.id}
               blogId={data._id}
               setComments={setComments}
             />

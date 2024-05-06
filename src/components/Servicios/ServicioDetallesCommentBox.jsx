@@ -5,7 +5,7 @@ import { Input, Chip, Button } from "@nextui-org/react";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { FaBullseye } from "react-icons/fa";
-import { useUser } from "@/hooks/useUser";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
@@ -15,7 +15,7 @@ const StarRatings = dynamic(() => import("react-star-ratings"), {
 
 const ServicioDetallesCommentBox = ({ profesional }) => {
   const router = useRouter();
-  const { user } = useUser();
+  const { data: session } = useSession();
   const [rating, setRating] = useState(0);
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
@@ -34,7 +34,7 @@ const ServicioDetallesCommentBox = ({ profesional }) => {
         description: comment,
         name,
         _profesional: profesional._id,
-        _user: user.id,
+        _user: session?.user.id,
       });
       toast.success("Gracias por tu valoración!");
       router.refresh();
@@ -76,12 +76,12 @@ const ServicioDetallesCommentBox = ({ profesional }) => {
             name="rating"
           />
         </Chip>
-        <Button 
-        color="primary" 
-        radius="md" 
-        type="submit" 
-        loading={loading} 
-        disabled={!comment || !name}
+        <Button
+          color="primary"
+          radius="md"
+          type="submit"
+          loading={loading}
+          disabled={!comment || !name}
         >
           Comentar
         </Button>

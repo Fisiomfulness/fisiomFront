@@ -5,12 +5,12 @@ import ServicioDetallesCommentBox from "@/components/Servicios/ServicioDetallesC
 import ServicioProfesionalCard from "@/components/Servicios/ServicioProfesionalCard";
 import ServicioProfesionalComentarios from "@/components/Servicios/ServicioProfesionalComentarios";
 import { apiEndpoints } from "@/api_endpoints";
-import { useUser } from "@/hooks/useUser";
+import { useSession } from "next-auth/react";
 
 const ServicioDetalles = ({ params }) => {
   const profesionalId = params.detallesId;
   const [profesional, setProfesional] = useState({});
-  const { user } = useUser();
+  const { data: session } = useSession()
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -31,7 +31,7 @@ const ServicioDetalles = ({ params }) => {
   return (
     <div>
       <ServicioProfesionalCard profesional={profesional} />
-      {user ? <ServicioDetallesCommentBox profesional={profesional} /> : null}
+      {session?.user ? <ServicioDetallesCommentBox profesional={profesional} /> : null}
       <ServicioProfesionalComentarios profesionalId={profesionalId} />
     </div>
   );
