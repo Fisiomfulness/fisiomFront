@@ -1,26 +1,26 @@
 "use client";
-
-import { useState } from "react";
-import Link from "next/link";
-import * as Yup from "yup";
-
 import { CustomButton, CustomInput, CustomLogo } from "@/features/ui";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Button } from "@nextui-org/react";
 import { resetPassword } from "@/services/recoveryAcount";
 
+import { z } from "zod";
+import { useState } from "react";
+import { formikZodValidator, zodStrRequired } from "@/utils/validations";
+import Link from "next/link";
+
 const initialValues = {
   password: "",
-  repitPass: "",
+  confirmPass: "",
 };
 
-const validationSchema = Yup.object({
-  password: Yup.string()
-    .required("La contraseña es requerida")
+const validationSchema = z.object({
+  password: zodStrRequired("La contraseña es requerida")
     .min(8, "La contraseña debe tener al menos 8 caracteres"),
-  repitPass: Yup.string()
-    .required("Requerido")
-    .oneOf([Yup.ref("password")], "Las contraseñas deben coincidir"),
+  confirmPass: zodStrRequired("Requerido")
+}).refine((data) => data.password === data.confirmPass, {
+  message: 'Las contraseñas no coinciden',
+  path: ['confirmPass'],
 });
 
 const CambiarPassword = ({ token }) => {
@@ -35,7 +35,7 @@ const CambiarPassword = ({ token }) => {
     <Formik
       onSubmit={handleSubmit}
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      validate={formikZodValidator(validationSchema)}
     >
       {() => (
         <Form className="flex flex-col gap-3">
@@ -56,12 +56,12 @@ const CambiarPassword = ({ token }) => {
           <div className="flex flex-col gap-1">
             <Field
               className="px-3 py-2 outline-none border-2 border-gray-400 focus:border-primary-500 rounded-md"
-              name="repitPass"
+              name="confirmPass"
               type="password"
               placeholder="Repita la contraseña"
             />
             <ErrorMessage
-              name="repitPass"
+              name="confirmPass"
               component="span"
               className="text-danger-500"
             />

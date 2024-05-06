@@ -18,7 +18,6 @@ const BlogDetailPage = async ({ params }) => {
         iniComments={comments}
         totalComments={totalComments}
       />
-      ;
     </main>
   );
 };

@@ -6,22 +6,23 @@ import { Form, Formik } from "formik";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { EyeFilledIcon } from "../CustomComponentForm/EyeFilledIcon";
-import { EyeSlashFilledIcon } from "../CustomComponentForm/EyeSlashFilledIcon";
-import Link from "next/link";
-import * as Yup from "yup";
-import { signIn } from "next-auth/react";
-import toast from "react-hot-toast";
+import { z } from 'zod';
+// import { login } from '@/services/users';
+import { formikZodValidator, zodStrRequired } from '@/utils/validations';
+import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
+import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
+import { signIn } from 'next-auth/react';
+import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 const initialValues = {
   email: "",
   password: "",
 };
 
-const userSchemaValidation = Yup.object({
-  email: Yup.string().required("Requerido").email("No es un email"),
-  password: Yup.string().required("Requerido"),
-});
+const loginSchema = z.object({
+  email: zodStrRequired().email('No es un email'),
+  password: zodStrRequired(),
 
 const UserLoginComponent = () => {
   const { setUser, user } = useUser();
@@ -31,11 +32,12 @@ const UserLoginComponent = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleLogin = async (values) => {
-    const responseNextAuth = await signIn("credentials", {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-    });
+
+  const responseNextAuth = await signIn("credentials", {
+    email: values.email,
+    password: values.password,
+    redirect: false,
+  });
 
     if (!responseNextAuth.ok) {
       return toast.error(responseNextAuth.error);
@@ -55,18 +57,26 @@ const UserLoginComponent = () => {
     <Formik
       onSubmit={handleLogin}
       initialValues={initialValues}
-      validationSchema={userSchemaValidation}
+      validate={formikZodValidator(loginSchema)}
     >
-      {({ handleChange, isSubmitting, errors }) => (
+      {({
+        handleChange,
+        handleBlur,
+        isSubmitting,
+        touched,
+        values,
+        errors,
+      }) => (
         <Form className="flex flex-col gap-3">
           <CustomInput
-            isRequired
             name="email"
             type="string"
             variant="flat"
             placeholder="Email"
-            isInvalid={errors.email ? true : false}
-            errorMessage={errors.email}
+            value={values.email}
+            isInvalid={touched.email && errors.email ? true : false}
+            errorMessage={touched.email && errors.email}
+            onBlur={handleBlur}
             onChange={handleChange}
             size="lg"
             classNames={{
@@ -75,12 +85,13 @@ const UserLoginComponent = () => {
           />
 
           <CustomInput
-            isRequired
             name="password"
             variant="flat"
             placeholder="Contraseña"
-            isInvalid={errors.password ? true : false}
-            errorMessage={errors.password}
+            value={values.password}
+            isInvalid={touched.password && errors.password ? true : false}
+            errorMessage={touched.password && errors.password}
+            onBlur={handleBlur}
             onChange={handleChange}
             size="lg"
             classNames={{

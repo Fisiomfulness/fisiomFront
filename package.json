@@ -16,7 +16,6 @@
     "@tiptap/react": "^2.3.1",
     "@tiptap/starter-kit": "^2.3.1",
     "axios": "^1.6.8",
-    "cloudinary": "^2.2.0",
     "cross-env": "^7.0.3",
     "formik": "^2.4.6",
     "framer-motion": "^11.1.8",
@@ -25,7 +24,6 @@
     "leaflet": "^1.9.4",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
-    "next-cloudinary": "^6.5.2",
     "react": "^18",
     "react-big-calendar": "^1.12.1",
     "react-dom": "^18",
@@ -37,7 +35,7 @@
     "react-syntax-highlighter": "^15.5.0",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.3.0",
-    "yup": "^1.4.0"
+    "zod": "^3.23.6"
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
