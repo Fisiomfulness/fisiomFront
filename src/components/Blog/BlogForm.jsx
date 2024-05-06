@@ -1,6 +1,6 @@
 'use client';
 import { useRef } from 'react';
-import { useUser } from '@/hooks/useUser';
+import { useSession } from 'next-auth/react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Select, SelectItem, Image } from '@nextui-org/react';
 import { createBlog, updateBlog } from '@/services/blogs';
@@ -52,13 +52,13 @@ const BlogForm = ({
   initialValues = emptyValues,
   mode = 'create',
 }) => {
-  const { user } = useUser();
+  const { data: session } = useSession()
   const editorRef = useRef(null);
 
   const handleCreate = async (values, resetForm) => {
     try {
       const formData = new FormData();
-      formData.append('professional_id', user?.userId);
+      formData.append('professional_id', session?.user.id);
       for (const name in values) {
         formData.append(name, values[name]);
       }
