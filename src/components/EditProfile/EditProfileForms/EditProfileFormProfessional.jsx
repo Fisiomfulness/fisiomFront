@@ -1,15 +1,16 @@
-'use client';
+"use client";
 
-import FileUpload from '@/components/Registro/FileUpload';
-import { InputsFormRegister } from '@/components/Registro/InputsFormsRegister';
-import { CustomInput } from '@/features/ui';
+import FileUpload from "@/components/Registro/FileUpload";
+import { InputsFormRegister } from "@/components/Registro/InputsFormsRegister";
+import { CustomInput } from "@/features/ui";
 import {
-  professionalRegisterInitialValues,
-  professionalRegisterValidationScheme,
-} from '@/utils/validations/validationProfessional';
-import { Card, CardBody } from '@nextui-org/react';
-import { Form, Formik } from 'formik';
-import { Button } from 'react-aria-components';
+  professionalInitialValues,
+  professionalSchema,
+} from "@/utils/validations/professionalSchema";
+
+import { Card, CardBody } from "@nextui-org/react";
+import { Form, Formik } from "formik";
+import { Button } from "react-aria-components";
 
 export const EditProfileFormProfessional = ({ userDetail }) => {
   // const [isVisible, setIsVisible] = useState(false);
@@ -27,10 +28,8 @@ export const EditProfileFormProfessional = ({ userDetail }) => {
       <CardBody className="center flex-col w-full p-0 gap-8 md:gap-16"></CardBody>
       <Formik
         onSubmit={handleSubmitRegister}
-        initialValues={professionalRegisterInitialValues}
-        validationSchema={professionalRegisterValidationScheme({
-          isUpdate: true,
-        })}
+        initialValues={professionalInitialValues}
+        validationSchema={professionalSchema}
       >
         {({
           handleChange,
@@ -54,7 +53,7 @@ export const EditProfileFormProfessional = ({ userDetail }) => {
               onChange={handleChange}
               size="lg"
               classNames={{
-                inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+                inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
               }}
             />
 
@@ -71,7 +70,7 @@ export const EditProfileFormProfessional = ({ userDetail }) => {
               onChange={handleChange}
               size="lg"
               classNames={{
-                inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+                inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
               }}
             />
 
@@ -96,7 +95,7 @@ export const EditProfileFormProfessional = ({ userDetail }) => {
               onChange={handleChange}
               size="lg"
               classNames={{
-                inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+                inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
               }}
             />
 
@@ -113,7 +112,7 @@ export const EditProfileFormProfessional = ({ userDetail }) => {
               onChange={handleChange}
               size="lg"
               classNames={{
-                inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+                inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
               }}
             />
 
