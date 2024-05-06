@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useUser } from '@/hooks/useUser';
+import { useSession } from 'next-auth/react';
 import { Image } from '@nextui-org/react';
 import roles from '@/utils/roles';
 import DOMPurify from 'isomorphic-dompurify';
@@ -12,7 +12,7 @@ const StarRatings = dynamic(() => import('react-star-ratings'), {
 });
 
 const BlogDetail = ({ data, iniComments, totalComments }) => {
-  const { user } = useUser();
+  const { data: session } = useSession()
   const [comments, setComments] = useState(iniComments);
 
   return (
@@ -52,8 +52,8 @@ const BlogDetail = ({ data, iniComments, totalComments }) => {
           totalComments={totalComments}
           setComments={setComments}
         />
-        {user ? (
-          user.role === roles.USER ? (
+        {session?.user ? (
+          session.user.role === roles.USER ? (
             <CommentForm
               userId={user.userId}
               blogId={data._id}

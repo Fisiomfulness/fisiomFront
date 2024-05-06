@@ -7,7 +7,7 @@ import {
   updateBlog,
 } from '@/services/blogs';
 import { Pagination, Spinner } from '@nextui-org/react';
-import { useUser } from '@/hooks/useUser';
+import { useSession } from 'next-auth/react';
 import InfoCard from './InfoCard';
 import EditBlogModal from './EditBlogModal';
 import ConfirmModal from './ConfirmModal';
@@ -23,7 +23,7 @@ const initialValues = {
 const CARDS_PER_PAGE = 6;
 
 const MyBlogs = ({ types }) => {
-  const { user } = useUser();
+  const { data: session } = useSession()
   const [isLoading, setIsLoading] = useState(true);
   const [myBlogs, setMyBlogs] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -36,7 +36,7 @@ const MyBlogs = ({ types }) => {
 
   const fetchBlogs = (page = 1) => {
     setIsLoading(true);
-    getProfessionalBlogs(user?.userId, { limit: CARDS_PER_PAGE, page })
+    getProfessionalBlogs(session.user.id, { limit: CARDS_PER_PAGE, page })
       .then((res) => {
         setMyBlogs(res.blogs);
         setPage(res.page);
@@ -46,7 +46,7 @@ const MyBlogs = ({ types }) => {
   };
 
   const handleBlog = async (option = 'update', newValues) => {
-    if(option !== "update" && option !== "delete") return;
+    if (option !== "update" && option !== "delete") return;
     try {
       if (option == 'update') {
         const formData = new FormData();
