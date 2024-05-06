@@ -9,7 +9,6 @@
       "\"(.*?)\""
     ],
     ["[cC]lassName[s]?\\s*=\\s*{([^}]+)}", "\"([^\"]*)\""],
-    ["[cC]lassName[s]?\\s*=\\s*{([^}]+)}", "\"([^\"]*)\""],
     ["@apply\\s([^;\\n]*)"]
   ],
   "tailwindCSS.classAttributes": [

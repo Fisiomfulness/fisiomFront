@@ -1,15 +1,17 @@
-import { CustomInput } from '@/features/ui';
 import { useUser } from '@/hooks/useUser';
+import { login } from '@/services/login';
 import { Button } from '@nextui-org/react';
+import { CustomInput } from '@/features/ui';
 import { Form, Formik } from 'formik';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { z } from 'zod';
-import { login } from '@/services/users';
+// import { login } from '@/services/users';
 import { formikZodValidator, zodStrRequired } from '@/utils/validations';
 import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
 import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 
@@ -31,20 +33,24 @@ const UserLoginComponent = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleLogin = async (values) => {
-    try {
-      const response = await login(values);
-      setUser(response.data);
-      router.push('/');
-      toast.success('Logeado con exito!');
-    } catch (error) {
-      if (error.response) {
-        toast.error(error.response.data.message);
-        return false;
-      } else {
-        toast.error(error.message);
-        return false;
-      }
+    const responseNextAuth = await signIn('credentials', {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    });
+
+    if (!responseNextAuth.ok) {
+      return toast.error(responseNextAuth.error);
     }
+
+    toast.success('Login exitoso');
+    router.push('/user');
+
+    // try {
+    //   const response = await login(values);
+    //   setUser(response.data);
+    //   router.push('/');
+    // } catch (error) {}
   };
 
   return (
