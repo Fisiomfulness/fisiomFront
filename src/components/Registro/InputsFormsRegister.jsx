@@ -1,22 +1,15 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import {
-  Button,
-  Select,
-  SelectItem,
-  Input,
-  DateInput,
-  Divider,
-} from "@nextui-org/react";
-import { ErrorMessage, Field } from "formik";
-import { EyeSlashFilledIcon } from "../CustomComponentForm/EyeSlashFilledIcon";
-import { EyeFilledIcon } from "../CustomComponentForm/EyeFilledIcon";
-import { CustomInput } from "@/features/ui";
+import { Button, Select, SelectItem, Input } from '@nextui-org/react';
+import { ErrorMessage, Field } from 'formik';
+import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
+import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
+import { CustomInput } from '@/features/ui';
 
 export const genderList = [
-  { label: "Femenino", value: "Femenino" },
-  { label: "Masculino", value: "Masculino" },
-  { label: "Prefiero no responder", value: "Prefiero no responder" },
+  { label: 'Femenino', value: 'Femenino' },
+  { label: 'Masculino', value: 'Masculino' },
+  { label: 'Prefiero no responder', value: 'Prefiero no responder' },
 ];
 
 export const InputsFormRegister = ({
@@ -44,7 +37,7 @@ export const InputsFormRegister = ({
         onChange={handleChange}
         size="lg"
         classNames={{
-          inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+          inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
         }}
       />
 
@@ -62,8 +55,8 @@ export const InputsFormRegister = ({
           onChange={handleChange}
           size="lg"
           classNames={{
-            inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
-            label: "!text-gray-500",
+            inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+            label: '!text-gray-500',
           }}
         />
       </div>
@@ -80,9 +73,9 @@ export const InputsFormRegister = ({
         size="lg"
         radius="sm"
         classNames={{
-          innerWrapper: "text-gray-500",
-          label: "text-gray-500",
-          errorMessage: "text-sm",
+          innerWrapper: 'text-gray-500',
+          label: 'text-gray-500',
+          errorMessage: 'text-sm',
         }}
       >
         {(gender) => <SelectItem key={gender.value}>{gender.label}</SelectItem>}
@@ -113,9 +106,9 @@ export const InputsFormRegister = ({
             )}
           </button>
         }
-        type={isVisible ? "text" : "password"}
+        type={isVisible ? 'text' : 'password'}
         classNames={{
-          inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+          inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
         }}
       />
 
@@ -133,119 +126,9 @@ export const InputsFormRegister = ({
         onChange={handleChange}
         type="password"
         classNames={{
-          inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+          inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
         }}
       />
-      <Divider />
-      <CustomInput
-        name="streetName"
-        aria-label="Calle"
-        autocomplete="streetName"
-        variant="flat"
-        placeholder="Calle"
-        size="lg"
-        value={values.streetName}
-        isInvalid={touched.streetName && errors.streetName ? true : false}
-        errorMessage={touched.streetName && errors.streetName}
-        onBlur={handleBlur}
-        onChange={handleChange}
-        type="text"
-        classNames={{
-          inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
-        }}
-      />
-      <div className="flex gap-1 w-full justify-between">
-        <CustomInput
-          name="streetNumber"
-          aria-label="Número"
-          autocomplete="streetNumber"
-          variant="flat"
-          placeholder="Número"
-          size="lg"
-          value={values.streetNumber}
-          isInvalid={touched.streetNumber && errors.streetNumber ? true : false}
-          errorMessage={touched.streetNumber && errors.streetNumber}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          type="text"
-          classNames={{
-            inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
-            base: "w-3/5",
-          }}
-        />
-        <CustomInput
-          name="floorAppartment"
-          aria-label="Piso/Dpto"
-          autocomplete="floorAppartment"
-          variant="flat"
-          placeholder="Piso/Dpto"
-          size="lg"
-          value={values.floorAppartment}
-          isInvalid={
-            touched.floorAppartment && errors.floorAppartment ? true : false
-          }
-          errorMessage={touched.floorAppartment && errors.floorAppartment}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          type="text"
-          classNames={{
-            inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
-            base: "w-2/5",
-          }}
-        />
-      </div>
-      <CustomInput
-        name="city"
-        aria-label="Ciudad"
-        autocomplete="city"
-        variant="flat"
-        placeholder="Ciudad"
-        size="lg"
-        value={values.city}
-        isInvalid={touched.city && errors.city ? true : false}
-        errorMessage={touched.city && errors.city}
-        onBlur={handleBlur}
-        onChange={handleChange}
-        type="text"
-        classNames={{
-          inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
-        }}
-      />
-      <CustomInput
-        name="state"
-        aria-label="Estado/Provincia"
-        autocomplete="state"
-        variant="flat"
-        placeholder="Estado/Provincia"
-        size="lg"
-        value={values.state}
-        isInvalid={touched.state && errors.state ? true : false}
-        errorMessage={touched.state && errors.state}
-        onBlur={handleBlur}
-        onChange={handleChange}
-        type="text"
-        classNames={{
-          inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
-        }}
-      />
-      <CustomInput
-        name="country"
-        aria-label="País"
-        autocomplete="country"
-        variant="flat"
-        placeholder="País"
-        size="lg"
-        value={values.country}
-        isInvalid={touched.country && errors.country ? true : false}
-        errorMessage={touched.country && errors.country}
-        onBlur={handleBlur}
-        onChange={handleChange}
-        type="text"
-        classNames={{
-          inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
-        }}
-      />
-      <Divider />
     </>
   );
 };
