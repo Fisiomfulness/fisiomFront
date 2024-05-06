@@ -1,4 +1,3 @@
-import { useUser } from "@/hooks/useUser";
 import { login } from "@/services/login";
 import { Button } from "@nextui-org/react";
 import { CustomInput } from "@/features/ui";
@@ -26,7 +25,6 @@ const loginSchema = z.object({
 })
 
 const UserLoginComponent = () => {
-  const { setUser, user } = useUser();
   const router = useRouter();
 
   const [isVisible, setIsVisible] = useState(false);
