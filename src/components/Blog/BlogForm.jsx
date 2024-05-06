@@ -86,7 +86,7 @@ const BlogForm = ({
       className="space-y-6 max-h-full overflow-hidden"
     >
       {({ setFieldValue, values, errors, isSubmitting }) => (
-        <Form className="flex flex-col gap-3 overflow-y-auto h-full">
+        <Form className="flex flex-col gap-3 overflow-y-auto overflow-x-hidden h-full">
           <div>
             <Select
               size="md"
@@ -160,33 +160,36 @@ const BlogForm = ({
             <label className="text-sm md:text-base font-medium text-gray-700">
               Imagen adjunta
             </label>
-            <div className="grid grid-cols-[max-content,auto] items-center gap-2">
-              <input
-                id="blog-image-upload"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => setFieldValue('image', e.target.files[0])}
-              />
-              <label
-                htmlFor="blog-image-upload"
-                className="py-2 px-3 w-fit text-sm md:text-base bg-primary-500 rounded-md text-white cursor-pointer hover:opacity-90"
-              >
-                {mode === 'create' ? 'Sube una imagen' : 'Cambiar la imagen'}
-              </label>
-              {values.image && (
-                <p className="w-[90%] ml-auto mr-1 px-2 outline-dashed outline-2 outline-offset-2 outline-secondary-300 truncate text-center text-primary-900">
+            <input
+              id="blog-image-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => setFieldValue('image', e.target.files[0])}
+            />
+            <label
+              htmlFor="blog-image-upload"
+              className="py-2 px-3 w-48 text-center text-sm md:text-base bg-primary-500 rounded-md text-white cursor-pointer hover:opacity-90"
+            >
+              {mode === 'create' ? 'Sube una imagen' : 'Cambiar la imagen'}
+            </label>
+
+            <div className="flex items-center w-full">
+              {values.image && values.image instanceof File && (
+                <p className="w-full mx-1 px-2 outline-dashed outline-2 outline-offset-2 outline-secondary-300 truncate text-center text-primary-900">
                   {values.image.name}
                 </p>
               )}
-            </div>
-            <div className="flex items-center justify-start w-full">
-              {errors.image && (
-                <span className="text-sm md:text-base text-danger-500 text-balance">
-                  {errors.image}
-                </span>
+              {!values.image && initialValues.currentImage && (
+                <Image src={initialValues.currentImage} className="h-32 w-48" />
               )}
             </div>
+
+            {errors.image && (
+              <span className="text-sm md:text-base text-danger-500 text-balance">
+                {errors.image}
+              </span>
+            )}
           </div>
 
           <Button

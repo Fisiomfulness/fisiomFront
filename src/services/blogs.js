@@ -57,12 +57,11 @@ export const createBlog = async (newBlog) => {
   return await res.json();
 };
 
-export const updateBlog = async (blogId, updatedValues) => {
+export const updateBlog = async (blogId, updatedBlog) => {
   const res = await fetch(`${BASE_URL}/blogs/update/${blogId}`, {
     method: 'PUT',
     credentials: 'include',
-    body: JSON.stringify(updatedValues),
-    headers: { 'Content-Type': 'application/json' },
+    body: updatedBlog,
   });
   if (!res.ok) throw new Error('Error updating blog');
   return await res.json();

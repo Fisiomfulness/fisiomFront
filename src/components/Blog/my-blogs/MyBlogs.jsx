@@ -49,7 +49,11 @@ const MyBlogs = ({ types }) => {
     if(option !== "update" && option !== "delete") return;
     try {
       if (option == 'update') {
-        await updateBlog(blogIdToHandle, newValues);
+        const formData = new FormData();
+        for (const name in newValues) {
+          formData.append(name, newValues[name]);
+        }
+        await updateBlog(blogIdToHandle, formData);
         setEditModalOpen(false)
       } else {
         await deleteBlog(blogIdToHandle);
