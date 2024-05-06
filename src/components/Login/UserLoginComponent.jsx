@@ -1,10 +1,10 @@
-import { useUser } from '@/hooks/useUser';
-import { login } from '@/services/login';
-import { Button } from '@nextui-org/react';
-import { CustomInput } from '@/features/ui';
-import { Form, Formik } from 'formik';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useUser } from "@/hooks/useUser";
+import { login } from "@/services/login";
+import { Button } from "@nextui-org/react";
+import { CustomInput } from "@/features/ui";
+import { Form, Formik } from "formik";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { z } from 'zod';
 // import { login } from '@/services/users';
@@ -16,14 +16,13 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 
 const initialValues = {
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 };
 
 const loginSchema = z.object({
   email: zodStrRequired().email('No es un email'),
   password: zodStrRequired(),
-});
 
 const UserLoginComponent = () => {
   const { setUser, user } = useUser();
@@ -33,18 +32,19 @@ const UserLoginComponent = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleLogin = async (values) => {
-    const responseNextAuth = await signIn('credentials', {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-    });
+
+  const responseNextAuth = await signIn("credentials", {
+    email: values.email,
+    password: values.password,
+    redirect: false,
+  });
 
     if (!responseNextAuth.ok) {
       return toast.error(responseNextAuth.error);
     }
 
-    toast.success('Login exitoso');
-    router.push('/user');
+    toast.success("Login exitoso");
+    router.push("/user");
 
     // try {
     //   const response = await login(values);
@@ -80,7 +80,7 @@ const UserLoginComponent = () => {
             onChange={handleChange}
             size="lg"
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
             }}
           />
 
@@ -95,7 +95,7 @@ const UserLoginComponent = () => {
             onChange={handleChange}
             size="lg"
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
             }}
             endContent={
               <button
@@ -110,7 +110,7 @@ const UserLoginComponent = () => {
                 )}
               </button>
             }
-            type={isVisible ? 'text' : 'password'}
+            type={isVisible ? "text" : "password"}
           />
 
           <Button
