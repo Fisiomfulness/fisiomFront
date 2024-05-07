@@ -46,6 +46,7 @@ const ComunidadClient = () => {
             pos: userCoords.join(","),
             page: page,
           },
+          withCredentials: true,
         })
         .then(({ data }) => {
           if (page === 1) {
