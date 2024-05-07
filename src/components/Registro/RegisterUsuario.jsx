@@ -4,11 +4,11 @@ import { formikZodValidator } from "@/utils/validations";
 import { userInitialValues, userSchema } from "@/utils/validations/userSchema";
 
 import { CustomInput } from "@/features/ui";
-import { registerUserForm } from "@/services/register";
+import { axiosRegisterUserForm } from "@/services/users";
 import { removeObjFalsyValues } from "@/utils/helpers";
 import { Form, Formik } from "formik";
 import toast from "react-hot-toast";
-import { InputsFormRegister } from "./InputsFormsRegister";
+import { InputsFormRegister } from "./InputsForms";
 
 //#region Component
 export const RegisterUser = ({ conditionsAccepted }) => {
@@ -18,7 +18,7 @@ export const RegisterUser = ({ conditionsAccepted }) => {
       return;
     }
     values = removeObjFalsyValues(values);
-    await registerUserForm(values);
+    await axiosRegisterUserForm(values);
     resetForm();
   };
 
