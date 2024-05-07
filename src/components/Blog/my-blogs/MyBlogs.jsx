@@ -36,7 +36,7 @@ const MyBlogs = ({ types }) => {
 
   const fetchBlogs = (page = 1) => {
     setIsLoading(true);
-    getProfessionalBlogs(session.user.id, { limit: CARDS_PER_PAGE, page })
+    getProfessionalBlogs(session?.user.id, { limit: CARDS_PER_PAGE, page })
       .then((res) => {
         setMyBlogs(res.blogs);
         setPage(res.page);

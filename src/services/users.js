@@ -65,7 +65,7 @@ export const axiosRegisterProfessionalForm = async (user) => {
 //#region User Detail
 export const axiosUserDetail = async (id) => {
   try {
-    const response = await axios.get(`${BASE_URL}/users/${id}`);
+    const response = await axios.get(`${BASE_URL}/users/detail/${id}`);
     return response.data;
   } catch (error) {
     console.log(error);

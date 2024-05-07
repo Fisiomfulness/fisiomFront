@@ -1,10 +1,9 @@
-import { CustomInput } from "@/features/ui";
-import { useUser } from "@/hooks/useUser";
 import { Button } from "@nextui-org/react";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { CustomInput } from "@/features/ui";
 // import { login } from '@/services/users';
 import { formikZodValidator, zodStrRequired } from "@/utils/validations";
 import { signIn } from "next-auth/react";
@@ -25,7 +24,6 @@ const loginSchema = z.object({
 });
 
 const UserLoginComponent = () => {
-  const { setUser, user } = useUser();
   const router = useRouter();
 
   const [isVisible, setIsVisible] = useState(false);

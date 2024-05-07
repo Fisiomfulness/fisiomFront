@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { CustomLogo } from '@/features/ui';
-import { Button, Card, CardBody, Radio, RadioGroup } from '@nextui-org/react';
-import Link from 'next/link';
-import { useState } from 'react';
-import { RegisterProfessional } from './RegisterProfesional';
-import { RegisterUser } from './RegisterUsuario';
+import { CustomLogo } from "@/features/ui";
+import { Button, Card, CardBody, Radio, RadioGroup } from "@nextui-org/react";
+import Link from "next/link";
+import { useState } from "react";
+import { RegisterProfessional } from "./RegisterProfesional";
+import { RegisterUser } from "./RegisterUsuario";
 
 export const Register = () => {
-  const [selected, setSelected] = useState('usuario');
+  const [selected, setSelected] = useState("usuario");
   const [aceptoCondiciones, setAceptoCondiciones] = useState(false);
   const [recibirInformacion, setRecibirInformacion] = useState(false);
 
@@ -49,9 +49,9 @@ export const Register = () => {
             <span>
               Acepto los
               <a className="text-primary font-semibold hover:underline cursor-pointer">
-                {' '}
-                términos y condiciones{' '}
-              </a>{' '}
+                {" "}
+                términos y condiciones{" "}
+              </a>{" "}
               del servicio de FISIOMFULNESS. Declaro haber leído y entiendo la
               política de privacidad
             </span>
@@ -64,29 +64,29 @@ export const Register = () => {
               className="size-5 cursor-pointer"
             />
             <span>
-              Doy mi consentimiento y acepto recibir información sobre los{' '}
+              Doy mi consentimiento y acepto recibir información sobre los{" "}
               <a className="text-primary font-semibold hover:underline cursor-pointer">
                 servicios y novedades de FISIOMFULNESS. Qué significa esto?
               </a>
             </span>
           </label>
+          <div className="flex flex-row justify-center items-center gap-4 mt-8">
+            <p className="text-sm">¿Ya esta registrado?</p>
+            <Button
+              className="bg-primary-500 text-white rounded-md font-semibold"
+              as={Link}
+              href="/login"
+            >
+              Ingresar
+            </Button>
+          </div>
         </div>
       </CardBody>
-      {selected === 'usuario' ? (
+      {selected === "usuario" ? (
         <RegisterUser conditionsAccepted={conditionsAccepted} />
       ) : (
         <RegisterProfessional conditionsAccepted={conditionsAccepted} />
       )}
-      <div className="flex flex-row justify-center items-center gap-4 mt-8">
-        <p className="text-sm">¿Ya esta registrado?</p>
-        <Button
-          className="bg-primary-500 text-white rounded-md font-semibold"
-          as={Link}
-          href="/login"
-        >
-          Ingresar
-        </Button>
-      </div>
     </Card>
   );
 };
