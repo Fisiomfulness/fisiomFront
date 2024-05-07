@@ -1,7 +1,7 @@
 'use client';
 import { CustomInput } from '@/features/ui';
 import { registerProfesionalForm } from '@/services/register';
-import { Button, DateInput, Divider } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import { Form, Formik } from 'formik';
 import { InputsFormRegister } from './InputsFormsRegister';
 
@@ -105,123 +105,6 @@ function RegisterProfesional({ conditionsAccepted }) {
               inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
             }}
           />
-
-          <Divider />
-          <CustomInput
-            name="streetName"
-            aria-label="Calle"
-            autocomplete="streetName"
-            variant="flat"
-            placeholder="Calle"
-            size="lg"
-            value={values.streetName}
-            isInvalid={touched.streetName && errors.streetName ? true : false}
-            errorMessage={touched.streetName && errors.streetName}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            type="text"
-            classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-            }}
-          />
-          <div className="flex flex-col sm:flex-row gap-1 w-full justify-between">
-            <CustomInput
-              name="streetNumber"
-              aria-label="Número"
-              autocomplete="streetNumber"
-              variant="flat"
-              placeholder="Número"
-              size="lg"
-              value={values.streetNumber}
-              isInvalid={
-                touched.streetNumber && errors.streetNumber ? true : false
-              }
-              errorMessage={touched.streetNumber && errors.streetNumber}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              type="text"
-              classNames={{
-                inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-                base: 'sm:w-3/5',
-              }}
-            />
-
-            <CustomInput
-              name="floorAppartment"
-              aria-label="Piso/Dpto"
-              autocomplete="floorAppartment"
-              variant="flat"
-              placeholder="Piso/Dpto"
-              size="lg"
-              value={values.floorAppartment}
-              isInvalid={
-                touched.floorAppartment && errors.floorAppartment ? true : false
-              }
-              errorMessage={touched.floorAppartment && errors.floorAppartment}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              type="text"
-              classNames={{
-                inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-                base: 'sm:w-2/5',
-              }}
-            />
-          </div>
-
-          <CustomInput
-            name="city"
-            aria-label="Ciudad"
-            autocomplete="city"
-            variant="flat"
-            placeholder="Ciudad"
-            size="lg"
-            value={values.city}
-            isInvalid={touched.city && errors.city ? true : false}
-            errorMessage={touched.city && errors.city}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            type="text"
-            classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-            }}
-          />
-
-          <CustomInput
-            name="state"
-            aria-label="Estado/Provincia"
-            autocomplete="state"
-            variant="flat"
-            placeholder="Estado/Provincia"
-            size="lg"
-            value={values.state}
-            isInvalid={touched.state && errors.state ? true : false}
-            errorMessage={touched.state && errors.state}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            type="text"
-            classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-            }}
-          />
-
-          <CustomInput
-            name="country"
-            aria-label="País"
-            autocomplete="country"
-            variant="flat"
-            placeholder="País"
-            size="lg"
-            value={values.country}
-            isInvalid={touched.country && errors.country ? true : false}
-            errorMessage={touched.country && errors.country}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            type="text"
-            classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-            }}
-          />
-          <Divider />
 
           <FileUpload name="curriculum" />
 
