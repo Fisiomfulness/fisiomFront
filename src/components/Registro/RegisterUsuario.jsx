@@ -39,7 +39,7 @@ function RegistroUsuario({ conditionsAccepted }) {
         errors,
         isSubmitting,
       }) => (
-        <Form className="flex flex-col gap-3 w-full min-[480px]:w-[80%] lg:w-2/3">
+        <Form className="flex flex-col gap-3 w-full overflow-hidden min-[480px]:w-[80%] lg:w-2/3">
           <CustomInput
             name="name"
             aria-label="Nombre de usuario"

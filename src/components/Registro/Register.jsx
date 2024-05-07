@@ -15,13 +15,13 @@ function Register() {
   const conditionsAccepted = (aceptoCondiciones && recibirInformacion) ? true : false
 
   return (
-    <Card className="grid md:grid-cols-[1.2fr,1fr] gap-6 md:gap-x-4 items-center justify-items-center p-6 md:p-10 md:py-20 rounded-sm w-full max-w-[1380px]">
-      <CardBody className="center flex-col w-full p-0 gap-8 md:gap-16">
+    <Card className="grid w-full max-w-[1380px] overflow-hidden lg:grid-cols-[1.2fr,1fr] gap-6 md:gap-x-4 items-center justify-items-center p-6 md:p-10 md:py-20 rounded-sm">
+      <CardBody className="center flex-col w-full p-0 gap-8 md:gap-16 overflow-hidden">
         <Link href="/">
           <CustomLogo width={220} color="dark" />
         </Link>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center !w-full">
           <RadioGroup
             className="font-semibold"
             label="Registrarse como:"

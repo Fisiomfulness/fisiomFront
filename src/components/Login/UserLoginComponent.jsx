@@ -1,4 +1,3 @@
-import { login } from "@/services/login";
 import { Button } from "@nextui-org/react";
 import { CustomInput } from "@/features/ui";
 import { Form, Formik } from "formik";
@@ -6,7 +5,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { z } from 'zod';
-// import { login } from '@/services/users';
 import { formikZodValidator, zodStrRequired } from '@/utils/validations';
 import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
 import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
@@ -31,7 +29,6 @@ const UserLoginComponent = () => {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleLogin = async (values) => {
-
     const responseNextAuth = await signIn("credentials", {
       email: values.email,
       password: values.password,
@@ -44,12 +41,6 @@ const UserLoginComponent = () => {
 
     toast.success("Login exitoso");
     router.push("/user");
-
-    // try {
-    //   const response = await login(values);
-    //   setUser(response.data);
-    //   router.push('/');
-    // } catch (error) {}
   };
 
   return (

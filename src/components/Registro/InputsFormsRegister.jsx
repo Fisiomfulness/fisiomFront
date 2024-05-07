@@ -148,7 +148,7 @@ export const InputsFormRegister = ({
           inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
         }}
       />
-      <div className="flex flex-col sm:flex-row gap-1 w-full justify-between">
+      <div className="w-full flex flex-col sm:flex-row gap-1 justify-between">
         <CustomInput
           name="streetNumber"
           aria-label="Número"
@@ -166,7 +166,7 @@ export const InputsFormRegister = ({
           type="text"
           classNames={{
             inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-            base: 'sm:w-3/5',
+            base: 'sm:w-[60%]',
           }}
         />
 
@@ -187,7 +187,7 @@ export const InputsFormRegister = ({
           type="text"
           classNames={{
             inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-            base: 'sm:w-2/5',
+            base: 'sm:w-[calc(40%-4px)]',
           }}
         />
       </div>
