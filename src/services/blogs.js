@@ -17,7 +17,7 @@ export const getBlogs = async ({
 
   const res = await fetch(`${BASE_URL}/blogs${query}`, {
     method: 'GET',
-    cache: 'no-cache'
+    next: { revalidate: 20 }, // ? Revalidate last blogs after 20 seconds
   });
   if (!res.ok) throw new Error('Error fetching blogs');
 
