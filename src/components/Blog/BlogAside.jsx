@@ -37,6 +37,7 @@ export default function BlogAside({
       search: debouncedSearch,
       sortBy: sortOrder !== 'default' ? 'avg_rating' : 'title',
       order: sortOrder === 'highest' ? 'desc' : 'asc',
+      status: true,
     };
     setQuery(filterQuery);
     getBlogs(filterQuery).then((res) => {

@@ -12,6 +12,7 @@ const BlogSection = ({ data, lastsBlogs, cardsPerPage }) => {
     limit: cardsPerPage,
     sortBy: 'title',
     order: 'asc',
+    status: true,
   });
 
   return (

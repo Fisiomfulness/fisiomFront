@@ -1,5 +1,9 @@
-import React from "react";
 import { Login } from "../../components/Login";
+
+export const metadata = {
+  title: 'Inicio de sesión',
+  description: 'Inicia sesión en fisiomfulness',
+};
 
 const Page = () => {
   return (
