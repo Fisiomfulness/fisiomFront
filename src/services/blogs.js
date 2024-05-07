@@ -7,15 +7,17 @@ export const getBlogs = async ({
   sortBy,
   order,
   search = '',
+  status,
 }) => {
   let query = `?page=${page}&limit=${limit}`;
   if (professionalId) query += `&professionalId=${professionalId}`;
   if (search !== '') query += `&search=${search}`;
   if (sortBy && order) query += `&sortBy=${sortBy}&order=${order}`;
+  if (status) query += `&status=${status}`;
 
   const res = await fetch(`${BASE_URL}/blogs${query}`, {
     method: 'GET',
-    next: { revalidate: 20 }, // ? Revalidate last blogs after 20 seconds
+    cache: 'no-cache'
   });
   if (!res.ok) throw new Error('Error fetching blogs');
 
