@@ -42,12 +42,6 @@ const UserLoginComponent = () => {
 
     toast.success("Login exitoso");
     router.push("/user");
-
-    // try {
-    //   const response = await login(values);
-    //   setUser(response.data);
-    //   router.push('/');
-    // } catch (error) {}
   };
 
   return (

@@ -43,7 +43,8 @@ const items = [
   },
 ];
 
-export default function DropdownUser() {
+/** @param {{ name: string, image: string }} props */
+export default function DropdownUser({ name, image }) {
   return (
     <Dropdown
       disableAnimation
@@ -55,11 +56,11 @@ export default function DropdownUser() {
       <DropdownTrigger>
         <User
           as="button"
-          name="Dr. Mario Gómez"
+          name={name}
           avatarProps={{
-            src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+            src: image,
           }}
-          className="flex-row-reverse !transform-none !opacity-100"
+          className="flex-row-reverse !transform-none !opacity-100 gap-4"
         />
       </DropdownTrigger>
 

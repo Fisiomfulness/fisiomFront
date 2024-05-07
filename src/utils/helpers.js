@@ -90,6 +90,8 @@ export const isValidPdf = (fileName) => {
   return fileName && fileName.split('.').pop() === 'pdf';
 };
 
+// ? Used for example for form optional fields that inits with a falsy value ("" for example)
+// ? but zod.optional() has to receive undefined
 export const removeObjFalsyValues = (object) => {
   for (const key in object) {
     if (!object[key]) delete object[key];

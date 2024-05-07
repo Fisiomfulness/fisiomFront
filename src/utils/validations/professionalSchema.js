@@ -13,9 +13,9 @@ const professionalInitialValues = {
   confirmPass: '',
   streetName: '',
   streetNumber: '',
-  floorAppartment: '',
+  floorAppartment: '', // ? Opcional
   city: '',
-  state: '',
+  state: '', // ? Opcional
   country: '',
   license: '', // ? Opcional
   curriculum: null,
@@ -45,10 +45,16 @@ const professionalSchema = z
       .max(50, 'No mas de 50 caracteres'),
     confirmPass: zodStrRequired(),
     gender: z.enum(genderList, { message: 'Seleccione un genero' }),
-    license: z
+    streetName: zodStrRequired()
+      .min(2, 'La calle debe tener al menos 2 caracteres')
+      .max(50, 'No mas de 50 caracteres')
+      .regex(nameRegex, 'Solo puede contener letras'),
+    streetNumber: zodStrRequired()
+      .max(8, 'No puede tener mas de 8 dígitos')
+      .regex(numericRegex, 'Debe ser numérico'),
+    floorAppartment: z
       .string()
-      .min(3, 'El n° colegiado debe tener al menos 3 dígitos')
-      .max(10, 'No puede tener mas de 10 dígitos')
+      .max(5, 'No puede tener mas de 5 dígitos')
       .regex(numericRegex, 'Debe ser numérico')
       .optional()
       .or(z.literal('')),
@@ -59,6 +65,24 @@ const professionalSchema = z
         cityRegex,
         'El nombre de la ciudad solo puede contener letras y espacios'
       ),
+    state: z
+      .string()
+      .min(2, 'El estado debe tener al menos 2 caracteres')
+      .max(50, 'No puede contener mas de 50 caracteres')
+      .regex(nameRegex, 'Solo puede contener letras')
+      .optional()
+      .or(z.literal('')),
+    country: zodStrRequired()
+      .min(2, 'El pais debe tener al menos 2 caracteres')
+      .max(50, 'No mas de 50 caracteres')
+      .regex(nameRegex, 'Solo puede contener letras'),
+    license: z
+      .string()
+      .min(3, 'El n° colegiado debe tener al menos 3 dígitos')
+      .max(10, 'No puede tener mas de 10 dígitos')
+      .regex(numericRegex, 'Debe ser numérico')
+      .optional()
+      .or(z.literal('')),
     curriculum: z
       .instanceof(File, 'Curriculum requerido')
       .refine(
@@ -74,54 +98,5 @@ const professionalSchema = z
     message: 'Las contraseñas no coinciden',
     path: ['confirmPass'],
   });
-
-// const professionalSchema = Yup.object({
-//   name: yupRequired
-//     .matches(nameRegex, 'Debe contener solo letras')
-//     .min(3, 'El nombre debe tener al menos 3 caracteres')
-//     .max(30, 'No mas de 30 caracteres'),
-//   phone: yupRequired.matches(phoneRegExp, 'No es un teléfono valido'),
-//   email: yupRequired.email('No es un email'),
-//   dateOfBirth: yupRequired.test(
-//     'is-date-on-range',
-//     `Debes tener mas de ${acceptedYears.min} y menos de ${acceptedYears.max} años`,
-//     (value) => isDateOnRange(value, acceptedYears.min, acceptedYears.max)
-//   ),
-//   password: yupRequired
-//     .min(8, 'La contraseña debe tener al menos 8 caracteres')
-//     .max(50, 'No mas de 50 caracteres'),
-//   repitPass: yupRequired.oneOf(
-//     [Yup.ref('password')],
-//     'Las contraseñas deben coincidir'
-//   ),
-//   gender: Yup.mixed()
-//     .required('Requerido')
-//     .oneOf(genderList, 'Seleccione un genero'),
-//   license: Yup.string()
-//     .notRequired()
-//     .min(3, 'El n° colegiado debe tener al menos 3 dígitos')
-//     .max(10, 'No puede tener mas de 10 dígitos')
-//     .matches(numericRegex, 'Debe ser numérico'),
-//   streetName: yupRequired
-//     .min(2, 'La calle debe tener al menos 2 caracteres')
-//     .max(50, 'No mas de 50 caracteres'),
-//   streetNumber: yupRequired,
-//   city: yupRequired
-//     .min(2, 'La ciudad debe tener al menos 2 caracteres')
-//     .max(50, 'No mas de 50 caracteres'),
-//   country: yupRequired
-//     .min(2, 'El pais debe tener al menos 2 caracteres')
-//     .max(30, 'No mas de 30 caracteres'),
-//   curriculum: Yup.mixed()
-//     .required('Suba un curriculum')
-//     .test('is-valid-type', 'No es un PDF', (value) =>
-//       isValidPdf(value && value.name.toLowerCase())
-//     )
-//     .test(
-//       'is-valid-size',
-//       'Tamaño de archivo máximo: 1MB',
-//       (value) => value && value.size <= MAX_FILE_SIZE
-//     ),
-// });
 
 export { professionalInitialValues, professionalSchema };

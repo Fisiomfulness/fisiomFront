@@ -3,10 +3,12 @@
 import { formikZodValidator } from "@/utils/validations";
 import { userInitialValues, userSchema } from "@/utils/validations/userSchema";
 
-import { axiosRegisterUserForm } from "@/services/users";
+import { CustomInput } from "@/features/ui";
+import { registerUserForm } from "@/services/register";
+import { removeObjFalsyValues } from "@/utils/helpers";
 import { Form, Formik } from "formik";
 import toast from "react-hot-toast";
-import { InputsFormRegister } from "./InputsForms";
+import { InputsFormRegister } from "./InputsFormsRegister";
 
 //#region Component
 export const RegisterUser = ({ conditionsAccepted }) => {
@@ -15,7 +17,8 @@ export const RegisterUser = ({ conditionsAccepted }) => {
       toast.error("Por favor acepte los términos y condiciones");
       return;
     }
-    await axiosRegisterUserForm(values);
+    values = removeObjFalsyValues(values);
+    await registerUserForm(values);
     resetForm();
   };
 
@@ -33,7 +36,24 @@ export const RegisterUser = ({ conditionsAccepted }) => {
         errors,
         isSubmitting,
       }) => (
-        <Form className="flex flex-col gap-3 w-full min-[480px]:w-[80%] lg:w-2/3">
+        <Form className="flex flex-col gap-3 w-full overflow-hidden min-[480px]:w-[80%] lg:w-2/3">
+          <CustomInput
+            name="name"
+            aria-label="Nombre de usuario"
+            type="string"
+            variant="flat"
+            placeholder="Nombre de usuario"
+            value={values.name}
+            isInvalid={touched.name && errors.name ? true : false}
+            errorMessage={touched.name && errors.name}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            size="lg"
+            classNames={{
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+            }}
+          />
+
           <InputsFormRegister
             handleChange={handleChange}
             handleBlur={handleBlur}
