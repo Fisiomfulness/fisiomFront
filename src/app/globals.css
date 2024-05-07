@@ -36,6 +36,10 @@
     display: none;
   }
 
+  .htmlField {
+    @apply break-words
+  }
+
   .htmlField > ul,
   ol {
     @apply px-4 marker:text-primary-700;

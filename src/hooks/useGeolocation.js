@@ -1,8 +1,8 @@
-import { useState, useContext, useEffect } from "react";
-import { UserContext } from "@/context/User";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 const useGeolocation = ({ defaultLocation }) => {
-    const { user } = useContext(UserContext);
+    const { data: session } = useSession()
     const [coordinates, setCoordinates] = useState([0,0]);
     const onSuccess = (position) => {
         setCoordinates([
@@ -11,8 +11,8 @@ const useGeolocation = ({ defaultLocation }) => {
         ]);
     };
     const onError = (error) => {
-        if (user?.coordinates) {
-            setCoordinates(user.coordinates);
+        if (session?.user.coordinates) {
+            setCoordinates(session?.user.coordinates);
         } else {
             setCoordinates(defaultLocation);
         }
@@ -24,7 +24,7 @@ const useGeolocation = ({ defaultLocation }) => {
         } else {
             onError()
         }
-    }, [user]);
+    }, [session?.user]);
     
     return coordinates;
 };

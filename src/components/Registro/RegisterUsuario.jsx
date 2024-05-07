@@ -9,6 +9,7 @@ import { CustomInput } from '@/features/ui';
 import { Button } from '@nextui-org/react';
 import { Form, Formik } from 'formik';
 import { InputsFormRegister } from './InputsFormsRegister';
+import { removeObjFalsyValues } from '@/utils/helpers';
 import { registerUserForm } from '@/services/register';
 import toast from 'react-hot-toast';
 
@@ -19,6 +20,7 @@ function RegistroUsuario({ conditionsAccepted }) {
       toast.error('Por favor acepte los términos y condiciones');
       return;
     }
+    values = removeObjFalsyValues(values);
     await registerUserForm(values);
     resetForm();
   };
@@ -37,7 +39,7 @@ function RegistroUsuario({ conditionsAccepted }) {
         errors,
         isSubmitting,
       }) => (
-        <Form className="flex flex-col gap-3 w-full min-[480px]:w-[80%] lg:w-2/3">
+        <Form className="flex flex-col gap-3 w-full overflow-hidden min-[480px]:w-[80%] lg:w-2/3">
           <CustomInput
             name="name"
             aria-label="Nombre de usuario"
