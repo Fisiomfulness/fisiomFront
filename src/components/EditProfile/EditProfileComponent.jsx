@@ -1,11 +1,14 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+import Loader from '../Loader';
 import EditProfileFormProfessional from './EditProfileForms/EditProfileFormProfessional';
 import EditProfileFormUser from './EditProfileForms/EditProfileFormUser';
 
 export const EditProfileComponent = () => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
+
+  if (status === "loading") return <Loader />
 
   return (
     <main className="px-auto py-4 min-h-screen center bg-primary-400">

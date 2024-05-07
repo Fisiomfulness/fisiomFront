@@ -19,7 +19,7 @@ export function Overlay({ children }) {
   }
 
   return (
-    <div className="min-h-screen overflow-hidden grid grid-rows-[auto_1fr_auto]">
+    <div className="min-h-screen grid grid-rows-[auto_1fr_auto]">
       <Nav />
       {children}
       <Footer />

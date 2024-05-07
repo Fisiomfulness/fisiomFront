@@ -1,31 +1,22 @@
 // @ts-check
-"use client";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default function Component() {
-  const { data: session, status } = useSession();
+export default async function UserPage() {
+  const session = await getServerSession(authOptions);
 
-  console.log({ session, status });
-
-  if (status === "loading") {
-    return <p>Cargando...</p>;
-  }
-
-  if (session) {
-    return (
-      <main>
-        Logeado como {session.user?.email} <br />
-        <pre>
-          <code>{JSON.stringify(session, null, 2)}</code>
-        </pre>
-        <button onClick={() => signOut()}>Sign out</button>
-      </main>
-    );
-  }
   return (
-    <main>
-      No logeado <br />
-      <button onClick={() => signIn()}>Sign in</button>
+    <main className="overflow-hidden px-auto py-4 max-w-8xl">
+      {session ? (
+        <>
+          <p>Logeado como: {session.user.name}</p>
+          <pre className="overflow-auto debug">
+            <code>{JSON.stringify(session, null, 2)}</code>
+          </pre>
+        </>
+      ) : (
+        <p>No logeado</p>
+      )}
     </main>
   );
 }
