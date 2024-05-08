@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import GalleryDetail from "./GalleryDetail";
-import { useState } from "react";
-import { useDisclosure, Button } from "@nextui-org/react";
-import ModalDetail from "./Modal";
+import GalleryDetail from './GalleryDetail';
+import { useState } from 'react';
+import { useDisclosure, Button } from '@nextui-org/react';
+import ModalDetail from './Modal';
 
 const DetailClient = ({ prod }) => {
-  const [selected, setSelected] = useState("0");
+  const [selected, setSelected] = useState('0');
   const [cantidad, setCantidad] = useState(1);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -27,7 +27,7 @@ const DetailClient = ({ prod }) => {
                 style={{
                   backgroundImage: prod?.gallery?.length
                     ? `url(${prod?.gallery[selected]})`
-                    : `url(${prod?.image || ""})`,
+                    : `url(${prod?.image || ''})`,
                 }}
               ></div>
               <GalleryDetail
@@ -64,7 +64,7 @@ const DetailClient = ({ prod }) => {
                   onPress={onOpen}
                   className="w-[195px] h-[48px] bg-[#3DAADD] text-[#ffffff] rounded-sm hover:bg-secondary  duration-300"
                 >
-                  Argegar carrito
+                  Agregar al carrito
                 </Button>
               </div>
             </div>

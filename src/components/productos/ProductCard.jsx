@@ -1,7 +1,7 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { Card, CardHeader, CardFooter, Image, Button } from "@nextui-org/react";
-import img from "../../../public/prodPrueba4.png";
+'use client';
+import { useRouter } from 'next/navigation';
+import { Card, CardHeader, CardFooter, Image, Button } from '@nextui-org/react';
+import img from '../../../public/prodPrueba4.png';
 
 export const ProductCard = ({ prod }) => {
   const router = useRouter();
@@ -11,8 +11,8 @@ export const ProductCard = ({ prod }) => {
   };
 
   return (
-    <Card isFooterBlurred className="flex w-[243px] h-[299px] rounded-sm ">
-     <CardHeader className="absolute z-10 top-1 flex-col items-start">
+    <Card isFooterBlurred className="flex w-full h-[299px] rounded-sm ">
+      <CardHeader className="absolute z-10 top-1 flex-col items-start">
         <p className="text-tiny text-white/60 uppercase font-bold">Nuevo</p>
         <h4
           onClick={() => handleOnClick(prod._id)}
