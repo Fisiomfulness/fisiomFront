@@ -1,4 +1,4 @@
-import { Pagination } from "@nextui-org/react";
+import { Pagination } from '@nextui-org/react';
 
 export default function Paginate({ total, page, setPage }) {
   return (
@@ -8,6 +8,7 @@ export default function Paginate({ total, page, setPage }) {
       page={page}
       onChange={setPage}
       variant="flat"
+      className="mt-auto"
     />
   );
 }

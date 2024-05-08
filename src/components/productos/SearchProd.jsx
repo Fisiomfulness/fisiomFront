@@ -1,10 +1,10 @@
-"use client";
-import axios from "axios";
-import { MdOutlineSearch } from "react-icons/md";
-import { useEffect, useState } from "react";
-import { Input } from "@nextui-org/react";
-import { SearchIcon } from "../SearchIcon";
-import { apiEndpoints } from "@/api_endpoints";
+'use client';
+import axios from 'axios';
+import { MdOutlineSearch } from 'react-icons/md';
+import { useEffect, useState } from 'react';
+import { Input } from '@nextui-org/react';
+import { SearchIcon } from '../SearchIcon';
+import { apiEndpoints } from '@/api_endpoints';
 
 export const SearchProd = ({ filter, setFilter, setPage }) => {
   const [categories, setCategories] = useState([]);
@@ -22,7 +22,7 @@ export const SearchProd = ({ filter, setFilter, setPage }) => {
         );
       })
       .catch((err) => {
-        if (err.name === "CanceledError") return;
+        if (err.name === 'CanceledError') return;
         throw err;
       });
 
@@ -42,28 +42,26 @@ export const SearchProd = ({ filter, setFilter, setPage }) => {
         className="border-none outline-none w-[250px]"
         onChange={(e) => handleOnChange(e)}
         placeholder="Buscar artículo..."
-        size="sm"
+        size="lg"
         startContent={<SearchIcon size={18} />}
         type="search"
       />
-      <div className="flex text-sm">
-        <select
-          value={filter.categoryId}
-          id="categoryId"
-          className="w-[200px] p-3 rounded-sm cursor-pointer outline-none"
-          style={{ boxShadow: "0px 2px 2px 0px #00000040" }}
-          onChange={(e) => handleOnChange(e)}
-        >
-          <option value="" className="">
-            Todas
+      <select
+        value={filter.categoryId}
+        id="categoryId"
+        className="w-[200px] p-3 rounded-sm cursor-pointer outline-none"
+        style={{ boxShadow: '0px 2px 2px 0px #00000040' }}
+        onChange={(e) => handleOnChange(e)}
+      >
+        <option value="" className="">
+          Todas
+        </option>
+        {categories?.map((category) => (
+          <option key={category._id} value={category._id}>
+            {category.name}
           </option>
-          {categories?.map((category) => (
-            <option key={category._id} value={category._id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </div>
+        ))}
+      </select>
     </div>
   );
 };

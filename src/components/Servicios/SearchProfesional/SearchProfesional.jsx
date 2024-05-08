@@ -1,11 +1,11 @@
-"use-client";
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { FaUserDoctor } from "react-icons/fa6";
-import { AiFillHome } from "react-icons/ai";
-import { Autocomplete, AutocompleteItem, Input } from "@nextui-org/react";
-import { MdOutlineSearch } from "react-icons/md";
-import { apiEndpoints } from "@/api_endpoints";
+'use-client';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { FaUserDoctor } from 'react-icons/fa6';
+import { AiFillHome } from 'react-icons/ai';
+import { Autocomplete, AutocompleteItem, Input } from '@nextui-org/react';
+import { MdOutlineSearch } from 'react-icons/md';
+import { apiEndpoints } from '@/api_endpoints';
 
 const SearchProfesional = ({ filters, setFilters, setPage }) => {
   const [specialties, setSpecialties] = useState([]);
@@ -20,9 +20,9 @@ const SearchProfesional = ({ filters, setFilters, setPage }) => {
         setSpecialties(data.results);
       })
       .catch((err) => {
-        if (err.name === "CanceledError") return;
+        if (err.name === 'CanceledError') return;
         throw err;
-      })
+      });
     return () => abortController.abort();
   }, []);
   const onChange = (e) => {
@@ -36,14 +36,14 @@ const SearchProfesional = ({ filters, setFilters, setPage }) => {
   };
 
   return (
-    <div className="flex m-4 gap-5">
+    <div className="flex flex-col sm:flex-row gap-5 bg-primary-500 p-5 rounded-md">
       <Input
         label="Busqueda"
         isClearable
         radius="lg"
         onChange={onChange}
         value={filters.search}
-        onClear={() => setFilters({ ...filters, search: "" })}
+        onClear={() => setFilters({ ...filters, search: '' })}
         placeholder="Busqueda del profesional..."
         startContent={<MdOutlineSearch color="#62CFE4" size="20px" />}
       />
@@ -51,10 +51,10 @@ const SearchProfesional = ({ filters, setFilters, setPage }) => {
         startsWidth={<AiFillHome />}
         label="Seleccione:"
         placeholder="Especialidad"
-        className="max-w-xs md:mr-2 mr-0"
+        className="w-full sm:max-w-sm"
         defaultItems={specialties}
         listboxProps={{
-          color: "primary",
+          color: 'primary',
         }}
         allowsCustomValue={true}
         onSelectionChange={onSelectionChange}
