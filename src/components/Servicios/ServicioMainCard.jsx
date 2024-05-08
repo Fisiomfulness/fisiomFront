@@ -78,7 +78,7 @@ const ServicioMainCard = ({ profesional }) => {
                     }, ${profesional.address?.city}, ${
                       profesional.address?.state
                         ? profesional.address?.state + ', '
-                        : null
+                        : ''
                     }${profesional.address?.country}`
                   : 'A consultar'}
               </p>
