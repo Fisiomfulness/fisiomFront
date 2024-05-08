@@ -13,7 +13,7 @@ export const EditProfileComponent = ({ session }) => {
   useEffect(() => {
     const fetch = async () => {
       const response = await axiosUserDetail(session.user.id);
-      setUserData(response.findProfesional);
+      setUserData(response.user);
     };
 
     fetch();
@@ -23,10 +23,10 @@ export const EditProfileComponent = ({ session }) => {
     <main className="px-auto py-4 min-h-screen center bg-primary-400">
       {session.user?.role === "professional" ? (
         <>
-          <EditProfileFormProfessional userDetail={session} />
+          <EditProfileFormProfessional userDetail={userData} />
         </>
       ) : (
-        <EditProfileFormUser userDetail={session} />
+        <EditProfileFormUser userDetail={userData} />
       )}
     </main>
   );

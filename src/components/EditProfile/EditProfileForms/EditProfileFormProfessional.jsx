@@ -1,9 +1,7 @@
 "use client";
 
 import { InputsFormRegister } from "@/components/Registro/InputsForms";
-import { formikZodValidator } from "@/utils/validations";
 import { professionalInitialValues } from "@/utils/validations/professionalSchema";
-import { userSchema } from "@/utils/validations/userSchema";
 
 import { Card, CardBody } from "@nextui-org/react";
 import { Form, Formik } from "formik";
@@ -11,13 +9,17 @@ import { Form, Formik } from "formik";
 export const EditProfileFormProfessional = ({ userDetail }) => {
   const editedData = {};
 
-  const filterValues = (updatedValues) => {
-    for (const key in updatedValues) {
-      if (updatedValues[key] == userDetail.user[key]) {
-        console.log("values", updatedValues[key]);
-        editedData[key] = updatedValues[key];
+  const filterValues = (object) => {
+    const objetoFiltrado = {};
+
+    for (const propiedad in object) {
+      const valor = object[propiedad];
+
+      if (valor !== "" && valor !== undefined && valor !== null) {
+        objetoFiltrado[propiedad] = valor;
       }
     }
+    return objetoFiltrado;
   };
 
   const onSubmitForm = (values) => {
@@ -26,17 +28,13 @@ export const EditProfileFormProfessional = ({ userDetail }) => {
       filterValues(values);
     }
     filterValues(resData);
-    console.log(editedData, formikZodValidator(userSchema, values));
+    console.log("🚀 ~ onSubmitForm ~ filterValues:", filterValues(resData));
   };
 
   return (
     <Card className="grid gap-6 md:gap-x-4 items-center justify-items-center p-6 md:p-10 md:py-20 rounded-sm w-full max-w-[1380px]">
       <CardBody className="center flex-col w-full p-0 gap-8 md:gap-16"></CardBody>
-      <Formik
-        onSubmit={onSubmitForm}
-        initialValues={professionalInitialValues}
-        // validate={formikZodValidator(userSchema)}
-      >
+      <Formik onSubmit={onSubmitForm} initialValues={professionalInitialValues}>
         {({
           handleChange,
           handleBlur,
