@@ -1,15 +1,15 @@
-"use client";
-import axios from "axios";
-import { useState, useEffect, useRef } from "react";
-import useGeolocation from "@/hooks/useGeolocation";
-import ServicioMainContainer from "./ServicioMainContainer";
-import SearchProfesional from "./SearchProfesional/SearchProfesional";
-import dynamic from "next/dynamic";
-import { apiEndpoints } from "@/api_endpoints";
-import { useInView } from "framer-motion";
-import Loader from "../Loader";
+'use client';
+import axios from 'axios';
+import { useState, useEffect, useRef } from 'react';
+import useGeolocation from '@/hooks/useGeolocation';
+import ServicioMainContainer from './ServicioMainContainer';
+import SearchProfesional from './SearchProfesional/SearchProfesional';
+import dynamic from 'next/dynamic';
+import { apiEndpoints } from '@/api_endpoints';
+import { useInView } from 'framer-motion';
+import Loader from '../Loader';
 
-const Map = dynamic(() => import("@/components/Map"), {
+const Map = dynamic(() => import('@/components/Map'), {
   loading: () => <p>loading...</p>,
   ssr: false,
 });
@@ -26,9 +26,9 @@ const ServicioMain = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState({
-    search: "",
-    specialtyId: "",
-    pos: "",
+    search: '',
+    specialtyId: '',
+    pos: '',
   });
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const ServicioMain = () => {
           params: {
             search: filters.search,
             specialtyId: filters.specialtyId,
-            pos: userCoords.join(","),
+            pos: userCoords.join(','),
             page: page,
           },
         })
@@ -55,7 +55,7 @@ const ServicioMain = () => {
           setLoading(false);
         })
         .catch((err) => {
-          if (err.name === "CanceledError") return;
+          if (err.name === 'CanceledError') return;
           setLoading(false);
           throw err;
         });
@@ -68,14 +68,14 @@ const ServicioMain = () => {
   }, [isInView]);
 
   return (
-    <main className="vstack px-auto mx-auto max-w-8xl w-full mb-4">
+    <main className="vstack px-auto mx-auto max-w-8xl w-full flex flex-col py-4 gap-4">
       <SearchProfesional
         filters={filters}
         setFilters={setFilters}
         setPage={setPage}
       />
-      <div className="flex w-full min-h-min justify-between gap-4">
-        <div className="w-1/2 flex flex-col gap-2 items-center h-[80vh] overflow-y-auto overflow-x-hidden">
+      <div className="grid lg:grid-cols-2 gap-5">
+        <div className="flex flex-col gap-2 items-center size-full h-[80vh] overflow-y-auto overflow-x-hidden">
           {(professionals.length || !loading) && (
             <ServicioMainContainer profesionales={professionals} />
           )}
@@ -83,7 +83,7 @@ const ServicioMain = () => {
             {loading && <Loader />}
           </div>
         </div>
-        <div className="min-h-[80vh] w-1/2">
+        <div className="min-h-[80vh] w-full">
           <Map professionals={professionals} userCoords={userCoords} />
         </div>
       </div>
