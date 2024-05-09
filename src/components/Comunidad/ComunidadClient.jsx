@@ -1,14 +1,14 @@
 "use client";
 
-import axios from "axios";
-import { useState, useEffect, useRef } from "react";
-import SearchUsers from "./SearchUser";
-import UsersContainer from "./UsersContainer";
-import { useInView } from "framer-motion";
 import { apiEndpoints } from "@/api_endpoints";
 import useGeolocation from "@/hooks/useGeolocation";
+import axios from "axios";
+import { useInView } from "framer-motion";
 import dynamic from "next/dynamic";
+import { useEffect, useRef, useState } from "react";
 import Loader from "../Loader";
+import SearchUsers from "./SearchUser";
+import UsersContainer from "./UsersContainer";
 
 const Map = dynamic(() => import("@/components/Map"), {
   loading: () => <p>loading...</p>,
@@ -55,13 +55,13 @@ const ComunidadClient = () => {
             setUsers((prev) => [...prev, ...data.users]);
           }
           setTotalPages(data.totalPages);
-          setLoading(false);
         })
         .catch((err) => {
           if (err.name === "CanceledError") return;
-          setLoading(false);
+
           throw err;
-        });
+        })
+        .finally(setLoading(false));
     }
     return () => abortController.abort();
   }, [page, filters, userCoords]);
@@ -71,8 +71,32 @@ const ComunidadClient = () => {
   }, [isInView]);
 
   return (
-    <main className="max-w-8xl mx-auto w-full mb-10 hstack gap-5 px-auto">
-      <div className="w-full flex flex-col items-center gap-10 md:w-1/2">
+    <main className="relative max-w-8xl mx-auto w-full mb-10 hstack gap-5 px-auto">
+      {loading ? (
+        <div
+          ref={ref}
+          className="absolute inset-0 flex items-center justify-center"
+        >
+          <Loader />
+        </div>
+      ) : (
+        <>
+          <div className="w-full flex flex-col items-center gap-10 md:w-1/2">
+            <SearchUsers
+              filters={filters}
+              setFilters={setFilters}
+              setPage={setPage}
+            />
+            <div className="w-full flex flex-col items-center gap-10 h-[80vh] overflow-y-auto overflow-x-hidden">
+              <UsersContainer users={users} />
+            </div>
+          </div>
+          <div className="hidden md:w-1/2 md:flex">
+            <Map users={users} userCoords={userCoords} />
+          </div>
+        </>
+      )}
+      {/* <div className="w-full flex flex-col items-center gap-10 md:w-1/2">
         <SearchUsers
           filters={filters}
           setFilters={setFilters}
@@ -87,7 +111,7 @@ const ComunidadClient = () => {
       </div>
       <div className="hidden md:w-1/2 md:flex">
         <Map users={users} userCoords={userCoords} />
-      </div>
+      </div> */}
     </main>
   );
 };
