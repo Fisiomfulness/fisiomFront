@@ -7,9 +7,6 @@ import EditProfileFormUser from "./EditProfileForms/EditProfileFormUser";
 
 export const EditProfileComponent = ({ session }) => {
   const [userData, setUserData] = useState({});
-
-  console.log(session);
-
   useEffect(() => {
     const fetch = async () => {
       const response = await axiosUserDetail(session.user.id);
@@ -20,7 +17,7 @@ export const EditProfileComponent = ({ session }) => {
   }, [session]);
 
   return (
-    <main className="px-auto py-4 min-h-screen center bg-primary-400">
+    <main className="p-10 min-h-screen center bg-primary-400">
       {session.user?.role === "professional" ? (
         <>
           <EditProfileFormProfessional userDetail={userData} />
