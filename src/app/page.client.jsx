@@ -103,7 +103,11 @@ const CitaDomiciliaria = () => {
         itemsStartContent={FaLocationDot}
       />
 
-      <CustomButton onClick={handleClick} className="rounded-xl sm:self-end self-start px-12 shrink-0">
+      <CustomButton 
+      onClick={handleClick} 
+      isDisabled={!specialtyId}
+      className="rounded-xl sm:self-end self-start px-12 shrink-0"
+      >
         Buscar
       </CustomButton>
     </form>
@@ -136,7 +140,11 @@ const CitaOnline = () => {
         onChange={(e) => setSpecialtyId(e.target.value)}
       />
 
-      <CustomButton onClick={handleClick} className="rounded-xl sm:self-end self-start px-12 shrink-0">
+      <CustomButton 
+      onClick={handleClick} 
+      isDisabled={!specialtyId}
+      className="rounded-xl sm:self-end self-start px-12 shrink-0"
+      >
         Buscar
       </CustomButton>
    
