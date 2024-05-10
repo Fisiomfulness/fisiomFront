@@ -1,25 +1,21 @@
 "use client";
 
-import { formikZodValidator } from "@/utils/validations";
 import { userInitialValues, userSchema } from "@/utils/validations/userSchema";
 
-import { CustomInput } from "@/features/ui";
 import { axiosRegisterUserForm } from "@/services/users";
-import { removeObjFalsyValues } from "@/utils/helpers";
+import { formikZodValidator } from "@/utils/validations";
 import { Form, Formik } from "formik";
 import toast from "react-hot-toast";
 import { InputsFormRegister } from "./InputsForms";
+import { listInputsUser } from "./listInputs";
 
 //#region Component
 export const RegisterUser = ({ conditionsAccepted }) => {
   const handleSubmit = async (values, { resetForm }) => {
     if (!conditionsAccepted) {
       toast.error("Por favor acepte los términos y condiciones");
-      return;
     }
-    values = removeObjFalsyValues(values);
     await axiosRegisterUserForm(values);
-    resetForm();
   };
 
   return (
@@ -35,33 +31,18 @@ export const RegisterUser = ({ conditionsAccepted }) => {
         values,
         errors,
         isSubmitting,
+        setFieldValue,
       }) => (
-        <Form className="flex flex-col gap-3 w-full overflow-hidden min-[480px]:w-[80%] lg:w-2/3">
-          <CustomInput
-            name="name"
-            aria-label="Nombre de usuario"
-            type="string"
-            variant="flat"
-            placeholder="Nombre de usuario"
-            value={values.name}
-            isInvalid={touched.name && errors.name ? true : false}
-            errorMessage={touched.name && errors.name}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            size="lg"
-            classNames={{
-              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
-            }}
-          />
-
+        <Form className="flex flex-col gap-2 w-full overflow-hidden min-[480px]:w-[90%]">
           <InputsFormRegister
             handleChange={handleChange}
             handleBlur={handleBlur}
             touched={touched}
             values={values}
             errors={errors}
-            isProfessional={false}
             submitButonMessage={"Crear perfil"}
+            listInputsValue={listInputsUser}
+            setFieldValue={setFieldValue}
           />
         </Form>
       )}

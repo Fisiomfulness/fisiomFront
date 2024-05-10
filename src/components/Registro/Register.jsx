@@ -16,8 +16,8 @@ export const Register = () => {
     aceptoCondiciones && recibirInformacion ? true : false;
 
   return (
-    <Card className="grid w-full max-w-[1380px] overflow-hidden lg:grid-cols-[1.2fr,1fr] gap-6 md:gap-x-4 items-center justify-items-center p-6 md:p-10 md:py-20 rounded-sm">
-      <CardBody className="center flex-col w-full p-0 gap-8 md:gap-16 overflow-hidden">
+    <Card className="grid w-full max-w-[1024px] overflow-hidden lg:grid-cols-[1fr,1.5fr] items-center justify-items-center px-6 py-12 rounded-sm">
+      <CardBody className="center flex-col w-full md:gap-5 overflow-hidden">
         <Link href="/">
           <CustomLogo width={220} color="dark" />
         </Link>
