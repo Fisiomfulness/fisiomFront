@@ -5,13 +5,6 @@ import { listInputsProfessional } from "@/components/Registro/listInputs";
 import { Card } from "@nextui-org/react";
 import { Form, Formik } from "formik";
 
-/* const validationSchema = z.object({
-  name: z.string().min(3),
-  email: z.string().email().optional(),
-  password: z.string().min(8).optional(),
-  confirmPassword: z.string().min(8).equalTo(z.ref("password")).optional(),
-});
- */
 export const EditProfileFormProfessional = ({ userDetail }) => {
   const onSubmit = (values) => {
     console.log(values);

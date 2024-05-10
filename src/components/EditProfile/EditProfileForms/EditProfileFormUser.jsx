@@ -1,20 +1,48 @@
 "use client";
 
-import { Card, CardBody } from "@nextui-org/react";
+import { InputsFormRegister } from "@/components/Registro/InputsForms";
+import { listInputsUser } from "@/components/Registro/listInputs";
+import { Card } from "@nextui-org/react";
+import { Formik } from "formik";
+import { Form } from "react-aria-components";
 
-function EditProfileFormUser({ user }) {
-  // const [isVisible, setIsVisible] = useState(false);
-  // const toggleVisibility = () => setIsVisible(!isVisible);
-  // // const [edit, setEdit] = useState(initialValues);
-  // const [input, setInput] = useState(initialValues);
-  // const [errors, setErrors] = useState(initialValues);
-
-  const handleChange = () => {};
-
+function EditProfileFormUser({ userDetail }) {
+  const onSubmit = (values) => {
+    console.log(values);
+  };
   return (
-    <Card className="grid gap-6 md:gap-x-4 items-center justify-items-center p-6 md:p-10 md:py-20 rounded-sm w-full max-w-[800px]">
-      <CardBody className="center flex-col w-full p-0 gap-8 md:gap-16"></CardBody>
-      <span>User Edit</span>
+    <Card className="grid items-center justify-items-center rounded-sm w-full py-8 max-w-[800px]">
+      <Formik
+        onSubmit={onSubmit}
+        initialValues={userDetail}
+        // validate={formikZodValidator(validationSchema.optional())}
+      >
+        {({
+          handleChange,
+          handleBlur,
+          touched,
+          values,
+          errors,
+          isSubmitting,
+          setFieldValue,
+          setValues,
+        }) => (
+          <Form className="flex flex-col gap-2 /w-full overflow-hidden min-[480px]:w-[90%]">
+            <InputsFormRegister
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              touched={touched}
+              values={values}
+              errors={errors}
+              isCurriculum={true}
+              submitButonMessage={"Actualizar"}
+              listInputsValue={listInputsUser}
+              setFieldValue={setFieldValue}
+              isUpdate={true}
+            />
+          </Form>
+        )}
+      </Formik>
     </Card>
   );
 }
