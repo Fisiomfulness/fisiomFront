@@ -12,6 +12,8 @@ import { Tabs, Tab } from "@nextui-org/tabs";
 import { CustomButton } from "@/features/ui";
 import useSWRImmutable from "swr/immutable";
 
+import { useRouter } from "next/navigation";
+
 /**
  * @typedef {{id: string; name: string}} Specialty
  * @typedef {{count: number, results: Specialty[]}} SpecialtyResponse
@@ -25,6 +27,7 @@ import useSWRImmutable from "swr/immutable";
  *   placeholder: string;
  *   items: Specialty[];
  *   itemsStartContent: keyof JSX.IntrinsicElements | import("react-icons").IconType;
+ *   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
  * }} props
  *
  * @returns {React.ReactNode}
@@ -35,6 +38,7 @@ const CustomSelect = ({
   placeholder,
   items,
   itemsStartContent,
+  onChange
 }) => {
   const DynamicTag = itemsStartContent;
 
@@ -44,6 +48,7 @@ const CustomSelect = ({
       label={label}
       placeholder={placeholder}
       labelPlacement="outside"
+      onChange={onChange}
       disableAnimation
     >
       {items.map((item) => (
@@ -74,12 +79,20 @@ const CitaDomiciliaria = () => {
     ? data.results
     : [{ id: "1", name: "..." }];
 
+  const [specialtyId, setSpecialtyId] = useState("");
+
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`/servicios?specialtyId=${specialtyId}`);
+  }
+
   return (
     <form className="flex sm:flex-row flex-col gap-4">
       <CustomSelect
         label="Especialidad"
         placeholder="Seleccione una especialidad"
         items={specialties}
+        onChange={(e) => setSpecialtyId(e.target.value)}
         itemsStartContent={FaBriefcaseMedical}
       />
 
@@ -90,7 +103,11 @@ const CitaDomiciliaria = () => {
         itemsStartContent={FaLocationDot}
       />
 
-      <CustomButton className="rounded-xl sm:self-end self-start px-12 shrink-0">
+      <CustomButton 
+      onClick={handleClick} 
+      isDisabled={!specialtyId}
+      className="rounded-xl sm:self-end self-start px-12 shrink-0"
+      >
         Buscar
       </CustomButton>
     </form>
@@ -106,6 +123,13 @@ const CitaOnline = () => {
     ? data.results
     : [{ id: "1", name: "..." }];
 
+  const [specialtyId, setSpecialtyId] = useState("");
+
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`/servicios?specialtyId=${specialtyId}`);
+  }
+
   return (
     <form className="flex sm:flex-row flex-col gap-4">
       <CustomSelect
@@ -113,11 +137,17 @@ const CitaOnline = () => {
         placeholder="Seleccione una especialidad"
         items={specialties}
         itemsStartContent={FaBriefcaseMedical}
+        onChange={(e) => setSpecialtyId(e.target.value)}
       />
 
-      <CustomButton className="rounded-xl sm:self-end self-start px-12 shrink-0">
+      <CustomButton 
+      onClick={handleClick} 
+      isDisabled={!specialtyId}
+      className="rounded-xl sm:self-end self-start px-12 shrink-0"
+      >
         Buscar
       </CustomButton>
+   
     </form>
   );
 };

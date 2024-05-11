@@ -57,6 +57,7 @@ const SearchProfesional = ({ filters, setFilters, setPage }) => {
           color: "primary",
         }}
         allowsCustomValue={true}
+        selectedKey={filters.specialtyId}
         onSelectionChange={onSelectionChange}
       >
         {(item) => (
