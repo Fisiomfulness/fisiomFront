@@ -9,8 +9,8 @@ import {
   professionalInitialValues,
   professionalSchema,
 } from "@/utils/validations/professionalSchema";
+import { listInputsUser } from "./listInputs";
 import toast from "react-hot-toast";
-import { listInputsProfessional } from "./listInputs";
 
 //#region Formik config
 
@@ -26,6 +26,7 @@ export function RegisterProfessional({ conditionsAccepted }) {
       formData.append(key, value);
     }
     await axiosRegisterProfessionalForm(formData);
+    resetForm();
   };
 
   return (
@@ -49,9 +50,9 @@ export function RegisterProfessional({ conditionsAccepted }) {
             touched={touched}
             values={values}
             errors={errors}
-            isCurriculum={true}
+            isProfessional={true}
             submitButonMessage={"Crear perfil"}
-            listInputsValue={listInputsProfessional}
+            listInputsValue={listInputsUser}
           />
         </Form>
       )}
