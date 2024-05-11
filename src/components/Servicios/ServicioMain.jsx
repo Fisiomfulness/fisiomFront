@@ -1,6 +1,8 @@
 'use client';
+
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import useGeolocation from '@/hooks/useGeolocation';
 import ServicioMainContainer from './ServicioMainContainer';
 import SearchProfesional from './SearchProfesional/SearchProfesional';
@@ -17,6 +19,8 @@ const Map = dynamic(() => import('@/components/Map'), {
 const ServicioMain = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 1 });
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const userCoords = useGeolocation({
     defaultLocation: [-12.057822374374036, -77.06708360541617],
@@ -27,7 +31,7 @@ const ServicioMain = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState({
     search: '',
-    specialtyId: '',
+    specialtyId: searchParams.get('specialtyId') || '',
     pos: '',
   });
 
@@ -54,6 +58,7 @@ const ServicioMain = () => {
           }
           setTotalPages(data.totalPages);
           setLoading(false);
+          router.replace('/servicios', { shallow: true })
         })
         .catch((err) => {
           if (err.name === 'CanceledError') return;
