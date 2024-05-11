@@ -5,17 +5,21 @@ import { userInitialValues, userSchema } from "@/utils/validations/userSchema";
 import { axiosRegisterUserForm } from "@/services/users";
 import { formikZodValidator } from "@/utils/validations";
 import { Form, Formik } from "formik";
-import toast from "react-hot-toast";
 import { InputsFormRegister } from "./InputsForms";
 import { listInputsUser } from "./listInputs";
+import { removeObjFalsyValues } from "@/utils/helpers";
+import toast from "react-hot-toast";
 
 //#region Component
 export const RegisterUser = ({ conditionsAccepted }) => {
   const handleSubmit = async (values, { resetForm }) => {
     if (!conditionsAccepted) {
       toast.error("Por favor acepte los términos y condiciones");
+      return;
     }
+    values = removeObjFalsyValues(values);
     await axiosRegisterUserForm(values);
+    resetForm();
   };
 
   return (
@@ -40,7 +44,8 @@ export const RegisterUser = ({ conditionsAccepted }) => {
             touched={touched}
             values={values}
             errors={errors}
-            submitButonMessage={"Crear perfil"}
+            isProfessional={false}
+            submitButonMessage={"Registrarse"}
             listInputsValue={listInputsUser}
             setFieldValue={setFieldValue}
           />
