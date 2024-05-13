@@ -1,14 +1,17 @@
-'use-client';
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { FaUserDoctor } from 'react-icons/fa6';
-import { AiFillHome } from 'react-icons/ai';
-import { Autocomplete, AutocompleteItem, Input } from '@nextui-org/react';
-import { MdOutlineSearch } from 'react-icons/md';
-import { apiEndpoints } from '@/api_endpoints';
+"use-client";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useAtom } from "jotai";
+import { filtersAtom } from "../store/servicios";
+import { FaUserDoctor } from "react-icons/fa6";
+import { AiFillHome } from "react-icons/ai";
+import { Autocomplete, AutocompleteItem, Input } from "@nextui-org/react";
+import { MdOutlineSearch } from "react-icons/md";
+import { apiEndpoints } from "@/api_endpoints";
 
-const SearchProfesional = ({ filters, setFilters, setPage }) => {
+const SearchProfesional = ({ setPage }) => {
   const [specialties, setSpecialties] = useState([]);
+  const [filters, setFilters] = useAtom(filtersAtom);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -20,18 +23,18 @@ const SearchProfesional = ({ filters, setFilters, setPage }) => {
         setSpecialties(data.results);
       })
       .catch((err) => {
-        if (err.name === 'CanceledError') return;
+        if (err.name === "CanceledError") return;
         throw err;
       });
     return () => abortController.abort();
   }, []);
   const onChange = (e) => {
-    setFilters({ ...filters, search: e.target.value });
+    setFilters((filters) => ({ ...filters, search: e.target.value }));
     setPage(1);
   };
 
   const onSelectionChange = (value) => {
-    setFilters({ ...filters, specialtyId: value });
+    setFilters((filters) => ({ ...filters, specialtyId: value }));
     setPage(1);
   };
 
@@ -43,7 +46,7 @@ const SearchProfesional = ({ filters, setFilters, setPage }) => {
         radius="lg"
         onChange={onChange}
         value={filters.search}
-        onClear={() => setFilters({ ...filters, search: '' })}
+        onClear={() => setFilters((filters) => ({ ...filters, search: "" }))}
         placeholder="Busqueda del profesional..."
         startContent={<MdOutlineSearch color="#62CFE4" size="20px" />}
       />
@@ -54,7 +57,7 @@ const SearchProfesional = ({ filters, setFilters, setPage }) => {
         className="w-full sm:max-w-sm"
         defaultItems={specialties}
         listboxProps={{
-          color: 'primary',
+          color: "primary",
         }}
         allowsCustomValue={true}
         selectedKey={filters.specialtyId}
