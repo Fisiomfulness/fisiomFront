@@ -31,7 +31,6 @@ const ServicioMain = () => {
   const userCoords = useGeolocation({});
   useEffect(() => {
     if (userCoords[0] !== 0) {
-      console.log(locations);
       setLocations((prev) => ({ ...prev, user: userCoords }));
       if (locations.mapCenter[0] === 0) {
         setLocations((prev) => ({ ...prev, mapCenter: userCoords }));

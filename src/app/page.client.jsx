@@ -36,7 +36,6 @@ import { useRouter } from "next/navigation";
  *   label: string;
  *   placeholder: string;
  *   items: Specialty[] | City[];
- *   valueDef: (item: any) => any;
  *   itemsStartContent: keyof JSX.IntrinsicElements | import("react-icons").IconType;
  *   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
  *   selectedKeys?: string[];
@@ -50,7 +49,6 @@ const CustomSelect = ({
   label,
   placeholder,
   items,
-  valueDef,
   itemsStartContent,
   onChange,
   ...props
@@ -61,6 +59,7 @@ const CustomSelect = ({
     <Select
       name={name}
       label={label}
+      items={items}
       placeholder={placeholder}
       labelPlacement="outside"
       onChange={onChange}
@@ -70,11 +69,10 @@ const CustomSelect = ({
       {items.map((item) => (
         <SelectItem
           key={item.id}
-          id={item.id}
           startContent={
             <DynamicTag alt={item.name} className="text-primary-300" />
           }
-          value={valueDef(item)}
+          value={item.id}
         >
           {item.name}
         </SelectItem>
@@ -110,8 +108,7 @@ const CitaDomiciliaria = () => {
         label="Especialidad"
         placeholder="Seleccione una especialidad"
         items={specialties}
-        valueDef={/** @param {Specialty} i */ (i) => i.id}
-        selectedKey={filters.specialtyId}
+        selectedKeys={[filters.specialtyId]}
         onChange={(e) =>
           setFilters((filters) => ({ ...filters, specialtyId: e.target.value }))
         }
@@ -122,25 +119,19 @@ const CitaDomiciliaria = () => {
         label="Ciudad"
         placeholder="Seleccione una ciudad"
         items={ciudades}
-        valueDef={
-          /** @param {City} i */
-          (i) => [i.coordinates?.latitude, i.coordinates?.longitude]
-        }
-        selectedKey={locations.cityId}
+        selectedKeys={[locations.cityId]}
         itemsStartContent={FaLocationDot}
         onChange={(e) => {
-          setLocations((prev) => ({
-            ...prev,
-            mapCenter: JSON.parse(e.target.value),
-            cityId: e.target.id,
-          }));
-          console.log(e.target.id);
+          /**@typedef {City} ciudad */
+          const ciudad = ciudades.find((city) => city.id === e.target.value)
+          const coords = ciudad ? [ciudad.coordinates.latitude, ciudad.coordinates.longitude] : [0,0]
+          setLocations({ ...locations, cityId: e.target.value, mapCenter: coords })
         }}
       />
 
       <CustomButton
         onClick={handleClick}
-        isDisabled={!filters.specialtyId}
+        isDisabled={!filters.specialtyId && !locations.cityId}
         className="rounded-xl sm:self-end self-start px-12 shrink-0"
       >
         Buscar
@@ -171,9 +162,8 @@ const CitaOnline = () => {
         label="Especialidad"
         placeholder="Seleccione una especialidad"
         items={specialties}
-        valueDef={/** @param {Specialty} i */ (i) => i.id}
         itemsStartContent={FaBriefcaseMedical}
-        selectedKey={filters.specialtyId}
+        selectedKeys={[filters.specialtyId]}
         onChange={(e) =>
           setFilters((filters) => ({ ...filters, specialtyId: e.target.value }))
         }
