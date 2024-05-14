@@ -40,7 +40,7 @@ const SearchProfesional = ({ setPage }) => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-5 bg-primary-500 p-5 rounded-md">
+    <div className="flex flex-col sm:flex-row gap-5  p-5 rounded-md">
       <Input
         label="Busqueda"
         isClearable

@@ -67,7 +67,8 @@ const ServicioMain = () => {
           if (err.name === "CanceledError") return;
           setLoading(false);
           throw err;
-        });
+        })
+        .finally(setLoading(false));
     }
     return () => abortController.abort();
   }, [page, filters, locations]);
