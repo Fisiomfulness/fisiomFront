@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { useAtom } from "jotai";
-import { filtersAtom } from "./store/servicios";
+import { filtersAtom, locationAtom } from "./store/servicios";
 import useGeolocation from "@/hooks/useGeolocation";
 import ServicioMainContainer from "./ServicioMainContainer";
 import SearchProfesional from "./SearchProfesional/SearchProfesional";
@@ -21,18 +21,27 @@ const ServicioMain = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 1 });
 
-  const userCoords = useGeolocation({
-    defaultLocation: [-12.057822374374036, -77.06708360541617],
-  });
   const [loading, setLoading] = useState(true);
   const [professionals, setProfessionals] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useAtom(filtersAtom);
+  const [locations, setLocations] = useAtom(locationAtom);
+
+  const userCoords = useGeolocation({});
+  useEffect(() => {
+    if (userCoords[0] !== 0) {
+      console.log(locations);
+      setLocations((prev) => ({ ...prev, user: userCoords }));
+      if (locations.mapCenter[0] === 0) {
+        setLocations((prev) => ({ ...prev, mapCenter: userCoords }));
+      }
+    }
+  }, [userCoords]);
 
   useEffect(() => {
     const abortController = new AbortController();
-    if (userCoords[0] !== 0) {
+    if (locations.mapCenter[0] !== 0) {
       setLoading(true);
       axios
         .get(apiEndpoints.professionals, {
@@ -40,7 +49,7 @@ const ServicioMain = () => {
           params: {
             search: filters.search,
             specialtyId: filters.specialtyId,
-            pos: userCoords.join(","),
+            pos: locations.mapCenter.join(","),
             page: page,
           },
           withCredentials: true,
@@ -61,7 +70,7 @@ const ServicioMain = () => {
         });
     }
     return () => abortController.abort();
-  }, [page, filters, userCoords]);
+  }, [page, filters, locations]);
 
   useEffect(() => {
     isInView && page < totalPages && setPage((prev) => prev + 1);
@@ -80,7 +89,7 @@ const ServicioMain = () => {
           </div>
         </div>
         <div className="min-h-[80vh] w-full">
-          <Map professionals={professionals} userCoords={userCoords} />
+          <Map professionals={professionals} />
         </div>
       </div>
     </main>

@@ -3,10 +3,11 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { filtersAtom } from "../store/servicios";
-import { FaUserDoctor } from "react-icons/fa6";
+//import { FaUserDoctor } from "react-icons/fa6";
 import { AiFillHome } from "react-icons/ai";
 import { Autocomplete, AutocompleteItem, Input } from "@nextui-org/react";
 import { MdOutlineSearch } from "react-icons/md";
+import { FaBriefcaseMedical } from "react-icons/fa6";
 import { apiEndpoints } from "@/api_endpoints";
 
 const SearchProfesional = ({ setPage }) => {
@@ -66,7 +67,10 @@ const SearchProfesional = ({ setPage }) => {
         {(item) => (
           <AutocompleteItem key={item._id} textValue={item.name}>
             <div className="flex items-center gap-2">
-              <FaUserDoctor alt={item.name} className="text-primary-300" />
+              <FaBriefcaseMedical
+                alt={item.name}
+                className="text-primary-300"
+              />
               <span>{item.name}</span>
             </div>
           </AutocompleteItem>

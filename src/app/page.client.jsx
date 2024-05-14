@@ -1,11 +1,14 @@
 // @ts-check
 "use client";
 
-import { ciudadesPeru } from "./data";
+import { ciudades } from "./data";
 
 import { useState } from "react";
 import { useAtom } from "jotai";
-import { filtersAtom } from "../components/Servicios/store/servicios";
+import {
+  filtersAtom,
+  locationAtom,
+} from "../components/Servicios/store/servicios";
 import { BiSolidWebcam, BiSolidHome } from "react-icons/bi";
 import { FaBriefcaseMedical, FaLocationDot } from "react-icons/fa6";
 
@@ -23,15 +26,21 @@ import { useRouter } from "next/navigation";
  */
 
 /**
+ * @typedef {{id: string; name: string, country: string, coordinates: { latitude: number, longitude: number }}} City
+ */
+
+/**
  * @description Componente reutilizable solo para HomeClient
  * @param {{
  *   name?: string;
  *   label: string;
  *   placeholder: string;
- *   items: Specialty[];
+ *   items: Specialty[] | City[];
+ *   valueDef: (item: any) => any;
  *   itemsStartContent: keyof JSX.IntrinsicElements | import("react-icons").IconType;
  *   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
  *   selectedKeys?: string[];
+ *   selectedKey?: string;
  * }} props
  *
  * @returns {React.ReactNode}
@@ -41,6 +50,7 @@ const CustomSelect = ({
   label,
   placeholder,
   items,
+  valueDef,
   itemsStartContent,
   onChange,
   ...props
@@ -60,10 +70,11 @@ const CustomSelect = ({
       {items.map((item) => (
         <SelectItem
           key={item.id}
+          id={item.id}
           startContent={
             <DynamicTag alt={item.name} className="text-primary-300" />
           }
-          value={item.id}
+          value={valueDef(item)}
         >
           {item.name}
         </SelectItem>
@@ -86,6 +97,7 @@ const CitaDomiciliaria = () => {
     : [{ id: "1", name: "..." }];
 
   const [filters, setFilters] = useAtom(filtersAtom);
+  const [locations, setLocations] = useAtom(locationAtom);
 
   const router = useRouter();
   const handleClick = () => {
@@ -98,7 +110,8 @@ const CitaDomiciliaria = () => {
         label="Especialidad"
         placeholder="Seleccione una especialidad"
         items={specialties}
-        selectedKeys={[filters.specialtyId]}
+        valueDef={/** @param {Specialty} i */ (i) => i.id}
+        selectedKey={filters.specialtyId}
         onChange={(e) =>
           setFilters((filters) => ({ ...filters, specialtyId: e.target.value }))
         }
@@ -108,8 +121,21 @@ const CitaDomiciliaria = () => {
       <CustomSelect
         label="Ciudad"
         placeholder="Seleccione una ciudad"
-        items={ciudadesPeru}
+        items={ciudades}
+        valueDef={
+          /** @param {City} i */
+          (i) => [i.coordinates?.latitude, i.coordinates?.longitude]
+        }
+        selectedKey={locations.cityId}
         itemsStartContent={FaLocationDot}
+        onChange={(e) => {
+          setLocations((prev) => ({
+            ...prev,
+            mapCenter: JSON.parse(e.target.value),
+            cityId: e.target.id,
+          }));
+          console.log(e.target.id);
+        }}
       />
 
       <CustomButton
@@ -145,8 +171,9 @@ const CitaOnline = () => {
         label="Especialidad"
         placeholder="Seleccione una especialidad"
         items={specialties}
+        valueDef={/** @param {Specialty} i */ (i) => i.id}
         itemsStartContent={FaBriefcaseMedical}
-        selectedKeys={[filters.specialtyId]}
+        selectedKey={filters.specialtyId}
         onChange={(e) =>
           setFilters((filters) => ({ ...filters, specialtyId: e.target.value }))
         }
