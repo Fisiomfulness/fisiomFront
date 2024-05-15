@@ -34,7 +34,7 @@ function EditProfileFormUser({ userDetail }) {
               touched={touched}
               values={values}
               errors={errors}
-              isCurriculum={true}
+              isProfessional={false}
               submitButonMessage={"Actualizar"}
               listInputsValue={listInputsUser}
               setFieldValue={setFieldValue}

@@ -10,7 +10,7 @@ import {
   professionalSchema,
 } from "@/utils/validations/professionalSchema";
 import toast from "react-hot-toast";
-import { listInputsProfessional } from "./listInputs";
+import { listInputsUser } from "./listInputs";
 
 //#region Formik config
 
@@ -18,14 +18,15 @@ export function RegisterProfessional({ conditionsAccepted }) {
   const handleSubmitRegister = async (values, { resetForm }) => {
     if (!conditionsAccepted) {
       toast.error("Por favor acepte los términos y condiciones");
-    } else {
-      values = removeObjFalsyValues(values);
-      const formData = new FormData();
-      for (const [key, value] of Object.entries(values)) {
-        formData.append(key, value);
-      }
-      await axiosRegisterProfessionalForm(formData);
+      return;
     }
+    values = removeObjFalsyValues(values);
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(values)) {
+      formData.append(key, value);
+    }
+    await axiosRegisterProfessionalForm(formData);
+    resetForm();
   };
 
   return (
@@ -49,9 +50,9 @@ export function RegisterProfessional({ conditionsAccepted }) {
             touched={touched}
             values={values}
             errors={errors}
-            isCurriculum={true}
+            isProfessional={true}
             submitButonMessage={"Crear perfil"}
-            listInputsValue={listInputsProfessional}
+            listInputsValue={listInputsUser}
           />
         </Form>
       )}

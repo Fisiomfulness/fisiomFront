@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import { CustomInput } from "@/features/ui";
-import { Divider, Select, SelectItem } from "@nextui-org/react";
-import { Button } from "react-aria-components";
-import { EyeFilledIcon } from "../CustomComponentForm/EyeFilledIcon";
-import { EyeSlashFilledIcon } from "../CustomComponentForm/EyeSlashFilledIcon";
-import FileUpload from "./FileUpload";
+import { CustomInput } from '@/features/ui';
+import { Divider, Select, SelectItem, input } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
+import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
+import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
+import FileUpload from './FileUpload';
 
 export const genderList = [
-  { label: "Femenino", value: "Femenino" },
-  { label: "Masculino", value: "Masculino" },
-  { label: "Prefiero no responder", value: "Prefiero no responder" },
+  { label: 'Femenino', value: 'Femenino' },
+  { label: 'Masculino', value: 'Masculino' },
+  { label: 'Prefiero no responder', value: 'Prefiero no responder' },
 ];
 
 export const InputsFormRegister = ({
@@ -20,7 +20,7 @@ export const InputsFormRegister = ({
   values,
   errors,
   isSubmitting,
-  isCurriculum,
+  isProfessional,
   isUpdate,
   submitButonMessage,
   listInputsValue,
@@ -31,57 +31,62 @@ export const InputsFormRegister = ({
 
   return (
     <>
-      {listInputsValue(errors, touched).map((inputValue, index) => {
-        // console.log(listInputsValue());
-
-        return (
-          <div key={index}>
-            {index % 2 === 0 && ( // Check if index is even (divisible by 2)
+      <div className="grid md:grid-cols-2 gap-2">
+        {listInputsValue(errors, touched).map((inputValue, index) => {
+          return (
+            <div key={index}>
               <div className="flex gap-2 flex-col sm:flex-row w-full justify-between">
-                {/* Render the current and next input (if it exists) */}
                 {isUpdate ? (
                   <CustomInput
                     {...inputValue} // Spread all properties from inputValue
+                    value={values[inputValue.name]}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     size="lg"
                     classNames={{
                       inputWrapper:
-                        "!bg-[#F4F4F4] !border-1 border-transparent",
+                        '!bg-[#F4F4F4] !border-1 border-transparent',
                     }}
                     isClearable
-                    onClear={() => setFieldValue(inputValue.name, "")}
+                    onClear={() => setFieldValue(inputValue.name, '')}
                   />
                 ) : (
                   <CustomInput
                     {...inputValue} // Spread all properties from inputValue
+                    value={values[inputValue.name]}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     size="lg"
                     classNames={{
                       inputWrapper:
-                        "!bg-[#F4F4F4] !border-1 border-transparent",
-                    }}
-                  />
-                )}
-
-                {listInputsValue(errors, touched)[index + 1] && (
-                  <CustomInput
-                    {...listInputsValue(errors, touched)[index + 1]} // Spread properties from next input
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    size="lg"
-                    classNames={{
-                      inputWrapper:
-                        "!bg-[#F4F4F4] !border-1 border-transparent",
+                        '!bg-[#F4F4F4] !border-1 border-transparent',
                     }}
                   />
                 )}
               </div>
-            )}
-          </div>
-        );
-      })}
+            </div>
+          );
+        })}
+      </div>
+
+      {isProfessional ? (
+        <CustomInput
+          name="license"
+          aria-label="Numero de colegiado"
+          type="string"
+          variant="flat"
+          placeholder="Numero de colegiado"
+          value={values.license}
+          isInvalid={touched?.license && errors.license ? true : false}
+          errorMessage={touched?.license && errors.license}
+          onBlur={handleBlur}
+          onChange={handleChange}
+          size="lg"
+          classNames={{
+            inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+          }}
+        />
+      ) : null}
 
       <Select
         name="gender"
@@ -95,15 +100,15 @@ export const InputsFormRegister = ({
         size="lg"
         radius="sm"
         classNames={{
-          innerWrapper: "text-gray-500",
-          label: "text-gray-500",
-          errorMessage: "text-sm",
+          innerWrapper: 'text-gray-500',
+          label: 'text-gray-500',
+          errorMessage: 'text-sm',
         }}
       >
         {(gender) => <SelectItem key={gender.value}>{gender.label}</SelectItem>}
       </Select>
 
-      <div className="flex flex-col sm:flex-row gap-1 w-full justify-between">
+      <div className="flex flex-col sm:flex-row gap-2 w-full justify-between">
         <CustomInput
           name="password"
           aria-label="Contraseña"
@@ -129,9 +134,9 @@ export const InputsFormRegister = ({
               )}
             </button>
           }
-          type={isVisible ? "text" : "password"}
+          type={isVisible ? 'text' : 'password'}
           classNames={{
-            inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+            inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
           }}
         />
 
@@ -149,13 +154,13 @@ export const InputsFormRegister = ({
           onChange={handleChange}
           type="password"
           classNames={{
-            inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+            inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
           }}
         />
       </div>
       <Divider />
 
-      {isCurriculum ? <FileUpload name="curriculum" /> : <></>}
+      {isProfessional ? <FileUpload name="curriculum" /> : null}
       <Button
         className="bg-primary-500 mt-2 text-white uppercase font-semibold rounded-sm"
         type="submit"

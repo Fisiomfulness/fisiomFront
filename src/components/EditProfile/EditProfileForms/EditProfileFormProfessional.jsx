@@ -1,7 +1,7 @@
 "use client";
 
 import { InputsFormRegister } from "@/components/Registro/InputsForms";
-import { listInputsProfessional } from "@/components/Registro/listInputs";
+import { listInputsUser } from "@/components/Registro/listInputs";
 import { Card } from "@nextui-org/react";
 import { Form, Formik } from "formik";
 
@@ -33,9 +33,9 @@ export const EditProfileFormProfessional = ({ userDetail }) => {
               touched={touched}
               values={values}
               errors={errors}
-              isCurriculum={true}
+              isProfessional={true}
               submitButonMessage={"Actualizar"}
-              listInputsValue={listInputsProfessional}
+              listInputsValue={listInputsUser}
               setFieldValue={setFieldValue}
               isUpdate={true}
             />

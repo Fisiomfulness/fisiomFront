@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { isDateOnRange, isValidPdf } from '../helpers';
-import { cityRegex, nameRegex, numericRegex, phoneRegExp } from '../regExp';
+import { cityRegex, nameRegex, numericRegex, phoneRegExp, streetNameRegex } from '../regExp';
 import { zodStrRequired } from './index';
 
 const professionalInitialValues = {
@@ -28,7 +28,7 @@ const MAX_FILE_SIZE = 1048576; // ? 1MB
 const professionalSchema = z
   .object({
     name: zodStrRequired()
-      .min(3, 'El nombre debe tener al menos 3 caracteres')
+      .min(3, 'Debe tener al menos 3 caracteres')
       .max(30, 'No mas de 30 caracteres')
       .regex(nameRegex, 'Debe contener solo letras'),
     phone: zodStrRequired().regex(phoneRegExp, 'No es un teléfono valido'),
@@ -46,9 +46,9 @@ const professionalSchema = z
     confirmPass: zodStrRequired(),
     gender: z.enum(genderList, { message: 'Seleccione un genero' }),
     streetName: zodStrRequired()
-      .min(2, 'La calle debe tener al menos 2 caracteres')
+      .min(2, 'Debe tener al menos 2 caracteres')
       .max(50, 'No mas de 50 caracteres')
-      .regex(nameRegex, 'Solo puede contener letras'),
+      .regex(streetNameRegex, 'Solo letras y números (Min: 2 letras)'),
     streetNumber: zodStrRequired()
       .max(8, 'No puede tener mas de 8 dígitos')
       .regex(numericRegex, 'Debe ser numérico'),
@@ -59,21 +59,21 @@ const professionalSchema = z
       .optional()
       .or(z.literal('')),
     city: zodStrRequired()
-      .min(2, 'La ciudad debe tener al menos 2 caracteres')
+      .min(2, 'Debe tener al menos 2 caracteres')
       .max(50, 'No puede contener mas de 50 caracteres')
       .regex(
         cityRegex,
-        'El nombre de la ciudad solo puede contener letras y espacios'
+        'Solo puede contener letras y espacios'
       ),
     state: z
       .string()
-      .min(2, 'El estado debe tener al menos 2 caracteres')
+      .min(2, 'Debe tener al menos 2 caracteres')
       .max(50, 'No puede contener mas de 50 caracteres')
       .regex(nameRegex, 'Solo puede contener letras')
       .optional()
       .or(z.literal('')),
     country: zodStrRequired()
-      .min(2, 'El pais debe tener al menos 2 caracteres')
+      .min(2, 'Debe tener al menos 2 caracteres')
       .max(50, 'No mas de 50 caracteres')
       .regex(nameRegex, 'Solo puede contener letras'),
     license: z
