@@ -1,4 +1,4 @@
-import Register from '../../components/Registro/Register';
+import { Register } from '@/components/Registro/Register';
 
 export const metadata = {
   title: 'Registro',

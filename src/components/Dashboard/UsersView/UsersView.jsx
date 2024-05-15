@@ -1,31 +1,27 @@
 'use client';
-import React, { useEffect } from 'react';
+import { getAllUsers } from '@/services/users';
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Input,
   Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
   Chip,
-  User,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Input,
   Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+  User,
 } from '@nextui-org/react';
-import { CiEdit } from 'react-icons/ci';
-import { CiCircleInfo } from 'react-icons/ci';
-import { columns, statusOptions } from '../data/data';
-import { capitalize } from '../data/data';
-import { CiSearch } from 'react-icons/ci';
-import { FaChevronCircleDown } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { getAllUsers } from '@/app/api/usersActions/getAllUsers';
+import React from 'react';
+import { CiCircleInfo, CiEdit, CiSearch } from 'react-icons/ci';
+import { FaChevronCircleDown } from 'react-icons/fa';
+import { capitalize, columns, statusOptions } from '../data/data';
 //Este array es para cambiar el color del Estado del usuario.
 const statusColorMap = {
   true: 'success',
@@ -45,7 +41,7 @@ export default function UsersView() {
   const [filterValue, setFilterValue] = React.useState('');
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState(
-    new Set(INITIAL_VISIBLE_COLUMNS)
+    new Set(INITIAL_VISIBLE_COLUMNS),
   );
   const [users, setUsers] = React.useState([]);
 
@@ -77,7 +73,7 @@ export default function UsersView() {
     if (visibleColumns === 'all') return columns;
 
     return columns.filter((column) =>
-      Array.from(visibleColumns).includes(column.uid)
+      Array.from(visibleColumns).includes(column.uid),
     );
   }, [visibleColumns]);
 
@@ -86,7 +82,7 @@ export default function UsersView() {
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers?.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
+        user.name.toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
     if (
@@ -94,7 +90,7 @@ export default function UsersView() {
       Array.from(statusFilter).length !== statusOptions.length
     ) {
       filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.role)
+        Array.from(statusFilter).includes(user.role),
       );
     }
 
@@ -142,8 +138,8 @@ export default function UsersView() {
               {cellValue == 'admin'
                 ? 'Administrador'
                 : cellValue == 'user'
-                ? 'Usuario'
-                : 'Profesional'}
+                  ? 'Usuario'
+                  : 'Profesional'}
             </p>
           </div>
         );
@@ -349,7 +345,7 @@ export default function UsersView() {
         'group-data-[last=true]:last:before:rounded-none',
       ],
     }),
-    []
+    [],
   );
   return (
     <motion.section

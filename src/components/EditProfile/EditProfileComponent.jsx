@@ -1,21 +1,29 @@
-'use client';
+"use client";
 
-import { useSession } from 'next-auth/react';
-import Loader from '../Loader';
-import EditProfileFormProfessional from './EditProfileForms/EditProfileFormProfessional';
-import EditProfileFormUser from './EditProfileForms/EditProfileFormUser';
+import { axiosUserDetail } from "@/services/users";
+import { useEffect, useState } from "react";
+import { EditProfileFormProfessional } from "./EditProfileForms/EditProfileFormProfessional";
+import EditProfileFormUser from "./EditProfileForms/EditProfileFormUser";
 
-export const EditProfileComponent = () => {
-  const { data: session, status } = useSession()
+export const EditProfileComponent = ({ session }) => {
+  const [userData, setUserData] = useState({});
+  useEffect(() => {
+    const fetch = async () => {
+      const response = await axiosUserDetail(session.user.id);
+      setUserData(response.user);
+    };
 
-  if (status === "loading") return <Loader />
+    fetch();
+  }, [session]);
 
   return (
-    <main className="px-auto py-4 min-h-screen center bg-primary-400">
-      {session?.user.role === 'professional' ? (
-        <EditProfileFormProfessional user={session.user} />
+    <main className="p-10 min-h-screen center bg-primary-400">
+      {session.user?.role === "professional" ? (
+        <>
+          <EditProfileFormProfessional userDetail={userData} />
+        </>
       ) : (
-        <EditProfileFormUser user={session.user} />
+        <EditProfileFormUser userDetail={userData} />
       )}
     </main>
   );
