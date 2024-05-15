@@ -18,14 +18,14 @@ export function RegisterProfessional({ conditionsAccepted }) {
   const handleSubmitRegister = async (values, { resetForm }) => {
     if (!conditionsAccepted) {
       toast.error("Por favor acepte los términos y condiciones");
-      return;
+    } else {
+      values = removeObjFalsyValues(values);
+      const formData = new FormData();
+      for (const [key, value] of Object.entries(values)) {
+        formData.append(key, value);
+      }
+      await axiosRegisterProfessionalForm(formData);
     }
-    values = removeObjFalsyValues(values);
-    const formData = new FormData();
-    for (const [key, value] of Object.entries(values)) {
-      formData.append(key, value);
-    }
-    await axiosRegisterProfessionalForm(formData);
   };
 
   return (

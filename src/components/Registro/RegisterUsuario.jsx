@@ -14,8 +14,9 @@ export const RegisterUser = ({ conditionsAccepted }) => {
   const handleSubmit = async (values, { resetForm }) => {
     if (!conditionsAccepted) {
       toast.error("Por favor acepte los términos y condiciones");
+    } else {
+      await axiosRegisterUserForm(values);
     }
-    await axiosRegisterUserForm(values);
   };
 
   return (
