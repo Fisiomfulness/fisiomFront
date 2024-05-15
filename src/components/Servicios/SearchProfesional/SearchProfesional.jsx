@@ -1,14 +1,18 @@
 "use-client";
-import { apiEndpoints } from "@/api_endpoints";
-import { Autocomplete, AutocompleteItem, Input } from "@nextui-org/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useAtom } from "jotai";
+import { filtersAtom } from "../store/servicios";
+//import { FaUserDoctor } from "react-icons/fa6";
 import { AiFillHome } from "react-icons/ai";
-import { FaUserDoctor } from "react-icons/fa6";
+import { Autocomplete, AutocompleteItem, Input } from "@nextui-org/react";
 import { MdOutlineSearch } from "react-icons/md";
+import { FaBriefcaseMedical } from "react-icons/fa6";
+import { apiEndpoints } from "@/api_endpoints";
 
-const SearchProfesional = ({ filters, setFilters, setPage }) => {
+const SearchProfesional = ({ setPage }) => {
   const [specialties, setSpecialties] = useState([]);
+  const [filters, setFilters] = useAtom(filtersAtom);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -26,12 +30,12 @@ const SearchProfesional = ({ filters, setFilters, setPage }) => {
     return () => abortController.abort();
   }, []);
   const onChange = (e) => {
-    setFilters({ ...filters, search: e.target.value });
+    setFilters((filters) => ({ ...filters, search: e.target.value }));
     setPage(1);
   };
 
   const onSelectionChange = (value) => {
-    setFilters({ ...filters, specialtyId: value });
+    setFilters((filters) => ({ ...filters, specialtyId: value }));
     setPage(1);
   };
 
@@ -43,7 +47,7 @@ const SearchProfesional = ({ filters, setFilters, setPage }) => {
         radius="lg"
         onChange={onChange}
         value={filters.search}
-        onClear={() => setFilters({ ...filters, search: "" })}
+        onClear={() => setFilters((filters) => ({ ...filters, search: "" }))}
         placeholder="Busqueda del profesional..."
         startContent={<MdOutlineSearch color="#62CFE4" size="20px" />}
       />
@@ -63,7 +67,10 @@ const SearchProfesional = ({ filters, setFilters, setPage }) => {
         {(item) => (
           <AutocompleteItem key={item._id} textValue={item.name}>
             <div className="flex items-center gap-2">
-              <FaUserDoctor alt={item.name} className="text-primary-300" />
+              <FaBriefcaseMedical
+                alt={item.name}
+                className="text-primary-300"
+              />
               <span>{item.name}</span>
             </div>
           </AutocompleteItem>
