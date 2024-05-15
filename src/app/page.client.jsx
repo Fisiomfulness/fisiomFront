@@ -1,9 +1,14 @@
 // @ts-check
 "use client";
 
-import { ciudadesPeru } from "./data";
+import { ciudades } from "./data";
 
 import { useState } from "react";
+import { useAtom } from "jotai";
+import {
+  filtersAtom,
+  locationAtom,
+} from "../components/Servicios/store/servicios";
 import { BiSolidWebcam, BiSolidHome } from "react-icons/bi";
 import { FaBriefcaseMedical, FaLocationDot } from "react-icons/fa6";
 
@@ -17,6 +22,11 @@ import { useRouter } from "next/navigation";
 /**
  * @typedef {{id: string; name: string}} Specialty
  * @typedef {{count: number, results: Specialty[]}} SpecialtyResponse
+ * @typedef {{search: string, spelcialtyId: string}} Filter
+ */
+
+/**
+ * @typedef {{id: string; name: string, country: string, coordinates: { latitude: number, longitude: number }}} City
  */
 
 /**
@@ -25,9 +35,11 @@ import { useRouter } from "next/navigation";
  *   name?: string;
  *   label: string;
  *   placeholder: string;
- *   items: Specialty[];
+ *   items: Specialty[] | City[];
  *   itemsStartContent: keyof JSX.IntrinsicElements | import("react-icons").IconType;
  *   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
+ *   selectedKeys?: string[];
+ *   selectedKey?: string;
  * }} props
  *
  * @returns {React.ReactNode}
@@ -38,7 +50,8 @@ const CustomSelect = ({
   placeholder,
   items,
   itemsStartContent,
-  onChange
+  onChange,
+  ...props
 }) => {
   const DynamicTag = itemsStartContent;
 
@@ -46,10 +59,12 @@ const CustomSelect = ({
     <Select
       name={name}
       label={label}
+      items={items}
       placeholder={placeholder}
       labelPlacement="outside"
       onChange={onChange}
       disableAnimation
+      {...props}
     >
       {items.map((item) => (
         <SelectItem
@@ -79,12 +94,13 @@ const CitaDomiciliaria = () => {
     ? data.results
     : [{ id: "1", name: "..." }];
 
-  const [specialtyId, setSpecialtyId] = useState("");
+  const [filters, setFilters] = useAtom(filtersAtom);
+  const [locations, setLocations] = useAtom(locationAtom);
 
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/servicios?specialtyId=${specialtyId}`);
-  }
+    router.push(`/servicios`);
+  };
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">
@@ -92,21 +108,31 @@ const CitaDomiciliaria = () => {
         label="Especialidad"
         placeholder="Seleccione una especialidad"
         items={specialties}
-        onChange={(e) => setSpecialtyId(e.target.value)}
+        selectedKeys={[filters.specialtyId]}
+        onChange={(e) =>
+          setFilters((filters) => ({ ...filters, specialtyId: e.target.value }))
+        }
         itemsStartContent={FaBriefcaseMedical}
       />
 
       <CustomSelect
         label="Ciudad"
         placeholder="Seleccione una ciudad"
-        items={ciudadesPeru}
+        items={ciudades}
+        selectedKeys={[locations.cityId]}
         itemsStartContent={FaLocationDot}
+        onChange={(e) => {
+          /**@typedef {City} ciudad */
+          const ciudad = ciudades.find((city) => city.id === e.target.value)
+          const coords = ciudad ? [ciudad.coordinates.latitude, ciudad.coordinates.longitude] : [0,0]
+          setLocations({ ...locations, cityId: e.target.value, mapCenter: coords })
+        }}
       />
 
-      <CustomButton 
-      onClick={handleClick} 
-      isDisabled={!specialtyId}
-      className="rounded-xl sm:self-end self-start px-12 shrink-0"
+      <CustomButton
+        onClick={handleClick}
+        isDisabled={!filters.specialtyId && !locations.cityId}
+        className="rounded-xl sm:self-end self-start px-12 shrink-0"
       >
         Buscar
       </CustomButton>
@@ -123,12 +149,12 @@ const CitaOnline = () => {
     ? data.results
     : [{ id: "1", name: "..." }];
 
-  const [specialtyId, setSpecialtyId] = useState("");
+  const [filters, setFilters] = useAtom(filtersAtom);
 
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/servicios?specialtyId=${specialtyId}`);
-  }
+    router.push(`/servicios`);
+  };
 
   return (
     <form className="flex sm:flex-row flex-col gap-4">
@@ -137,17 +163,19 @@ const CitaOnline = () => {
         placeholder="Seleccione una especialidad"
         items={specialties}
         itemsStartContent={FaBriefcaseMedical}
-        onChange={(e) => setSpecialtyId(e.target.value)}
+        selectedKeys={[filters.specialtyId]}
+        onChange={(e) =>
+          setFilters((filters) => ({ ...filters, specialtyId: e.target.value }))
+        }
       />
 
-      <CustomButton 
-      onClick={handleClick} 
-      isDisabled={!specialtyId}
-      className="rounded-xl sm:self-end self-start px-12 shrink-0"
+      <CustomButton
+        onClick={handleClick}
+        isDisabled={!filters.specialtyId}
+        className="rounded-xl sm:self-end self-start px-12 shrink-0"
       >
         Buscar
       </CustomButton>
-   
     </form>
   );
 };
@@ -157,7 +185,7 @@ export default function HomeClient() {
 
   // NOTE: https://github.com/microsoft/TypeScript/issues/27387
   const [selected, setSelected] = useState(
-    /** @type {Key} */ ("citaDomiciliaria"),
+    /** @type {Key} */ ("citaDomiciliaria")
   );
 
   return (

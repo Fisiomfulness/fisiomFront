@@ -11,10 +11,8 @@ const useGeolocation = ({ defaultLocation }) => {
         ]);
     };
     const onError = (error) => {
-        if (session?.user?.coordinates[0] && session?.user?.coordinates[0] !== 0) {
+        if (session?.user?.coordinates) {
             setCoordinates(session.user.coordinates);
-        } else {
-            setCoordinates(defaultLocation);
         }
     }
 

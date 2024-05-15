@@ -1,14 +1,16 @@
 "use client";
-import { apiEndpoints } from "@/api_endpoints";
-import useGeolocation from "@/hooks/useGeolocation";
+
 import axios from "axios";
-import { useInView } from "framer-motion";
-import dynamic from "next/dynamic";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import Loader from "../Loader";
-import SearchProfesional from "./SearchProfesional/SearchProfesional";
+import { useState, useEffect, useRef } from "react";
+import { useAtom } from "jotai";
+import { filtersAtom, locationAtom } from "./store/servicios";
+import useGeolocation from "@/hooks/useGeolocation";
 import ServicioMainContainer from "./ServicioMainContainer";
+import SearchProfesional from "./SearchProfesional/SearchProfesional";
+import dynamic from "next/dynamic";
+import { apiEndpoints } from "@/api_endpoints";
+import { useInView } from "framer-motion";
+import Loader from "../Loader";
 
 const Map = dynamic(() => import("@/components/Map"), {
   loading: () => <p>loading...</p>,
@@ -18,25 +20,27 @@ const Map = dynamic(() => import("@/components/Map"), {
 const ServicioMain = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 1 });
-  const searchParams = useSearchParams();
-  const router = useRouter();
 
-  const userCoords = useGeolocation({
-    defaultLocation: [-12.057822374374036, -77.06708360541617],
-  });
   const [loading, setLoading] = useState(true);
   const [professionals, setProfessionals] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [filters, setFilters] = useState({
-    search: "",
-    specialtyId: searchParams.get("specialtyId") || "",
-    pos: "",
-  });
+  const [filters, setFilters] = useAtom(filtersAtom);
+  const [locations, setLocations] = useAtom(locationAtom);
+
+  const userCoords = useGeolocation({});
+  useEffect(() => {
+    if (userCoords[0] !== 0) {
+      setLocations((prev) => ({ ...prev, user: userCoords }));
+      if (locations.mapCenter[0] === 0) {
+        setLocations((prev) => ({ ...prev, mapCenter: userCoords }));
+      }
+    }
+  }, [userCoords]);
 
   useEffect(() => {
     const abortController = new AbortController();
-    if (userCoords[0] !== 0) {
+    if (locations.mapCenter[0] !== 0) {
       setLoading(true);
       axios
         .get(apiEndpoints.professionals, {
@@ -44,7 +48,7 @@ const ServicioMain = () => {
           params: {
             search: filters.search,
             specialtyId: filters.specialtyId,
-            pos: userCoords.join(","),
+            pos: locations.mapCenter.join(","),
             page: page,
           },
           withCredentials: true,
@@ -57,17 +61,16 @@ const ServicioMain = () => {
           }
           setTotalPages(data.totalPages);
           setLoading(false);
-          router.replace("/servicios", { shallow: true });
         })
         .catch((err) => {
           if (err.name === "CanceledError") return;
-
+          setLoading(false);
           throw err;
         })
         .finally(setLoading(false));
     }
     return () => abortController.abort();
-  }, [page, filters, userCoords]);
+  }, [page, filters, locations]);
 
   useEffect(() => {
     isInView && page < totalPages && setPage((prev) => prev + 1);
@@ -75,30 +78,20 @@ const ServicioMain = () => {
 
   return (
     <main className="vstack px-auto mx-auto max-w-8xl w-full flex flex-col py-4 gap-4">
-      {loading ? (
-        <div
-          ref={ref}
-          className="absolute inset-0 flex items-center justify-center"
-        >
-          <Loader />
-        </div>
-      ) : (
-        <>
-          <SearchProfesional
-            filters={filters}
-            setFilters={setFilters}
-            setPage={setPage}
-          />
-          <div className="grid lg:grid-cols-2 gap-5">
-            <div className="flex flex-col gap-2 items-center size-full h-[80vh] overflow-y-auto overflow-x-hidden">
-              <ServicioMainContainer profesionales={professionals} />
-            </div>
-            <div className="min-h-[80vh] w-full">
-              <Map professionals={professionals} userCoords={userCoords} />
-            </div>
+      <SearchProfesional setPage={setPage} />
+      <div className="grid lg:grid-cols-2 gap-5">
+        <div className="flex flex-col gap-2 items-center size-full h-[80vh] overflow-y-auto overflow-x-hidden">
+          {(professionals.length || !loading) && (
+            <ServicioMainContainer profesionales={professionals} />
+          )}
+          <div ref={ref} className="h-full min-h-1">
+            {loading && <Loader />}
           </div>
-        </>
-      )}
+        </div>
+        <div className="min-h-[80vh] w-full">
+          <Map professionals={professionals} />
+        </div>
+      </div>
     </main>
   );
 };
