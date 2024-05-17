@@ -65,7 +65,7 @@ const SearchProfesional = ({ setPage }) => {
         onSelectionChange={onSelectionChange}
       >
         {(item) => (
-          <AutocompleteItem key={item._id} textValue={item.name}>
+          <AutocompleteItem key={item.id} textValue={item.name}>
             <div className="flex items-center gap-2">
               <FaBriefcaseMedical
                 alt={item.name}

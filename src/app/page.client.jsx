@@ -12,17 +12,16 @@ import {
 import { BiSolidWebcam, BiSolidHome } from "react-icons/bi";
 import { FaBriefcaseMedical, FaLocationDot } from "react-icons/fa6";
 
-import { Select, SelectItem } from "@nextui-org/select";
+import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import { CustomButton } from "@/features/ui";
 import useSWRImmutable from "swr/immutable";
-
 import { useRouter } from "next/navigation";
 
 /**
  * @typedef {{id: string; name: string}} Specialty
  * @typedef {{count: number, results: Specialty[]}} SpecialtyResponse
- * @typedef {{search: string, spelcialtyId: string}} Filter
+ * @typedef {{search: string, specialtyId: string}} Filter
  */
 
 /**
@@ -37,7 +36,7 @@ import { useRouter } from "next/navigation";
  *   placeholder: string;
  *   items: Specialty[] | City[];
  *   itemsStartContent: keyof JSX.IntrinsicElements | import("react-icons").IconType;
- *   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
+ *   onSelectionChange?: ((key: React.Key | null) => void) | undefined
  *   selectedKeys?: string[];
  *   selectedKey?: string;
  * }} props
@@ -50,34 +49,34 @@ const CustomSelect = ({
   placeholder,
   items,
   itemsStartContent,
-  onChange,
+  onSelectionChange,
   ...props
 }) => {
   const DynamicTag = itemsStartContent;
 
   return (
-    <Select
-      name={name}
+    <Autocomplete
       label={label}
-      items={items}
-      placeholder={placeholder}
       labelPlacement="outside"
-      onChange={onChange}
-      disableAnimation
+      placeholder={placeholder}
+      className="w-full sm:max-w-sm"
+      defaultItems={items}
+      listboxProps={{
+        color: "primary",
+      }}
+      allowsCustomValue={true}
+      onSelectionChange={onSelectionChange}
       {...props}
     >
-      {items.map((item) => (
-        <SelectItem
-          key={item.id}
-          startContent={
+      {(item) => (
+        <AutocompleteItem key={item.id} textValue={item.name}>
+          <div className="flex items-center gap-2">
             <DynamicTag alt={item.name} className="text-primary-300" />
-          }
-          value={item.id}
-        >
-          {item.name}
-        </SelectItem>
-      ))}
-    </Select>
+            <span>{item.name}</span>
+          </div>
+        </AutocompleteItem>
+      )}
+    </Autocomplete>
   );
 };
 
@@ -108,10 +107,15 @@ const CitaDomiciliaria = () => {
         label="Especialidad"
         placeholder="Seleccione una especialidad"
         items={specialties}
-        selectedKeys={[filters.specialtyId]}
-        onChange={(e) =>
-          setFilters((filters) => ({ ...filters, specialtyId: e.target.value }))
-        }
+        selectedKey={filters.specialtyId}
+        onSelectionChange={(value) => {
+          setFilters(
+            /** @param {Filter} filters */ (filters) => ({
+              ...filters,
+              specialtyId: String(value),
+            })
+          );
+        }}
         itemsStartContent={FaBriefcaseMedical}
       />
 
@@ -119,13 +123,19 @@ const CitaDomiciliaria = () => {
         label="Ciudad"
         placeholder="Seleccione una ciudad"
         items={ciudades}
-        selectedKeys={[locations.cityId]}
+        selectedKey={locations.cityId}
         itemsStartContent={FaLocationDot}
-        onChange={(e) => {
+        onSelectionChange={(value) => {
           /**@typedef {City} ciudad */
-          const ciudad = ciudades.find((city) => city.id === e.target.value)
-          const coords = ciudad ? [ciudad.coordinates.latitude, ciudad.coordinates.longitude] : [0,0]
-          setLocations({ ...locations, cityId: e.target.value, mapCenter: coords })
+          const ciudad = ciudades.find((city) => city.id === value);
+          const coords = ciudad
+            ? [ciudad.coordinates.latitude, ciudad.coordinates.longitude]
+            : [0, 0];
+          setLocations({
+            ...locations,
+            cityId: String(value),
+            mapCenter: coords,
+          });
         }}
       />
 
@@ -163,9 +173,9 @@ const CitaOnline = () => {
         placeholder="Seleccione una especialidad"
         items={specialties}
         itemsStartContent={FaBriefcaseMedical}
-        selectedKeys={[filters.specialtyId]}
-        onChange={(e) =>
-          setFilters((filters) => ({ ...filters, specialtyId: e.target.value }))
+        selectedKey={filters.specialtyId}
+        onSelectionChange={(value) =>
+          setFilters((filters) => ({ ...filters, specialtyId: String(value) }))
         }
       />
 
