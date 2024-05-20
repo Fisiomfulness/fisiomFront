@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 /**
  * @typedef {{id: string; name: string}} Specialty
  * @typedef {{count: number, results: Specialty[]}} SpecialtyResponse
- * @typedef {{search: string, specialtyId: string}} Filter
+ * @typedef {{search: string[], specialtyId: string}} Filter
  */
 
 /**

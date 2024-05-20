@@ -2,7 +2,7 @@
 import { atom } from "jotai";
 
 export const filtersAtom = atom({
-  search: "",
+  search: ["ciudad:Rosario", "Cruz"],
   specialtyId: "",
 });
 
