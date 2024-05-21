@@ -2,10 +2,12 @@ import { RiArrowUpCircleLine } from 'react-icons/ri';
 import { CustomInput } from '@/features/ui';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { useSetAtom } from 'jotai';
+import { updateQuestionAtom } from './store/questions';
+import { respondQuestion } from '@/services/questions';
 import { z } from 'zod';
 import roles from '@/utils/roles';
 import toast from 'react-hot-toast';
-import { respondQuestion } from '@/services/questions';
 
 const responseSchema = z
   .string()
@@ -13,12 +15,13 @@ const responseSchema = z
   .max(500, 'No mas de 500 caracteres');
 
 const ResponseForm = ({ questionId }) => {
-  const { data: session, status } = useSession();
-  const isProfessional = session?.user.role === roles.PROFESSIONAL;
-  if (status !== 'loading' && !isProfessional) return null;
-
   const [response, setResponse] = useState('');
   const [error, setError] = useState(null);
+  const { data: session, status } = useSession();
+  const updateQuestion = useSetAtom(updateQuestionAtom);
+  const isProfessional = session?.user.role === roles.PROFESSIONAL;
+
+  if (status !== 'loading' && !isProfessional) return null;
 
   const handleChange = (e) => {
     setResponse(e.target.value);
@@ -32,6 +35,7 @@ const ResponseForm = ({ questionId }) => {
     try {
       const finalResponse = { text: response, professionalId: session.user.id };
       const { updatedQuestion } = await respondQuestion(questionId, finalResponse);
+      updateQuestion(updatedQuestion);
       toast.success('Respuesta enviada correctamente!');
     } catch (error) {
       toast.error('Oops... vuelva a intentar mas tarde');
@@ -41,7 +45,7 @@ const ResponseForm = ({ questionId }) => {
   return (
     <form onSubmit={handleSubmit}>
       <CustomInput
-        placeholder="responda..."
+        placeholder="Responda..."
         type="text"
         name="response"
         value={response}
