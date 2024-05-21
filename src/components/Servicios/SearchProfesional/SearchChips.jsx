@@ -9,7 +9,8 @@ export default function SearchChips() {
   return (
     <div className="flex gap-1 px-5">
       {filters.search.map((chip, index) => (
-        <Chip
+        chip ?
+        (<Chip
           key={index}
           size="md"
           radius="sm"
@@ -23,7 +24,7 @@ export default function SearchChips() {
           }
         >
           {chip}
-        </Chip>
+        </Chip>) : null
       ))}
     </div>
   );

@@ -37,6 +37,7 @@ import { BASE_URL } from "@/utils/api";
  *   onSelectionChange?: ((key: React.Key | null) => void) | undefined
  *   selectedKeys?: string[];
  *   selectedKey?: string;
+ *   className?: string
  * }} props
  *
  * @returns {React.ReactNode}
@@ -97,13 +98,14 @@ const CitaDomiciliaria = () => {
   const router = useRouter();
 
   const handleClick = () => {
+    const ciudad = ciudades.find((city) => city.id === localCityId);
+    const newSearchParam = ciudad ? `ciudad:${ciudad.name}` : ""; 
     setFilters((prev) => ({
       ...prev,
-      search: [...prev.search, `ciudad:${localCityId}`],
+      search: [...prev.search, newSearchParam],
       specialtyId: localSpecialtyId,
       page: 1,
     }));
-    const ciudad = ciudades.find((city) => city.id === localCityId);
     const coords = ciudad
       ? [ciudad.coordinates.latitude, ciudad.coordinates.longitude]
       : [0, 0];
@@ -123,7 +125,11 @@ const CitaDomiciliaria = () => {
         items={specialties}
         selectedKey={localSpecialtyId}
         onSelectionChange={(value) => {
-          setLocalSpecialtyId(String(value));
+          if (value) {
+            setLocalSpecialtyId(String(value));
+          } else {
+            setLocalSpecialtyId("");
+          }
         }}
         itemsStartContent={FaBriefcaseMedical}
       />
@@ -135,7 +141,11 @@ const CitaDomiciliaria = () => {
         selectedKey={localCityId}
         itemsStartContent={FaLocationDot}
         onSelectionChange={(value) => {
-          setLocalCityId(String(value));
+          if (value) {
+            setLocalCityId(String(value));
+          } else {
+            setLocalCityId("");
+          }
         }}
       />
 
@@ -173,14 +183,21 @@ const CitaOnline = () => {
   };
 
   return (
-    <form className="flex sm:flex-row flex-col gap-4">
+    <form className="flex sm:flex-row flex-col gap-4 sm:justify-center">
       <CustomSelect
         label="Especialidad"
         placeholder="Seleccione una especialidad"
         items={specialties}
+        selectedKey={localSpecialtyId}
+        onSelectionChange={(value) => {
+          if (value) {
+            setLocalSpecialtyId(String(value));
+          } else {
+            setLocalSpecialtyId("");
+          }
+        }}
         itemsStartContent={FaBriefcaseMedical}
-        selectedKey={filters.specialtyId}
-        onSelectionChange={(value) => setLocalSpecialtyId(String(value))}
+        className="sm:mr-auto"
       />
 
       <CustomButton
