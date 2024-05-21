@@ -5,8 +5,8 @@ import { Formik, Form } from 'formik';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
 
-import { useAtomValue } from 'jotai';
-import { questionsAtom } from './store/questions';
+import { useAtom, useAtomValue } from 'jotai';
+import { filtersAtom, questionsAtom } from './store/questions';
 import { createQuestion } from '@/services/questions';
 
 const initialValues = {
@@ -24,15 +24,19 @@ const questionSchema = z.object({
 });
 
 function QuestionForm() {
-  const { specialties } = useAtomValue(questionsAtom);
+  const [store, setStore] = useAtom(questionsAtom);
+  const { specialtyId } = useAtomValue(filtersAtom);
+  const { specialties, questions } = store;
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
+      const sameSpecialty = values.specialtyId === specialtyId;
       const generalQuestion = values.specialtyId === '1';
       if (generalQuestion) delete values.specialtyId;
-      await createQuestion(values);
+      const { newQuestion } = await createQuestion(values);
+      if(sameSpecialty) setStore({ ...store, questions: [newQuestion, ...questions] });
       resetForm();
-      toast.success('Pregunta enviada correctamente');
+      toast.success('Pregunta creada correctamente');
     } catch (error) {
       toast.error('Oops... algo salio mal, intente mas tarde');
     }
