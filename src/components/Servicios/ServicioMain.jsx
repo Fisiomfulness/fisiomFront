@@ -23,7 +23,6 @@ const ServicioMain = () => {
 
   const [loading, setLoading] = useState(true);
   const [professionals, setProfessionals] = useState([]);
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useAtom(filtersAtom);
   const [locations, setLocations] = useAtom(locationAtom);
@@ -46,39 +45,39 @@ const ServicioMain = () => {
         .get(apiEndpoints.professionals, {
           signal: abortController.signal,
           params: {
-            search: filters.search,
+            search: filters.search.join(","),
             specialtyId: filters.specialtyId,
             pos: locations.mapCenter.join(","),
-            page: page,
+            page: filters.page,
           },
           withCredentials: true,
         })
         .then(({ data }) => {
-          if (page === 1) {
+          if (filters.page === 1) {
             setProfessionals(data.professionals);
           } else {
             setProfessionals((prev) => [...prev, ...data.professionals]);
           }
           setTotalPages(data.totalPages);
-          setLoading(false);
         })
         .catch((err) => {
           if (err.name === "CanceledError") return;
-          setLoading(false);
           throw err;
         })
         .finally(setLoading(false));
     }
     return () => abortController.abort();
-  }, [page, filters, locations]);
+  }, [filters, locations]);
 
   useEffect(() => {
-    isInView && page < totalPages && setPage((prev) => prev + 1);
+    isInView &&
+      filters.page < totalPages &&
+      setFilters((prev) => ({ ...prev, page: prev.page + 1 }));
   }, [isInView]);
 
   return (
     <main className="vstack px-auto mx-auto max-w-8xl w-full flex flex-col py-4 gap-4">
-      <SearchProfesional setPage={setPage} />
+      <SearchProfesional />
       <div className="grid lg:grid-cols-2 gap-5">
         <div className="flex flex-col gap-2 items-center size-full h-[80vh] overflow-y-auto overflow-x-hidden">
           {(professionals.length || !loading) && (

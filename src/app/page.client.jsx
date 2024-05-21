@@ -1,9 +1,7 @@
 // @ts-check
 "use client";
-
-import { ciudades } from "./data";
-
 import { useState } from "react";
+import { ciudades } from "./data";
 import { useAtom } from "jotai";
 import {
   filtersAtom,
@@ -11,17 +9,17 @@ import {
 } from "../components/Servicios/store/servicios";
 import { BiSolidWebcam, BiSolidHome } from "react-icons/bi";
 import { FaBriefcaseMedical, FaLocationDot } from "react-icons/fa6";
-
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import { CustomButton } from "@/features/ui";
 import useSWRImmutable from "swr/immutable";
 import { useRouter } from "next/navigation";
+import { BASE_URL } from "@/utils/api";
 
 /**
  * @typedef {{id: string; name: string}} Specialty
  * @typedef {{count: number, results: Specialty[]}} SpecialtyResponse
- * @typedef {{search: string[], specialtyId: string}} Filter
+ * @typedef {{search: string[], specialtyId: string, page: number}} Filter
  */
 
 /**
@@ -81,8 +79,7 @@ const CustomSelect = ({
 };
 
 /** @param {string} url */
-const fetcher = (url) =>
-  fetch(`http://localhost:3000${url}`).then((r) => r.json());
+const fetcher = (url) => fetch(`${BASE_URL}${url}`).then((r) => r.json());
 
 const CitaDomiciliaria = () => {
   /** @type {import("swr").SWRResponse<SpecialtyResponse>} */
@@ -95,9 +92,26 @@ const CitaDomiciliaria = () => {
 
   const [filters, setFilters] = useAtom(filtersAtom);
   const [locations, setLocations] = useAtom(locationAtom);
-
+  const [localSpecialtyId, setLocalSpecialtyId] = useState(filters.specialtyId);
+  const [localCityId, setLocalCityId] = useState(locations.cityId);
   const router = useRouter();
+
   const handleClick = () => {
+    setFilters((prev) => ({
+      ...prev,
+      search: [...prev.search, `ciudad:${localCityId}`],
+      specialtyId: localSpecialtyId,
+      page: 1,
+    }));
+    const ciudad = ciudades.find((city) => city.id === localCityId);
+    const coords = ciudad
+      ? [ciudad.coordinates.latitude, ciudad.coordinates.longitude]
+      : [0, 0];
+    setLocations({
+      ...locations,
+      cityId: localCityId,
+      mapCenter: coords,
+    });
     router.push(`/servicios`);
   };
 
@@ -107,14 +121,9 @@ const CitaDomiciliaria = () => {
         label="Especialidad"
         placeholder="Seleccione una especialidad"
         items={specialties}
-        selectedKey={filters.specialtyId}
+        selectedKey={localSpecialtyId}
         onSelectionChange={(value) => {
-          setFilters(
-            /** @param {Filter} filters */ (filters) => ({
-              ...filters,
-              specialtyId: String(value),
-            })
-          );
+          setLocalSpecialtyId(String(value));
         }}
         itemsStartContent={FaBriefcaseMedical}
       />
@@ -123,25 +132,16 @@ const CitaDomiciliaria = () => {
         label="Ciudad"
         placeholder="Seleccione una ciudad"
         items={ciudades}
-        selectedKey={locations.cityId}
+        selectedKey={localCityId}
         itemsStartContent={FaLocationDot}
         onSelectionChange={(value) => {
-          /**@typedef {City} ciudad */
-          const ciudad = ciudades.find((city) => city.id === value);
-          const coords = ciudad
-            ? [ciudad.coordinates.latitude, ciudad.coordinates.longitude]
-            : [0, 0];
-          setLocations({
-            ...locations,
-            cityId: String(value),
-            mapCenter: coords,
-          });
+          setLocalCityId(String(value));
         }}
       />
 
       <CustomButton
         onClick={handleClick}
-        isDisabled={!filters.specialtyId && !locations.cityId}
+        isDisabled={!localSpecialtyId && !localCityId}
         className="rounded-xl sm:self-end self-start px-12 shrink-0"
       >
         Buscar
@@ -160,9 +160,15 @@ const CitaOnline = () => {
     : [{ id: "1", name: "..." }];
 
   const [filters, setFilters] = useAtom(filtersAtom);
-
+  const [localSpecialtyId, setLocalSpecialtyId] = useState(filters.specialtyId);
   const router = useRouter();
+
   const handleClick = () => {
+    setFilters((filters) => ({
+      ...filters,
+      specialtyId: localSpecialtyId,
+      page: 1,
+    }));
     router.push(`/servicios`);
   };
 
@@ -174,14 +180,12 @@ const CitaOnline = () => {
         items={specialties}
         itemsStartContent={FaBriefcaseMedical}
         selectedKey={filters.specialtyId}
-        onSelectionChange={(value) =>
-          setFilters((filters) => ({ ...filters, specialtyId: String(value) }))
-        }
+        onSelectionChange={(value) => setLocalSpecialtyId(String(value))}
       />
 
       <CustomButton
         onClick={handleClick}
-        isDisabled={!filters.specialtyId}
+        isDisabled={!localSpecialtyId}
         className="rounded-xl sm:self-end self-start px-12 shrink-0"
       >
         Buscar

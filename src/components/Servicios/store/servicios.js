@@ -1,9 +1,9 @@
-
 import { atom } from "jotai";
 
 export const filtersAtom = atom({
-  search: ["ciudad:Rosario", "Cruz"],
+  search: [],
   specialtyId: "",
+  page: 1
 });
 
 export const locationAtom = atom({

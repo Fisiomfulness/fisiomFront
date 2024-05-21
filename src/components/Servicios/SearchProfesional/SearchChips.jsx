@@ -14,10 +14,11 @@ export default function SearchChips() {
           size="md"
           radius="sm"
           color="primary"
-          onClose={(chip) =>
+          onClose={() =>
             setFilters((filters) => ({
               ...filters,
               search: filters.search.filter((c) => c !== chip),
+              page: 1,
             }))
           }
         >
