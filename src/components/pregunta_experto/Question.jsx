@@ -3,6 +3,7 @@ import { MdChatBubbleOutline } from 'react-icons/md';
 import { Image } from '@nextui-org/react';
 import { CustomButton } from '@/features/ui';
 import ResponseForm from './ResponseForm';
+import Link from 'next/link';
 
 function Question({ data }) {
   const isAnswered = data.isAnswered;
@@ -44,16 +45,27 @@ function Question({ data }) {
         >
           <Image
             src={professional.image}
+            alt={`Doctor ${professional.name} photo`}
             className="rounded-full size-14 bg-cover"
           />
           <p className="mt-2 mb-2 font-bold whitespace-nowrap capitalize truncate">
             {'Dr. ' + professional.name}
           </p>
           <div className="flex flex-col gap-1">
-            <CustomButton className="py-0 w-28 rounded-sm font-normal">
+            <CustomButton
+              as={Link}
+              target="_blank"
+              href={`/servicios/${professional._id}/perfil`}
+              className="py-0 w-28 rounded-sm font-normal"
+            >
               Ver perfil
             </CustomButton>
-            <CustomButton className="py-0 w-28 rounded-sm font-normal">
+            <CustomButton
+              as={Link}
+              target="_blank"
+              href={`/servicios/${professional._id}/turno`}
+              className="py-0 w-28 rounded-sm font-normal"
+            >
               CITA
             </CustomButton>
           </div>
