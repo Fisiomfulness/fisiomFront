@@ -1,3 +1,5 @@
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../api/auth/[...nextauth]/route';
 import { getQuestions } from '@/services/questions';
 import { apiEndpoints } from '@/api_endpoints';
 import PreguntaExpertoClient from './client';
@@ -14,15 +16,21 @@ const getSpecialties = async () => {
 };
 
 const PreguntaExpertoPage = async () => {
+  const session = await getServerSession(authOptions);
   const { questions, totalQuestions } = await getQuestions(iniQuery);
   const { results } = await getSpecialties();
+
+  const initialData = {
+    questions,
+    specialties: results,
+    totalQuestions,
+    query: iniQuery,
+  };
+
   return (
-    <PreguntaExpertoClient
-      iniQuestions={questions}
-      iniTotalQuestions={totalQuestions}
-      iniQuery={iniQuery}
-      specialties={results}
-    />
+    <main className="p-4 min-h-[92vh] w-full max-w-4xl flex flex-col items-center mx-auto gap-4 overflow-hidden">
+      <PreguntaExpertoClient initialData={initialData} session={session} />
+    </main>
   );
 };
 
