@@ -11,8 +11,8 @@ import toast from 'react-hot-toast';
 
 const responseSchema = z
   .string()
-  .min(10, 'Al menos 5 caracteres')
-  .max(500, 'No mas de 500 caracteres');
+  .min(5, 'Al menos 5 caracteres')
+  .max(800, 'No mas de 800 caracteres');
 
 const ResponseForm = ({ questionId }) => {
   const [response, setResponse] = useState('');
