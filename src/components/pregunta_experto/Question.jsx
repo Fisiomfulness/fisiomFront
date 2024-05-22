@@ -1,24 +1,22 @@
 import { RiQuestionLine } from 'react-icons/ri';
 import { MdChatBubbleOutline } from 'react-icons/md';
-import { Image } from '@nextui-org/react';
-import { CustomButton } from '@/features/ui';
 import ResponseForm from './ResponseForm';
-import Link from 'next/link';
+import ProfessionalInfo from './ProfessionalInfo';
 
 function Question({ data }) {
-  const isAnswered = data.isAnswered;
-  const professional = data.answer?.professional || null;
+  const { _id, text, answer, isAnswered } = data;
+  const professional = answer?.professional || null;
 
   return (
-    <div className="flex-row md:flex justify-between items-center bg-secondary-50 py-5 rounded-sm hover:bg-opacity-85">
-      <div className="w-full flex flex-col justify-between px-6 gap-4">
+    <div className="flex flex-col gap-2 sm:flex-row sm:gap-5 items-center bg-secondary-50 py-5 px-6 rounded-sm hover:bg-opacity-85">
+      <div className="w-full flex flex-col justify-between gap-4">
         <div className="md:pt-2 text-start">
           <p className="pb-2">
             <RiQuestionLine size={21} className="text-[#3DAADD] inline" />
             <span className="font-semibold mx-2 text-secondary-500">
               Pregunta:
             </span>
-            {data.text}
+            {text}
           </p>
           {isAnswered && (
             <p>
@@ -29,48 +27,13 @@ function Question({ data }) {
               <span className="font-semibold mx-2 text-secondary-500">
                 Respuesta:
               </span>
-              {data.answer?.text}
+              {answer?.text}
             </p>
           )}
         </div>
-        {!isAnswered && <ResponseForm questionId={data._id} />}
+        {!isAnswered && <ResponseForm questionId={_id} />}
       </div>
-
-      {isAnswered && (
-        <div
-          className={
-            'flex flex-col items-center justify-center px-6 ' +
-            'max-md:flex-row max-md:gap-4 max-md:pt-4'
-          }
-        >
-          <Image
-            src={professional.image}
-            alt={`Doctor ${professional.name} photo`}
-            className="rounded-full size-14 bg-cover"
-          />
-          <p className="mt-2 mb-2 font-bold whitespace-nowrap capitalize truncate">
-            {'Dr. ' + professional.name}
-          </p>
-          <div className="flex flex-col gap-1">
-            <CustomButton
-              as={Link}
-              target="_blank"
-              href={`/servicios/${professional._id}/perfil`}
-              className="py-0 w-28 rounded-sm font-normal"
-            >
-              Ver perfil
-            </CustomButton>
-            <CustomButton
-              as={Link}
-              target="_blank"
-              href={`/servicios/${professional._id}/turno`}
-              className="py-0 w-28 rounded-sm font-normal"
-            >
-              CITA
-            </CustomButton>
-          </div>
-        </div>
-      )}
+      {isAnswered && <ProfessionalInfo professional={professional} />}
     </div>
   );
 }
