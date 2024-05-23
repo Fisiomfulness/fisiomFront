@@ -19,9 +19,9 @@ const ResponseForm = ({ questionId }) => {
   const [error, setError] = useState(null);
   const { data: session, status } = useSession();
   const updateQuestion = useSetAtom(updateQuestionAtom);
-  const isProfessional = session?.user.role === roles.PROFESSIONAL;
+  const isProfessional = status !== 'loading' && session?.user.role === roles.PROFESSIONAL;
 
-  if (status !== 'loading' && !isProfessional) return null;
+  if (!isProfessional) return null;
 
   const handleChange = (e) => {
     setResponse(e.target.value);
