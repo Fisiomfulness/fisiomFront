@@ -1,39 +1,36 @@
-import { RiQuestionLine } from 'react-icons/ri';
-import { MdChatBubbleOutline } from 'react-icons/md';
-import ResponseForm from './ResponseForm';
-import ProfessionalInfo from './ProfessionalInfo';
+import { useDisclosure } from '@nextui-org/react';
+import DeleteTab from './DeleteTab';
+import DeleteModal from './DeleteModal';
+import QuestionContent from './QuestionContent';
 
-function Question({ data }) {
-  const { _id, text, answer, isAnswered } = data;
-  const professional = answer?.professional || null;
+function Question({ data, canDelete, tabOpened, setQuestionTabId }) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const deleteBtnHeight = '2rem';
+
+  const handleTab = () => {
+    if (canDelete) setQuestionTabId((prev) => (prev === data._id ? null : data._id));
+  };
 
   return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:gap-5 items-center bg-secondary-50 py-5 px-6 rounded-sm hover:bg-opacity-85">
-      <div className="w-full flex flex-col justify-between gap-4">
-        <div className="md:pt-2 text-start">
-          <p className="pb-2">
-            <RiQuestionLine size={21} className="text-[#3DAADD] inline" />
-            <span className="font-semibold mx-2 text-secondary-500">
-              Pregunta:
-            </span>
-            {text}
-          </p>
-          {isAnswered && (
-            <p>
-              <MdChatBubbleOutline
-                size={19}
-                className="text-[#3DAADD] inline"
-              />
-              <span className="font-semibold mx-2 text-secondary-500">
-                Respuesta:
-              </span>
-              {answer?.text}
-            </p>
-          )}
-        </div>
-        {!isAnswered && <ResponseForm questionId={_id} />}
-      </div>
-      {isAnswered && <ProfessionalInfo professional={professional} />}
+    <div
+      onClick={handleTab}
+      className="relative bg-secondary-50 py-5 px-6 rounded-sm transition-[margin] duration-150 ease-in-out hover:bg-opacity-85"
+      style={{
+        marginTop: tabOpened ? deleteBtnHeight : 0,
+        cursor: canDelete ? 'pointer' : 'default',
+      }}
+    >
+      <DeleteTab
+        showTab={tabOpened}
+        openModal={onOpen}
+        deleteBtnHeight={deleteBtnHeight}
+      />
+      <DeleteModal
+        questionId={data._id}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      />
+      <QuestionContent data={data} />
     </div>
   );
 }

@@ -8,10 +8,14 @@ import QuestionFilters from '@/components/pregunta_experto/QuestionFilters';
 import QuestionsContainer from '@/components/pregunta_experto/QuestionsContainer';
 import Link from 'next/link';
 import Loader from '@/components/Loader';
+import roles from '@/utils/roles';
+
+const admins = [roles.ADMIN, roles.SUPER_ADMIN];
 
 function PreguntaExpertoClient({ initialData, session }) {
   // * State to show the content only when all components are hydrated
   const [loading, setLoading] = useState(true);
+  const canDelete = admins.includes(session?.user.role);
 
   useHydrateAtoms([[questionsAtom, initialData]]);
 
@@ -37,7 +41,7 @@ function PreguntaExpertoClient({ initialData, session }) {
         </p>
       )}
       <QuestionFilters />
-      <QuestionsContainer />
+      <QuestionsContainer canDelete={canDelete} />
     </Fragment>
   );
 }
