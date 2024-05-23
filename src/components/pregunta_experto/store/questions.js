@@ -5,6 +5,7 @@ export const questionsAtom = atom({
   questions: [],
   specialties: [],
   totalQuestions: 0,
+  hasMoreToLoad: false,
   query: {},
 });
 
@@ -21,4 +22,10 @@ export const updateQuestionAtom = atom(null, (get, set, updatedQuestion) => {
     updatedQuestions[questionIndex] = updatedQuestion;
     set(questionsAtom, { ...store, questions: updatedQuestions });
   }
+});
+
+export const deleteQuestionAtom = atom(null, (get, set, idToDelete) => {
+  const store = get(questionsAtom);
+  const filtered = store.questions.filter((q) => q._id !== idToDelete);
+  set(questionsAtom, { ...store, questions: filtered });
 });
