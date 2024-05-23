@@ -8,6 +8,22 @@ export default function SearchChips() {
 
   return (
     <div className="flex gap-1 px-5">
+      {filters.city ?
+        (<Chip
+          size="md"
+          radius="sm"
+          color="success"
+          onClose={() =>
+            setFilters((filters) => ({
+              ...filters,
+              city: "",
+              page: 1,
+            }))
+          }
+        >
+          {filters.city}
+        </Chip>) : null
+      }
       {filters.search.map((chip, index) => (
         chip ?
         (<Chip

@@ -55,7 +55,7 @@ const ServicioMain = () => {
         if (filters.page === 1) {
           setProfessionals(data.professionals);
         } else {
-          setProfessionals((prev) => [...prev, ...data.professionals]);
+          setProfessionals((prev) => Array.from(new Set([...prev, ...data.professionals])));
         }
         setTotalPages(data.totalPages);
       })
