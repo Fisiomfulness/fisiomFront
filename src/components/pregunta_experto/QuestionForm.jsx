@@ -97,8 +97,9 @@ function QuestionForm() {
             type="submit"
             className="max-w-52 uppercase !bg-[#3DAADD] rounded-sm"
             isDisabled={Object.keys(errors).length > 0 || isSubmitting}
+            isLoading={isSubmitting}
           >
-            Enviar
+            {isSubmitting ? "Enviando" : 'Enviar'}
           </CustomButton>
         </Form>
       )}
