@@ -27,45 +27,44 @@ const ServicioMain = () => {
   const [filters, setFilters] = useAtom(filtersAtom);
   const [locations, setLocations] = useAtom(locationAtom);
 
+  // load user location when it changes if it's allowed
   const userCoords = useGeolocation({});
   useEffect(() => {
     if (userCoords[0] !== 0) {
       setLocations((prev) => ({ ...prev, user: userCoords }));
-      if (locations.mapCenter[0] === 0) {
-        setLocations((prev) => ({ ...prev, mapCenter: userCoords }));
-      }
     }
   }, [userCoords]);
 
   useEffect(() => {
     const abortController = new AbortController();
-    if (locations.mapCenter[0] !== 0) {
-      setLoading(true);
-      axios
-        .get(apiEndpoints.professionals, {
-          signal: abortController.signal,
-          params: {
-            search: filters.search.join(","),
-            specialtyId: filters.specialtyId,
-            pos: locations.mapCenter.join(","),
-            page: filters.page,
-          },
-          withCredentials: true,
-        })
-        .then(({ data }) => {
-          if (filters.page === 1) {
-            setProfessionals(data.professionals);
-          } else {
-            setProfessionals((prev) => [...prev, ...data.professionals]);
-          }
-          setTotalPages(data.totalPages);
-        })
-        .catch((err) => {
-          if (err.name === "CanceledError") return;
-          throw err;
-        })
-        .finally(setLoading(false));
-    }
+    //if (locations.mapCenter[0] !== 0) {
+    setLoading(true);
+    axios
+      .get(apiEndpoints.professionals, {
+        signal: abortController.signal,
+        params: {
+          search: filters.search.join(","),
+          city: filters.city,
+          specialtyId: filters.specialtyId,
+          pos: locations.user.join(","),
+          page: filters.page,
+        },
+        withCredentials: true,
+      })
+      .then(({ data }) => {
+        if (filters.page === 1) {
+          setProfessionals(data.professionals);
+        } else {
+          setProfessionals((prev) => [...prev, ...data.professionals]);
+        }
+        setTotalPages(data.totalPages);
+      })
+      .catch((err) => {
+        if (err.name === "CanceledError") return;
+        throw err;
+      })
+      .finally(setLoading(false));
+    //}
     return () => abortController.abort();
   }, [filters, locations]);
 
@@ -88,7 +87,7 @@ const ServicioMain = () => {
           </div>
         </div>
         <div className="min-h-[80vh] w-full">
-          <Map professionals={professionals} />
+          <Map markers={professionals} setMarkers={setProfessionals} />
         </div>
       </div>
     </main>

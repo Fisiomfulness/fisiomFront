@@ -6,7 +6,7 @@ import ServicioMainCardSmall from "./Servicios/ServicioMainCardSmall";
 import { useAtom } from "jotai";
 import { locationAtom } from "../components/Servicios/store/servicios";
 
-const Map = ({ professionals, users }) => {
+const Map = ({ markers, setMarkers }) => {
   const [locations, _] = useAtom(locationAtom);
 
   const customIcon = new Icon({
@@ -18,7 +18,9 @@ const Map = ({ professionals, users }) => {
     iconSize: [38, 38],
   });
 
-  if (locations.mapCenter[0] !== 0) {
+  //useEffect...
+
+  if (markers.length) {
     return (
       <MapContainer
         center={{ lat: locations.mapCenter[0], lng: locations.mapCenter[1] }}

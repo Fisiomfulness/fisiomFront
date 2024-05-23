@@ -79,7 +79,7 @@ export const especialidadesMedicas = [
 export const ciudades = [
   {
     "name": "Rosario",
-    "id": "1",
+    "id": "rosario",
     "country": "Argentina",
     "coordinates": {
       "latitude": -32.9419,
@@ -88,7 +88,7 @@ export const ciudades = [
   },
   {
     "name": "Mendoza",
-    "id": "2",
+    "id": "mendoza",
     "country": "Argentina",
     "coordinates": {
       "latitude": -32.7278,
@@ -97,7 +97,7 @@ export const ciudades = [
   },
   {
     "name": "Buenos Aires",
-    "id": "3",
+    "id": "buenos_aires",
     "country": "Argentina",
     "coordinates": {
       "latitude": -34.8577,
@@ -106,7 +106,7 @@ export const ciudades = [
   },
   {
     "name": "Jujuy",
-    "id": "4",
+    "id": "jujuy",
     "country": "Argentina",
     "coordinates": {
       "latitude": -24.1933,
@@ -115,7 +115,7 @@ export const ciudades = [
   },
   {
     "name": "Salta",
-    "id": "5",
+    "id": "salta",
     "country": "Argentina",
     "coordinates": {
       "latitude": -24.8144,
@@ -124,7 +124,7 @@ export const ciudades = [
   },
   {
     "name": "Medellín",
-    "id": "6",
+    "id": "medellin",
     "country": "Colombia",
     "coordinates": {
       "latitude": 6.2439,
@@ -133,7 +133,7 @@ export const ciudades = [
   },
   {
     "name": "Bogotá",
-    "id": "7",
+    "id": "bogota",
     "country": "Colombia",
     "coordinates": {
       "latitude": 4.6090,
@@ -142,7 +142,7 @@ export const ciudades = [
   },
   {
     "name": "Lima",
-    "id": "8",
+    "id": "lima",
     "country": "Peru",
     "coordinates": {
       "latitude": -12.0488,
@@ -151,7 +151,7 @@ export const ciudades = [
   },
   {
     "name": "Cusco",
-    "id": "9",
+    "id": "cusco",
     "country": "Peru",
     "coordinates": {
       "latitude": -13.5167,
@@ -160,7 +160,7 @@ export const ciudades = [
   },
   {
     "name": "Montevideo",
-    "id": "10",
+    "id": "montevideo",
     "country": "Uruguay",
     "coordinates": {
       "latitude": -34.9034,
@@ -169,7 +169,7 @@ export const ciudades = [
   },
   {
     "name": "Santiago",
-    "id": "11",
+    "id": "santiago",
     "country": "Chile",
     "coordinates": {
       "latitude": -33.4478,
@@ -178,7 +178,7 @@ export const ciudades = [
   },
   {
     "name": "Arequipa",
-    "id": "12",
+    "id": "arequipa",
     "country": "Peru",
     "coordinates": {
       "latitude": -16.3988,

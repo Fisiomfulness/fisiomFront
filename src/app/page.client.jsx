@@ -3,10 +3,7 @@
 import { useState } from "react";
 import { ciudades } from "./data";
 import { useAtom } from "jotai";
-import {
-  filtersAtom,
-  locationAtom,
-} from "../components/Servicios/store/servicios";
+import { filtersAtom } from "../components/Servicios/store/servicios";
 import { BiSolidWebcam, BiSolidHome } from "react-icons/bi";
 import { FaBriefcaseMedical, FaLocationDot } from "react-icons/fa6";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
@@ -19,7 +16,7 @@ import { BASE_URL } from "@/utils/api";
 /**
  * @typedef {{id: string; name: string}} Specialty
  * @typedef {{count: number, results: Specialty[]}} SpecialtyResponse
- * @typedef {{search: string[], specialtyId: string, page: number}} Filter
+ * @typedef {{search: string[], specialtyId: string, city: string, page: number}} Filter
  */
 
 /**
@@ -37,7 +34,7 @@ import { BASE_URL } from "@/utils/api";
  *   onSelectionChange?: ((key: React.Key | null) => void) | undefined
  *   selectedKeys?: string[];
  *   selectedKey?: string;
- *   className?: string
+ *   className?: string;
  * }} props
  *
  * @returns {React.ReactNode}
@@ -92,28 +89,21 @@ const CitaDomiciliaria = () => {
     : [{ id: "1", name: "..." }];
 
   const [filters, setFilters] = useAtom(filtersAtom);
-  const [locations, setLocations] = useAtom(locationAtom);
-  const [localSpecialtyId, setLocalSpecialtyId] = useState(filters.specialtyId);
-  const [localCityId, setLocalCityId] = useState(locations.cityId);
+  const [localSpecialtyId, setLocalSpecialtyId] = useState(
+    /** @type {string} */ filters.specialtyId
+  );
+  const cityId = ciudades.find((city) => city.name === filters.city)?.id || "";
+  const [localCityId, setLocalCityId] = useState(/** @type {string} */ cityId);
   const router = useRouter();
 
   const handleClick = () => {
     const ciudad = ciudades.find((city) => city.id === localCityId);
-    const newSearchParam = ciudad ? `ciudad:${ciudad.name}` : ""; 
     setFilters((prev) => ({
       ...prev,
-      search: [...prev.search, newSearchParam],
+      city: ciudad?.name || "",
       specialtyId: localSpecialtyId,
       page: 1,
     }));
-    const coords = ciudad
-      ? [ciudad.coordinates.latitude, ciudad.coordinates.longitude]
-      : [0, 0];
-    setLocations({
-      ...locations,
-      cityId: localCityId,
-      mapCenter: coords,
-    });
     router.push(`/servicios`);
   };
 
