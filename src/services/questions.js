@@ -36,3 +36,10 @@ export const respondQuestion = async (questionId, values) => {
   if (!res.ok) throw new Error('Error respondiendo a la pregunta');
   return await res.json();
 };
+
+export const deleteQuestion = async (questionId) => {
+  const res = await fetch(`${BASE_URL}/questions/${questionId}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('Error eliminando la pregunta');
+};
