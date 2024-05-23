@@ -26,7 +26,7 @@ const QuestionFilters = () => {
   const handleSearch = (event) => {
     event.preventDefault();
     // * Can't send the previous search
-    if (filters.search !== search) {
+    if (filters.search !== search.trim()) {
       setFilters({ ...filters, search });
     }
   };
