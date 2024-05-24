@@ -1,6 +1,12 @@
 import { z } from 'zod';
 import { isDateOnRange, isValidPdf } from '../helpers';
-import { cityRegex, nameRegex, numericRegex, phoneRegExp, streetNameRegex } from '../regExp';
+import {
+  cityRegex,
+  nameRegex,
+  numericRegex,
+  phoneRegExp,
+  streetNameRegex,
+} from '../regExp';
 import { zodStrRequired } from './index';
 
 const professionalInitialValues = {
@@ -54,6 +60,8 @@ const professionalSchema = z
       .regex(numericRegex, 'Debe ser numérico'),
     floorAppartment: z
       .string()
+      .trim()
+      .min(1, 'Al menos 1 digito')
       .max(5, 'No puede tener mas de 5 dígitos')
       .regex(numericRegex, 'Debe ser numérico')
       .optional()
@@ -61,12 +69,10 @@ const professionalSchema = z
     city: zodStrRequired()
       .min(2, 'Debe tener al menos 2 caracteres')
       .max(50, 'No puede contener mas de 50 caracteres')
-      .regex(
-        cityRegex,
-        'Solo puede contener letras y espacios'
-      ),
+      .regex(cityRegex, 'Solo puede contener letras y espacios'),
     state: z
       .string()
+      .trim()
       .min(2, 'Debe tener al menos 2 caracteres')
       .max(50, 'No puede contener mas de 50 caracteres')
       .regex(nameRegex, 'Solo puede contener letras')
@@ -78,6 +84,7 @@ const professionalSchema = z
       .regex(nameRegex, 'Solo puede contener letras'),
     license: z
       .string()
+      .trim()
       .min(3, 'El n° colegiado debe tener al menos 3 dígitos')
       .max(10, 'No puede tener mas de 10 dígitos')
       .regex(numericRegex, 'Debe ser numérico')
