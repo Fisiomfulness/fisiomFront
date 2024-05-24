@@ -1,35 +1,37 @@
-import { CustomButton, CustomTextarea } from "@/features/ui";
+import { useDisclosure } from '@nextui-org/react';
+import DeleteTab from './DeleteTab';
+import DeleteModal from './DeleteModal';
+import QuestionContent from './QuestionContent';
 
-function Question({ comments, setComments }) {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const question = e.target.question.value;
-    if (!question) return;
+function Question({ data, tabOpened, setQuestionTabId, canDelete, user }) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const deleteBtnHeight = '2rem';
 
-    const draft = [
-      {
-        id: crypto.randomUUID(),
-        question: question,
-        response: "",
-      },
-    ].concat(comments);
-    setComments(draft);
-
-    e.target.reset();
+  const handleTab = () => {
+    if (canDelete) setQuestionTabId((prev) => (prev === data._id ? null : data._id));
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-      <CustomTextarea
-        id="question"
-        name="question"
-        minRows={5}
-        placeholder="Escribe tu pregunta..."
+    <div
+      onClick={handleTab}
+      className="relative bg-secondary-50 py-5 px-6 rounded-sm transition-[margin] duration-150 ease-in-out hover:bg-opacity-85"
+      style={{
+        marginTop: tabOpened ? deleteBtnHeight : 0,
+        cursor: canDelete ? 'pointer' : 'default',
+      }}
+    >
+      <DeleteTab
+        showTab={tabOpened}
+        openModal={onOpen}
+        deleteBtnHeight={deleteBtnHeight}
       />
-      <CustomButton type="submit" className="max-w-52">
-        Enviar
-      </CustomButton>
-    </form>
+      <DeleteModal
+        questionId={data._id}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      />
+      <QuestionContent data={data} user={user} />
+    </div>
   );
 }
 
