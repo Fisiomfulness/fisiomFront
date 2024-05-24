@@ -12,7 +12,7 @@ import { apiEndpoints } from "@/api_endpoints";
 import { useInView } from "framer-motion";
 import Loader from "../Loader";
 
-const Map = dynamic(() => import("@/components/Map"), {
+const CustomMap = dynamic(() => import("@/components/CustomMap"), {
   loading: () => <p>loading...</p>,
   ssr: false,
 });
@@ -55,7 +55,13 @@ const ServicioMain = () => {
         if (filters.page === 1) {
           setProfessionals(data.professionals);
         } else {
-          setProfessionals((prev) => Array.from(new Set([...prev, ...data.professionals])));
+          setProfessionals((prev) =>
+            Array.from(
+              new Map(
+                [...prev, ...data.professionals].map((item) => [item._id, item])
+              ).values()
+            )
+          );
         }
         setTotalPages(data.totalPages);
       })
@@ -87,7 +93,7 @@ const ServicioMain = () => {
           </div>
         </div>
         <div className="min-h-[80vh] w-full">
-          <Map markers={professionals} setMarkers={setProfessionals} />
+          <CustomMap markers={professionals} setMarkers={setProfessionals} />
         </div>
       </div>
     </main>
