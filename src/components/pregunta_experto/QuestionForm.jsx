@@ -17,6 +17,7 @@ const initialValues = {
 const questionSchema = z.object({
   text: z
     .string()
+    .trim()
     .min(1, 'Completa este campo')
     .min(10, 'Al menos 10 caracteres')
     .max(500, 'No mas de 500 caracteres'),
@@ -34,7 +35,7 @@ function QuestionForm() {
       const generalQuestion = values.specialtyId === '1';
       if (generalQuestion) delete values.specialtyId;
       const { newQuestion } = await createQuestion(values);
-      if(sameSpecialty) setStore({ ...store, questions: [newQuestion, ...questions] });
+      if (sameSpecialty) setStore({ ...store, questions: [newQuestion, ...questions] });
       resetForm();
       toast.success('Pregunta creada correctamente');
     } catch (error) {
@@ -99,7 +100,7 @@ function QuestionForm() {
             isDisabled={Object.keys(errors).length > 0 || isSubmitting}
             isLoading={isSubmitting}
           >
-            {isSubmitting ? "Enviando" : 'Enviar'}
+            {isSubmitting ? 'Enviando' : 'Enviar'}
           </CustomButton>
         </Form>
       )}
