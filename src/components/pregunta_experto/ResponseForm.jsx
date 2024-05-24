@@ -11,12 +11,19 @@ import toast from 'react-hot-toast';
 
 const responseSchema = z
   .string()
+  .trim()
   .min(5, 'Al menos 5 caracteres')
   .max(800, 'No mas de 800 caracteres');
 
+const validate = (value) => {
+  const result = responseSchema.safeParse(value);
+  const errorMessage = result.error?.issues[0].message;
+  return !result.success ? errorMessage : '';
+};
+
 const ResponseForm = ({ questionId }) => {
   const [response, setResponse] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const { data: session, status } = useSession();
   const updateQuestion = useSetAtom(updateQuestionAtom);
   const isProfessional = status !== 'loading' && session?.user.role === roles.PROFESSIONAL;
@@ -25,13 +32,13 @@ const ResponseForm = ({ questionId }) => {
 
   const handleChange = (e) => {
     setResponse(e.target.value);
-    const result = responseSchema.safeParse(e.target.value);
-    const errorMessage = result.error?.issues[0].message;
-    setError(!result.success ? errorMessage : null);
+    setError(validate(e.target.value));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const submitError = validate(response);
+    if (submitError) return setError(submitError);
     try {
       const finalResponse = { text: response, professionalId: session.user.id };
       const { updatedQuestion } = await respondQuestion(questionId, finalResponse);
