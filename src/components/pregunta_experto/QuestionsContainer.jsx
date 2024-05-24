@@ -8,6 +8,8 @@ import { Spinner } from '@nextui-org/react';
 import Question from './Question';
 import roles from '@/utils/roles';
 
+const admins = [roles.ADMIN, roles.SUPER_ADMIN]
+
 const QuestionsContainer = ({ user }) => {
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -17,7 +19,7 @@ const QuestionsContainer = ({ user }) => {
   const { ref: bottomContainerRef, inView } = useInView();
   const filters = useAtomValue(filtersAtom);
   const countCurrentQuestions = store.questions.length;
-  const canDelete = user.role === roles.ADMIN || user.role === roles.SUPER_ADMIN;
+  const canDelete = admins.includes(user?.role)
 
   useEffectAfterMount(() => {
     setLoading(true);
