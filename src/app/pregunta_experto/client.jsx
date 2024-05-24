@@ -1,33 +1,30 @@
 'use client';
 import { Fragment, useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { useHydrateAtoms } from 'jotai/utils';
 import { questionsAtom } from '@/components/pregunta_experto/store/questions';
-import { useSession } from 'next-auth/react';
 import QuestionForm from '@/components/pregunta_experto/QuestionForm';
 import QuestionFilters from '@/components/pregunta_experto/QuestionFilters';
 import QuestionsContainer from '@/components/pregunta_experto/QuestionsContainer';
 import Link from 'next/link';
 import Loader from '@/components/Loader';
-import roles from '@/utils/roles';
 
-const admins = [roles.ADMIN, roles.SUPER_ADMIN];
-
-function PreguntaExpertoClient({ initialData, session }) {
+function PreguntaExpertoClient({ initialData }) {
   // * State to show the content only when all components are hydrated
   const [loading, setLoading] = useState(true);
-  const canDelete = admins.includes(session?.user.role);
+  const { data: session, status } = useSession();
 
   useHydrateAtoms([[questionsAtom, initialData]]);
 
   useEffect(() => {
-    setLoading(false);
-  }, []);
+    if (status !== 'loading') setLoading(false);
+  }, [status]);
 
   if (loading) return <Loader />;
 
   return (
     <Fragment>
-      {session ? (
+      {status === 'authenticated' ? (
         <QuestionForm />
       ) : (
         <p className="px-3 py-5 bg-primary-500 text-center w-full text-white text-lg">
@@ -41,7 +38,7 @@ function PreguntaExpertoClient({ initialData, session }) {
         </p>
       )}
       <QuestionFilters />
-      <QuestionsContainer canDelete={canDelete} />
+      <QuestionsContainer user={session?.user} />
     </Fragment>
   );
 }

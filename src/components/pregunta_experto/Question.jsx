@@ -3,7 +3,7 @@ import DeleteTab from './DeleteTab';
 import DeleteModal from './DeleteModal';
 import QuestionContent from './QuestionContent';
 
-function Question({ data, canDelete, tabOpened, setQuestionTabId }) {
+function Question({ data, tabOpened, setQuestionTabId, canDelete, user }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const deleteBtnHeight = '2rem';
 
@@ -30,7 +30,7 @@ function Question({ data, canDelete, tabOpened, setQuestionTabId }) {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
       />
-      <QuestionContent data={data} />
+      <QuestionContent data={data} user={user} />
     </div>
   );
 }

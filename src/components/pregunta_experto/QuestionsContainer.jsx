@@ -6,8 +6,9 @@ import { questionsAtom, filtersAtom } from './store/questions';
 import { getQuestions } from '@/services/questions';
 import { Spinner } from '@nextui-org/react';
 import Question from './Question';
+import roles from '@/utils/roles';
 
-const QuestionsContainer = ({ canDelete }) => {
+const QuestionsContainer = ({ user }) => {
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [store, setStore] = useAtom(questionsAtom);
@@ -16,6 +17,7 @@ const QuestionsContainer = ({ canDelete }) => {
   const { ref: bottomContainerRef, inView } = useInView();
   const filters = useAtomValue(filtersAtom);
   const countCurrentQuestions = store.questions.length;
+  const canDelete = user.role === roles.ADMIN || user.role === roles.SUPER_ADMIN;
 
   useEffectAfterMount(() => {
     setLoading(true);
@@ -56,9 +58,10 @@ const QuestionsContainer = ({ canDelete }) => {
             <Question
               key={question._id}
               data={question}
-              canDelete={canDelete}
               tabOpened={questionTabId === question._id}
               setQuestionTabId={setQuestionTabId}
+              canDelete={canDelete}
+              user={user}
             />
           ))}
           <div ref={bottomContainerRef}>{loadingMore && <Spinner />}</div>

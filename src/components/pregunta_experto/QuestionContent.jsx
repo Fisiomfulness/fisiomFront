@@ -3,7 +3,7 @@ import { RiQuestionLine } from 'react-icons/ri';
 import ResponseForm from './ResponseForm';
 import ProfessionalInfo from './ProfessionalInfo';
 
-const QuestionContent = ({ data }) => {
+const QuestionContent = ({ data, user }) => {
   const { _id, text, answer, isAnswered } = data;
   const professional = answer?.professional || null;
 
@@ -28,7 +28,7 @@ const QuestionContent = ({ data }) => {
             </p>
           </div>
         ) : (
-          <ResponseForm questionId={_id} />
+          <ResponseForm questionId={_id} user={user} />
         )}
       </div>
       {isAnswered && <ProfessionalInfo professional={professional} />}

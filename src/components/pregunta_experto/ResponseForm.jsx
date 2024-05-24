@@ -21,12 +21,11 @@ const validate = (value) => {
   return !result.success ? errorMessage : '';
 };
 
-const ResponseForm = ({ questionId }) => {
+const ResponseForm = ({ questionId, user }) => {
   const [response, setResponse] = useState('');
   const [error, setError] = useState('');
-  const { data: session, status } = useSession();
   const updateQuestion = useSetAtom(updateQuestionAtom);
-  const isProfessional = status !== 'loading' && session?.user.role === roles.PROFESSIONAL;
+  const isProfessional = user.role === roles.PROFESSIONAL;
 
   if (!isProfessional) return null;
 
@@ -40,7 +39,7 @@ const ResponseForm = ({ questionId }) => {
     const submitError = validate(response);
     if (submitError) return setError(submitError);
     try {
-      const finalResponse = { text: response, professionalId: session.user.id };
+      const finalResponse = { text: response, professionalId: user.id };
       const { updatedQuestion } = await respondQuestion(questionId, finalResponse);
       updateQuestion(updatedQuestion);
       toast.success('Respuesta enviada correctamente!');
