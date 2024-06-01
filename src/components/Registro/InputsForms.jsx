@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import { CustomInput } from '@/features/ui';
 import { Divider, Select, SelectItem, input } from '@nextui-org/react';
 import { Button } from '@nextui-org/react';
@@ -7,7 +6,7 @@ import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
 import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
 import FileUpload from './FileUpload';
 
-export const genderList = [
+const genderList = [
   { label: 'Femenino', value: 'Femenino' },
   { label: 'Masculino', value: 'Masculino' },
   { label: 'Prefiero no responder', value: 'Prefiero no responder' },
@@ -22,7 +21,7 @@ export const InputsFormRegister = ({
   isSubmitting,
   isProfessional,
   isUpdate,
-  submitButonMessage,
+  submitButtonMessage,
   listInputsValue,
   setFieldValue,
 }) => {
@@ -36,33 +35,22 @@ export const InputsFormRegister = ({
           return (
             <div key={index}>
               <div className="flex gap-2 flex-col sm:flex-row w-full justify-between">
-                {isUpdate ? (
-                  <CustomInput
-                    {...inputValue} // Spread all properties from inputValue
-                    value={values[inputValue.name]}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    size="lg"
-                    classNames={{
-                      inputWrapper:
-                        '!bg-[#F4F4F4] !border-1 border-transparent',
-                    }}
-                    isClearable
-                    onClear={() => setFieldValue(inputValue.name, '')}
-                  />
-                ) : (
-                  <CustomInput
-                    {...inputValue} // Spread all properties from inputValue
-                    value={values[inputValue.name]}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    size="lg"
-                    classNames={{
-                      inputWrapper:
-                        '!bg-[#F4F4F4] !border-1 border-transparent',
-                    }}
-                  />
-                )}
+                <CustomInput
+                  {...inputValue}
+                  value={values[inputValue.name]}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  size="lg"
+                  classNames={{
+                    inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+                  }}
+                  isClearable={isUpdate}
+                  onClear={
+                    isUpdate
+                      ? () => setFieldValue(inputValue.name, '')
+                      : undefined
+                  }
+                />
               </div>
             </div>
           );
@@ -158,15 +146,21 @@ export const InputsFormRegister = ({
           }}
         />
       </div>
-      <Divider />
 
-      {isProfessional ? <FileUpload name="curriculum" /> : null}
+      {isProfessional && !isUpdate ? (
+        <>
+          <Divider />
+          <FileUpload name="curriculum" />
+        </>
+      ) : null}
+
       <Button
         className="bg-primary-500 mt-2 text-white uppercase font-semibold rounded-sm"
         type="submit"
         isDisabled={Object.keys(errors).length > 0 || isSubmitting}
+        isLoading={isSubmitting}
       >
-        {submitButonMessage}
+        {submitButtonMessage}
       </Button>
     </>
   );

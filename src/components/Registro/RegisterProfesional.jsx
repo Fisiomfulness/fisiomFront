@@ -1,23 +1,23 @@
-"use client";
-import { Form, Formik } from "formik";
-import { InputsFormRegister } from "./InputsForms";
+'use client';
+import { Form, Formik } from 'formik';
+import { InputsFormRegister } from './InputsForms';
 
-import { axiosRegisterProfessionalForm } from "@/services/users";
-import { removeObjFalsyValues } from "@/utils/helpers";
-import { formikZodValidator } from "@/utils/validations";
+import { axiosRegisterProfessionalForm } from '@/services/users';
+import { removeObjFalsyValues } from '@/utils/helpers';
+import { formikZodValidator } from '@/utils/validations';
 import {
   professionalInitialValues,
   professionalSchema,
-} from "@/utils/validations/professionalSchema";
-import { listInputsUser } from "./listInputs";
-import toast from "react-hot-toast";
+} from '@/utils/validations/professionalSchema';
+import { listInputsUser } from './listInputs';
+import toast from 'react-hot-toast';
 
 //#region Formik config
 
 export function RegisterProfessional({ conditionsAccepted }) {
   const handleSubmitRegister = async (values, { resetForm }) => {
     if (!conditionsAccepted) {
-      toast.error("Por favor acepte los términos y condiciones");
+      toast.error('Por favor acepte los términos y condiciones');
       return;
     }
     values = removeObjFalsyValues(values);
@@ -51,7 +51,7 @@ export function RegisterProfessional({ conditionsAccepted }) {
             values={values}
             errors={errors}
             isProfessional={true}
-            submitButonMessage={"Crear perfil"}
+            submitButtonMessage={'Crear perfil'}
             listInputsValue={listInputsUser}
           />
         </Form>

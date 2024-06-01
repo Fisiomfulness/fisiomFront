@@ -1,18 +1,22 @@
-"use client";
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getServerSession } from 'next-auth';
+import { axiosUserDetail } from '@/services/users';
+import { EditProfileComponent } from '@/components/EditProfile/EditProfileComponent';
+import { notFound } from 'next/navigation';
 
-import { EditProfileComponent } from "@/components/EditProfile/EditProfileComponent";
-import { useSession } from "next-auth/react";
+export const dynamic = 'force-dynamic' // * No cache of data
 
-const EditProfilePage = () => {
-  const { data: session, status } = useSession();
+const EditProfilePage = async () => {
+  const session = await getServerSession(authOptions);
+  if (!session) return notFound();
+  const response = await axiosUserDetail(session.user?.id);
   return (
-    <>
-      {status === "loading" ? (
-        <p>Cargando...</p>
-      ) : (
-        <EditProfileComponent session={session} />
-      )}
-    </>
+    <main className="px-auto py-4 min-h-[92vh] center bg-primary-400 overflow-hidden">
+      <EditProfileComponent
+        user={response.foundUser}
+        currentSession={session}
+      />
+    </main>
   );
 };
 
