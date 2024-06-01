@@ -1,26 +1,26 @@
 // @ts-check
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { cookies } from "next/headers";
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { cookies } from 'next/headers';
 
 /** @type {import("next-auth").NextAuthOptions} */
 export const authOptions = {
-  pages: { signIn: "/login" },
+  pages: { signIn: '/login' },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
         email: {
-          label: "Email",
-          type: "email",
-          placeholder: "Formulario Next Auth",
+          label: 'Email',
+          type: 'email',
+          placeholder: 'Formulario Next Auth',
         },
-        password: { label: "Contraseña", type: "password" },
+        password: { label: 'Contraseña', type: 'password' },
       },
       async authorize(credentials, _req) {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             email: credentials?.email,
             password: credentials?.password,
@@ -29,23 +29,23 @@ export const authOptions = {
           // credentials: "include",
         });
 
-        if (!res.ok) throw new Error("No autorizado");
+        if (!res.ok) throw new Error('Credenciales invalidas');
 
         const headerCookies = res.headers.getSetCookie();
         const accessTokenValues = Object.fromEntries(
-          (headerCookies.find((c) => c.includes("accessToken=")) || "")
-            .split("; ")
-            .map((v) => v.split(/=(.*)/s).map(decodeURIComponent)),
+          (headerCookies.find((c) => c.includes('accessToken=')) || '')
+            .split('; ')
+            .map((v) => v.split(/=(.*)/s).map(decodeURIComponent))
         );
 
         cookies().set({
-          name: "accessToken",
+          name: 'accessToken',
           value: accessTokenValues.accessToken,
           httpOnly: true,
           secure: true,
-          sameSite: "strict",
-          maxAge: accessTokenValues["Max-Age"],
-          path: "/",
+          sameSite: 'strict',
+          maxAge: accessTokenValues['Max-Age'],
+          path: '/',
         });
 
         const user = await res.json();
@@ -54,7 +54,17 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === 'update' && session) {
+        // ? Validation to not put values that are not allowed in user
+        let validatedValues = {};
+        for (const key in session.user) {
+          if (token.hasOwnProperty(key) && typeof token[key] === typeof session.user[key]) {
+            validatedValues[key] = session.user[key];
+          }
+        }
+        return { ...token, ...validatedValues };
+      }
       return { ...token, ...user };
     },
     async session({ session, token }) {
@@ -64,7 +74,7 @@ export const authOptions = {
   },
   events: {
     async signOut() {
-      cookies().delete("accessToken");
+      cookies().delete('accessToken');
     },
   },
 };
