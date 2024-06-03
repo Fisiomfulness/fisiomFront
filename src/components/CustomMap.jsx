@@ -33,6 +33,7 @@ const Logic = ({ markers, setMarkers, locations, filters }) => {
               city: filters.city,
               specialtyId: filters.specialtyId,
               pos: locations.user.join(","),
+              polygon: map.getBounds().toBBoxString(),
               page: filters.page,
             },
             withCredentials: true,
