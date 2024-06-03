@@ -21,7 +21,7 @@ const Logic = ({ markers, setMarkers, locations, filters }) => {
   useEffect(() => {
     const abortController = new AbortController();
     if (map) {
-      console.log(map.getBounds());
+      console.log(map.getBounds().toBBoxString());
     }
     if (markers.length) {
       if (pathname === "/servicios") {
@@ -33,7 +33,7 @@ const Logic = ({ markers, setMarkers, locations, filters }) => {
               city: filters.city,
               specialtyId: filters.specialtyId,
               pos: locations.user.join(","),
-              polygon: map.getBounds().toBBoxString(),
+              bbox: map.getBounds().toBBoxString(),
               page: filters.page,
             },
             withCredentials: true,
@@ -81,7 +81,7 @@ const CustomMap = ({ markers, setMarkers }) => {
           lat: markers[0]?.coordinates[0] || 0,
           lng: markers[0]?.coordinates[1] || 0,
         }}
-        zoom={15}
+        zoom={14}
         scrollWheelZoom={true}
         className="w-full h-full z-0"
       >
