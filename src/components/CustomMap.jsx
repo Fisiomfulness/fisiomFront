@@ -20,9 +20,6 @@ const Logic = ({ markers, setMarkers, locations, filters }) => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    if (map) {
-      console.log(map.getBounds().toBBoxString());
-    }
     if (markers.length) {
       if (pathname === "/servicios") {
         axios
