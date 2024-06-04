@@ -12,15 +12,16 @@ import { locationAtom } from "./Servicios/store/servicios";
 import { filtersAtom } from "./Servicios/store/servicios";
 import { apiEndpoints } from "../api_endpoints";
 
-const Logic = ({ markers, setMarkers, locations, filters }) => {
+const Logic = ({ markers, setMarkers }) => {
   const map = useMap();
-
-  // hook to extract pathname
+  const [locations] = useAtom(locationAtom);
+  const [filters, setFilters] = useAtom(filtersAtom);
   const pathname = usePathname();
 
   useEffect(() => {
     const abortController = new AbortController();
     if (markers.length) {
+      console.log(markers)
       if (pathname === "/servicios") {
         axios
           .get(apiEndpoints.professionals, {
@@ -46,6 +47,7 @@ const Logic = ({ markers, setMarkers, locations, filters }) => {
                 ).values()
               )
             );
+            setFilters((prev) => ({ ...prev, page: prev.page + 1 }));
           })
           .catch((err) => {
             if (err.name === "CanceledError") return;
@@ -69,7 +71,6 @@ const CustomMap = ({ markers, setMarkers }) => {
   });
 
   const [locations] = useAtom(locationAtom);
-  const [filters] = useAtom(filtersAtom);
 
   if (markers.length) {
     return (
@@ -89,8 +90,6 @@ const CustomMap = ({ markers, setMarkers }) => {
         <Logic
           markers={markers}
           setMarkers={setMarkers}
-          locations={locations}
-          filters={filters}
         />
         {locations.user ? (
           <Marker position={locations.user} icon={userIcon}></Marker>
