@@ -26,6 +26,7 @@ const ServicioMain = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useAtom(filtersAtom);
   const [locations, setLocations] = useAtom(locationAtom);
+  const [toggle, setToggle] = useState(false);
 
   // load user location when it changes if it's allowed
   const userCoords = useGeolocation({});
@@ -37,7 +38,6 @@ const ServicioMain = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    //if (locations.mapCenter[0] !== 0) {
     setLoading(true);
     axios
       .get(apiEndpoints.professionals, {
@@ -54,6 +54,7 @@ const ServicioMain = () => {
       .then(({ data }) => {
         if (filters.page === 1) {
           setProfessionals(data.professionals);
+          setToggle((prev) => !prev);
         } else {
           setProfessionals((prev) =>
             Array.from(
@@ -70,7 +71,7 @@ const ServicioMain = () => {
         throw err;
       })
       .finally(setLoading(false));
-    //}
+
     return () => abortController.abort();
   }, [filters, locations]);
 
@@ -93,7 +94,7 @@ const ServicioMain = () => {
           </div>
         </div>
         <div className="min-h-[80vh] w-full">
-          <CustomMap markers={professionals} setMarkers={setProfessionals} />
+          <CustomMap markers={professionals} setMarkers={setProfessionals} toggle={toggle} />
         </div>
       </div>
     </main>

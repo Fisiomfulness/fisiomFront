@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
 import ServicioMainCardSmall from "./Servicios/ServicioMainCardSmall";
@@ -12,55 +12,60 @@ import { locationAtom } from "./Servicios/store/servicios";
 import { filtersAtom } from "./Servicios/store/servicios";
 import { apiEndpoints } from "../api_endpoints";
 
-const Logic = ({ markers, setMarkers }) => {
+const Logic = ({ markers, setMarkers, toggle }) => {
   const map = useMap();
   const [locations] = useAtom(locationAtom);
   const [filters, setFilters] = useAtom(filtersAtom);
-  const pathname = usePathname();
+
+  const updateMapProfessionals = (abortController) => {
+    
+    axios
+    .get(apiEndpoints.professionals, {
+      signal: abortController.signal,
+      params: {
+        search: filters.search.join(","),
+        city: filters.city,
+        specialtyId: filters.specialtyId,
+        bbox: map.getBounds().toBBoxString(),
+      },
+      withCredentials: true,
+    })
+    .then(({ data }) => {
+      setMarkers((prev) =>
+        Array.from(
+          new Map(
+            [...prev, ...data.professionals].map((item) => [
+              item._id,
+              item,
+            ])
+          ).values()
+        )
+      );
+    })
+    .catch((err) => {
+      if (err.name === "CanceledError") return;
+      throw err;
+    });
+  }
 
   useEffect(() => {
     const abortController = new AbortController();
-    if (markers.length) {
-      console.log(markers)
-      if (pathname === "/servicios") {
-        axios
-          .get(apiEndpoints.professionals, {
-            signal: abortController.signal,
-            params: {
-              search: filters.search.join(","),
-              city: filters.city,
-              specialtyId: filters.specialtyId,
-              pos: locations.user.join(","),
-              bbox: map.getBounds().toBBoxString(),
-              page: filters.page,
-            },
-            withCredentials: true,
-          })
-          .then(({ data }) => {
-            setMarkers((prev) =>
-              Array.from(
-                new Map(
-                  [...prev, ...data.professionals].map((item) => [
-                    item._id,
-                    item,
-                  ])
-                ).values()
-              )
-            );
-            setFilters((prev) => ({ ...prev, page: prev.page + 1 }));
-          })
-          .catch((err) => {
-            if (err.name === "CanceledError") return;
-            throw err;
-          });
-      }
-    }
+    updateMapProfessionals(abortController)
     return () => abortController.abort();
-  }, []);
+  }, [toggle]);
+
+  useMapEvents({
+    moveend: () => {
+      const abortController = new AbortController();
+      updateMapProfessionals(abortController)
+      return () => abortController.abort();
+    },
+  });
 
   return null;
 };
-const CustomMap = ({ markers, setMarkers }) => {
+
+const CustomMap = ({ markers, setMarkers, toggle }) => {
   const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/128/684/684908.png",
     iconSize: [38, 38],
@@ -71,6 +76,7 @@ const CustomMap = ({ markers, setMarkers }) => {
   });
 
   const [locations] = useAtom(locationAtom);
+  const pathname = usePathname();
 
   if (markers.length) {
     return (
@@ -79,7 +85,7 @@ const CustomMap = ({ markers, setMarkers }) => {
           lat: markers[0]?.coordinates[0] || 0,
           lng: markers[0]?.coordinates[1] || 0,
         }}
-        zoom={14}
+        zoom={16}
         scrollWheelZoom={true}
         className="w-full h-full z-0"
       >
@@ -87,10 +93,13 @@ const CustomMap = ({ markers, setMarkers }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="https://www.openstreetmap.org/copyright contributors"
         />
-        <Logic
-          markers={markers}
-          setMarkers={setMarkers}
-        />
+        {pathname === "/servicios" && (
+          <Logic
+            markers={markers}
+            setMarkers={setMarkers}
+            toggle={toggle}
+          />
+        )}
         {locations.user ? (
           <Marker position={locations.user} icon={userIcon}></Marker>
         ) : null}
