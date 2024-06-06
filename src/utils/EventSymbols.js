@@ -1,5 +1,5 @@
 // @ts-check
 
-export const MESSAGE_SENDED_EVENT = "message:sended";
-export const PUBLIC_CHAT_CREATED_EVENT = "chat:created";
-export const USER_CONNECTED_EVENT = "user:connected";
+export const EVENT_MESSAGE_SENDED = "message:sended";
+export const EVENT_PUBLIC_CHAT_CREATED = "chat:created";
+export const EVENT_USER_CONNECTED = "user:connected";
