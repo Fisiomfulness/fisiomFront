@@ -11,6 +11,9 @@ import { useAtom } from "jotai";
 import { locationAtom } from "./Servicios/store/servicios";
 import { filtersAtom } from "./Servicios/store/servicios";
 import { apiEndpoints } from "../api_endpoints";
+import { Button } from "@nextui-org/react";
+import { TbFocusCentered } from "react-icons/tb";
+
 
 const Logic = ({ markers, setMarkers, toggle }) => {
   const map = useMap();
@@ -62,7 +65,7 @@ const Logic = ({ markers, setMarkers, toggle }) => {
     },
   });
 
-  return null;
+  return null
 };
 
 const CustomMap = ({ markers, setMarkers, toggle }) => {
@@ -85,7 +88,7 @@ const CustomMap = ({ markers, setMarkers, toggle }) => {
           lat: markers[0]?.coordinates[0] || 0,
           lng: markers[0]?.coordinates[1] || 0,
         }}
-        zoom={16}
+        zoom={15}
         scrollWheelZoom={true}
         className="w-full h-full z-0"
       >
