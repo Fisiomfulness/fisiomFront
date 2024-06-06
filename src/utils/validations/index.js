@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const zodStrRequired = (message = 'Completa este campo') =>
-  z.string().min(1, message);
+  z.string().trim().min(1, message);
 
 // ? Formik "validate" prop needs undefined on success or errors = { field: "message"} to work properly
 const formikZodValidator = (schema) => {
