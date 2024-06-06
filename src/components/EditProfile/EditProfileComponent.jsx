@@ -9,7 +9,7 @@ import { FaRegCheckCircle } from 'react-icons/fa';
 import roles from '@/utils/roles';
 import EditProfileForm from './EditProfileForm';
 
-export const EditProfileComponent = ({ user, currentSession }) => {
+const EditProfileComponent = ({ user, currentSession }) => {
   const { update } = useSession();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const router = useRouter();
@@ -61,3 +61,5 @@ export const EditProfileComponent = ({ user, currentSession }) => {
     </Fragment>
   );
 };
+
+export default EditProfileComponent;
