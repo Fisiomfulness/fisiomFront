@@ -10,7 +10,6 @@ export const filtersAtom = atom({
 
 
 export const locationAtom = atom({
-  user: [0, 0],
-  mapCenter: [0, 0] // is this useful?
+  user: [0, 0]
 });
 

@@ -12,7 +12,7 @@ import { apiEndpoints } from "@/api_endpoints";
 import { useInView } from "framer-motion";
 import Loader from "../Loader";
 
-const CustomMap = dynamic(() => import("@/components/CustomMap"), {
+const CustomMap = dynamic(() => import("@/components/CustomMap/CustomMap"), {
   loading: () => <p>loading...</p>,
   ssr: false,
 });
