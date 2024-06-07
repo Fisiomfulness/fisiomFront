@@ -7,16 +7,17 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { RiArrowUpCircleLine } from "react-icons/ri";
 import { messages as defaultMessages } from "../data/messages";
 import ChatMessage from "./ChatMessage";
-import { socket } from "@/socket";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { MESSAGE_SENDED_EVENT } from "@/utils/EventSymbols";
+import { EVENT_MESSAGE_SENDED } from "@/utils/EventSymbols";
+import { useSocket } from "@/features/socket";
 
 /** @typedef {import("../data/messages").Message} Message */
 
 /** @param {{ roomId: string }} props */
 export default function Chat({ roomId }) {
   const containerRef = useRef(/** @type {HTMLDivElement | null} */ (null));
+  const { socket } = useSocket();
 
   const [messages, setMessages] = useState(
     /** @type {Message[]} */ (roomId === "1" ? defaultMessages : []),
@@ -46,7 +47,7 @@ export default function Chat({ roomId }) {
     return () => {
       socket.off("message:new", onChatMessage);
     };
-  }, [messages]);
+  }, [socket, messages]);
 
   /**
    * @param {import("react").FormEvent<HTMLFormElement> & {
@@ -66,7 +67,7 @@ export default function Chat({ roomId }) {
     });
     setMessages(draft);
 
-    socket.emit(MESSAGE_SENDED_EVENT, {
+    socket.emit(EVENT_MESSAGE_SENDED, {
       room: roomId,
       message: value,
       sendBy: name,
