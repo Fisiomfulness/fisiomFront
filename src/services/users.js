@@ -63,13 +63,15 @@ export const axiosRegisterProfessionalForm = async (user) => {
   );
 };
 
-//#region User Detail
-export const axiosUserDetail = async (id) => {
-  const response = await axios.get(`${BASE_URL}/users/detail/${id}`);
-  return response.data;
+export const getUserDetail = async (id) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/users/detail/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
-//#region Get all users
 export const getAllUsers = async () => {
   try {
     const { data } = await axios(
@@ -85,7 +87,9 @@ export const getAllUsers = async () => {
 };
 
 export const updateUser = (id, newValues) => {
-  return axios.put(`${BASE_URL}/users/update/${id}`, newValues);
+  return axios.put(`${BASE_URL}/users/update/${id}`, newValues, {
+    withCredentials: true,
+  });
 };
 
 // ? Cookie is httpOnly for more security, this is needed.
