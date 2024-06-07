@@ -5,13 +5,13 @@ import { CustomInput } from "@/features/ui";
 import { Avatar } from "@nextui-org/avatar";
 import Link from "next/link";
 import { useState } from "react";
+import { socket } from "@/socket";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import {
-  EVENT_PUBLIC_CHAT_CREATED,
-  EVENT_USER_CONNECTED,
+  PUBLIC_CHAT_CREATED_EVENT,
+  USER_CONNECTED_EVENT,
 } from "@/utils/EventSymbols";
-import { useSocket } from "@/features/socket";
 
 const defaultChats = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
@@ -19,14 +19,25 @@ const defaultChats = Array.from({ length: 10 }, (_, i) => ({
   img: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
 }));
 
-const ChatList = () => {
+const ChatsList = () => {
   const [activeChat, setActiveChat] = useState(-1);
   const [chats, setChats] = useState(defaultChats);
   const { data: session } = useSession();
   const name = session?.user?.name ?? "";
-  const { socket } = useSocket();
 
   useEffect(() => {
+    if (socket.connected) {
+      onConnect();
+    }
+
+    function onConnect() {
+      console.log("connected");
+    }
+
+    // function onDisconnect() {
+    //   console.log("connected");
+    // }
+
     /** @param {*} event */
     function onChatCreated(event) {
       console.log(event);
@@ -42,12 +53,16 @@ const ChatList = () => {
       setChats(draft);
     }
 
-    socket.on(EVENT_PUBLIC_CHAT_CREATED, onChatCreated);
+    // socket.on("connect", onConnect);
+    socket.on(PUBLIC_CHAT_CREATED_EVENT, onChatCreated);
+    // socket.on("disconnect", onDisconnect);
 
     return () => {
-      socket.off(EVENT_PUBLIC_CHAT_CREATED, onChatCreated);
+      // socket.off("connect", onConnect);
+      socket.off(PUBLIC_CHAT_CREATED_EVENT, onChatCreated);
+      // socket.off("disconnect", onDisconnect);
     };
-  }, [socket, chats]);
+  }, []);
 
   /**
    * @param {import("react").FormEvent<HTMLFormElement> & {
@@ -103,7 +118,7 @@ const ChatList = () => {
                 : "bg-primary-300 text-black",
             ].join(" ")}
             onClick={() => {
-              socket.emit(EVENT_USER_CONNECTED, {
+              socket.emit(USER_CONNECTED_EVENT, {
                 roomName: item.name,
                 username: name,
               });
@@ -119,4 +134,4 @@ const ChatList = () => {
   );
 };
 
-export default ChatList;
+export default ChatsList;

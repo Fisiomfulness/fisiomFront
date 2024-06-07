@@ -19,7 +19,7 @@
     "cross-env": "^7.0.3",
     "formik": "^2.4.6",
     "framer-motion": "^11.2.10",
-    "isomorphic-dompurify": "^2.12.0",
+    "isomorphic-dompurify": "^2.11.0",
     "jotai": "^2.8.3",
     "leaflet": "^1.9.4",
     "next": "14.2.3",
@@ -30,7 +30,7 @@
     "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.2.1",
-    "react-intersection-observer": "^9.10.3",
+    "react-intersection-observer": "^9.10.2",
     "react-leaflet": "^4.2.1",
     "react-star-ratings": "^2.3.0",
     "react-syntax-highlighter": "^15.5.0",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.0",
-    "@types/node": "^20.14.2",
+    "@types/node": "^20.14.1",
     "@types/react": "^18.3.3",
     "@types/react-big-calendar": "^1.8.9",
     "@types/react-dom": "^18.3.0",
@@ -50,6 +50,6 @@
     "eslint-config-next": "14.2.3",
     "postcss": "^8",
     "react-aria-components": "^1.2.1",
-    "tailwindcss": "^3.4.4"
+    "tailwindcss": "^3.4.3"
   }
 }
