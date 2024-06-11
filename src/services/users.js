@@ -92,6 +92,12 @@ export const updateUser = (id, newValues) => {
   });
 };
 
+export const updateProfessional = (id, newValues) => {
+  return axios.put(`${BASE_URL}/professionals/update/${id}`, newValues, {
+    withCredentials: true,
+  });
+};
+
 // ? Cookie is httpOnly for more security, this is needed.
 export const httpLogout = async () => {
   const res = await fetch(`${BASE_URL}/logout`, {
