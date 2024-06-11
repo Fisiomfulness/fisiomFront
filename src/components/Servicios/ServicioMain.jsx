@@ -82,7 +82,10 @@ const ServicioMain = () => {
   }, [isInView]);
 
   return (
-    <main className="vstack px-auto mx-auto max-w-8xl w-full flex flex-col py-4 gap-4">
+    <main
+      id="main"
+      className="vstack px-auto mx-auto max-w-8xl w-full flex flex-col py-4 gap-4"
+    >
       <SearchProfesional />
       <div className="grid lg:grid-cols-2 gap-5">
         <div className="flex flex-col gap-2 items-center size-full h-[80vh] overflow-y-auto overflow-x-hidden">
@@ -94,7 +97,11 @@ const ServicioMain = () => {
           </div>
         </div>
         <div className="min-h-[80vh] w-full">
-          <CustomMap markers={professionals} setMarkers={setProfessionals} toggle={toggle} />
+          <CustomMap
+            markers={professionals}
+            setMarkers={setProfessionals}
+            toggle={toggle}
+          />
         </div>
       </div>
     </main>
