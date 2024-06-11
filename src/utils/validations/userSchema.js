@@ -78,6 +78,11 @@ const userSchema = z
       .min(2, 'Debe tener al menos 2 caracteres')
       .max(50, 'No mas de 50 caracteres')
       .regex(nameRegex, 'Solo puede contener letras'),
+    interests: z
+      .array(z.string())
+      .max(5, 'No puede elegir mas de 5 intereses')
+      .optional()
+      .or(z.literal([])),
     image: z
       .instanceof(File)
       .refine((value) => value.type.startsWith('image/'))
