@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useFormikContext } from 'formik';
 import { CustomInput } from '@/features/ui';
 import { Divider, Select, SelectItem, input } from '@nextui-org/react';
 import { Button } from '@nextui-org/react';
@@ -13,18 +14,20 @@ const genderList = [
 ];
 
 export const InputsFormRegister = ({
-  handleChange,
-  handleBlur,
-  touched,
-  values,
-  errors,
-  isSubmitting,
   isProfessional,
   isUpdate,
   submitButtonMessage,
   listInputsValue,
-  setFieldValue,
 }) => {
+  const {
+    touched,
+    values,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    setFieldValue,
+  } = useFormikContext();
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
