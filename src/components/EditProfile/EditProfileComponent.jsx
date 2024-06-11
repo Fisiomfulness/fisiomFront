@@ -9,7 +9,7 @@ import { FaRegCheckCircle } from 'react-icons/fa';
 import roles from '@/utils/roles';
 import EditProfileForm from './EditProfileForm';
 
-const EditProfileComponent = ({ user, currentSession }) => {
+const EditProfileComponent = ({ user, currentSession, interests }) => {
   const { update } = useSession();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const router = useRouter();
@@ -35,6 +35,7 @@ const EditProfileComponent = ({ user, currentSession }) => {
     <Fragment>
       <EditProfileForm
         userDetail={user}
+        interests={interests}
         zodSchema={zodSchema}
         isProfessional={user.role === roles.PROFESSIONAL}
         setIsSuccessModalOpen={setIsSuccessModalOpen}

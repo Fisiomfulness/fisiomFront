@@ -3,19 +3,21 @@ import { Formik, Form } from 'formik';
 import { InputsFormRegister } from '@/components/Registro/InputsForms';
 import { listInputsUser } from '@/components/Registro/listInputs';
 import { formikZodValidator } from '@/utils/validations';
-import { updateUser } from '@/services/users';
-import { removeObjFalsyValues } from '@/utils/helpers';
+import { updateProfessional, updateUser } from '@/services/users';
+import { removeObjFalsyValues, getFormdataFromObj } from '@/utils/helpers';
 import toast from 'react-hot-toast';
 import EditProfilePicture from './EditProfilePicture';
+import InterestList from './InterestList';
 
 const EditProfileForm = ({
   userDetail,
+  interests,
   zodSchema,
   isProfessional,
   setIsSuccessModalOpen,
   updateSessionUser,
 }) => {
-  const { name, email, gender, address, birthDate, phone, license, _id } = userDetail;
+  const { name, email, gender, address, birthDate, phone, license, _id, role } = userDetail;
 
   const initialValues = {
     name,
@@ -23,6 +25,7 @@ const EditProfileForm = ({
     phone,
     gender,
     birthDate,
+    interests: Array.from(userDetail?.interests || [], (i) => i._id),
     streetName: address?.streetName || '',
     streetNumber: address?.streetNumber || '',
     floorAppartment: address?.floorAppartment || '',
@@ -37,12 +40,11 @@ const EditProfileForm = ({
   const handleSubmit = async (newValues) => {
     try {
       newValues = removeObjFalsyValues(newValues);
-      const formData = new FormData();
-      for (const name in newValues) {
-        formData.append(name, newValues[name]);
-      }
-      const { data } = await updateUser(_id, formData);
-      await updateSessionUser(data.updatedUser);
+      const formData = getFormdataFromObj(newValues);
+      const { data } = isProfessional
+        ? await updateProfessional(_id, formData)
+        : await updateUser(_id, formData);
+      await updateSessionUser(data.updated);
       setIsSuccessModalOpen(true);
     } catch (error) {
       toast.error(error.response?.data.message, { className: 'text-center' });
@@ -56,32 +58,16 @@ const EditProfileForm = ({
         initialValues={initialValues}
         validate={formikZodValidator(zodSchema.optional())}
       >
-        {({
-          handleChange,
-          handleBlur,
-          touched,
-          values,
-          errors,
-          isSubmitting,
-          setFieldValue,
-          setValues,
-        }) => (
-          <Form className="flex flex-col gap-2 overflow-hidden w-[80%] sm:w-[90%]">
-            <EditProfilePicture previousImage={userDetail.image} />
-            <InputsFormRegister
-              handleChange={handleChange}
-              handleBlur={handleBlur}
-              touched={touched}
-              values={values}
-              errors={errors}
-              isProfessional={isProfessional}
-              submitButtonMessage={'Actualizar'}
-              listInputsValue={listInputsUser}
-              setFieldValue={setFieldValue}
-              isUpdate={true}
-            />
-          </Form>
-        )}
+        <Form className="flex flex-col gap-2 overflow-hidden w-[80%] sm:w-[90%]">
+          <EditProfilePicture previousImage={userDetail.image} />
+          {!isProfessional && <InterestList interests={interests} />}
+          <InputsFormRegister
+            isProfessional={isProfessional}
+            submitButtonMessage={'Actualizar'}
+            listInputsValue={listInputsUser}
+            isUpdate={true}
+          />
+        </Form>
       </Formik>
     </Card>
   );
