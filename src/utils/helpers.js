@@ -98,3 +98,22 @@ export const removeObjFalsyValues = (object) => {
   }
   return object;
 };
+
+// ? FormData works with strings/files so in order to get a correct JSON we need to do an stringify
+// ? if you want the original value you will need to parse it (JSON.parse)
+export const getFormdataFromObj = (obj) => {
+  const formData = new FormData();
+
+  for (const name in obj) {
+    let value = obj[name];
+    if (value === null || value === undefined) continue;
+    const isFileOrBlob = value instanceof File || value instanceof Blob;
+    if (Array.isArray(value) || (typeof value === 'object' && !isFileOrBlob)) {
+      formData.append(name, JSON.stringify(value));
+    } else {
+      formData.append(name, value);
+    }
+  }
+
+  return formData;
+};
