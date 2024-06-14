@@ -10,7 +10,7 @@ import Loader from "../Loader";
 import SearchUsers from "./SearchUser";
 import UsersContainer from "./UsersContainer";
 
-const Map = dynamic(() => import("@/components/Map"), {
+const CustomMap = dynamic(() => import("@/components/CustomMap/CustomMap"), {
   loading: () => <p>loading...</p>,
   ssr: false,
 });
@@ -19,9 +19,8 @@ const ComunidadClient = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 1 });
 
-  const userCoords = useGeolocation({
-    defaultLocation: [-12.057822374374036, -77.06708360541617],
-  });
+  // load user location when it changes if it's allowed
+  const userCoords = useGeolocation({});
 
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
@@ -92,26 +91,10 @@ const ComunidadClient = () => {
             </div>
           </div>
           <div className="hidden md:w-1/2 md:flex">
-            <Map users={users} userCoords={userCoords} />
+            <CustomMap markers={users} setMarkers={setUsers} />
           </div>
         </>
       )}
-      {/* <div className="w-full flex flex-col items-center gap-10 md:w-1/2">
-        <SearchUsers
-          filters={filters}
-          setFilters={setFilters}
-          setPage={setPage}
-        />
-        <div className="w-full flex flex-col items-center gap-10 h-[80vh] overflow-y-auto overflow-x-hidden">
-          {(users.length || !loading) && <UsersContainer users={users} />}
-          <div ref={ref} className="h-full">
-            {loading && <Loader />}
-          </div>
-        </div>
-      </div>
-      <div className="hidden md:w-1/2 md:flex">
-        <Map users={users} userCoords={userCoords} />
-      </div> */}
     </main>
   );
 };

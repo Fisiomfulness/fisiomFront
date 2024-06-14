@@ -17,7 +17,6 @@ export default function CalendlyButton({ calendlyLink }) {
   return (
     <div className="cal_div">
       <PopupButton
-        disabled
         className="rounded-md bg-secondary py-4 px-8 text-sm font-semibold text-white duration-300 ease-in-out hover:bg-secondary/80"
         url={calendlyLink}
         rootElement={rootElement}
