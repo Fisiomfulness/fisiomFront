@@ -29,9 +29,18 @@ const SearchUsers = () => {
     return () => abortController.abort();
   }, []);
 
-  const onChange = (e) => {
+  const onChangeInput = (e) => {
     setFilters((prev) => ({ ...prev, search: e.target.value, page: 1 }));
   };
+
+  const onChangeSelect = (e) => {
+    setFilters((prev) => ({
+      ...prev,
+      interestsId: e.target.value.split(","),
+      page: 1
+    }))
+  }
+
 
   return (
     <div className="flex flex-col sm:flex-row w-full items-center justify-center gap-5">
@@ -39,7 +48,7 @@ const SearchUsers = () => {
         <CustomInput
           id="search"
           value={filters.search}
-          onChange={onChange}
+          onChange={onChangeInput}
           size="lg"
           placeholder="Buscar persona..."
           endContent={<MdOutlineSearch color="#62CFE4" size="20px" />}
@@ -53,12 +62,7 @@ const SearchUsers = () => {
           selectionMode="multiple"
           selectedKeys={filters.interestsId}
           className="max-w-xs"
-          onChange={(e) =>
-            setFilters((prev) => ({
-              ...prev,
-              interests: e.target.value.split(","),
-            }))
-          }
+          onChange={onChangeSelect}
         >
           {interests.map((interest) => (
             <SelectItem key={interest._id} value={interest._id}>

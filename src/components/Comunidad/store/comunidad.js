@@ -6,8 +6,3 @@ export const filtersAtom = atom({
   interestsId: [],
   page: 1,
 });
-
-
-export const locationAtom = atom({
-  user: [0, 0]
-});
