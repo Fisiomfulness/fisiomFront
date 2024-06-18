@@ -9,12 +9,10 @@ import { Icon } from "leaflet";
 import ServicioMainCardSmall from "../Servicios/ServicioMainCardSmall";
 import ProfessionalsUpdate from "./ProfessionalsUpdate";
 import CustomControls from "./CustomControls";
-import { useAtom } from "jotai";
-import { locationAtom } from "../Servicios/store/servicios";
+import useGeolocation from "@/hooks/useGeolocation";
 import { apiEndpoints } from "../../api_endpoints";
 
-
-const CustomMap = ({ markers, setMarkers, toggle }) => {
+const CustomMap = ({ markers, setMarkers, user, toggle }) => {
   const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/128/684/684908.png",
     iconSize: [38, 38],
@@ -24,7 +22,7 @@ const CustomMap = ({ markers, setMarkers, toggle }) => {
     iconSize: [38, 38],
   });
 
-  const [locations] = useAtom(locationAtom);
+  const location = useGeolocation();
   const pathname = usePathname();
 
   if (markers.length) {
@@ -43,7 +41,7 @@ const CustomMap = ({ markers, setMarkers, toggle }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="https://www.openstreetmap.org/copyright contributors"
         />
-        <CustomControls/>
+        <CustomControls />
         {pathname === "/servicios" && (
           <ProfessionalsUpdate
             markers={markers}
@@ -51,8 +49,8 @@ const CustomMap = ({ markers, setMarkers, toggle }) => {
             toggle={toggle}
           />
         )}
-        {locations.user ? (
-          <Marker position={locations.user} icon={userIcon}></Marker>
+        {location?.user ? (
+          <Marker position={location.user} icon={userIcon}></Marker>
         ) : null}
         {markers?.map((e, i) => {
           return (

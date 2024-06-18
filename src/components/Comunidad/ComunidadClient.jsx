@@ -1,72 +1,79 @@
 "use client";
 
-import { apiEndpoints } from "@/api_endpoints";
-import useGeolocation from "@/hooks/useGeolocation";
 import axios from "axios";
-import { useInView } from "framer-motion";
-import dynamic from "next/dynamic";
+import { apiEndpoints } from "@/api_endpoints";
 import { useEffect, useRef, useState } from "react";
+import useGeolocation from "@/hooks/useGeolocation";
+import { useInView } from "framer-motion";
 import Loader from "../Loader";
 import SearchUsers from "./SearchUser";
 import UsersContainer from "./UsersContainer";
-
+// atom
+import { useAtom } from "jotai";
+import { filtersAtom } from "./store/comunidad";
+// load map with dynamic so it doesn't break SSR
+import dynamic from "next/dynamic";
 const CustomMap = dynamic(() => import("@/components/CustomMap/CustomMap"), {
   loading: () => <p>loading...</p>,
   ssr: false,
 });
 
 const ComunidadClient = () => {
+  // ref for loading more results
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 1 });
 
-  // load user location when it changes if it's allowed
-  const userCoords = useGeolocation({});
-
+  // state
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [filters, setFilters] = useState({
-    search: "",
-    interests: new Set([]),
-    pos: "",
-  });
+  const [filters, setFilters] = useAtom(filtersAtom);
+  const [toggle, setToggle] = useState(false);
+
+  const location = useGeolocation();
 
   useEffect(() => {
     const abortController = new AbortController();
-    if (userCoords[0] !== 0) {
-      setLoading(true);
-      axios
-        .get(apiEndpoints.users, {
-          signal: abortController.signal,
-          params: {
-            search: filters.search,
-            interests: Array.from(filters.interests).join(","),
-            pos: userCoords.join(","),
-            page: page,
-          },
-          withCredentials: true,
-        })
-        .then(({ data }) => {
-          if (page === 1) {
-            setUsers(data.users);
-          } else {
-            setUsers((prev) => [...prev, ...data.users]);
-          }
-          setTotalPages(data.totalPages);
-        })
-        .catch((err) => {
-          if (err.name === "CanceledError") return;
+    setLoading(true);
+    axios
+      .get(apiEndpoints.users, {
+        signal: abortController.signal,
+        params: {
+          search: filters.search,
+          interests: filters.interestsId.join(","),
+          pos: location.user.join(","),
+          page: filters.page,
+        },
+        withCredentials: true,
+      })
+      .then(({ data }) => {
+        if (filters.page === 1) {
+          setUsers(data.users);
+          setToggle((prev) => !prev);
+        } else {
+          setUsers((prev) =>
+            Array.from(
+              new Map(
+                [...prev, ...data.users].map((item) => [item._id, item])
+              ).values()
+            )
+          );
+        }
+        setTotalPages(data.totalPages);
+      })
+      .catch((err) => {
+        if (err.name === "CanceledError") return;
+        throw err;
+      })
+      .finally(setLoading(false));
 
-          throw err;
-        })
-        .finally(setLoading(false));
-    }
     return () => abortController.abort();
-  }, [page, filters, userCoords]);
+  }, [filters, location]);
 
   useEffect(() => {
-    isInView && page < totalPages && setPage((prev) => prev + 1);
+    isInView &&
+      filters.page < totalPages &&
+      setFilters((prev) => ({ ...prev, page: prev.page + 1 }));
   }, [isInView]);
 
   return (
@@ -81,17 +88,13 @@ const ComunidadClient = () => {
       ) : (
         <>
           <div className="w-full flex flex-col items-center gap-10 md:w-1/2">
-            <SearchUsers
-              filters={filters}
-              setFilters={setFilters}
-              setPage={setPage}
-            />
+            <SearchUsers />
             <div className="w-full flex flex-col items-center gap-10 h-[80vh] overflow-y-auto overflow-x-hidden">
               <UsersContainer users={users} />
             </div>
           </div>
           <div className="hidden md:w-1/2 md:flex">
-            <CustomMap markers={users} setMarkers={setUsers} />
+            <CustomMap markers={users} setMarkers={setUsers} toggle={toggle} />
           </div>
         </>
       )}

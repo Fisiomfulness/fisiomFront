@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { useAtom } from "jotai";
-import { filtersAtom, locationAtom } from "./store/servicios";
+import { filtersAtom } from "./store/servicios";
 import useGeolocation from "@/hooks/useGeolocation";
 import ServicioMainContainer from "./ServicioMainContainer";
 import SearchProfesional from "./SearchProfesional/SearchProfesional";
@@ -25,16 +25,17 @@ const ServicioMain = () => {
   const [professionals, setProfessionals] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useAtom(filtersAtom);
-  const [locations, setLocations] = useAtom(locationAtom);
   const [toggle, setToggle] = useState(false);
 
+  const location = useGeolocation();
+
   // load user location when it changes if it's allowed
-  const userCoords = useGeolocation({});
-  useEffect(() => {
-    if (userCoords[0] !== 0) {
-      setLocations((prev) => ({ ...prev, user: userCoords }));
-    }
-  }, [userCoords]);
+  // const userCoords = useGeolocation({});
+  // useEffect(() => {
+  //   if (userCoords[0] !== 0) {
+  //     setLocations((prev) => ({ ...prev, user: userCoords }));
+  //   }
+  // }, [userCoords]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -46,7 +47,7 @@ const ServicioMain = () => {
           search: filters.search.join(","),
           city: filters.city,
           specialtyId: filters.specialtyId,
-          pos: locations.user.join(","),
+          pos: location.user.join(","),
           page: filters.page,
         },
         withCredentials: true,
@@ -73,7 +74,7 @@ const ServicioMain = () => {
       .finally(setLoading(false));
 
     return () => abortController.abort();
-  }, [filters, locations]);
+  }, [filters, location]);
 
   useEffect(() => {
     isInView &&

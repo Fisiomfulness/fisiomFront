@@ -1,23 +1,22 @@
 "use client";
 
-import { useAtom } from "jotai";
-import { locationAtom } from "../Servicios/store/servicios";
+import useGeolocation from "@/hooks/useGeolocation";
 import { TbFocusCentered } from "react-icons/tb";
 import { ZoomControl, useMap } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 
 const CustomControls = () => {
   const map = useMap();
-  const [locations] = useAtom(locationAtom);
+  const location = useGeolocation();
 
   const handleClick = () => {
-    map.panTo(locations.user);
+    map.panTo(location.user);
   };
 
   return (
     <>
       <ZoomControl position="topleft" />
-      {locations.user && (
+      {location.user && (
         <Control position="topleft">
           <div>
             <button
