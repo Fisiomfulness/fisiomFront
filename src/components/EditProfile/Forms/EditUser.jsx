@@ -1,23 +1,22 @@
-import { Card } from '@nextui-org/react';
+import { Card, Button } from '@nextui-org/react';
 import { Formik, Form } from 'formik';
 import { InputsFormRegister } from '@/components/Registro/InputsForms';
 import { listInputsUser } from '@/components/Registro/listInputs';
 import { formikZodValidator } from '@/utils/validations';
-import { updateProfessional, updateUser } from '@/services/users';
+import { userSchema } from '@/utils/validations/userSchema';
+import { updateUser } from '@/services/users';
 import { removeObjFalsyValues, getFormdataFromObj } from '@/utils/helpers';
 import toast from 'react-hot-toast';
-import EditProfilePicture from './EditProfilePicture';
-import InterestList from './InterestList';
+import EditProfilePicture from '../EditProfilePicture';
+import InterestList from '../InterestList';
 
-const EditProfileForm = ({
+const EditUser = ({
   userDetail,
   interests,
-  zodSchema,
-  isProfessional,
   setIsSuccessModalOpen,
   updateSessionUser,
 }) => {
-  const { name, email, gender, address, birthDate, phone, license, _id, role } = userDetail;
+  const { name, email, gender, address, birthDate, phone, _id } = userDetail;
 
   const initialValues = {
     name,
@@ -32,7 +31,6 @@ const EditProfileForm = ({
     city: address?.city || '',
     state: address?.state || '',
     country: address?.country || '',
-    license: license || '',
     password: '',
     confirmPass: '',
   };
@@ -41,9 +39,7 @@ const EditProfileForm = ({
     try {
       newValues = removeObjFalsyValues(newValues);
       const formData = getFormdataFromObj(newValues);
-      const { data } = isProfessional
-        ? await updateProfessional(_id, formData)
-        : await updateUser(_id, formData);
+      const { data } = await updateUser(_id, formData);
       await updateSessionUser(data.updated);
       setIsSuccessModalOpen(true);
     } catch (error) {
@@ -56,13 +52,13 @@ const EditProfileForm = ({
       <Formik
         onSubmit={handleSubmit}
         initialValues={initialValues}
-        validate={formikZodValidator(zodSchema.optional())}
+        validate={formikZodValidator(userSchema.optional())}
       >
         <Form className="flex flex-col gap-2 overflow-hidden w-[80%] sm:w-[90%]">
           <EditProfilePicture previousImage={userDetail.image} />
-          {!isProfessional && <InterestList interests={interests} />}
+          <InterestList interests={interests} />
           <InputsFormRegister
-            isProfessional={isProfessional}
+            isProfessional={false}
             submitButtonMessage={'Actualizar'}
             listInputsValue={listInputsUser}
             isUpdate={true}
@@ -73,4 +69,4 @@ const EditProfileForm = ({
   );
 };
 
-export default EditProfileForm;
+export default EditUser;

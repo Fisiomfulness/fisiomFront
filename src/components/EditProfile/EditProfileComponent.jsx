@@ -3,17 +3,15 @@ import { Fragment, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { CustomModal, CustomButton } from '@/features/ui';
-import { updateProfessionalSchema } from '@/utils/validations/professionalSchema';
-import { userSchema } from '@/utils/validations/userSchema';
 import { FaRegCheckCircle } from 'react-icons/fa';
 import roles from '@/utils/roles';
-import EditProfileForm from './EditProfileForm';
+import EditProfessional from './Forms/EditProfessional';
+import EditUser from './Forms/EditUser';
 
 const EditProfileComponent = ({ user, currentSession, interests }) => {
   const { update } = useSession();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const router = useRouter();
-  const zodSchema = user.role === roles.PROFESSIONAL ? updateProfessionalSchema : userSchema;
 
   const updateSessionUser = async (newUserValues) => {
     const newSession = {
@@ -33,14 +31,20 @@ const EditProfileComponent = ({ user, currentSession, interests }) => {
 
   return (
     <Fragment>
-      <EditProfileForm
-        userDetail={user}
-        interests={interests}
-        zodSchema={zodSchema}
-        isProfessional={user.role === roles.PROFESSIONAL}
-        setIsSuccessModalOpen={setIsSuccessModalOpen}
-        updateSessionUser={updateSessionUser}
-      />
+      {user.role === roles.PROFESSIONAL ? (
+        <EditProfessional
+          userDetail={user}
+          setIsSuccessModalOpen={setIsSuccessModalOpen}
+          updateSessionUser={updateSessionUser}
+        />
+      ) : (
+        <EditUser
+          userDetail={user}
+          interests={interests}
+          setIsSuccessModalOpen={setIsSuccessModalOpen}
+          updateSessionUser={updateSessionUser}
+        />
+      )}
       <CustomModal
         isOpen={isSuccessModalOpen}
         hideCloseButton
