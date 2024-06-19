@@ -29,14 +29,6 @@ const ServicioMain = () => {
 
   const location = useGeolocation();
 
-  // load user location when it changes if it's allowed
-  // const userCoords = useGeolocation({});
-  // useEffect(() => {
-  //   if (userCoords[0] !== 0) {
-  //     setLocations((prev) => ({ ...prev, user: userCoords }));
-  //   }
-  // }, [userCoords]);
-
   useEffect(() => {
     const abortController = new AbortController();
     setLoading(true);

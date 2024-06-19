@@ -77,27 +77,19 @@ const ComunidadClient = () => {
   }, [isInView]);
 
   return (
-    <main className="relative max-w-8xl mx-auto w-full mb-10 hstack gap-5 px-auto">
-      {loading ? (
-        <div
-          ref={ref}
-          className="absolute inset-0 flex items-center justify-center"
-        >
-          <Loader />
+    <main className="relative max-w-8xl mx-auto w-full mb-5 hstack gap-5 px-auto">
+      <div className="w-full flex flex-col items-center md:w-1/2">
+        <SearchUsers />
+        <div className="w-full flex flex-col items-center h-[80vh] overflow-y-auto overflow-x-hidden mt-10">
+          <UsersContainer users={users} />
+          <div ref={ref} className="h-full min-h-1">
+            {loading && <Loader />}
+          </div>
         </div>
-      ) : (
-        <>
-          <div className="w-full flex flex-col items-center gap-10 md:w-1/2">
-            <SearchUsers />
-            <div className="w-full flex flex-col items-center gap-10 h-[80vh] overflow-y-auto overflow-x-hidden">
-              <UsersContainer users={users} />
-            </div>
-          </div>
-          <div className="hidden md:w-1/2 md:flex">
-            <CustomMap markers={users} setMarkers={setUsers} toggle={toggle} />
-          </div>
-        </>
-      )}
+      </div>
+      <div className="hidden md:w-1/2 md:flex">
+        <CustomMap markers={users} setMarkers={setUsers} toggle={toggle} />
+      </div>
     </main>
   );
 };

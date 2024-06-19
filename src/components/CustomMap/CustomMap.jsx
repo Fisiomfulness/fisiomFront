@@ -8,6 +8,7 @@ import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
 import ServicioMainCardSmall from "../Servicios/ServicioMainCardSmall";
 import ProfessionalsUpdate from "./ProfessionalsUpdate";
+import UsersUpdate from "./UsersUpdate";
 import CustomControls from "./CustomControls";
 import useGeolocation from "@/hooks/useGeolocation";
 import { apiEndpoints } from "../../api_endpoints";
@@ -44,6 +45,13 @@ const CustomMap = ({ markers, setMarkers, user, toggle }) => {
         <CustomControls />
         {pathname === "/servicios" && (
           <ProfessionalsUpdate
+            markers={markers}
+            setMarkers={setMarkers}
+            toggle={toggle}
+          />
+        )}
+        {pathname === "/comunidad" && (
+          <UsersUpdate
             markers={markers}
             setMarkers={setMarkers}
             toggle={toggle}

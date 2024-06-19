@@ -1,25 +1,24 @@
 import axios from "axios";
 import { apiEndpoints } from "../../api_endpoints";
 import { useEffect } from "react";
-import useGeolocation from "@/hooks/useGeolocation";
 import { useAtom } from "jotai";
-import { filtersAtom } from "../Servicios/store/servicios";
+import { filtersAtom } from "../Comunidad/store/comunidad";
+import useGeolocation from "@/hooks/useGeolocation";
 import { useMap, useMapEvents } from "react-leaflet";
 
-const ProfessionalsUpdate = ({ markers, setMarkers, toggle }) => {
+const UsersUpdate = ({ markers, setMarkers, toggle }) => {
   const map = useMap();
   const locations = useGeolocation();
   const [filters] = useAtom(filtersAtom);
 
-  const updateMapProfessionals = (abortController) => {
+  const updateMapUsers = (abortController) => {
     axios
-      .get(apiEndpoints.professionals, {
+      .get(apiEndpoints.users, {
         signal: abortController.signal,
         params: {
           search: filters.search.join(","),
-          city: filters.city,
-          specialtyId: filters.specialtyId,
-          bbox: map.getBounds().toBBoxString(),
+          interests: filters.interestsId,
+          bbox: map.getBounds().toBBoxString(), // modify back-end so this exists... copy Professionals
         },
         withCredentials: true,
       })
@@ -27,7 +26,7 @@ const ProfessionalsUpdate = ({ markers, setMarkers, toggle }) => {
         setMarkers((prev) =>
           Array.from(
             new Map(
-              [...prev, ...data.professionals].map((item) => [item._id, item])
+              [...prev, ...data.users].map((item) => [item._id, item])
             ).values()
           )
         );
@@ -40,14 +39,14 @@ const ProfessionalsUpdate = ({ markers, setMarkers, toggle }) => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    updateMapProfessionals(abortController);
+    updateMapUsers(abortController);
     return () => abortController.abort();
   }, [toggle]);
 
   useMapEvents({
     moveend: () => {
       const abortController = new AbortController();
-      updateMapProfessionals(abortController);
+      updateMapUsers(abortController);
       return () => abortController.abort();
     },
   });
@@ -55,4 +54,4 @@ const ProfessionalsUpdate = ({ markers, setMarkers, toggle }) => {
   return null;
 };
 
-export default ProfessionalsUpdate;
+export default UsersUpdate;
