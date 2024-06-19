@@ -42,7 +42,7 @@ export const authOptions = {
           name: 'accessToken',
           value: accessTokenValues.accessToken,
           httpOnly: true,
-          secure: true,
+          secure: process.env.NEXT_PUBLIC_ENV === 'production', // ? true = only accessible from HTTPS
           sameSite: 'strict',
           maxAge: accessTokenValues['Max-Age'],
           path: '/',
