@@ -39,7 +39,7 @@ const ServicioMain = () => {
           search: filters.search.join(","),
           city: filters.city,
           specialtyId: filters.specialtyId,
-          pos: location.user.join(","),
+          position: location.user.join(","),
           page: filters.page,
         },
         withCredentials: true,

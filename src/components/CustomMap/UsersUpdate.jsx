@@ -16,9 +16,9 @@ const UsersUpdate = ({ markers, setMarkers, toggle }) => {
       .get(apiEndpoints.users, {
         signal: abortController.signal,
         params: {
-          search: filters.search.join(","),
-          interests: filters.interestsId,
-          bbox: map.getBounds().toBBoxString(), // modify back-end so this exists... copy Professionals
+          search: filters.search,
+          interests: filters.interestsId.join(","),
+          bbox: map.getBounds().toBBoxString(),
         },
         withCredentials: true,
       })

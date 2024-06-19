@@ -37,10 +37,9 @@ const SearchUsers = () => {
     setFilters((prev) => ({
       ...prev,
       interestsId: e.target.value.split(","),
-      page: 1
-    }))
-  }
-
+      page: 1,
+    }));
+  };
 
   return (
     <div className="flex flex-col sm:flex-row w-full items-center justify-center gap-5">

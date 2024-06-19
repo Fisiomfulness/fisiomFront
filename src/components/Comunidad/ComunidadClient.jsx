@@ -41,7 +41,7 @@ const ComunidadClient = () => {
         params: {
           search: filters.search,
           interests: filters.interestsId.join(","),
-          pos: location.user.join(","),
+          position: location.user.join(","),
           page: filters.page,
         },
         withCredentials: true,
