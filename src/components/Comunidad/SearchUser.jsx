@@ -1,23 +1,44 @@
 "use client";
 
+import axios from "axios";
+import { apiEndpoints } from "@/api_endpoints";
+import { useEffect, useState } from "react";
+import { useAtom } from "jotai";
+import { filtersAtom } from "./store/comunidad";
 import { Select, SelectItem } from "@nextui-org/react";
 import { CustomInput } from "@/features/ui";
 import { MdOutlineSearch } from "react-icons/md";
 
-// TODO: Replace when interests exist on database
-const interestArr = [
-  "running",
-  "futbol",
-  "yoga",
-  "tenis",
-  "musculación",
-  "nutrición",
-];
+const SearchUsers = () => {
+  const [filters, setFilters] = useAtom(filtersAtom);
+  const [interests, setInterests] = useState([]);
 
-const SearchUsers = ({ filters, setFilters, setPage }) => {
-  const onChange = (e) => {
-    setFilters({ ...filters, search: e.target.value });
-    setPage(1);
+  useEffect(() => {
+    const abortController = new AbortController();
+    axios
+      .get(apiEndpoints.interests, {
+        signal: abortController.signal,
+      })
+      .then(({ data }) => {
+        setInterests(data.interests);
+      })
+      .catch((err) => {
+        if (err.name === "CanceledError") return;
+        throw err;
+      });
+    return () => abortController.abort();
+  }, []);
+
+  const onChangeInput = (e) => {
+    setFilters((prev) => ({ ...prev, search: e.target.value, page: 1 }));
+  };
+
+  const onChangeSelect = (e) => {
+    setFilters((prev) => ({
+      ...prev,
+      interestsId: e.target.value.split(","),
+      page: 1,
+    }));
   };
 
   return (
@@ -26,7 +47,7 @@ const SearchUsers = ({ filters, setFilters, setPage }) => {
         <CustomInput
           id="search"
           value={filters.search}
-          onChange={onChange}
+          onChange={onChangeInput}
           size="lg"
           placeholder="Buscar persona..."
           endContent={<MdOutlineSearch color="#62CFE4" size="20px" />}
@@ -38,18 +59,13 @@ const SearchUsers = ({ filters, setFilters, setPage }) => {
           variant="bordered"
           placeholder="Selecciona tus interes"
           selectionMode="multiple"
-          selectedKeys={filters.interests}
+          selectedKeys={filters.interestsId}
           className="max-w-xs"
-          onChange={(e) =>
-            setFilters({
-              ...filters,
-              interests: new Set(e.target.value.split(",")),
-            })
-          }
+          onChange={onChangeSelect}
         >
-          {interestArr.map((interest) => (
-            <SelectItem key={interest} value={interest}>
-              {interest.charAt(0).toUpperCase() + interest.slice(1)}
+          {interests.map((interest) => (
+            <SelectItem key={interest._id} value={interest._id}>
+              {interest.name.charAt(0).toUpperCase() + interest.name.slice(1)}
             </SelectItem>
           ))}
         </Select>
