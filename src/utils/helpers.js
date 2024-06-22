@@ -121,3 +121,15 @@ export const getFormdataFromObj = (obj) => {
 export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
+// ? Elimina propiedades no deseadas de un objeto, uso => omitObjProps(obj, ["string", "string"])
+export const omitObjProps = (obj, arrProps = []) => {
+  const result = { ...obj };
+  if (Array.isArray(arrProps)) {
+    arrProps.forEach(function (prop) {
+      if (typeof prop !== 'string') return;
+      delete result[prop];
+    });
+  }
+  return result;
+};
