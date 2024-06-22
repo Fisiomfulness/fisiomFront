@@ -10,6 +10,7 @@ import { FaUserDoctor } from 'react-icons/fa6';
 import toast from 'react-hot-toast';
 import EditProfilePicture from '../EditProfilePicture';
 
+// ! TODO = USAR URL.createObjectURL(file); PARA RENDERIZAR LA IMAGEN AL ELEGIRLA
 const EditProfessionalMain = ({
   userDetail,
   handleNext,
