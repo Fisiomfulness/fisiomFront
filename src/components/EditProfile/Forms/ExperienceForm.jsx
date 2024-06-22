@@ -37,7 +37,7 @@ const ExperienceForm = ({
   experienceId,
   initialValues,
 }) => {
-  const [isSubmitFinished, setIsSubmitFinished] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // ? Al utilizar zod.refine() para validar esto se pierde la interacción en tiempo real con la UI
   // * Por lo tanto se decidió agregarle este custom error al formik
@@ -73,7 +73,7 @@ const ExperienceForm = ({
 
   const handleSubmit = async (values) => {
     try {
-      setIsSubmitFinished(false);
+      setIsSubmitting(true);
       const { experiences } = isUpdate
       ? await updateExperience(professionalId, experienceId, values)
       : await addExperience(professionalId, values);
@@ -82,8 +82,9 @@ const ExperienceForm = ({
       toast.success(`Experiencia ${isUpdate ? 'actualizada' : 'añadida'} correctamente`);
     } catch (error) {
       toast.error(error.response?.data.message || 'Oops algo salio mal... vuelva a intentarlo.');
+    } finally {
+      setIsSubmitting(false);
     }
-    setIsSubmitFinished(true);
   };
 
   return (
@@ -97,7 +98,6 @@ const ExperienceForm = ({
           values,
           errors,
           touched,
-          isSubmitting,
           handleChange,
           handleBlur,
           setFieldValue,
@@ -253,7 +253,7 @@ const ExperienceForm = ({
                   type="submit"
                   color="primary"
                   isLoading={isSubmitting}
-                  isDisabled={Object.keys(errors).length > 0 || isSubmitting || !isSubmitFinished}
+                  isDisabled={Object.keys(errors).length > 0 || isSubmitting}
                 >
                   {isUpdate ? 'Guardar' : 'Añadir'}
                 </Button>
