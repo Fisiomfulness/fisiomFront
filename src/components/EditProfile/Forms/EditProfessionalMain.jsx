@@ -5,7 +5,7 @@ import { listInputsUser } from '@/components/Registro/listInputs';
 import { formikZodValidator } from '@/utils/validations';
 import { updateProfessionalSchema } from '@/utils/validations/professionalSchema';
 import { updateProfessional, verifyCredentials } from '@/services/users';
-import { removeObjFalsyValues, getFormdataFromObj } from '@/utils/helpers';
+import { getFormdataFromObj } from '@/utils/helpers';
 import { FaUserDoctor } from 'react-icons/fa6';
 import toast from 'react-hot-toast';
 import EditProfilePicture from '../EditProfilePicture';
@@ -41,7 +41,6 @@ const EditProfessionalMain = ({
     if (!verified) return;
 
     try {
-      newValues = removeObjFalsyValues(newValues);
       const formData = getFormdataFromObj(newValues);
       const { data } = await updateProfessional(_id, formData);
       await updateSessionUser(data.updated);

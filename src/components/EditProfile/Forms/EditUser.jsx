@@ -5,7 +5,7 @@ import { listInputsUser } from '@/components/Registro/listInputs';
 import { formikZodValidator } from '@/utils/validations';
 import { userSchema } from '@/utils/validations/userSchema';
 import { updateUser, verifyCredentials } from '@/services/users';
-import { removeObjFalsyValues, getFormdataFromObj } from '@/utils/helpers';
+import { getFormdataFromObj } from '@/utils/helpers';
 import toast from 'react-hot-toast';
 import EditProfilePicture from '../EditProfilePicture';
 import InterestList from '../InterestList';
@@ -40,7 +40,6 @@ const EditUser = ({
     if (!verified) return;
 
     try {
-      newValues = removeObjFalsyValues(newValues);
       const formData = getFormdataFromObj(newValues);
       const { data } = await updateUser(_id, formData);
       await updateSessionUser(data.updated);
