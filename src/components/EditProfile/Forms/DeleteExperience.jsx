@@ -34,13 +34,13 @@ const DeleteExperience = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal placement="center" isOpen={isOpen} onClose={onClose}>
       <ModalContent>
         <ModalHeader>
           <h2>Confirmación</h2>
         </ModalHeader>
         <ModalBody>
-          <p>¿Esta seguro de que desea eliminar esta experiencia?</p>
+          <p>¿Esta seguro/a de que desea eliminar esta experiencia?</p>
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onPress={onClose} isDisabled={isDeleting}>
