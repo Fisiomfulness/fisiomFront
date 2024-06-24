@@ -23,6 +23,10 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": [".next/types/**/*.ts", "src"],
+  "include": [
+    ".next/types/**/*.ts",
+    "src",
+    "src/components/Servicios/SearchProfesional/.jsx"
+  ],
   "exclude": ["node_modules"]
 }
