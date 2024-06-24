@@ -4,7 +4,7 @@ import { InputsFormRegister } from '@/components/Registro/InputsForms';
 import { listInputsUser } from '@/components/Registro/listInputs';
 import { formikZodValidator } from '@/utils/validations';
 import { updateProfessionalSchema } from '@/utils/validations/professionalSchema';
-import { updateProfessional } from '@/services/users';
+import { updateProfessional, verifyCredentials } from '@/services/users';
 import { removeObjFalsyValues, getFormdataFromObj } from '@/utils/helpers';
 import { FaUserDoctor } from 'react-icons/fa6';
 import toast from 'react-hot-toast';
@@ -37,6 +37,9 @@ const EditProfessionalMain = ({
   };
 
   const handleSubmit = async (newValues) => {
+    const verified = await verifyCredentials(email, newValues.password);
+    if (!verified) return;
+
     try {
       newValues = removeObjFalsyValues(newValues);
       const formData = getFormdataFromObj(newValues);

@@ -4,7 +4,7 @@ import { InputsFormRegister } from '@/components/Registro/InputsForms';
 import { listInputsUser } from '@/components/Registro/listInputs';
 import { formikZodValidator } from '@/utils/validations';
 import { userSchema } from '@/utils/validations/userSchema';
-import { updateUser } from '@/services/users';
+import { updateUser, verifyCredentials } from '@/services/users';
 import { removeObjFalsyValues, getFormdataFromObj } from '@/utils/helpers';
 import toast from 'react-hot-toast';
 import EditProfilePicture from '../EditProfilePicture';
@@ -36,6 +36,9 @@ const EditUser = ({
   };
 
   const handleSubmit = async (newValues) => {
+    const verified = await verifyCredentials(email, newValues.password);
+    if (!verified) return;
+
     try {
       newValues = removeObjFalsyValues(newValues);
       const formData = getFormdataFromObj(newValues);

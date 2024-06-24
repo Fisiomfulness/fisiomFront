@@ -14,7 +14,7 @@ const EditProfessional = ({
   const handleBack = () => setFormStep(1);
 
   return (
-    <Card className="grid h-full justify-items-center rounded-sm w-full py-8 max-w-[800px] px-auto md:py-16">
+    <Card className="grid h-full justify-items-center rounded-sm w-full py-8 max-w-[800px] px-auto md:py-14">
       {formStep === 1 ? (
         <EditProfessionalMain
           handleNext={handleNext}

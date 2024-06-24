@@ -98,6 +98,22 @@ export const updateProfessional = (id, newValues) => {
   });
 };
 
+// * Works with every account
+export const verifyCredentials = async (email, password) => {
+  try {
+    await axios.post(`${BASE_URL}/users/verify-credentials`, {
+      email,
+      password,
+    });
+    return true;
+  } catch (error) {
+    toast.error(error.response.data.message || 'No se pudieron verificar las credenciales de la cuenta', {
+      className: 'text-center'
+    });
+    return false;
+  }
+};
+
 // ? Cookie is httpOnly for more security, this is needed.
 export const httpLogout = async () => {
   const res = await fetch(`${BASE_URL}/logout`, {
