@@ -1,4 +1,4 @@
-import { Button } from '@nextui-org/react';
+import { Button, Tooltip } from '@nextui-org/react';
 import { Formik, Form } from 'formik';
 import { InputsFormRegister } from '@/components/Registro/InputsForms';
 import { listInputsUser } from '@/components/Registro/listInputs';
@@ -7,6 +7,7 @@ import { updateProfessionalSchema } from '@/utils/validations/professionalSchema
 import { updateProfessional, verifyCredentials } from '@/services/users';
 import { getFormdataFromObj } from '@/utils/helpers';
 import { FaUserDoctor } from 'react-icons/fa6';
+import { TfiReload } from 'react-icons/tfi';
 import toast from 'react-hot-toast';
 import EditProfilePicture from '../EditProfilePicture';
 
@@ -56,24 +57,38 @@ const EditProfessionalMain = ({
       initialValues={initialValues}
       validate={formikZodValidator(updateProfessionalSchema.optional())}
     >
-      <Form className="flex flex-col gap-2 w-full">
-        <EditProfilePicture previousImage={professional.image} />
-        <Button
-          onClick={handleNext}
-          radius="sm"
-          size="sm"
-          startContent={<FaUserDoctor />}
-          className="w-fit self-end text-sm bg-primary-100 text-secondary-400"
-        >
-          Acerca de mi
-        </Button>
-        <InputsFormRegister
-          isProfessional={true}
-          submitButtonMessage={'Actualizar'}
-          listInputsValue={listInputsUser}
-          isUpdate={true}
-        />
-      </Form>
+      {({ resetForm }) => (
+        <Form className="flex flex-col gap-2 w-full">
+          <EditProfilePicture previousImage={professional.image} />
+          <div className="flex items-center justify-between">
+            <Tooltip content="Restaurar valores" color="secondary" placement="top">
+              <Button
+                isIconOnly
+                radius="full"
+                onPress={resetForm}
+                className="w-fit self-end text-sm bg-primary-100 text-secondary-400"
+              >
+                <TfiReload size={18}/>
+              </Button>
+            </Tooltip>
+            <Button
+              onClick={handleNext}
+              radius="sm"
+              size="sm"
+              startContent={<FaUserDoctor />}
+              className="w-fit self-end text-sm bg-primary-100 text-secondary-400"
+            >
+              Acerca de mi
+            </Button>
+          </div>
+          <InputsFormRegister
+            isProfessional={true}
+            submitButtonMessage={'Actualizar'}
+            listInputsValue={listInputsUser}
+            isUpdate={true}
+          />
+        </Form>
+      )}
     </Formik>
   );
 };

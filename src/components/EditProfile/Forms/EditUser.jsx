@@ -1,4 +1,4 @@
-import { Card, Button } from '@nextui-org/react';
+import { Card, Tooltip, Button } from '@nextui-org/react';
 import { Formik, Form } from 'formik';
 import { InputsFormRegister } from '@/components/Registro/InputsForms';
 import { listInputsUser } from '@/components/Registro/listInputs';
@@ -6,6 +6,7 @@ import { formikZodValidator } from '@/utils/validations';
 import { userSchema } from '@/utils/validations/userSchema';
 import { updateUser, verifyCredentials } from '@/services/users';
 import { getFormdataFromObj } from '@/utils/helpers';
+import { TfiReload } from 'react-icons/tfi';
 import toast from 'react-hot-toast';
 import EditProfilePicture from '../EditProfilePicture';
 import InterestList from '../InterestList';
@@ -56,16 +57,28 @@ const EditUser = ({
         initialValues={initialValues}
         validate={formikZodValidator(userSchema.optional())}
       >
-        <Form className="flex flex-col gap-2 w-full">
-          <EditProfilePicture previousImage={userDetail.image} />
-          <InterestList interests={interests} />
-          <InputsFormRegister
-            isProfessional={false}
-            submitButtonMessage={'Actualizar'}
-            listInputsValue={listInputsUser}
-            isUpdate={true}
-          />
-        </Form>
+        {({ resetForm }) => (
+          <Form className="flex flex-col gap-2 w-full">
+            <EditProfilePicture previousImage={userDetail.image} />
+            <Tooltip content="Restaurar valores" color="secondary" placement="top">
+              <Button
+                isIconOnly
+                radius="full"
+                onPress={resetForm}
+                className="w-fit self-end text-sm bg-primary-100 text-secondary-400"
+              >
+                <TfiReload size={18} />
+              </Button>
+            </Tooltip>
+            <InterestList interests={interests} />
+            <InputsFormRegister
+              isProfessional={false}
+              submitButtonMessage={'Actualizar'}
+              listInputsValue={listInputsUser}
+              isUpdate={true}
+            />
+          </Form>
+        )}
       </Formik>
     </Card>
   );
