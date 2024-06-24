@@ -36,7 +36,12 @@ const userSchema = z
       .regex(nameRegex, 'Debe contener solo letras')
       .min(3, 'Debe tener al menos 3 caracteres')
       .max(30, 'No mas de 30 caracteres'),
-    phone: zodStrRequired().regex(phoneRegExp, 'No es un teléfono valido'),
+    phone: z
+      .string()
+      .trim()
+      .regex(phoneRegExp, 'No es un teléfono valido')
+      .optional()
+      .or(z.literal('')),
     email: zodStrRequired().email('No es un email'),
     birthDate: z
       .string()
