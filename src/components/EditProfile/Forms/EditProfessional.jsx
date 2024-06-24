@@ -8,24 +8,26 @@ const EditProfessional = ({
   setIsSuccessModalOpen,
   updateSessionUser,
 }) => {
+  const [professional, setProfessional] = useState(userDetail);
   const [formStep, setFormStep] = useState(1);
 
   const handleNext = () => setFormStep(2);
   const handleBack = () => setFormStep(1);
 
   return (
-    <Card className="grid h-full justify-items-center rounded-sm w-full py-8 max-w-[800px] px-auto md:py-14">
+    <Card className="grid h-full justify-items-center rounded-sm w-full py-8 px-auto max-w-[800px] max-h-[1500px] md:py-14 !overflow-y-auto">
       {formStep === 1 ? (
         <EditProfessionalMain
           handleNext={handleNext}
-          userDetail={userDetail}
+          professional={professional}
           setIsSuccessModalOpen={setIsSuccessModalOpen}
           updateSessionUser={updateSessionUser}
         />
       ) : (
         <EditProfessionalSecondary
-          userDetail={userDetail}
           handleBack={handleBack}
+          professional={professional}
+          setProfessional={setProfessional}
         />
       )}
     </Card>

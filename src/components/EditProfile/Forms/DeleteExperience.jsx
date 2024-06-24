@@ -10,14 +10,20 @@ import {
 import { deleteExperience } from '@/services/professionals';
 import toast from 'react-hot-toast';
 
-const DeleteExperience = ({ isOpen, onClose, setExperiences, professionalId, experienceId }) => {
+const DeleteExperience = ({
+  isOpen,
+  onClose,
+  professionalId,
+  experienceId,
+  setProfessional,
+}) => {
   const [isDeleting, setIsDeleting] = useState(false);
-  
+
   const handleDelete = async () => {
     try {
       setIsDeleting(true);
       const { experiences } = await deleteExperience(professionalId, experienceId);
-      setExperiences(experiences)
+      setProfessional((prev) => ({...prev, experience: experiences }));
       toast.success('Experiencia eliminada correctamente');
     } catch (error) {
       toast.error('Oops algo salio mal... vuelva a intentarlo');
@@ -37,8 +43,12 @@ const DeleteExperience = ({ isOpen, onClose, setExperiences, professionalId, exp
           <p>¿Esta seguro de que desea eliminar esta experiencia?</p>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onPress={onClose} isDisabled={isDeleting}>Cancelar</Button>
-          <Button color="danger" onPress={handleDelete} isDisabled={isDeleting}>Eliminar</Button>
+          <Button color="primary" onPress={onClose} isDisabled={isDeleting}>
+            Cancelar
+          </Button>
+          <Button color="danger" onPress={handleDelete} isDisabled={isDeleting}>
+            Eliminar
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

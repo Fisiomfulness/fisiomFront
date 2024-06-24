@@ -12,12 +12,12 @@ import EditProfilePicture from '../EditProfilePicture';
 
 // ! TODO = USAR URL.createObjectURL(file); PARA RENDERIZAR LA IMAGEN AL ELEGIRLA
 const EditProfessionalMain = ({
-  userDetail,
   handleNext,
+  professional,
   setIsSuccessModalOpen,
   updateSessionUser,
 }) => {
-  const { name, email, gender, address, birthDate, phone, license, _id } = userDetail;
+  const { name, email, gender, address, birthDate, phone, license, _id } = professional;
 
   const initialValues = {
     name,
@@ -57,8 +57,8 @@ const EditProfessionalMain = ({
       initialValues={initialValues}
       validate={formikZodValidator(updateProfessionalSchema.optional())}
     >
-      <Form className="flex flex-col gap-2 overflow-hidden w-full">
-        <EditProfilePicture previousImage={userDetail.image} />
+      <Form className="flex flex-col gap-2 w-full">
+        <EditProfilePicture previousImage={professional.image} />
         <Button
           onClick={handleNext}
           radius="sm"

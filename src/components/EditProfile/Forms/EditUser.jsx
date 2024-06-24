@@ -51,13 +51,13 @@ const EditUser = ({
   };
 
   return (
-    <Card className="grid items-center justify-items-center rounded-sm w-full py-8 max-w-[800px] md:py-16">
+    <Card className="grid h-full justify-items-center rounded-sm w-full py-8 px-auto max-w-[800px] max-h-[1500px] md:py-14 !overflow-y-auto">
       <Formik
         onSubmit={handleSubmit}
         initialValues={initialValues}
         validate={formikZodValidator(userSchema.optional())}
       >
-        <Form className="flex flex-col gap-2 overflow-hidden w-[80%] sm:w-[90%]">
+        <Form className="flex flex-col gap-2 w-full">
           <EditProfilePicture previousImage={userDetail.image} />
           <InterestList interests={interests} />
           <InputsFormRegister

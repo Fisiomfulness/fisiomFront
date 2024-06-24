@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, ScrollShadow } from '@nextui-org/react';
+import { Button, Tooltip, ScrollShadow } from '@nextui-org/react';
 import { IoAddOutline } from 'react-icons/io5';
 import ExperienceCard from '../ExperienceCard';
 import ExperienceForm from './ExperienceForm';
@@ -16,8 +16,7 @@ const initialValues = {
   current: false,
 };
 
-const ProfessionalExperience = ({ professionalId, iniExperiences = [] }) => {
-  const [experiences, setExperiences] = useState(iniExperiences);
+const ProfessionalExperience = ({ experiences = [], professionalId, setProfessional }) => {
   const [experienceId, setExperienceId] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [experienceModal, setExperienceModal] = useState({
@@ -68,9 +67,9 @@ const ProfessionalExperience = ({ professionalId, iniExperiences = [] }) => {
         isOpen={experienceModal.isOpen}
         isUpdate={experienceModal.isUpdate}
         onClose={handleClose}
-        setExperiences={setExperiences}
         professionalId={professionalId}
         experienceId={experienceId}
+        setProfessional={setProfessional}
         initialValues={experienceModal.initialValues}
       />
       <DeleteExperience
@@ -79,24 +78,30 @@ const ProfessionalExperience = ({ professionalId, iniExperiences = [] }) => {
           setExperienceId(null);
           setDeleteModalOpen(false);
         }}
-        setExperiences={setExperiences}
         professionalId={professionalId}
         experienceId={experienceId}
+        setProfessional={setProfessional}
       />
       <div className="flex items-center justify-between">
         <h3>Experiencia</h3>
-        <Button
-          isIconOnly
-          color="primary"
-          size="sm"
-          radius="full"
-          onPress={handleAddExperience}
-          className="mb-2"
-        >
-          <IoAddOutline size={24} />
-        </Button>
+        <Tooltip content="Añadir" size="sm" color="secondary" closeDelay={200}>
+          <Button
+            isIconOnly
+            color="primary"
+            size="sm"
+            radius="full"
+            onPress={handleAddExperience}
+            className="mb-2"
+          >
+            <IoAddOutline size={24} />
+          </Button>
+        </Tooltip>
       </div>
-      <ScrollShadow size={15} hideScrollBar className="flex flex-col gap-2 w-full max-h-[380px]">
+      <ScrollShadow
+        size={15}
+        hideScrollBar
+        className="flex flex-col gap-2 w-full max-h-[380px]"
+      >
         {experiences.length > 0 ? (
           experiences.map((exp, index) => (
             <ExperienceCard

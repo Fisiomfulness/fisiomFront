@@ -36,6 +36,7 @@ const ExperienceForm = ({
   professionalId,
   experienceId,
   initialValues,
+  setProfessional
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -77,9 +78,9 @@ const ExperienceForm = ({
       const { experiences } = isUpdate
       ? await updateExperience(professionalId, experienceId, values)
       : await addExperience(professionalId, values);
-      setExperiences(experiences);
+      setProfessional((prev) => ({...prev, experience: experiences }));
       onClose();
-      toast.success(`Experiencia ${isUpdate ? 'actualizada' : 'añadida'} correctamente`);
+      toast.success(`Experiencia ${isUpdate ? 'actualizada' : 'añadida'}`);
     } catch (error) {
       toast.error(error.response?.data.message || 'Oops algo salio mal... vuelva a intentarlo.');
     } finally {
