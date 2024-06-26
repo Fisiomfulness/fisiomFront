@@ -1,16 +1,11 @@
-import ServicioAsideBar from "@/components/Servicios/ServicioAsideBar"
-import Calendario from "@/components/Servicios/Calendario/ServicioTurno"
+import CalendarComponent from "@/components/CalendarComponent/CalendarComponent";
 
 const ServicioTurno = () => {
   return (
-    
-      
-      <div className="w-full max-w-[1118px] flex items-center justify-center mb-4">
-        
-        <Calendario className=""/>
-      </div>
-    
-  )
-}
+    <div className="flex h-96">
+      <CalendarComponent selectable={false} />;
+    </div>
+  );
+};
 
-export default ServicioTurno
+export default ServicioTurno;

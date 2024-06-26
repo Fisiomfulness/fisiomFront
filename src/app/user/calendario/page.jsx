@@ -1,10 +1,9 @@
-import { Calendario } from "@/features/calendario";
+import CalendarComponent from "@/components/CalendarComponent/CalendarComponent";
 
 export default function CalendarioPage() {
   return (
-    <main className="px-auto flex-col center mb-5">
-      <p className="pb-6 text-xl font-semibold">Calendario</p>
-      <Calendario />
-    </main>
+    <div className="flex h-96 justify-center">
+      <CalendarComponent selectable={true} />
+    </div>
   );
 }
