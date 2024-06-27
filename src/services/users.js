@@ -1,6 +1,7 @@
-import { BASE_URL } from "@/utils/api";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { BASE_URL } from '@/utils/api';
+import { getErrorMessage } from '@/utils/utils';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 //#region Login
 export const axiosLogin = async (user) => {
@@ -9,7 +10,7 @@ export const axiosLogin = async (user) => {
       withCredentials: true,
     }),
     {
-      loading: "Iniciando Sesion...",
+      loading: 'Iniciando Sesion...',
       success: (response) => response.data.message,
       error: (error) => {
         if (error.response) {
@@ -18,7 +19,7 @@ export const axiosLogin = async (user) => {
           return error.message;
         }
       },
-    },
+    }
   );
 };
 
@@ -29,7 +30,7 @@ export const axiosRegisterUserForm = async (user) => {
       withCredentials: true,
     }),
     {
-      loading: "Registrandose...",
+      loading: 'Registrandose...',
       success: (response) => response.data.message,
       error: (error) => {
         if (error.response) {
@@ -38,7 +39,7 @@ export const axiosRegisterUserForm = async (user) => {
           return error.message;
         }
       },
-    },
+    }
   );
 };
 
@@ -49,7 +50,7 @@ export const axiosRegisterProfessionalForm = async (user) => {
       withCredentials: true,
     }),
     {
-      loading: "Registrandose...",
+      loading: 'Registrandose...',
       success: (response) => response.data.message,
       error: (error) => {
         if (error.response) {
@@ -58,25 +59,23 @@ export const axiosRegisterProfessionalForm = async (user) => {
           return error.message;
         }
       },
-    },
+    }
   );
 };
 
-//#region User Detail
-export const axiosUserDetail = async (id) => {
+export const getUserDetail = async (id) => {
   try {
     const response = await axios.get(`${BASE_URL}/users/detail/${id}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
-//#region Get all users
 export const getAllUsers = async () => {
   try {
     const { data } = await axios(
-      `${BASE_URL}/users/`,
+      `${BASE_URL}/users/`
       // `${process.env.NEXT_PUBLIC_BACKEND_URL}/users`
     );
     return { data };
@@ -87,12 +86,40 @@ export const getAllUsers = async () => {
   }
 };
 
+export const updateUser = (id, newValues) => {
+  return axios.put(`${BASE_URL}/users/update/${id}`, newValues, {
+    withCredentials: true,
+  });
+};
+
+export const updateProfessional = (id, newValues) => {
+  return axios.put(`${BASE_URL}/professionals/update/${id}`, newValues, {
+    withCredentials: true,
+  });
+};
+
+// * Works with every account
+export const verifyCredentials = async (email, password) => {
+  try {
+    await axios.post(`${BASE_URL}/users/verify-credentials`, {
+      email,
+      password,
+    });
+    return true;
+  } catch (error) {
+    toast.error(error.response.data.message || 'No se pudieron verificar las credenciales de la cuenta', {
+      className: 'text-center'
+    });
+    return false;
+  }
+};
+
 // ? Cookie is httpOnly for more security, this is needed.
 export const httpLogout = async () => {
   const res = await fetch(`${BASE_URL}/logout`, {
-    method: "GET",
-    credentials: "include",
+    method: 'GET',
+    credentials: 'include',
   });
-  if (!res.ok) throw new Error("Oops! vuelva a intentarlo mas tarde..");
+  if (!res.ok) throw new Error('Oops! vuelva a intentarlo mas tarde..');
   return await res.json();
 };

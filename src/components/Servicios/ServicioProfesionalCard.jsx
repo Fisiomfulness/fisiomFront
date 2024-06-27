@@ -77,7 +77,7 @@ const ServicioProfesionalCard = ({ profesional }) => {
 
               <div className="flex flex-col mt-3 gap-1">
                 <div className="flex justify-between">
-                  <p className="text-small">{profesional.professionalDescription}</p>
+                  <p className="text-small">{profesional.description}</p>
                 </div>
               </div>
             </div>
