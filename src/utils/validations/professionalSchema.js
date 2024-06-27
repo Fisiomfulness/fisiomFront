@@ -23,6 +23,7 @@ const professionalInitialValues = {
   city: '',
   state: '', // ? Opcional
   country: '',
+  consultationPrice: '',
   license: '', // ? Opcional
   curriculum: null,
 };
@@ -83,6 +84,14 @@ const professionalSchema = z
       .min(2, 'Debe tener al menos 2 caracteres')
       .max(50, 'No mas de 50 caracteres')
       .regex(nameRegex, 'Solo puede contener letras'),
+    consultationPrice: z
+      .union([z.string(), z.number()])
+      .refine((value) => !isNaN(Number(value)), { message: 'No es un número' })
+      .refine((value) => value >= 0, { message: 'Debe ser un numero positivo' })
+      .refine((value) => value <= 400, {
+        message: 'No más de 400 soles peruanos',
+      })
+      .optional(),
     license: z
       .string()
       .trim()
@@ -158,6 +167,14 @@ const updateProfessionalSchema = z
       .min(2, 'Debe tener al menos 2 caracteres')
       .max(50, 'No mas de 50 caracteres')
       .regex(nameRegex, 'Solo puede contener letras'),
+    consultationPrice: z
+      .union([z.string(), z.number()])
+      .refine((value) => !isNaN(Number(value)), { message: 'No es un número' })
+      .refine((value) => value >= 0, { message: 'Debe ser un numero positivo' })
+      .refine((value) => value <= 400, {
+        message: 'No más de 400 soles peruanos',
+      })
+      .optional(),
     license: z
       .string()
       .trim()

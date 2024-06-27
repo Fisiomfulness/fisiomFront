@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button, Tooltip } from '@nextui-org/react';
 import { Formik, Form } from 'formik';
 import { InputsFormRegister } from '@/components/Registro/InputsForms';
@@ -11,14 +12,14 @@ import { TfiReload } from 'react-icons/tfi';
 import toast from 'react-hot-toast';
 import EditProfilePicture from '../EditProfilePicture';
 
-// ! TODO = USAR URL.createObjectURL(file); PARA RENDERIZAR LA IMAGEN AL ELEGIRLA
 const EditProfessionalMain = ({
   handleNext,
   professional,
   setIsSuccessModalOpen,
   updateSessionUser,
 }) => {
-  const { name, email, gender, address, birthDate, phone, license, _id } = professional;
+  const [displayedImage, setDisplayedImage] = useState(professional.image);
+  const { name, email, phone, gender, birthDate, consultationPrice, address, license, _id } = professional;
 
   const initialValues = {
     name,
@@ -26,6 +27,7 @@ const EditProfessionalMain = ({
     phone,
     gender,
     birthDate,
+    consultationPrice: consultationPrice || '',
     streetName: address?.streetName || '',
     streetNumber: address?.streetNumber || '',
     floorAppartment: address?.floorAppartment || '',
@@ -34,7 +36,6 @@ const EditProfessionalMain = ({
     country: address?.country || '',
     license: license || '',
     password: '',
-    confirmPass: '',
   };
 
   const handleSubmit = async (newValues) => {
@@ -59,16 +60,26 @@ const EditProfessionalMain = ({
     >
       {({ resetForm }) => (
         <Form className="flex flex-col gap-2 w-full">
-          <EditProfilePicture previousImage={professional.image} />
+          <EditProfilePicture
+            displayedImage={displayedImage}
+            setDisplayedImage={setDisplayedImage}
+          />
           <div className="flex items-center justify-between">
-            <Tooltip content="Restaurar valores" color="secondary" placement="top">
+            <Tooltip
+              content="Restaurar valores"
+              color="secondary"
+              placement="top"
+            >
               <Button
                 isIconOnly
                 radius="full"
-                onPress={resetForm}
+                onPress={() => {
+                  resetForm();
+                  setDisplayedImage(professional.image);
+                }}
                 className="w-fit self-end text-sm bg-primary-100 text-secondary-400"
               >
-                <TfiReload size={18}/>
+                <TfiReload size={18} />
               </Button>
             </Tooltip>
             <Button

@@ -2,7 +2,7 @@ import { Button, Image } from '@nextui-org/react';
 import { useFormikContext } from 'formik';
 import { useState } from 'react';
 
-const EditProfilePicture = ({ previousImage }) => {
+const EditProfilePicture = ({ displayedImage, setDisplayedImage }) => {
   const { values, errors, setFieldValue } = useFormikContext();
 
   return (
@@ -12,10 +12,15 @@ const EditProfilePicture = ({ previousImage }) => {
         type="file"
         accept="image/*"
         className="hidden"
-        onChange={(e) => setFieldValue('image', e.target.files[0])}
+        onChange={(e) => {
+          const file = e.target?.files[0];
+          if (!file) return;
+          setDisplayedImage(URL.createObjectURL(file));
+          setFieldValue('image', file);
+        }}
       />
       <Image
-        src={previousImage}
+        src={displayedImage}
         className="size-32 rounded-full border border-gray-300 object-center"
       />
       <Button

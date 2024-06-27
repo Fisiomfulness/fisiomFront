@@ -5,6 +5,7 @@ import { Divider, Select, SelectItem, input } from '@nextui-org/react';
 import { Button } from '@nextui-org/react';
 import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
 import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
+import { FaRegMoneyBillAlt } from "react-icons/fa";
 import FileUpload from './FileUpload';
 
 const genderList = [
@@ -61,22 +62,41 @@ export const InputsFormRegister = ({
       </div>
 
       {isProfessional ? (
-        <CustomInput
-          name="license"
-          aria-label="Numero de colegiado"
-          type="string"
-          variant="flat"
-          placeholder="Numero de colegiado"
-          value={values.license}
-          isInvalid={touched?.license && errors.license ? true : false}
-          errorMessage={touched?.license && errors.license}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          size="lg"
-          classNames={{
-            inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-          }}
-        />
+        <div className="grid md:grid-cols-2 gap-2">
+          <CustomInput
+            name="consultationPrice"
+            aria-label="Precio de consulta"
+            type="text"
+            variant="flat"
+            placeholder="Precio consulta (Soles)"
+            value={values.consultationPrice}
+            isInvalid={touched?.consultationPrice && errors.consultationPrice ? true : false}
+            errorMessage={touched?.consultationPrice && errors.consultationPrice}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            size="lg"
+            classNames={{
+              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+            }}
+            startContent={<FaRegMoneyBillAlt size={18} className='text-secondary-400'/>}
+          />
+          <CustomInput
+            name="license"
+            aria-label="Numero de colegiado"
+            type="string"
+            variant="flat"
+            placeholder="Numero de colegiado"
+            value={values.license}
+            isInvalid={touched?.license && errors.license ? true : false}
+            errorMessage={touched?.license && errors.license}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            size="lg"
+            classNames={{
+              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+            }}
+          />
+        </div>
       ) : null}
 
       <Select

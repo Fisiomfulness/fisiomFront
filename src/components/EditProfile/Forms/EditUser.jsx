@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Card, Tooltip, Button } from '@nextui-org/react';
 import { Formik, Form } from 'formik';
 import { InputsFormRegister } from '@/components/Registro/InputsForms';
@@ -17,6 +18,8 @@ const EditUser = ({
   setIsSuccessModalOpen,
   updateSessionUser,
 }) => {
+  // ? Used to work with reset form values button
+  const [displayedImage, setDisplayedImage] = useState(userDetail.image);
   const { name, email, gender, address, birthDate, phone, _id } = userDetail;
 
   const initialValues = {
@@ -59,12 +62,22 @@ const EditUser = ({
       >
         {({ resetForm }) => (
           <Form className="flex flex-col gap-2 w-full">
-            <EditProfilePicture previousImage={userDetail.image} />
-            <Tooltip content="Restaurar valores" color="secondary" placement="top">
+            <EditProfilePicture
+              displayedImage={displayedImage}
+              setDisplayedImage={setDisplayedImage}
+            />
+            <Tooltip
+              content="Restaurar valores"
+              color="secondary"
+              placement="top"
+            >
               <Button
                 isIconOnly
                 radius="full"
-                onPress={resetForm}
+                onPress={() => {
+                  resetForm();
+                  setDisplayedImage(userDetail.image);
+                }}
                 className="w-fit self-end text-sm bg-primary-100 text-secondary-400"
               >
                 <TfiReload size={18} />
