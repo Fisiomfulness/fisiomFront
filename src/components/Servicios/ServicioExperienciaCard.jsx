@@ -1,60 +1,82 @@
-"use client";
-import { Card, CardBody, Chip } from "@nextui-org/react";
+'use client';
+import { Card, CardBody, CardHeader, Chip } from '@nextui-org/react';
+import { format, parse } from 'date-fns';
+import { es } from 'date-fns/locale';
 
-const ServicioPrecioCard = ({ experiencia }) => {
+// ? Example -> Mes:2 Año:2024 => Feb. 2024
+const formatExperienceDates = (experience) => {
+  const startDate = parse(
+    `${experience.startDateYear}-${experience.startDateMonth}`,
+    'yyyy-M',
+    new Date()
+  );
+  const startFormatted = format(startDate, 'MMM. yyyy', { locale: es });
+
+  if (experience.current) {
+    return `${startFormatted} - Presente`;
+  }
+
+  const endDate = parse(
+    `${experience.endDateYear}-${experience.endDateMonth}`,
+    'yyyy-M',
+    new Date()
+  );
+  const endFormatted = format(endDate, 'MMM. yyyy', { locale: es });
+
+  return `${startFormatted} - ${endFormatted}`;
+};
+
+const ServicioExperienciaCard = ({ experience }) => {
   return (
     <>
-      {experiencia?.length ? (
-        experiencia.map((experiencia, index) => (
-          <div key={index} className="flex flex-col lg:flex-row   mt-2">
-            <Card
-              isBlurred
-              className="border-none w-full bg-primary-50 p-4 rounded-lg hover:bg-[#D8EEF8] md:p-6 lg:p-4 md:rounded"
-              shadow="sm"
-            >
-              <CardBody>
-                <div className="flex  items-center ">
-                  <div className="flex flex-col gap-3 p-5  ">
-                    <h3>{experiencia.date}</h3>
-                    <Chip
-                      size="md"
-                      className="bg-[#36A793] p-2"
-                      variant="faded"
-                    >
-                      <p className="text-large font-bold text-foreground/80 ">
-                        {experiencia.institution}
-                      </p>
-                    </Chip>
-                    <p className="text-medium">{experiencia.description}</p>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
+      {experience.length > 0 ? (
+        experience.map((exp) => (
+          <Card
+            key={exp._id}
+            isHoverable
+            radius="none"
+            shadow="none"
+            className="bg-[#EBF7FB] p-3 lg:px-9 hover:!bg-[#D8EEF8] overflow-visible"
+          >
+            <CardHeader className="gap-3 justify-between pb-0">
+              <h3 className="truncate text-lg font-semibold tracking-wide text-secondary-400">
+                {exp.title}
+              </h3>
+              <span className="uppercase text-nowrap text-sm text-secondary-600 italic">
+                {formatExperienceDates(exp)}
+              </span>
+            </CardHeader>
+            <CardBody className="pt-0">
+              <Chip
+                size="sm"
+                variant="flat"
+                className="bg-[#64efbce2] px-3"
+                classNames={{
+                  content:
+                    'text-[#164a37e2] uppercase font-semibold tracking-wider',
+                }}
+              >
+                {exp.company}
+              </Chip>
+              <p className="mt-2">{exp.description}</p>
+            </CardBody>
+          </Card>
         ))
       ) : (
-        <>
-          <div className="flex flex-col lg:flex-row mt-2">
-            <Card
-              isBlurred
-              className="border-none w-full bg-primary-50 p-4 rounded-lg hover:bg-[#D8EEF8] md:p-6 lg:p-8 md:rounded"
-              shadow="sm"
-            >
-              <CardBody>
-                <div className="flex  items-center ">
-                  <div className="flex flex-col gap-3 p-5 w-full">
-                    <p className="text-medium text-center">
-                      Este profesional no ha cargado su experiencia.
-                    </p>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
-        </>
+        <Card
+          radius="none"
+          shadow="none"
+          className="h-full bg-[#EBF7FB] p-3 lg:px-9"
+        >
+          <CardBody>
+            <p className="m-auto text-center text-lg font-semibold tracking-wide text-secondary-400">
+              Este profesional no ha cargado su experiencia
+            </p>
+          </CardBody>
+        </Card>
       )}
     </>
   );
 };
 
-export default ServicioPrecioCard;
+export default ServicioExperienciaCard;
