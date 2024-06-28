@@ -53,8 +53,8 @@ const experienceSchema = z.object({
     .max(currentYear, `Máximo: ${currentYear}`)
     .or(z.literal('')),
   description: zodStrRequired('La descripción es requerida').max(
-    500,
-    'No mas de 500 caracteres'
+    1000,
+    'No mas de 1000 caracteres'
   ),
   current: z.boolean({
     required_error: 'Requerido',
