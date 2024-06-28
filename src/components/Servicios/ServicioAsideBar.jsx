@@ -37,7 +37,7 @@ const ServicioAsideBar = () => {
   ];
 
   return (
-    <aside className="grid rounded-md overflow-hidden grid-cols-2 grid-rows-2 md:flex lg:flex-col lg:gap-4 justify-center m-2">
+    <aside className="mt-2 grid rounded-md overflow-hidden grid-cols-2 grid-rows-2 md:flex lg:flex-col lg:gap-4 justify-center lg:justify-start">
       {buttons.map((button, index) => (
         <Button
           key={index}

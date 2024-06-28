@@ -36,10 +36,10 @@ const ServicioExperienciaCard = ({ experience }) => {
             isHoverable
             radius="none"
             shadow="none"
-            className="bg-[#EBF7FB] p-3 lg:px-9 hover:!bg-[#D8EEF8] overflow-visible"
+            className="bg-[#EBF7FB] p-1 lg:p-3 lg:px-9 hover:!bg-[#D8EEF8] overflow-visible"
           >
-            <CardHeader className="gap-3 justify-between pb-0">
-              <h3 className="truncate text-lg font-semibold tracking-wide text-secondary-400">
+            <CardHeader className="flex-col gap-1 md:flex-row md:gap-3 justify-between">
+              <h3 className="m-0 text-center text-lg font-semibold tracking-wide text-secondary-400">
                 {exp.title}
               </h3>
               <span className="uppercase text-nowrap text-sm text-secondary-600 italic">
@@ -58,7 +58,7 @@ const ServicioExperienciaCard = ({ experience }) => {
               >
                 {exp.company}
               </Chip>
-              <p className="mt-2">{exp.description}</p>
+              <p className="mt-2 break-all">{exp.description}</p>
             </CardBody>
           </Card>
         ))

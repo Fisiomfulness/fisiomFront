@@ -11,7 +11,7 @@ const ServicioExperiencia = async ({ params }) => {
   );
 
   return (
-    <section className="w-full flex flex-col mt-2 gap-4 grow lg:max-h-[800px] overflow-y-auto ">
+    <section className="w-full flex flex-col my-2 gap-4 grow lg:max-h-[800px] overflow-y-auto ">
       <ServicioExperienciaCard experience={data?.professional.experience} />
     </section>
   );
