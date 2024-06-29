@@ -1,17 +1,15 @@
-import { Button } from "@nextui-org/react";
-import { Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import { Button } from "@nextui-org/react";
 import { CustomInput } from "@/features/ui";
-// import { login } from '@/services/users';
+import { Form, Formik } from "formik";
 import { formikZodValidator, zodStrRequired } from "@/utils/validations";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
-import toast from "react-hot-toast";
-import { z } from "zod";
 import { EyeFilledIcon } from "../CustomComponentForm/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "../CustomComponentForm/EyeSlashFilledIcon";
+import { z } from "zod";
+import Link from "next/link";
+import toast from "react-hot-toast";
 
 const initialValues = {
   email: "",
@@ -24,9 +22,9 @@ const loginSchema = z.object({
 });
 
 const UserLoginComponent = () => {
-  const router = useRouter();
-
   const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
+  
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleLogin = async (values) => {
@@ -40,7 +38,7 @@ const UserLoginComponent = () => {
       return toast.error(responseNextAuth.error);
     }
 
-    toast.success("Login exitoso");
+    toast.success("Has iniciado sesión correctamente");
     router.push("/user");
   };
 

@@ -1,18 +1,23 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { atom, useAtom } from "jotai";
 
-const useGeolocation = ({ defaultLocation }) => {
+const locationAtom = atom({
+  user: [0, 0]
+});
+
+const useGeolocation = () => {
     const { data: session } = useSession()
-    const [coordinates, setCoordinates] = useState([0,0]);
+    const [location, setLocation] = useAtom(locationAtom);
     const onSuccess = (position) => {
-        setCoordinates([
+        setLocation((prev) => ({ ...prev, user: [
             position.coords.latitude,
             position.coords.longitude
-        ]);
+        ]}));
     };
     const onError = (error) => {
         if (session?.user?.coordinates) {
-            setCoordinates(session.user.coordinates);
+            setLocation((prev) => ({ ...prev, user: session.user.coordinates })); 
         }
     }
 
@@ -24,6 +29,6 @@ const useGeolocation = ({ defaultLocation }) => {
         }
     }, [session]);
     
-    return coordinates;
+    return location;
 };
 export default useGeolocation
