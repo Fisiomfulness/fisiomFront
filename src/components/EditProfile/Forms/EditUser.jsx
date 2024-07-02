@@ -61,7 +61,7 @@ const EditUser = ({
         validate={formikZodValidator(userSchema.optional())}
       >
         {({ resetForm }) => (
-          <Form className="flex flex-col gap-2 w-full">
+          <Form className="flex flex-col gap-2 w-full overflow-hidden">
             <EditProfilePicture
               displayedImage={displayedImage}
               setDisplayedImage={setDisplayedImage}
