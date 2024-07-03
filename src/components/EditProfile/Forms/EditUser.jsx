@@ -25,7 +25,7 @@ const EditUser = ({
   const initialValues = {
     name,
     email,
-    phone,
+    phone: phone || '',
     gender,
     birthDate,
     interests: Array.from(userDetail?.interests || [], (i) => i._id),
