@@ -13,7 +13,7 @@ const ServicioAsideBar = () => {
       href: `/servicios/${id}/perfil`,
       color: 'secondary',
       className:
-        'text-white md:rounded-l-lg lg:rounded-t-lg lg:rounded-l-none hover:text-white',
+        'text-white lg:rounded-l-lg lg:rounded-t-lg lg:rounded-l-none hover:text-white',
     },
     {
       name: 'precios',
@@ -31,13 +31,13 @@ const ServicioAsideBar = () => {
       name: 'turno',
       href: `/servicios/${id}/turno`,
       className:
-        'md:rounded-r-lg lg:rounded-r-none lg:rounded-b-lg hover:text-white',
+        'lg:rounded-r-lg lg:rounded-r-none lg:rounded-b-lg hover:text-white',
       color: 'secondary',
     },
   ];
 
   return (
-    <aside className="mt-2 grid rounded-md overflow-hidden grid-cols-2 grid-rows-2 md:flex lg:flex-col lg:gap-4 justify-center lg:justify-start">
+    <aside className="mt-2 grid rounded-md overflow-hidden grid-cols-2 grid-rows-2 lg:vstack lg:gap-4 lg:justify-start">
       {buttons.map((button, index) => (
         <Button
           key={index}
@@ -46,7 +46,7 @@ const ServicioAsideBar = () => {
           href={button.href}
           color={path === button.href ? 'primary' : button.color}
           radius="none"
-          className={`font-semibold capitalize py-6 ${button.className}`}
+          className={`font-semibold capitalize py-4 md:py-6 ${button.className}`}
         >
           {button.name}
         </Button>

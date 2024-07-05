@@ -8,7 +8,7 @@ export const metadata = {
 
 const Layout = ({ children }) => {
   return (
-    <div className="min-h-[92dvh] w-full vstack mx-auto max-w-8xl lg:flex-row lg:gap-16 lg:justify-between px-auto">
+    <div className="min-h-[92dvh] w-full vstack mx-auto max-w-8xl lg:grid lg:grid-cols-[140px,auto] lg:gap-16 px-auto">
       <ServicioAsideBar />
       {children}
     </div>
