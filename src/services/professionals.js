@@ -4,12 +4,14 @@ import axios from 'axios';
 
 export const getProfessionalDetail = async (professionalId) => {
   try {
-    const response = await axios.get(apiEndpoints.professionalsDetail + professionalId);
+    const response = await axios.get(
+      apiEndpoints.professionalsDetail + professionalId
+    );
     return response.data;
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const getProfessionalRatings = async (
   professionalId,
@@ -18,7 +20,9 @@ export const getProfessionalRatings = async (
 ) => {
   try {
     const response = await axios.get(
-      `${apiEndpoints.professionalRating + professionalId}?offset=${offset}&limit=${limit}`
+      `${
+        apiEndpoints.professionalRating + professionalId
+      }?offset=${offset}&limit=${limit}`
     );
     return response.data;
   } catch (error) {
@@ -28,7 +32,9 @@ export const getProfessionalRatings = async (
 
 export const hasUserCommented = async (professionalId, userId) => {
   try {
-    const response = await axios.get(`${BASE_URL}/professionals/rating/${professionalId}/${userId}/hasCommented`);
+    const response = await axios.get(
+      `${BASE_URL}/professionals/rating/${professionalId}/${userId}/hasCommented`
+    );
     return response.data.hasCommented;
   } catch (error) {
     throw error;
@@ -71,6 +77,17 @@ export const deleteExperience = async (professionalId, experienceId) => {
       `${BASE_URL}/professionals/${professionalId}/experience/${experienceId}`,
       { withCredentials: true }
     );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createService = async (values) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/services`, values, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     throw error;
