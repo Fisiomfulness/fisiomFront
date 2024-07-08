@@ -1,39 +1,29 @@
-"use client";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import ServicioDetallesCommentBox from "@/components/Servicios/ServicioDetallesCommentBox";
-import ServicioProfesionalCard from "@/components/Servicios/ServicioProfesionalCard";
-import ServicioProfesionalComentarios from "@/components/Servicios/ServicioProfesionalComentarios";
-import { apiEndpoints } from "@/api_endpoints";
-import { useSession } from "next-auth/react";
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getProfessionalDetail, getProfessionalRatings } from '@/services/professionals';
+import axios from 'axios';
+import ServicioDetallesCommentBox from '@/components/Servicios/ServicioDetallesCommentBox';
+import ServicioProfesionalCard from '@/components/Servicios/ServicioProfesionalCard';
+import ServicioProfesionalComentarios from '@/components/Servicios/ServicioProfesionalComentarios';
 
-const ServicioDetalles = ({ params }) => {
-  const profesionalId = params.detallesId;
-  const [profesional, setProfesional] = useState({});
-  const { data: session } = useSession()
+const MAX_RATINGS_PER_PAGE = 6;
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    axios
-      .get(apiEndpoints.professionalsDetail + profesionalId, {
-        signal: abortController.signal,
-      })
-      .then(({ data }) => {
-        setProfesional(data.professional);
-      })
-      .catch((err) => {
-        if (err.name === "CanceledError") return;
-        throw err;
-      });
-    return () => abortController.abort();
-  }, [profesionalId]);
+const ServicioDetalles = async ({ params }) => {
+  const professionalId = params.detallesId;
+  const session = await getServerSession(authOptions);
+  const { professional } = await getProfessionalDetail(professionalId);
+  const dataComments = await getProfessionalRatings(professionalId, 0, MAX_RATINGS_PER_PAGE)
 
   return (
-    <div>
-      <ServicioProfesionalCard profesional={profesional} />
-      {session?.user ? <ServicioDetallesCommentBox profesional={profesional} /> : null}
-      <ServicioProfesionalComentarios profesionalId={profesionalId} />
-    </div>
+    <section className="w-full mt-2 vstack">
+      <ServicioProfesionalCard professional={professional} />
+      <ServicioProfesionalComentarios
+        professional={professional}
+        dataComments={dataComments}
+        MAX_RATINGS_PER_PAGE={MAX_RATINGS_PER_PAGE}
+        session={session}
+      />
+    </section>
   );
 };
 

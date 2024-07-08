@@ -39,7 +39,7 @@ const EditProfilePicture = ({ displayedImage, setDisplayedImage }) => {
             errors.image
               ? 'outline-danger-500 text-danger-500'
               : 'outline-gray-400 text-primary-900'
-          } truncate text-center`}
+          } line-clamp-2 text-center`}
         >
           <span
             className={`font-semibold ${
@@ -48,7 +48,7 @@ const EditProfilePicture = ({ displayedImage, setDisplayedImage }) => {
           >
             {errors.image ? 'Imagen invalida: ' : 'Nueva: '}
           </span>
-          {values.image?.name}
+          {errors.image || values.image?.name}
         </p>
       )}
     </div>

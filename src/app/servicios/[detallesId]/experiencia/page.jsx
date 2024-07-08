@@ -1,33 +1,19 @@
-"use client";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { apiEndpoints } from "@/api_endpoints";
-import ServicioExperienciaCard from "@/components/Servicios/ServicioExperienciaCard";
+import axios from 'axios';
+import ServicioExperienciaCard from '@/components/Servicios/ServicioExperienciaCard';
+import { apiEndpoints } from '@/api_endpoints';
 
-const ServicioExperiencia = ({ params }) => {
+export const dynamic = 'force-dynamic';
+
+const ServicioExperiencia = async ({ params }) => {
   const profesionalId = params.detallesId;
-  const [profesional, setProfesional] = useState({});
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    axios
-      .get(apiEndpoints.professionalsDetail + profesionalId, {
-        signal: abortController.signal,
-      })
-      .then(({ data }) => {
-        setProfesional(data.professional);
-      })
-      .catch((err) => {
-        if (err.name === "CanceledError") return;
-        throw err;
-      });
-    return () => abortController.abort();
-  }, [profesionalId]);
+  const { data } = await axios.get(
+    apiEndpoints.professionalsDetail + profesionalId
+  );
 
   return (
-    <div className="w-full">
-      <ServicioExperienciaCard experiencia={profesional.experience} />
-    </div>
+    <section className="w-full flex flex-col my-2 gap-4 grow lg:max-h-[800px] overflow-y-auto ">
+      <ServicioExperienciaCard experience={data?.professional.experience} />
+    </section>
   );
 };
 
