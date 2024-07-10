@@ -1,50 +1,4 @@
-export const initialEvents = [
-    {
-        id: 1,
-        title: 'Otorrino',
-        specialty: 'Odontologia',
-        pacient: "Jhon Lee",
-        start: new Date("2024-06-26T06:19"),
-        end: new Date("2024-06-26T13:19"),
-        description: 'Cita con el otorrino',
-        color: '#38b0ff',
-    },
-    {
-        id: 2,
-        title: 'Odontologia',
-        specialty: 'odontologia',
-        pacient: "Luisa Perez",
-        start: new Date("2024-06-25T08:19"),
-        end: new Date("2024-06-25T13:19"),
-        description: 'Cita con el Cirujano',
-    },
-    {
-        id: 3,
-        title: 'Nutricionista',
-        specialty: 'nutricionista',
-        pacient: "Fernan Torres",
-        start: new Date("Junio 26, 2024 14:00:00"),
-        end: new Date("Junio 26, 2024 16:00:00"),
-        description: 'Cita con el Odontologo',
-    },
-    {
-        id: 4,
-        title: 'Ocupado',
-        start: new Date("Junio 27, 2024 04:00:00"),
-        end: new Date("Junio 27, 2024 16:00:00"),
-        description: 'Dia civico',
-        color: 'grey',
-    },
-    {
-        id: 5,
-        title: 'Consulta General',
-        specialty: 'consulta-general',
-        pacient: "Luisa Perez",
-        start: new Date("2024-06-25T08:19"),
-        end: new Date("2024-06-25T13:19"),
-        description: 'Cita con el Cirujano',
-    },]
-
+import { currentDateMoment } from "@/utils/StandarValues";
 
 export const specialitiesArray = [
     {
@@ -112,42 +66,12 @@ export const specialitiesArray = [
         label: "Laboratorio Clínico"
     }
 ];
-
-export const users = [
+export const statusValue = [
     {
-        id: 1,
-        value: "tony-reichert",
-        label: "Tony Reichert",
-        name: "Tony Reichert",
-        role: "CEO",
-        team: "Management",
-        status: "active",
-        age: "29",
-        avatar: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/1.png",
-        email: "tony.reichert@example.com",
-    },
-    {
-        id: 2,
-        value: "zoey-langt",
-        label: "Zoey Lang",
-        name: "Zoey Lang",
-        role: "Tech Lead",
-        team: "Development",
-        status: "paused",
-        age: "25",
-        avatar: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/1.png",
-        email: "zoey.lang@example.com",
-    },
-    {
-        id: 3,
-        value: "jane-fisher",
-        label: "Jane Fisher",
-        name: "Jane Fisher",
-        role: "Sr. Dev",
-        team: "Development",
-        status: "active",
-        age: "22",
-        avatar: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/2.png",
-        email: "jane.fisher@example.com",
-    },
+        key: "PENDING",
+        label: "Pendiente"
+    }, {
+        key: "ACCEPTED",
+        label: "Aceptada"
+    }
 ]

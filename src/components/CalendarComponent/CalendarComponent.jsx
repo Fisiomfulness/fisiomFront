@@ -2,157 +2,138 @@
 
 import moment from "moment";
 import "moment/locale/es";
-import { useCallback, useState } from "react";
+import { use, useCallback, useContext, useEffect, useState } from "react";
 import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { formatConfig, langConfig } from "./CalendarConfig";
 import CalendarModal from "./CalendarModal";
-import CustomToolbar from "./CustomToolbar";
-import { initialEvents } from "./InitialValues";
+import CustomToolbar from "./CustomComponents/CustomToolbar";
+import { currentDateMoment, standarFormartDate } from "@/utils/StandarValues";
+import { formatDateFromTo } from "@/utils/filters/timeFormat";
+import { filterAppointments } from "@/utils/filters/filterAppointments";
+import Loader from "../Loader";
+import axios from "axios";
+import { getSpecificUserData } from "@/services/users";
+import { CalendarContext } from "@/context/Calendar";
 
-export default function CalendarComponent({ selectable }) {
+export default function CalendarComponent({ data, selectable }) {
+  const {
+    CalendarIsLoading,
+    setCalendarIsLoading,
+    calendarState,
+    setCalendarState,
+    eventInfo,
+    setEventInfo,
+    fetchData,
+    handleSaveEvent,
+    handleSelectSlot,
+    handleSelectEvent,
+    handleDeleteEvent,
+    eventStyleGetter,
+    handleViewChange,
+    handleNavigate,
+    setCachedData,
+    cachedData,
+  } = useContext(CalendarContext);
+  const { _id } = data;
   const localizer = momentLocalizer(moment);
 
-  const currentDateMoment = moment().format("YYYY-MM-DD HH:mm");
+  const isDateInRange = (date, range) => {
+    return moment(date).isBetween(range.from, range.to, null, "[]");
+  };
 
-  const [state, setState] = useState({
-    view: Views.MONTH,
-    date: new Date(),
-    myEvents: initialEvents,
-    newEvent: false,
-    editEvent: false,
-    showModal: false,
-  });
+  const isRangeInCache = (from, to) => {
+    return cachedData.some(
+      (cache) => isDateInRange(from, cache) && isDateInRange(to, cache),
+    );
+  };
 
-  const [eventInfo, setEventInfo] = useState({
-    title: null,
-    specialty: null,
-    description: null,
-    pacient: null,
-    start: currentDateMoment,
-    end: currentDateMoment,
-    color: null,
-  });
+  //Cuando Cambia "calendarState.dateFromTo" se hace un fetch con el rango de fecja
+  useEffect(() => {
+    const { from, to } = calendarState.dateFromTo;
 
-  const resetEventFormState = () => ({
-    showModal: false,
-    newEvent: null,
-    editEvent: false,
-  });
+    const formarDateFromTo = (from, to) => `from ${from} to ${to}`;
 
-  const handleSaveEvent = useCallback(() => {
-    const { myEvents, editEvent } = state;
-    if (!eventInfo.title && !eventInfo.pacient) return;
+    // Check if this is the first "fetch". If "fetch" is for today
+    if (
+      formarDateFromTo(from, to) ===
+      formarDateFromTo(currentDateMoment, currentDateMoment)
+    ) {
+      formatDateFromTo(
+        calendarState.view,
+        calendarState.date,
+        setCalendarState,
+      );
+    }
 
-    if (editEvent) {
-      setState((prevState) => ({
-        ...prevState,
-        myEvents: myEvents.map((event) =>
-          event.id === eventInfo.id ? eventInfo : event,
-        ),
-        ...resetEventFormState(),
-      }));
+    // Check if the date range already exists in the cache
+    if (!isRangeInCache(from, to) && from !== to) {
+      fetchData(_id, from, to);
+      setCachedData((prevCachedData) => [
+        ...prevCachedData,
+        { from, to }, // `data` can be populated when `fetchData` completes
+      ]);
     } else {
-      setState((prevState) => ({
-        ...prevState,
-        myEvents: [...myEvents, { id: myEvents.length + 1, ...eventInfo }],
-        ...resetEventFormState(),
-      }));
+      return;
     }
-    setEventInfo({});
-  }, [state, eventInfo]);
+  }, [calendarState.dateFromTo]);
 
-  const handleSelectEvent = useCallback(
-    (event) => {
-      setState((prevState) => ({
+  //pide los datos de los user cada vez que se monta el componente
+  useEffect(() => {
+    const specificData = {
+      name: 1,
+      email: 1,
+    };
+    getSpecificUserData(specificData).then((response) => {
+      setCalendarState((prevState) => ({
         ...prevState,
-        showModal: true,
+        usersNames: response.data,
       }));
-      setEventInfo(event);
-    },
-    [state, eventInfo],
-  );
+    });
+  }, []);
 
-  const handleSelectSlot = useCallback(
-    (event) => {
-      if (currentDateMoment > moment(event.start).format("YYYY-MM-DD HH:mm")) {
-        alert("No se puede crear en esta fecha");
-      } else {
-        setState((prevState) => ({
-          ...prevState,
-          newEvent: true,
-          showModal: true,
-        }));
-        setEventInfo((prevState) => ({
-          ...prevState,
-          start: event.start,
-          end: event.end,
-        }));
-      }
-    },
-    [state, eventInfo],
-  );
-
-  const handleDeleteEvent = useCallback(() => {
-    const { myEvents } = state;
-    if (eventInfo) {
-      setState((prevState) => ({
-        ...prevState,
-        myEvents: myEvents.filter((event) => event.id !== eventInfo.id),
-        ...resetEventFormState(),
-      }));
-      setEventInfo({});
+  //filtra el estado cachedData y toma data
+  const filterDataForEvent = (events) => {
+    if (events.length) {
+      const arrayAnidados = events.map((event) => event.data);
+      //arrayAnidados es un array de arrays, se aplica "flat"
+      return arrayAnidados.flat();
+    } else {
+      return [];
     }
-  }, [state, eventInfo]);
-
-  const eventStyleGetter = (event) => {
-    const backgroundColor = event.color || "#38b0ff";
-    const style = {
-      backgroundColor,
-    };
-    return {
-      style,
-    };
   };
 
   return (
     <>
-      <div className="w-3/4 min-h-[500px]">
-        <Calendar
-          culture="es"
-          localizer={localizer}
-          events={state.myEvents}
-          views={[Views.MONTH, Views.WEEK, Views.AGENDA]}
-          defaultView={state.view}
-          view={state.view}
-          date={state.date}
-          onView={(view) => setState((prevState) => ({ ...prevState, view }))}
-          onNavigate={(date) =>
-            setState((prevState) => ({ ...prevState, date: new Date(date) }))
-          }
-          messages={langConfig.es}
-          onSelectSlot={handleSelectSlot}
-          onSelectEvent={handleSelectEvent}
-          selectable={selectable}
-          formats={formatConfig}
-          min={new Date(1970, 1, 1, 6)} // Hora mínima (8:00 AM)
-          max={new Date(1970, 1, 1, 23)} // Hora máxima (6:00 PM)\\
-          components={{
-            toolbar: (props) => (
-              <CustomToolbar {...props} handleSelectSlot={handleSelectSlot} />
-            ),
-          }}
-          eventPropGetter={eventStyleGetter}
-        />
+      <div className="w-3/4 min-h-[500px] bg-slate-500">
+        {CalendarIsLoading ? (
+          <Loader />
+        ) : (
+          <Calendar
+            culture="es"
+            localizer={localizer}
+            events={filterDataForEvent(cachedData)}
+            views={[Views.MONTH, Views.WEEK, Views.AGENDA]}
+            defaultView={calendarState.view}
+            view={calendarState.view}
+            date={calendarState.date}
+            onView={handleViewChange}
+            onNavigate={handleNavigate}
+            messages={langConfig.es}
+            onSelectSlot={handleSelectSlot}
+            onSelectEvent={handleSelectEvent}
+            selectable={selectable}
+            formats={formatConfig}
+            min={new Date(1970, 1, 1, 6)} // Hora mínima (8:00 AM)
+            max={new Date(1970, 1, 1, 23)} // Hora máxima (6:00 PM)
+            components={{
+              toolbar: (props) => <CustomToolbar {...props} />,
+            }}
+            eventPropGetter={eventStyleGetter}
+          />
+        )}
       </div>
-      <CalendarModal
-        state={state}
-        setState={setState}
-        eventInfo={eventInfo}
-        setEventInfo={setEventInfo}
-        handleSaveEvent={handleSaveEvent}
-        handleDeleteEvent={handleDeleteEvent}
-      />
+      <CalendarModal />
     </>
   );
 }

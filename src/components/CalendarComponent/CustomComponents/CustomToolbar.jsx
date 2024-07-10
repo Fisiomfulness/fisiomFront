@@ -1,17 +1,23 @@
+import { CalendarContext } from "@/context/Calendar";
 import { Button, ButtonGroup } from "@nextui-org/react";
+import { useContext } from "react";
 import { SlArrowLeftCircle, SlArrowRightCircle, SlPlus } from "react-icons/sl";
+import { TfiReload } from "react-icons/tfi";
 
-const CustomToolbar = ({ label, onNavigate, onView, handleSelectSlot }) => {
+const CustomToolbar = ({ label, onNavigate, onView }) => {
+  const { onclickButtonCreate } = useContext(CalendarContext);
+
   return (
     <div className="flex justify-between items-center mb-4">
       <div className="">
-        <Button onClick={handleSelectSlot} color="success">
+        <Button onClick={onclickButtonCreate} color="success">
           <SlPlus fontSize={"20px"} color="white" />{" "}
           <p className="text-base font-semibold mx-1 text-white">
             Agregar Evento
           </p>
         </Button>
       </div>
+
       <div>
         <ButtonGroup>
           <Button

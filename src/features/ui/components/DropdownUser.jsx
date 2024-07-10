@@ -18,6 +18,7 @@ import { FaChevronLeft } from "react-icons/fa";
 
 const items = [
   { key: "/user/editar_perfil", label: "Editar perfil" },
+  { key: "/user/agenda", label: "Agenda" },
   {
     key: "root_mis_servicios",
     label: "Mis servicios",
