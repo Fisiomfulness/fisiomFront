@@ -93,3 +93,18 @@ export const createService = async (values) => {
     throw error;
   }
 };
+
+export const getServices = async ({
+  limit = 0,
+  offset = 0,
+  professionalId,
+}) => {
+  let query = `?offset=${offset}&limit=${limit}`;
+  if (professionalId) query += `&professionalId=${professionalId}`;
+  try {
+    const response = await axios.get(`${BASE_URL}/services${query}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
