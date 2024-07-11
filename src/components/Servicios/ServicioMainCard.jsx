@@ -4,14 +4,10 @@ import { CiLocationOn } from "react-icons/ci";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import NextLink from "next/link";
 import { Card, CardBody, Chip, Avatar, Link, Button } from "@nextui-org/react";
-import { PopupButton } from "react-calendly";
 
 // Fix de StarRatings
 import dynamic from "next/dynamic";
 const StarRatings = dynamic(() => import("react-star-ratings"), {
-  ssr: false,
-});
-const Calendly = dynamic(() => import("./Calendly/CalendlyButton"), {
   ssr: false,
 });
 
@@ -76,11 +72,9 @@ const ServicioMainCard = ({ profesional }) => {
             <div className="grid grid-cols-[max-content,auto] items-center gap-2">
               <CiLocationOn className="text-primary-400 size-7 sm:size-8" />
               <p className="line-clamp-2 font-semibold text-sm sm:text-base">
-                {profesional?.address?.streetName
-                  ? `${profesional.address?.streetName} ${
-                      profesional.address?.streetNumber
-                    }, ${profesional.address?.city}, ${
-                      profesional.address?.state
+                {profesional?.address?.city
+                  ? `${profesional?.address?.city}, ${
+                      profesional?.address?.state
                         ? profesional.address?.state + ", "
                         : ""
                     }${profesional.address?.country}`
@@ -98,7 +92,15 @@ const ServicioMainCard = ({ profesional }) => {
           </div>
           <div className="flex items-center justify-end">
             <div>
-              <Calendly calendlyLink={profesional.calendlyLink} />
+              <Link href={`./servicios/${profesional._id}/turno`}>
+                <Button 
+                  color="secondary" 
+                  size="lg"
+                  radius="sm"
+                >
+                  Agendar Cita
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
