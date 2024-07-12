@@ -46,7 +46,7 @@ export const CalendarProvider = ({ children }) => {
     _patient: "",
     patientName: "",
     title: "",
-    status: "",
+    status: "PENDING",
     additionalDescription: "",
     start: currentDateMoment,
     end: currentDateEnd,

@@ -1,11 +1,12 @@
 import { Input, Select, SelectItem } from "@nextui-org/react";
-import { AutocompleteComponent } from "./AutoCompleteComponent";
 import DateTimePicker from "react-datetime-picker";
 import moment from "moment";
 import { specialitiesArray, statusValue } from "../InitialValues";
 import { useCallback, useContext } from "react";
 import { CalendarContext } from "@/context/Calendar";
 import { standarFormartDate } from "@/utils/StandarValues";
+import { PatientNameAutocomplete } from "./PatientNameAutocomplete";
+import { ConsultTypeAutocomplete } from "./consultTypeAutocomplete";
 
 export const ModalForm = () => {
   const { eventInfo, setEventInfo, calendarState } =
@@ -60,21 +61,9 @@ export const ModalForm = () => {
 
   return (
     <div className="grid grid-cols-2 gap-4">
-      {!editEvent && <AutocompleteComponent />}
+      {!editEvent && <PatientNameAutocomplete />}
 
-      <Select
-        name="title"
-        items={specialitiesArray}
-        label="Tipo de Consulta"
-        placeholder="Seleccione un tipo de consulta"
-        className="max-w-xs"
-        value={eventInfo.specialty}
-        onChange={handleTitleChange}
-      >
-        {(specialty) => (
-          <SelectItem key={specialty.key}>{specialty.label}</SelectItem>
-        )}
-      </Select>
+      <ConsultTypeAutocomplete />
 
       <DateTimePicker
         disableCalendar
@@ -118,9 +107,7 @@ export const ModalForm = () => {
         value={eventInfo.status}
         onChange={handleStatusChange}
       >
-        {(specialty) => (
-          <SelectItem key={specialty.key}>{specialty.label}</SelectItem>
-        )}
+        {(state) => <SelectItem key={state.key}>{state.label}</SelectItem>}
       </Select>
     </div>
   );

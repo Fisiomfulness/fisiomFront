@@ -8,7 +8,7 @@ import DateTimePicker from "react-datetime-picker";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
-import { AutocompleteComponent } from "./CustomComponents/AutoCompleteComponent";
+import { AutocompleteComponent } from "./CustomComponents/PatientNameAutocomplete";
 import { ModalForm } from "./CustomComponents/ModalForm";
 import { CalendarContext } from "@/context/Calendar";
 import { EventInfoComponent } from "./CustomComponents/EventInfoComponent";

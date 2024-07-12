@@ -19,16 +19,11 @@ import { CalendarContext } from "@/context/Calendar";
 export default function CalendarComponent({ data, selectable }) {
   const {
     CalendarIsLoading,
-    setCalendarIsLoading,
     calendarState,
     setCalendarState,
-    eventInfo,
-    setEventInfo,
     fetchData,
-    handleSaveEvent,
     handleSelectSlot,
     handleSelectEvent,
-    handleDeleteEvent,
     eventStyleGetter,
     handleViewChange,
     handleNavigate,
@@ -48,7 +43,7 @@ export default function CalendarComponent({ data, selectable }) {
     );
   };
 
-  //Cuando Cambia "calendarState.dateFromTo" se hace un fetch con el rango de fecja
+  //Cuando Cambia "calendarState.dateFromTo" se hace un fetch con el rango de fecha
   useEffect(() => {
     const { from, to } = calendarState.dateFromTo;
 

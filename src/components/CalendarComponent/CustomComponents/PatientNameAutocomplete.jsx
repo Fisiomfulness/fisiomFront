@@ -3,15 +3,11 @@ import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { useContext, useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 
-export const AutocompleteComponent = () => {
-  const { calendarState, setCalendarState, eventInfo, setEventInfo } =
+export const PatientNameAutocomplete = () => {
+  const { calendarState, eventInfo, setEventInfo } =
     useContext(CalendarContext);
 
   const handleChangeAutocomplete = (key) => {
-    /* const user = calendarState.usersNames.filter(
-      (object) => object._id === key,
-    ); */
-    console.log(key);
     setEventInfo((prevState) => ({
       ...prevState,
       _patient: key,
