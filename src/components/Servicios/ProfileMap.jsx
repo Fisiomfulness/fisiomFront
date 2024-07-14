@@ -1,10 +1,10 @@
-import 'leaflet/dist/leaflet.css';
-import { Icon } from 'leaflet';
-import { MapContainer, Marker, TileLayer } from 'react-leaflet';
+import "leaflet/dist/leaflet.css";
+import { Icon } from "leaflet";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
 const ProfileMap = ({ center, zoom }) => {
   const customIcon = new Icon({
-    iconUrl: 'https://cdn-icons-png.flaticon.com/128/684/684908.png',
+    iconUrl: "https://cdn-icons-png.flaticon.com/128/684/684908.png",
     iconSize: [38, 38],
   });
 

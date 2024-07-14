@@ -23,13 +23,15 @@ const UsersUpdate = ({ markers, setMarkers, toggle }) => {
         withCredentials: true,
       })
       .then(({ data }) => {
-        setMarkers((prev) =>
-          Array.from(
-            new Map(
-              [...prev, ...data.users].map((item) => [item._id, item])
-            ).values()
-          )
-        );
+        setMarkers((prev) => {
+          const usersMap = new Map([...prev].map((item) => [item._id, item]));
+          data.users.forEach((user) => {
+            if (!usersMap.has(user._id)) {
+              usersMap.set(user._id, user);
+            }
+          });
+          return Array.from(usersMap.values());
+        });
       })
       .catch((err) => {
         if (err.name === "CanceledError") return;

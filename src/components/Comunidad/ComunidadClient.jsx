@@ -51,13 +51,15 @@ const ComunidadClient = () => {
           setUsers(data.users);
           setToggle((prev) => !prev);
         } else {
-          setUsers((prev) =>
-            Array.from(
-              new Map(
-                [...prev, ...data.users].map((item) => [item._id, item])
-              ).values()
-            )
-          );
+          setUsers((prev) => {
+            const usersMap = new Map([...prev].map((item) => [item._id, item]));
+            data.users.forEach((user) => {
+              if (!usersMap.has(user._id)) {
+                usersMap.set(user._id, user);
+              }
+            });
+            return Array.from(usersMap.values());
+          });
         }
         setTotalPages(data.totalPages);
       })
