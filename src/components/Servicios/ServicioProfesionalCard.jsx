@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   Card,
   CardBody,
@@ -7,16 +7,16 @@ import {
   CardFooter,
   Divider,
   Snippet,
-} from '@nextui-org/react';
-import { FaUserDoctor } from 'react-icons/fa6';
-import { CiMail } from 'react-icons/ci';
-import { IoIosCall } from 'react-icons/io';
-import dynamic from 'next/dynamic';
+} from "@nextui-org/react";
+import { FaUserDoctor } from "react-icons/fa6";
+import { CiMail } from "react-icons/ci";
+import { IoIosCall } from "react-icons/io";
+import dynamic from "next/dynamic";
 
-const StarRatings = dynamic(() => import('react-star-ratings'), {
+const StarRatings = dynamic(() => import("react-star-ratings"), {
   ssr: false,
 });
-const ProfileMap = dynamic(() => import('./utils/ProfileMap'), {
+const ProfileMap = dynamic(() => import("./ProfileMap"), {
   ssr: false,
 });
 
@@ -28,7 +28,7 @@ const ServicioProfesionalCard = ({ professional }) => {
           <div className="grid gap-2 md:gap-4 sm:grid-cols-2 lg:grid-cols-1">
             <Image
               alt={professional.name}
-              src={professional.image || '/doctor-ejemplo.png'}
+              src={professional.image || "/doctor-ejemplo.png"}
               className="text-center size-full h-[300px] max-h-[300px] object-cover object-top"
               radius="none"
               shadow="none"
@@ -51,7 +51,7 @@ const ServicioProfesionalCard = ({ professional }) => {
                     startContent={<FaUserDoctor className="text-[#164a37e2]" />}
                     className="bg-[#acf5da] px-3 gap-1 items-center"
                     classNames={{
-                      content: 'text-[#164a37e2] tracking-wider',
+                      content: "text-[#164a37e2] tracking-wider",
                     }}
                   >
                     {specialty.name}
@@ -60,11 +60,11 @@ const ServicioProfesionalCard = ({ professional }) => {
             </div>
             <p
               className={`text-sm ${
-                !professional.description && 'text-secondary-400 font-semibold'
+                !professional.description && "text-secondary-400 font-semibold"
               }`}
             >
               {professional.description ||
-                'Profesional verificado de Fisiomfulness'}
+                "Profesional verificado de Fisiomfulness"}
             </p>
           </div>
         </CardBody>
@@ -79,13 +79,13 @@ const ServicioProfesionalCard = ({ professional }) => {
             radius="none"
             fullWidth
             tooltipProps={{
-              color: 'secondary',
-              content: 'Copiar correo electrónico',
+              color: "secondary",
+              content: "Copiar correo electrónico",
               delay: 200,
             }}
             className="bg-transparent"
             classNames={{
-              pre: 'flex items-center gap-2',
+              pre: "flex items-center gap-2",
             }}
           >
             <span className="text-black font-sans">{professional.email}</span>
@@ -97,21 +97,21 @@ const ServicioProfesionalCard = ({ professional }) => {
             radius="none"
             fullWidth
             tooltipProps={{
-              color: 'secondary',
-              content: 'Copiar teléfono',
+              color: "secondary",
+              content: "Copiar teléfono",
               delay: 200,
             }}
             className="bg-transparent"
             classNames={{
-              color: 'secondary',
-              pre: 'flex items-center gap-2',
+              color: "secondary",
+              pre: "flex items-center gap-2",
             }}
           >
             <span className="text-black font-sans">{professional.phone}</span>
           </Snippet>
         </CardFooter>
       </Card>
-      
+
       <div className="h-auto sm:hidden lg:block">
         <ProfileMap center={professional.coordinates} zoom={13} />
       </div>

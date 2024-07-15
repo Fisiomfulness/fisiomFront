@@ -10,7 +10,6 @@ const ServiciosPage = () => {
   return (
     <>
       <ServicioMain />
-      {/* <CalendarioMain /> */}
     </>
   );
 };
