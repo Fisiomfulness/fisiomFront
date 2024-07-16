@@ -3,7 +3,7 @@ import { RxPencil1, RxTrash } from 'react-icons/rx';
 
 function CustomTableBody({ services }) {
   return (
-    <tbody className="whitespace-nowrap text-center">
+    <tbody>
       {services.map((service) => (
         <tr
           key={service._id}
@@ -17,7 +17,9 @@ function CustomTableBody({ services }) {
               {service.description}
             </p>
           </td>
-          <td className="px-12 py-3 align-top">$ {service.price}</td>
+          <td className="px-12 py-3 align-top whitespace-nowrap">
+            $ {service.price}
+          </td>
           <td className="px-12 py-3">
             <div className="flex flex-row gap-8">
               <Tooltip
@@ -26,7 +28,12 @@ function CustomTableBody({ services }) {
                 color="secondary"
                 closeDelay={200}
               >
-                <Button isIconOnly size="sm" radius="full" className='bg-transparent'>
+                <Button
+                  isIconOnly
+                  size="sm"
+                  radius="full"
+                  className="bg-transparent"
+                >
                   <RxTrash className="text-primary text-2xl" />
                 </Button>
               </Tooltip>
@@ -36,7 +43,12 @@ function CustomTableBody({ services }) {
                 color="secondary"
                 closeDelay={200}
               >
-                <Button isIconOnly size="sm" radius="full" className='bg-transparent'>
+                <Button
+                  isIconOnly
+                  size="sm"
+                  radius="full"
+                  className="bg-transparent"
+                >
                   <RxPencil1 className="text-primary text-2xl" />
                 </Button>
               </Tooltip>
