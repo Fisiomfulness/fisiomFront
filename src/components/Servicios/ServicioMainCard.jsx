@@ -1,13 +1,13 @@
-'use client';
-import { FaUserDoctor } from 'react-icons/fa6';
-import { CiLocationOn } from 'react-icons/ci';
-import { RiMoneyDollarCircleLine } from 'react-icons/ri';
-import NextLink from 'next/link';
-import { Card, CardBody, Chip, Avatar, Link, Button } from '@nextui-org/react';
+"use client";
+import { FaUserDoctor } from "react-icons/fa6";
+import { CiLocationOn } from "react-icons/ci";
+import { RiMoneyDollarCircleLine } from "react-icons/ri";
+import NextLink from "next/link";
+import { Card, CardBody, Chip, Avatar, Link, Button } from "@nextui-org/react";
 
 // Fix de StarRatings
-import dynamic from 'next/dynamic';
-const StarRatings = dynamic(() => import('react-star-ratings'), {
+import dynamic from "next/dynamic";
+const StarRatings = dynamic(() => import("react-star-ratings"), {
   ssr: false,
 });
 
@@ -22,7 +22,7 @@ const ServicioMainCard = ({ profesional }) => {
         <div className="flex flex-col overflow-hidden gap-2">
           <div className="grid grid-cols-[max-content,auto] items-center gap-4">
             <Avatar
-              src={profesional.image || '/doctor-ejemplo.png'}
+              src={profesional.image || "/doctor-ejemplo.png"}
               className="w-16 h-16 sm:w-20 sm:h-20 ml-1"
             />
             <div className="flex flex-col gap-0">
@@ -40,7 +40,7 @@ const ServicioMainCard = ({ profesional }) => {
                       radius="sm"
                       startContent={<FaUserDoctor className="text-white" />}
                       classNames={{
-                        base: 'px-2 flex gap-1',
+                        base: "px-2 flex gap-1",
                       }}
                     >
                       <p className="text-small text-primary-50 truncate">
@@ -72,15 +72,13 @@ const ServicioMainCard = ({ profesional }) => {
             <div className="grid grid-cols-[max-content,auto] items-center gap-2">
               <CiLocationOn className="text-primary-400 size-7 sm:size-8" />
               <p className="line-clamp-2 font-semibold text-sm sm:text-base">
-                {profesional?.address?.streetName
-                  ? `${profesional.address?.streetName} ${
-                      profesional.address?.streetNumber
-                    }, ${profesional.address?.city}, ${
-                      profesional.address?.state
-                        ? profesional.address?.state + ', '
-                        : ''
+                {profesional?.address?.city
+                  ? `${profesional?.address?.city}, ${
+                      profesional?.address?.state
+                        ? profesional.address?.state + ", "
+                        : ""
                     }${profesional.address?.country}`
-                  : 'A consultar'}
+                  : "A consultar"}
               </p>
             </div>
             <div className="flex  items-center gap-2 ">
@@ -88,19 +86,23 @@ const ServicioMainCard = ({ profesional }) => {
               <div className="flex  flex-col">
                 <p className="font-bold text-sm sm:text-base">Consulta</p>
 
-                <p>$ {profesional.consultationPrice || '-'}</p>
+                <p>$ {profesional.consultationPrice || "-"}</p>
               </div>
             </div>
           </div>
           <div className="flex items-center justify-end">
-            <Button
-              as={NextLink}
-              href={`./servicios/${profesional._id}/turno`}
-              color="secondary"
-              className="min-w-fit w-[30%] font-semibold rounded-md text-xs md:text-sm"
-            >
-              Agenda turno
-            </Button>
+            <div>
+              <Link href={`./servicios/${profesional._id}/turno`}>
+                <Button
+                  color="secondary"
+                  size="lg"
+                  radius="sm"
+                  className="px-8"
+                >
+                  Agendar Turno
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </CardBody>

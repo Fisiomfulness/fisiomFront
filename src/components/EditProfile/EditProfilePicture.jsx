@@ -1,6 +1,6 @@
-import { Button, Image } from '@nextui-org/react';
-import { useFormikContext } from 'formik';
-import { useState } from 'react';
+import { Button, Image } from "@nextui-org/react";
+import { useFormikContext } from "formik";
+import { useState } from "react";
 
 const EditProfilePicture = ({ displayedImage, setDisplayedImage }) => {
   const { values, errors, setFieldValue } = useFormikContext();
@@ -16,7 +16,7 @@ const EditProfilePicture = ({ displayedImage, setDisplayedImage }) => {
           const file = e.target?.files[0];
           if (!file) return;
           setDisplayedImage(URL.createObjectURL(file));
-          setFieldValue('image', file);
+          setFieldValue("image", file);
         }}
       />
       <Image
@@ -37,18 +37,18 @@ const EditProfilePicture = ({ displayedImage, setDisplayedImage }) => {
         <p
           className={`w-[95%] max-w-[300px] px-2 outline-dashed outline-1 outline-offset-2 ${
             errors.image
-              ? 'outline-danger-500 text-danger-500'
-              : 'outline-gray-400 text-primary-900'
-          } truncate text-center`}
+              ? "outline-danger-500 text-danger-500"
+              : "outline-gray-400 text-primary-900"
+          } line-clamp-2 text-center`}
         >
           <span
             className={`font-semibold ${
-              errors.image ? 'text-danger-500' : 'text-secondary-500'
+              errors.image ? "text-danger-500" : "text-secondary-500"
             }`}
           >
-            {errors.image ? 'Imagen invalida: ' : 'Nueva: '}
+            {errors.image ? "Imagen invalida: " : "Nueva: "}
           </span>
-          {values.image?.name}
+          {errors.image || values.image?.name}
         </p>
       )}
     </div>

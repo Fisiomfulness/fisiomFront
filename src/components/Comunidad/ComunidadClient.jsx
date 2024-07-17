@@ -34,39 +34,34 @@ const ComunidadClient = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    setLoading(true);
-    axios
-      .get(apiEndpoints.users, {
-        signal: abortController.signal,
-        params: {
-          search: filters.search,
-          interests: filters.interestsId.join(","),
-          position: location.user.join(","),
-          page: filters.page,
-        },
-        withCredentials: true,
-      })
-      .then(({ data }) => {
-        if (filters.page === 1) {
-          setUsers(data.users);
-          setToggle((prev) => !prev);
-        } else {
-          setUsers((prev) =>
-            Array.from(
-              new Map(
-                [...prev, ...data.users].map((item) => [item._id, item])
-              ).values()
-            )
-          );
-        }
-        setTotalPages(data.totalPages);
-      })
-      .catch((err) => {
-        if (err.name === "CanceledError") return;
-        throw err;
-      })
-      .finally(setLoading(false));
+    if (userCoords[0] !== 0) {
+      setLoading(true);
+      axios
+        .get(apiEndpoints.users, {
+          signal: abortController.signal,
+          params: {
+            search: filters.search,
+            interests: Array.from(filters.interests).join(","),
+            pos: userCoords.join(","),
+            page: page,
+          },
+          withCredentials: true,
+        })
+        .then(({ data }) => {
+          if (page === 1) {
+            setUsers(data.users);
+          } else {
+            setUsers((prev) => [...prev, ...data.users]);
+          }
+          setTotalPages(data.totalPages);
+        })
+        .catch((err) => {
+          if (err.name === "CanceledError") return;
 
+          throw err;
+        })
+        .finally(setLoading(false));
+    }
     return () => abortController.abort();
   }, [filters, location]);
 

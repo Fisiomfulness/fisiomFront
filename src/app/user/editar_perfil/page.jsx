@@ -17,7 +17,6 @@ const EditProfilePage = async () => {
   if (!session) return notFound();
   const { foundUser } = await getUserDetail(session.user?.id);
   const { interests } = await getInterests();
-  console.log(foundUser);
 
   return (
     <main className="px-auto py-4 min-h-[92vh] center bg-primary-400 overflow-hidden">

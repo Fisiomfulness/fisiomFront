@@ -30,7 +30,6 @@
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-big-calendar": "^1.12.2",
-    "react-datetime-picker": "^6.0.1",
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.1",

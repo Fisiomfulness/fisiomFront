@@ -1,17 +1,16 @@
-import { useState } from 'react';
-import { useFormikContext } from 'formik';
-import { CustomInput } from '@/features/ui';
-import { Divider, Select, SelectItem, input } from '@nextui-org/react';
-import { Button } from '@nextui-org/react';
-import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
-import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
+import { useState } from "react";
+import { useFormikContext } from "formik";
+import { Input, Divider, Select, SelectItem } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
+import { EyeFilledIcon } from "../CustomComponentForm/EyeFilledIcon";
+import { EyeSlashFilledIcon } from "../CustomComponentForm/EyeSlashFilledIcon";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
-import FileUpload from './FileUpload';
+import FileUpload from "./FileUpload";
 
 const genderList = [
-  { label: 'Femenino', value: 'Femenino' },
-  { label: 'Masculino', value: 'Masculino' },
-  { label: 'Prefiero no responder', value: 'Prefiero no responder' },
+  { label: "Femenino", value: "Femenino" },
+  { label: "Masculino", value: "Masculino" },
+  { label: "Prefiero no responder", value: "Prefiero no responder" },
 ];
 
 export const InputsFormRegister = ({
@@ -39,19 +38,24 @@ export const InputsFormRegister = ({
           return (
             <div key={index}>
               <div className="flex gap-2 flex-col sm:flex-row w-full justify-between">
-                <CustomInput
+                <Input
                   {...inputValue}
+                  size="md"
+                  variant="bordered"
                   value={values[inputValue.name]}
+                  radius="sm"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  size="lg"
                   classNames={{
-                    inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+                    inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+                    label: "text-default-600 text-base",
+                    input: "text-base",
+                    errorMessage: "text-sm",
                   }}
                   isClearable={isUpdate}
                   onClear={
                     isUpdate
-                      ? () => setFieldValue(inputValue.name, '')
+                      ? () => setFieldValue(inputValue.name, "")
                       : undefined
                   }
                 />
@@ -63,37 +67,53 @@ export const InputsFormRegister = ({
 
       {isProfessional ? (
         <div className="grid md:grid-cols-2 gap-2">
-          <CustomInput
+          <Input
             name="consultationPrice"
             aria-label="Precio de consulta"
             type="text"
-            variant="flat"
-            placeholder="Precio consulta (Soles)"
+            variant="bordered"
+            radius="sm"
+            size="md"
+            label="Precio consulta (Soles)"
             value={values.consultationPrice}
-            isInvalid={touched?.consultationPrice && errors.consultationPrice ? true : false}
-            errorMessage={touched?.consultationPrice && errors.consultationPrice}
+            isInvalid={
+              touched?.consultationPrice && errors.consultationPrice
+                ? true
+                : false
+            }
+            errorMessage={
+              touched?.consultationPrice && errors.consultationPrice
+            }
             onBlur={handleBlur}
             onChange={handleChange}
-            size="lg"
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+              label: "text-default-600 text-base",
+              input: "text-base",
+              errorMessage: "text-sm",
             }}
-            startContent={<FaRegMoneyBillAlt size={18} className='text-secondary-400'/>}
+            startContent={
+              <FaRegMoneyBillAlt size={18} className="text-secondary-400" />
+            }
           />
-          <CustomInput
+          <Input
             name="license"
             aria-label="Numero de colegiado"
             type="string"
-            variant="flat"
-            placeholder="Numero de colegiado"
+            variant="bordered"
+            radius="sm"
+            label="Numero de colegiado"
             value={values.license}
             isInvalid={touched?.license && errors.license ? true : false}
             errorMessage={touched?.license && errors.license}
             onBlur={handleBlur}
             onChange={handleChange}
-            size="lg"
+            size="md"
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+              label: "text-default-600 text-base",
+              input: "text-base",
+              errorMessage: "text-sm",
             }}
           />
         </div>
@@ -111,22 +131,24 @@ export const InputsFormRegister = ({
         size="lg"
         radius="sm"
         classNames={{
-          innerWrapper: 'text-gray-500',
-          label: 'text-gray-500',
-          errorMessage: 'text-sm',
+          inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+          label: "text-default-600 text-base",
+          input: "text-base",
+          errorMessage: "text-sm",
         }}
       >
         {(gender) => <SelectItem key={gender.value}>{gender.label}</SelectItem>}
       </Select>
 
       <div className="flex flex-col sm:flex-row gap-2 w-full justify-between">
-        <CustomInput
+        <Input
           name="password"
           aria-label="Contraseña"
           autocomplete="new-password"
-          variant="flat"
-          placeholder="Contraseña"
-          size="lg"
+          variant="bordered"
+          radius="sm"
+          label="Contraseña"
+          size="md"
           value={values.password}
           isInvalid={touched.password && errors.password ? true : false}
           errorMessage={touched.password && errors.password}
@@ -145,19 +167,23 @@ export const InputsFormRegister = ({
               )}
             </button>
           }
-          type={isVisible ? 'text' : 'password'}
+          type={isVisible ? "text" : "password"}
           classNames={{
-            inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+            inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+            label: "text-default-600 text-base",
+            input: "text-base",
+            errorMessage: "text-sm",
           }}
         />
 
-        <CustomInput
+        <Input
           name="confirmPass"
           aria-label="Repita la contraseña"
           autocomplete="repeat-password"
-          variant="flat"
-          placeholder="Repita la contraseña"
-          size="lg"
+          variant="bordered"
+          radius="sm"
+          label="Repita la contraseña"
+          size="md"
           value={values.confirmPass}
           isInvalid={touched.confirmPass && errors.confirmPass ? true : false}
           errorMessage={touched.confirmPass && errors.confirmPass}
@@ -165,7 +191,10 @@ export const InputsFormRegister = ({
           onChange={handleChange}
           type="password"
           classNames={{
-            inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
+            inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+            label: "text-default-600 text-base",
+            input: "text-base",
+            errorMessage: "text-sm",
           }}
         />
       </div>

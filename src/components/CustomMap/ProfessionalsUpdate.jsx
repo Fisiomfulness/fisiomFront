@@ -24,13 +24,17 @@ const ProfessionalsUpdate = ({ markers, setMarkers, toggle }) => {
         withCredentials: true,
       })
       .then(({ data }) => {
-        setMarkers((prev) =>
-          Array.from(
-            new Map(
-              [...prev, ...data.professionals].map((item) => [item._id, item])
-            ).values()
-          )
-        );
+        setMarkers((prev) => {
+          const professionalsMap = new Map(
+            [...prev].map((item) => [item._id, item]),
+          );
+          data.professionals.forEach((professional) => {
+            if (!professionalsMap.has(professional._id)) {
+              professionalsMap.set(professional._id, professional);
+            }
+          });
+          return Array.from(professionalsMap.values());
+        });
       })
       .catch((err) => {
         if (err.name === "CanceledError") return;

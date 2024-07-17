@@ -8,10 +8,8 @@ export const metadata = {
 
 const Layout = ({ children }) => {
   return (
-    <div className="flex flex-col lg:flex-row justify-around p-2">
-      <div>
-        <ServicioAsideBar />
-      </div>
+    <div className="min-h-[92dvh] w-full vstack mx-auto max-w-8xl lg:grid lg:grid-cols-[140px,auto] lg:gap-16 px-auto">
+      <ServicioAsideBar />
       {children}
     </div>
   );

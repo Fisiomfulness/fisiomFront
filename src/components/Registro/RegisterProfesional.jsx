@@ -1,18 +1,15 @@
 "use client";
 import { Form, Formik } from "formik";
 import { InputsFormRegister } from "./InputsForms";
-
 import { axiosRegisterProfessionalForm } from "@/services/users";
-import { removeObjFalsyValues } from "@/utils/helpers";
+import { getFormdataFromObj, removeObjFalsyValues } from "@/utils/helpers";
 import { formikZodValidator } from "@/utils/validations";
 import {
   professionalInitialValues,
   professionalSchema,
 } from "@/utils/validations/professionalSchema";
-import toast from "react-hot-toast";
 import { listInputsUser } from "./listInputs";
-
-//#region Formik config
+import toast from "react-hot-toast";
 
 export function RegisterProfessional({ conditionsAccepted }) {
   const handleSubmitRegister = async (values, { resetForm }) => {
@@ -21,10 +18,7 @@ export function RegisterProfessional({ conditionsAccepted }) {
       return;
     }
     values = removeObjFalsyValues(values);
-    const formData = new FormData();
-    for (const [key, value] of Object.entries(values)) {
-      formData.append(key, value);
-    }
+    const formData = getFormdataFromObj(values);
     await axiosRegisterProfessionalForm(formData);
     resetForm();
   };
@@ -35,27 +29,13 @@ export function RegisterProfessional({ conditionsAccepted }) {
       initialValues={professionalInitialValues}
       validate={formikZodValidator(professionalSchema)}
     >
-      {({
-        handleChange,
-        handleBlur,
-        touched,
-        values,
-        errors,
-        isSubmitting,
-      }) => (
-        <Form className="flex flex-col gap-2 w-full overflow-hidden min-[480px]:w-[90%]">
-          <InputsFormRegister
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            touched={touched}
-            values={values}
-            errors={errors}
-            isProfessional={true}
-            submitButonMessage={"Crear perfil"}
-            listInputsValue={listInputsUser}
-          />
-        </Form>
-      )}
+      <Form className="flex flex-col gap-2 w-full overflow-hidden min-[480px]:w-[90%]">
+        <InputsFormRegister
+          isProfessional={true}
+          submitButtonMessage={"Crear perfil"}
+          listInputsValue={listInputsUser}
+        />
+      </Form>
     </Formik>
   );
 }
