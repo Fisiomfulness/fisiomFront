@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { useFormikContext } from 'formik';
-import { Input, Divider, Select, SelectItem } from '@nextui-org/react';
-import { Button } from '@nextui-org/react';
-import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
-import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
-import { FaRegMoneyBillAlt } from 'react-icons/fa';
-import FileUpload from './FileUpload';
+import { useState } from "react";
+import { useFormikContext } from "formik";
+import { Input, Divider, Select, SelectItem } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
+import { EyeFilledIcon } from "../CustomComponentForm/EyeFilledIcon";
+import { EyeSlashFilledIcon } from "../CustomComponentForm/EyeSlashFilledIcon";
+import { FaRegMoneyBillAlt } from "react-icons/fa";
+import FileUpload from "./FileUpload";
 
 const genderList = [
-  { label: 'Femenino', value: 'Femenino' },
-  { label: 'Masculino', value: 'Masculino' },
-  { label: 'Prefiero no responder', value: 'Prefiero no responder' },
+  { label: "Femenino", value: "Femenino" },
+  { label: "Masculino", value: "Masculino" },
+  { label: "Prefiero no responder", value: "Prefiero no responder" },
 ];
 
 export const InputsFormRegister = ({
@@ -47,15 +47,15 @@ export const InputsFormRegister = ({
                   onBlur={handleBlur}
                   onChange={handleChange}
                   classNames={{
-                    inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-                    label: 'text-default-600 text-base',
-                    input: 'text-base',
-                    errorMessage: 'text-sm',
+                    inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+                    label: "text-default-600 text-base",
+                    input: "text-base",
+                    errorMessage: "text-sm",
                   }}
                   isClearable={isUpdate}
                   onClear={
                     isUpdate
-                      ? () => setFieldValue(inputValue.name, '')
+                      ? () => setFieldValue(inputValue.name, "")
                       : undefined
                   }
                 />
@@ -87,10 +87,10 @@ export const InputsFormRegister = ({
             onBlur={handleBlur}
             onChange={handleChange}
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-              label: 'text-default-600 text-base',
-              input: 'text-base',
-              errorMessage: 'text-sm',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+              label: "text-default-600 text-base",
+              input: "text-base",
+              errorMessage: "text-sm",
             }}
             startContent={
               <FaRegMoneyBillAlt size={18} className="text-secondary-400" />
@@ -110,10 +110,10 @@ export const InputsFormRegister = ({
             onChange={handleChange}
             size="md"
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-              label: 'text-default-600 text-base',
-              input: 'text-base',
-              errorMessage: 'text-sm',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+              label: "text-default-600 text-base",
+              input: "text-base",
+              errorMessage: "text-sm",
             }}
           />
         </div>
@@ -131,10 +131,10 @@ export const InputsFormRegister = ({
         size="lg"
         radius="sm"
         classNames={{
-          inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-          label: 'text-default-600 text-base',
-          input: 'text-base',
-          errorMessage: 'text-sm',
+          inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+          label: "text-default-600 text-base",
+          input: "text-base",
+          errorMessage: "text-sm",
         }}
       >
         {(gender) => <SelectItem key={gender.value}>{gender.label}</SelectItem>}
@@ -167,12 +167,12 @@ export const InputsFormRegister = ({
               )}
             </button>
           }
-          type={isVisible ? 'text' : 'password'}
+          type={isVisible ? "text" : "password"}
           classNames={{
-            inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-            label: 'text-default-600 text-base',
-            input: 'text-base',
-            errorMessage: 'text-sm',
+            inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+            label: "text-default-600 text-base",
+            input: "text-base",
+            errorMessage: "text-sm",
           }}
         />
 
@@ -191,10 +191,10 @@ export const InputsFormRegister = ({
           onChange={handleChange}
           type="password"
           classNames={{
-            inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-            label: 'text-default-600 text-base',
-            input: 'text-base',
-            errorMessage: 'text-sm',
+            inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+            label: "text-default-600 text-base",
+            input: "text-base",
+            errorMessage: "text-sm",
           }}
         />
       </div>

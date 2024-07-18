@@ -51,7 +51,7 @@ const ServicioMain = () => {
         } else {
           setProfessionals((prev) => {
             const professionalsMap = new Map(
-              [...prev].map((item) => [item._id, item])
+              [...prev].map((item) => [item._id, item]),
             );
             data.users.forEach((professional) => {
               if (!professionalsMap.has(professional._id)) {
@@ -93,6 +93,7 @@ const ServicioMain = () => {
             {loading && <Loader />}
           </div>
         </div>
+
         <div className="min-h-[80vh] w-full">
           <CustomMap
             markers={professionals}

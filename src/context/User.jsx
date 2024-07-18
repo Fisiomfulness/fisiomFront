@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { verifyToken } from "@/services/auth";
 import { httpLogout } from "@/services/users";

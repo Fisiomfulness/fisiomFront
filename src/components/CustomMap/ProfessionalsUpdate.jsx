@@ -26,7 +26,7 @@ const ProfessionalsUpdate = ({ markers, setMarkers, toggle }) => {
       .then(({ data }) => {
         setMarkers((prev) => {
           const professionalsMap = new Map(
-            [...prev].map((item) => [item._id, item])
+            [...prev].map((item) => [item._id, item]),
           );
           data.professionals.forEach((professional) => {
             if (!professionalsMap.has(professional._id)) {
