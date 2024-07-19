@@ -51,9 +51,9 @@ const ServicioMain = () => {
         } else {
           setProfessionals((prev) => {
             const professionalsMap = new Map(
-              [...prev].map((item) => [item._id, item]),
+              [...prev].map((item) => [item._id, item])
             );
-            data.users.forEach((professional) => {
+            data.professionals.forEach((professional) => {
               if (!professionalsMap.has(professional._id)) {
                 professionalsMap.set(professional._id, professional);
               }

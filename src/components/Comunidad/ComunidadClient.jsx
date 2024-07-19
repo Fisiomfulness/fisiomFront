@@ -34,34 +34,41 @@ const ComunidadClient = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    if (userCoords[0] !== 0) {
-      setLoading(true);
-      axios
-        .get(apiEndpoints.users, {
-          signal: abortController.signal,
-          params: {
-            search: filters.search,
-            interests: Array.from(filters.interests).join(","),
-            pos: userCoords.join(","),
-            page: page,
-          },
-          withCredentials: true,
-        })
-        .then(({ data }) => {
-          if (page === 1) {
-            setUsers(data.users);
-          } else {
-            setUsers((prev) => [...prev, ...data.users]);
-          }
-          setTotalPages(data.totalPages);
-        })
-        .catch((err) => {
-          if (err.name === "CanceledError") return;
+    setLoading(true);
+    axios
+      .get(apiEndpoints.users, {
+        signal: abortController.signal,
+        params: {
+          search: filters.search,
+          interests: filters.interestsId.join(","),
+          position: location.user.join(","),
+          page: filters.page,
+        },
+        withCredentials: true,
+      })
+      .then(({ data }) => {
+        if (filters.page === 1) {
+          setUsers(data.users);
+          setToggle((prev) => !prev);
+        } else {
+          setUsers((prev) => {
+            const usersMap = new Map([...prev].map((item) => [item._id, item]));
+            data.users.forEach((user) => {
+              if (!usersMap.has(user._id)) {
+                usersMap.set(user._id, user);
+              }
+            });
+            return Array.from(usersMap.values());
+          });
+        }
+        setTotalPages(data.totalPages);
+      })
+      .catch((err) => {
+        if (err.name === "CanceledError") return;
+        throw err;
+      })
+      .finally(setLoading(false));
 
-          throw err;
-        })
-        .finally(setLoading(false));
-    }
     return () => abortController.abort();
   }, [filters, location]);
 

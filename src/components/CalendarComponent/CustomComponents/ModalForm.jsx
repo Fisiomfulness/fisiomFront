@@ -20,7 +20,7 @@ export const ModalForm = () => {
         [name]: moment(event).format(standarFormartDate),
       }));
     },
-    [setEventInfo],
+    [setEventInfo]
   );
 
   const handleEventInfoChange = useCallback(
@@ -31,21 +31,21 @@ export const ModalForm = () => {
         [name]: value,
       }));
     },
-    [eventInfo],
+    [eventInfo]
   );
 
   const handleTitleChange = useCallback(
     (event) => {
       const { name, value } = event.target;
       const servicioFiltrado = specialitiesArray.filter(
-        (servicio) => servicio.key === value,
+        (servicio) => servicio.key === value
       );
       setEventInfo((prevState) => ({
         ...prevState,
         [name]: servicioFiltrado[0].label,
       }));
     },
-    [eventInfo],
+    [eventInfo]
   );
 
   const handleStatusChange = useCallback(
@@ -56,7 +56,7 @@ export const ModalForm = () => {
         [name]: value,
       }));
     },
-    [eventInfo],
+    [eventInfo]
   );
 
   return (
