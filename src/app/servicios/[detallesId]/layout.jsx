@@ -1,9 +1,9 @@
-import ServicioAsideBar from '@/components/Servicios/ServicioAsideBar';
+import ServicioAsideBar from "@/components/Servicios/ServicioAsideBar";
 
 export const metadata = {
-  title: 'Perfil del Profesional',
+  title: "Perfil del Profesional",
   description:
-    'Conoce más sobre nuestro profesional altamente calificado, sus habilidades, experiencia y los servicios de salud que ofrece.',
+    "Conoce más sobre nuestro profesional altamente calificado, sus habilidades, experiencia y los servicios de salud que ofrece.",
 };
 
 const Layout = ({ children }) => {

@@ -51,7 +51,7 @@ const ServicioMainCard = ({ profesional }) => {
                 </div>
               ) : null}
               <StarRatings
-                rating={profesional.averageScore.average}
+                rating={profesional.rating?.average}
                 starRatedColor="#ffb829"
                 numberOfStars={5}
                 starDimension="14px"
@@ -93,12 +93,13 @@ const ServicioMainCard = ({ profesional }) => {
           <div className="flex items-center justify-end">
             <div>
               <Link href={`./servicios/${profesional._id}/turno`}>
-                <Button 
-                  color="secondary" 
+                <Button
+                  color="secondary"
                   size="lg"
                   radius="sm"
+                  className="px-8"
                 >
-                  Agendar Cita
+                  Agendar Turno
                 </Button>
               </Link>
             </div>

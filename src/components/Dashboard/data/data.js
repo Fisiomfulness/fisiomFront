@@ -4,6 +4,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { MdMedicalServices } from 'react-icons/md';
 import { FaUserDoctor } from 'react-icons/fa6';
 import { SiMicrodotblog } from 'react-icons/si';
+
 const columns = [
   { name: 'ID', uid: 'id', sortable: true },
   { name: 'Nombre', uid: 'name', sortable: true },
@@ -57,6 +58,7 @@ export const dashboardDropdown = [
     icon: React.createElement(SiMicrodotblog),
     tab: 4,
   },
+
 ];
 
 const statusOptions = [

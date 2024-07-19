@@ -49,13 +49,17 @@ const ServicioMain = () => {
           setProfessionals(data.professionals);
           setToggle((prev) => !prev);
         } else {
-          setProfessionals((prev) =>
-            Array.from(
-              new Map(
-                [...prev, ...data.professionals].map((item) => [item._id, item])
-              ).values()
-            )
-          );
+          setProfessionals((prev) => {
+            const professionalsMap = new Map(
+              [...prev].map((item) => [item._id, item])
+            );
+            data.professionals.forEach((professional) => {
+              if (!professionalsMap.has(professional._id)) {
+                professionalsMap.set(professional._id, professional);
+              }
+            });
+            return Array.from(professionalsMap.values());
+          });
         }
         setTotalPages(data.totalPages);
       })
@@ -89,6 +93,7 @@ const ServicioMain = () => {
             {loading && <Loader />}
           </div>
         </div>
+
         <div className="min-h-[80vh] w-full">
           <CustomMap
             markers={professionals}

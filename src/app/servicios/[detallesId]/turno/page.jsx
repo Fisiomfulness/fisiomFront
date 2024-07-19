@@ -1,16 +1,22 @@
-import ServicioAsideBar from "@/components/Servicios/ServicioAsideBar"
-import Calendario from "@/components/Servicios/Calendario/ServicioTurno"
+"use client";
 
-const ServicioTurno = () => {
+import CalendarComponent from "@/components/CalendarComponent/CalendarComponent";
+import { CalendarProvider } from "@/context/Calendar";
+import { useParams } from "next/navigation";
+
+const ServicioTurno = async () => {
+  const params = useParams();
+
+  const foundUser = {
+    _id: params.detallesId,
+  };
   return (
-    
-      
-      <div className="w-full max-w-[1118px] flex items-center justify-center mb-4">
-        
-        <Calendario className=""/>
-      </div>
-    
-  )
-}
+    <div className="flex h-96">
+      <CalendarProvider>
+        <CalendarComponent data={foundUser} selectable={false} />
+      </CalendarProvider>
+    </div>
+  );
+};
 
-export default ServicioTurno
+export default ServicioTurno;

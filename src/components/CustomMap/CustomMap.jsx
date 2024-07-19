@@ -15,8 +15,9 @@ import { apiEndpoints } from "../../api_endpoints";
 
 const CustomMap = ({ markers, setMarkers, user, toggle }) => {
   const customIcon = new Icon({
-    iconUrl: "https://cdn-icons-png.flaticon.com/128/684/684908.png",
-    iconSize: [38, 38],
+    iconUrl: "/Red-Circle-Transparent.png", //"https://cdn-icons-png.flaticon.com/128/684/684908.png",
+    iconSize: [96, 96],
+    className: "opacity-20",
   });
   const userIcon = new Icon({
     iconUrl: "/pin_red.png",
@@ -63,9 +64,9 @@ const CustomMap = ({ markers, setMarkers, user, toggle }) => {
         {markers?.map((e, i) => {
           return (
             <Marker key={i} position={e.coordinates} icon={customIcon}>
-              <Popup>
+              {/* <Popup>
                 <ServicioMainCardSmall profesional={e} />
-              </Popup>
+              </Popup> */}
             </Marker>
           );
         })}

@@ -1,5 +1,5 @@
-'use client';
-import { getAllUsers } from '@/services/users';
+"use client";
+import { getAllUsers } from "@/services/users";
 import {
   Button,
   Chip,
@@ -16,40 +16,42 @@ import {
   TableHeader,
   TableRow,
   User,
-} from '@nextui-org/react';
-import { motion } from 'framer-motion';
-import React from 'react';
-import { CiCircleInfo, CiEdit, CiSearch } from 'react-icons/ci';
-import { FaChevronCircleDown } from 'react-icons/fa';
-import { capitalize, columns, statusOptions } from '../data/data';
+} from "@nextui-org/react";
+import { motion } from "framer-motion";
+import React from "react";
+import { CiCircleInfo, CiEdit, CiSearch } from "react-icons/ci";
+import { FaChevronCircleDown } from "react-icons/fa";
+import { LuCalendarDays } from "react-icons/lu";
+
+import { capitalize, columns, statusOptions } from "../data/data";
 //Este array es para cambiar el color del Estado del usuario.
 const statusColorMap = {
-  true: 'success',
-  false: 'danger',
+  true: "success",
+  false: "danger",
 };
 
 //Columnas que comienzan visibles apenas se renderiza la tabla.
 const INITIAL_VISIBLE_COLUMNS = [
-  'name',
-  'role',
-  'status',
-  'actions',
-  'specialties',
+  "name",
+  "role",
+  "status",
+  "actions",
+  "specialties",
 ];
 
 export default function UsersView() {
-  const [filterValue, setFilterValue] = React.useState('');
+  const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState(
     new Set(INITIAL_VISIBLE_COLUMNS),
   );
   const [users, setUsers] = React.useState([]);
 
-  const [statusFilter, setStatusFilter] = React.useState('all');
+  const [statusFilter, setStatusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState({
-    column: 'age',
-    direction: 'ascending',
+    column: "age",
+    direction: "ascending",
   });
   React.useEffect(() => {
     getUsers();
@@ -70,7 +72,7 @@ export default function UsersView() {
   const hasSearchFilter = Boolean(filterValue);
 
   const headerColumns = React.useMemo(() => {
-    if (visibleColumns === 'all') return columns;
+    if (visibleColumns === "all") return columns;
 
     return columns.filter((column) =>
       Array.from(visibleColumns).includes(column.uid),
@@ -86,7 +88,7 @@ export default function UsersView() {
       );
     }
     if (
-      statusFilter !== 'all' &&
+      statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
       filteredUsers = filteredUsers.filter((user) =>
@@ -110,7 +112,7 @@ export default function UsersView() {
       const second = b[sortDescriptor.column];
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
-      return sortDescriptor.direction === 'descending' ? -cmp : cmp;
+      return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
 
@@ -118,12 +120,12 @@ export default function UsersView() {
     const cellValue = user[columnKey];
 
     switch (columnKey) {
-      case 'name':
+      case "name":
         return (
           <User
-            avatarProps={{ radius: 'full', size: 'sm', src: user.image }}
+            avatarProps={{ radius: "full", size: "sm", src: user.image }}
             classNames={{
-              description: 'text-default-500 ',
+              description: "text-default-500 ",
             }}
             description={user.email}
             name={<p className="capitalize">{cellValue}</p>}
@@ -131,19 +133,19 @@ export default function UsersView() {
             {user.email}
           </User>
         );
-      case 'role':
+      case "role":
         return (
           <div className="flex flex-col justify-start">
             <p className="text-bold text-small capitalize">
-              {cellValue == 'admin'
-                ? 'Administrador'
-                : cellValue == 'user'
-                  ? 'Usuario'
-                  : 'Profesional'}
+              {cellValue == "admin"
+                ? "Administrador"
+                : cellValue == "user"
+                  ? "Usuario"
+                  : "Profesional"}
             </p>
           </div>
         );
-      case 'status':
+      case "status":
         return (
           <Chip
             className="capitalize border-none gap-1 text-default-600"
@@ -151,11 +153,11 @@ export default function UsersView() {
             size="sm"
             variant="dot"
           >
-            {user.confirm ? 'Confirmado' : 'Pendiente'}
+            {user.confirm ? "Confirmado" : "Pendiente"}
             {cellValue}
           </Chip>
         );
-      case 'actions':
+      case "actions":
         return (
           <div className="relative flex justify-start items-center gap-2">
             <button
@@ -170,9 +172,15 @@ export default function UsersView() {
             >
               <CiCircleInfo className=" text-xl" />
             </button>
+            <button
+              className="flex items-center justify-start rounded-full "
+              type="button"
+            >
+              <LuCalendarDays className=" text-xl" />
+            </button>
           </div>
         );
-      case 'specialties':
+      case "specialties":
         return (
           <div className="flex justify-start items-center gap-2">
             <span className="px-1">
@@ -181,7 +189,7 @@ export default function UsersView() {
             </span>
           </div>
         );
-      case 'age':
+      case "age":
         return (
           <div className="flex justify-start items-center gap-2">
             <span className="px-1">edad</span>
@@ -202,7 +210,7 @@ export default function UsersView() {
       setFilterValue(value);
       setPage(1);
     } else {
-      setFilterValue('');
+      setFilterValue("");
     }
   }, []);
 
@@ -213,15 +221,15 @@ export default function UsersView() {
           <Input
             isClearable
             classNames={{
-              base: ' ',
-              inputWrapper: 'border-1',
+              base: " ",
+              inputWrapper: "border-1",
             }}
             className="bg-zinc-200 w-full sm:max-w-[44%] border border-black rounded-lg"
             placeholder="Filtrar por nombre"
             size="sm"
             startContent={<CiSearch className=" text-black" />}
             value={filterValue}
-            onClear={() => setFilterValue('')}
+            onClear={() => setFilterValue("")}
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
@@ -311,7 +319,7 @@ export default function UsersView() {
         <Pagination
           showControls
           classNames={{
-            cursor: 'bg-foreground text-background',
+            cursor: "bg-foreground text-background",
           }}
           color="default"
           isDisabled={hasSearchFilter}
@@ -321,8 +329,8 @@ export default function UsersView() {
           onChange={setPage}
         />
         <span className="text-small text-default-400">
-          {selectedKeys === 'all'
-            ? 'Todos seleccionados'
+          {selectedKeys === "all"
+            ? "Todos seleccionados"
             : `${selectedKeys.size} de ${items.length} seleccionados.`}
         </span>
       </div>
@@ -331,18 +339,18 @@ export default function UsersView() {
 
   const classNames = React.useMemo(
     () => ({
-      wrapper: ['max-h-[382px]', 'max-w-3xl'],
-      th: ['bg-transparent', 'text-default-500', 'border-b', 'border-divider'],
+      wrapper: ["max-h-[382px]", "max-w-3xl"],
+      th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
       td: [
         // changing the rows border radius
         // first
-        'group-data-[first=true]:first:before:rounded-none',
-        'group-data-[first=true]:last:before:rounded-none',
+        "group-data-[first=true]:first:before:rounded-none",
+        "group-data-[first=true]:last:before:rounded-none",
         // middle
-        'group-data-[middle=true]:before:rounded-none',
+        "group-data-[middle=true]:before:rounded-none",
         // last
-        'group-data-[last=true]:first:before:rounded-none',
-        'group-data-[last=true]:last:before:rounded-none',
+        "group-data-[last=true]:first:before:rounded-none",
+        "group-data-[last=true]:last:before:rounded-none",
       ],
     }),
     [],
@@ -379,7 +387,7 @@ export default function UsersView() {
             <TableColumn
               key={column.uid}
               className=""
-              align={column.uid === 'actions' ? 'center' : 'start'}
+              align={column.uid === "actions" ? "center" : "start"}
               allowsSorting={column.sortable}
             >
               {column.name}
@@ -387,7 +395,7 @@ export default function UsersView() {
           )}
         </TableHeader>
         <TableBody
-          emptyContent={'No se encontraron usuarios'}
+          emptyContent={"No se encontraron datos"}
           items={sortedItems}
           className="w-full"
         >
