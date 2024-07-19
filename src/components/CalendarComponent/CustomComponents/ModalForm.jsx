@@ -1,3 +1,4 @@
+import "./modalForm.css";
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import DateTimePicker from "react-datetime-picker";
 import moment from "moment";
@@ -7,6 +8,7 @@ import { CalendarContext } from "@/context/Calendar";
 import { standarFormartDate } from "@/utils/StandarValues";
 import { PatientNameAutocomplete } from "./PatientNameAutocomplete";
 import { ConsultTypeAutocomplete } from "./consultTypeAutocomplete";
+import { CustomDatePicker } from "./CustomModalComponent.jsx/CustomDatePicker";
 
 export const ModalForm = () => {
   const { eventInfo, setEventInfo, calendarState } =
@@ -60,34 +62,14 @@ export const ModalForm = () => {
   );
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
       {!editEvent && <PatientNameAutocomplete />}
 
       <ConsultTypeAutocomplete />
 
-      <DateTimePicker
-        disableCalendar
-        disableClock
-        format="y-MM-dd h:mm a"
-        required
-        onChange={(event) => {
-          handleDateChange(event, "start");
-        }}
-        value={moment(eventInfo.start).format("YYYY-MM-DD HH:mm")}
-        clearIcon={null}
-      />
+      <CustomDatePicker value={eventInfo.start} name={"start"} />
 
-      <DateTimePicker
-        disableCalendar
-        disableClock
-        format="y-MM-dd h:mm a"
-        required
-        onChange={(event) => {
-          handleDateChange(event, "end");
-        }}
-        value={moment(eventInfo.end).format("YYYY-MM-DD HH:mm")}
-        clearIcon={null}
-      />
+      <CustomDatePicker value={eventInfo.end} name={"end"} />
 
       <Input
         type="text"
