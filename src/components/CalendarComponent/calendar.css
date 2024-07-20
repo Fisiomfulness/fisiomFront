@@ -10,6 +10,7 @@
   .rbc-calendar {
     width: 1024px !important;
     height: 500px !important;
+    
   }
 }
 
@@ -33,6 +34,7 @@
   justify-content: center;
   height: 36px !important;
   background: #45474B;
+  border: none;
 }
 
 .rbc-allday-cell {
@@ -48,6 +50,10 @@
   z-index: 1;
   font-weight: 600;
   
+}
+
+.rbc-timeslot-group {
+  border: 1px solid #c7c5c5 !important
 }
 
 .rbc-time-slot:not(.rbc-today .rbc-time-slot) {
@@ -80,3 +86,29 @@
   display: block;
 }
 
+/* Month view border style */
+
+.rbc-month-row {
+  border: none !important;
+}
+
+.rbc-month-view {
+  border: none !important;
+}
+
+.rbc-day-bg {
+  border: 1px solid #b4b4b4 !important; 
+}
+
+/* week view border style */
+
+.rbc-time-view {
+border: none !important;
+}
+.rbc-time-content {
+  border: none !important;
+}
+
+.rbc-time-slot {
+
+}

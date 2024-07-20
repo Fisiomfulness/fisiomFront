@@ -5,7 +5,6 @@ import moment from "moment";
 import "moment/locale/es";
 import { use, useCallback, useContext, useEffect, useState } from "react";
 import { Calendar, Views, momentLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
 import { formatConfig, langConfig } from "./CalendarConfig";
 import CalendarModal from "./CalendarModal";
 import CustomToolbar from "./CustomComponents/CustomView.jsx/CustomToolbar";
@@ -122,6 +121,7 @@ export default function CalendarComponent({ data, selectable }) {
         <Loader />
       ) : (
         <Calendar
+          className="font-sans"
           culture="es"
           localizer={localizer}
           events={filterDataForEvent(cachedData)}

@@ -67,9 +67,9 @@ export const ModalForm = () => {
 
       <ConsultTypeAutocomplete />
 
-      <CustomDatePicker value={eventInfo.start} name={"start"} />
+      <CustomDatePicker value={eventInfo.start} name={"start"} label={"fin"} />
 
-      <CustomDatePicker value={eventInfo.end} name={"end"} />
+      <CustomDatePicker value={eventInfo.end} name={"end"} label={"inicio"} />
 
       <Input
         type="text"

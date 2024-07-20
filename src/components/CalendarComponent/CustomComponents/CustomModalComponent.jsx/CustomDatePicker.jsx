@@ -9,7 +9,7 @@ import { standarFormartDate } from "@/utils/StandarValues";
 import moment from "moment";
 import { useCallback, useContext } from "react";
 
-export const CustomDatePicker = ({ value, name }) => {
+export const CustomDatePicker = ({ value, name, label }) => {
   const { eventInfo, setEventInfo, calendarState } =
     useContext(CalendarContext);
 
@@ -25,7 +25,7 @@ export const CustomDatePicker = ({ value, name }) => {
   return (
     <div className="bg-gray-100 hover:bg-gray-200 rounded-xl">
       <label className=" font-thin text-gray-900 mx-2" for="date-start">
-        Fecha de inicio <span class="required">*</span>
+        Fecha de {label} <span class="required">*</span>
       </label>
       <div className="flex">
         <IoMdTime className="mx-2" fontSize={"20px"} color="black" />
