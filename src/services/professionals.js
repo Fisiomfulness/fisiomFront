@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const getProfessionalDetail = async (professionalId) => {
   try {
-    const response = await axios.get(apiEndpoints.professionalsDetail + professionalId);
+    const response = await axios.get(apiEndpoints.professionalsDetail + professionalId, { withCredentials: true });
     return response.data;
   } catch (error) {
     throw error;

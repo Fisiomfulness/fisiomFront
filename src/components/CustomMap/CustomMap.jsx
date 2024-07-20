@@ -64,9 +64,9 @@ const CustomMap = ({ markers, setMarkers, user, toggle }) => {
         {markers?.map((e, i) => {
           return (
             <Marker key={i} position={e.coordinates} icon={customIcon}>
-              <Popup>
+              {/* <Popup>
                 <ServicioMainCardSmall profesional={e} />
-              </Popup>
+              </Popup> */}
             </Marker>
           );
         })}

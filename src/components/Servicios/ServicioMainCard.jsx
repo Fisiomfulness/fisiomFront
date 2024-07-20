@@ -51,7 +51,7 @@ const ServicioMainCard = ({ profesional }) => {
                 </div>
               ) : null}
               <StarRatings
-                rating={profesional.averageScore.average}
+                rating={profesional.rating?.average}
                 starRatedColor="#ffb829"
                 numberOfStars={5}
                 starDimension="14px"
