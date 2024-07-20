@@ -15,7 +15,8 @@ export const ActionButtons = () => {
     <div className="mt-5 flex justify-end">
       {eventInfo && !newEvent && (
         <Button
-          className="text-base font-semibold mx-1"
+          className="mx-1 text-sm font-semibold"
+          variant="light"
           type="button"
           color="danger"
           onClick={handleDeleteEvent}
@@ -25,8 +26,9 @@ export const ActionButtons = () => {
       )}
       {!editEvent && !newEvent && (
         <Button
+          className="mx-1 text-sm font-semibold"
+          variant="light"
           type="button"
-          className=" mx-1 text-base font-semibold"
           color="primary"
           onClick={() =>
             setCalendarState((prevState) => ({
@@ -40,7 +42,8 @@ export const ActionButtons = () => {
       )}
       {(newEvent || editEvent) && (
         <Button
-          className="text-base font-semibold text-white"
+          className="mx-1 text-sm font-semibold"
+          variant="light"
           type="button"
           color="success"
           onClick={handleSaveEvent}
