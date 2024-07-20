@@ -66,6 +66,7 @@ export const specialitiesArray = [
         label: "Laboratorio Clínico"
     }
 ];
+
 export const statusValue = [
     {
         key: "PENDING",
@@ -75,3 +76,13 @@ export const statusValue = [
         label: "Aceptada"
     }
 ]
+
+export const EVENT_STATUS_COLORS = {
+    PENDING: "#fbbf24",
+    ACCEPTED: "#10b981",
+};
+
+export const EVENT_STATUS_NAME = {
+    PENDING: "Pendiente",
+    ACCEPTED: "Aceptada",
+};
