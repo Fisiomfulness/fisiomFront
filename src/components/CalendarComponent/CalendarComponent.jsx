@@ -1,13 +1,13 @@
 "use client";
 
+import "./calendar.css";
 import moment from "moment";
 import "moment/locale/es";
 import { use, useCallback, useContext, useEffect, useState } from "react";
 import { Calendar, Views, momentLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
 import { formatConfig, langConfig } from "./CalendarConfig";
 import CalendarModal from "./CalendarModal";
-import CustomToolbar from "./CustomComponents/CustomToolbar";
+import CustomToolbar from "./CustomComponents/CustomView.jsx/CustomToolbar";
 import { currentDateMoment, standarFormartDate } from "@/utils/StandarValues";
 import { formatDateFromTo } from "@/utils/filters/timeFormat";
 import { filterAppointments } from "@/utils/filters/filterAppointments";
@@ -15,6 +15,8 @@ import Loader from "../Loader";
 import axios from "axios";
 import { getSpecificUserData } from "@/services/users";
 import { CalendarContext } from "@/context/Calendar";
+import { CustomEventView } from "./CustomComponents/CustomView.jsx/CustomEventView";
+import { EVENT_STATUS_COLORS } from "./InitialValues";
 
 export default function CalendarComponent({ data, selectable }) {
   const {
@@ -24,7 +26,6 @@ export default function CalendarComponent({ data, selectable }) {
     fetchData,
     handleSelectSlot,
     handleSelectEvent,
-    eventStyleGetter,
     handleViewChange,
     handleNavigate,
     setCachedData,
@@ -98,36 +99,49 @@ export default function CalendarComponent({ data, selectable }) {
     }
   };
 
+  const eventStyleGetter = (event) => {
+    const { status } = event;
+    const background = `${EVENT_STATUS_COLORS[status]}`;
+    var style = {
+      backgroundColor: background,
+    };
+    return {
+      style,
+    };
+  };
+
+  const componentes = {
+    toolbar: (props) => <CustomToolbar {...props} />,
+    event: ({ event }) => <CustomEventView appointment={event} />,
+  };
+
   return (
     <>
-      <div className="w-3/4 min-h-[500px] bg-slate-500">
-        {CalendarIsLoading ? (
-          <Loader />
-        ) : (
-          <Calendar
-            culture="es"
-            localizer={localizer}
-            events={filterDataForEvent(cachedData)}
-            views={[Views.MONTH, Views.WEEK, Views.AGENDA]}
-            defaultView={calendarState.view}
-            view={calendarState.view}
-            date={calendarState.date}
-            onView={handleViewChange}
-            onNavigate={handleNavigate}
-            messages={langConfig.es}
-            onSelectSlot={handleSelectSlot}
-            onSelectEvent={handleSelectEvent}
-            selectable={selectable}
-            formats={formatConfig}
-            min={new Date(1970, 1, 1, 6)} // Hora mínima (8:00 AM)
-            max={new Date(1970, 1, 1, 23)} // Hora máxima (6:00 PM)
-            components={{
-              toolbar: (props) => <CustomToolbar {...props} />,
-            }}
-            eventPropGetter={eventStyleGetter}
-          />
-        )}
-      </div>
+      {CalendarIsLoading ? (
+        <Loader />
+      ) : (
+        <Calendar
+          className="font-sans"
+          culture="es"
+          localizer={localizer}
+          events={filterDataForEvent(cachedData)}
+          views={[Views.MONTH, Views.WEEK]}
+          defaultView={calendarState.view}
+          view={calendarState.view}
+          date={calendarState.date}
+          onView={handleViewChange}
+          onNavigate={handleNavigate}
+          messages={langConfig.es}
+          onSelectSlot={handleSelectSlot}
+          onSelectEvent={handleSelectEvent}
+          selectable={selectable}
+          formats={formatConfig}
+          min={new Date(1970, 1, 1, 6)} // Hora mínima (8:00 AM)
+          max={new Date(1970, 1, 1, 23)} // Hora máxima (6:00 PM)
+          components={componentes}
+          eventPropGetter={eventStyleGetter}
+        />
+      )}
       <CalendarModal />
     </>
   );
