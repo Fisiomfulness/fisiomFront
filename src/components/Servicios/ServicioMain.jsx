@@ -36,7 +36,7 @@ const ServicioMain = () => {
       .get(apiEndpoints.professionals, {
         signal: abortController.signal,
         params: {
-          search: filters.search.join(","),
+          search: encodeURIComponent(filters.search.join(",")),
           city: filters.city,
           specialtyId: filters.specialtyId,
           position: location.user.join(","),
