@@ -16,7 +16,7 @@ const UsersUpdate = ({ markers, setMarkers, toggle }) => {
       .get(apiEndpoints.users, {
         signal: abortController.signal,
         params: {
-          search: filters.search,
+          search: encodeURIComponent(filters.search),
           interests: filters.interestsId.join(","),
           bbox: map.getBounds().toBBoxString(),
         },
