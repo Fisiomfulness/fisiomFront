@@ -1,14 +1,16 @@
 import ServicioPrecioCard from "@/components/Servicios/ServicioPrecioCard";
-import data from "@/components/Servicios/data/profesionales.json";
-import profesionalFinder from "@/components/Servicios/utils/utils";
+import { getProfessionalDetail } from "@/services/professionals";
 
+const ServicioPrecios = async ({ params }) => {
+  const professionalId = params.detallesId;
+  const { professional } = await getProfessionalDetail(professionalId);
 
-const ServicioPrecios = async ({params}) => {
-  const profesional = await profesionalFinder(params, data);
-  
   return (
-    <div>
-      <ServicioPrecioCard servicios={profesional.servicios} />
+    <div className="pb-4">
+      <ServicioPrecioCard
+        servicios={professional.services}
+        detallesId={professionalId}
+      />
     </div>
   );
 };
