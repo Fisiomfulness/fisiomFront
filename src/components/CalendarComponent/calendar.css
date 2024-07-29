@@ -49,7 +49,7 @@
   color: #45474B;
   z-index: 1;
   font-weight: 600;
-  
+  border: none !important;
 }
 
 .rbc-timeslot-group {

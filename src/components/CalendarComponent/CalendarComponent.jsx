@@ -31,7 +31,7 @@ export default function CalendarComponent({ data, selectable }) {
     setCachedData,
     cachedData,
   } = useContext(CalendarContext);
-  const { _id } = data;
+  const { _id, role } = data;
   const localizer = momentLocalizer(moment);
 
   const isDateInRange = (date, range) => {
@@ -110,8 +110,47 @@ export default function CalendarComponent({ data, selectable }) {
     };
   };
 
+  const slotPropGetter = useCallback(
+    (date) => {
+      const dayOfWeek = moment(date).format("dddd");
+      const dayAvailability = calendarState.availability.find(
+        (day) => day.day === dayOfWeek,
+      );
+
+      if (!dayAvailability) {
+        return;
+      }
+
+      const timeRanges = dayAvailability.timeSlots.map((slot) => {
+        const start = moment(slot.start, "HH:mm").format("HH:mm");
+        const end = moment(slot.end, "HH:mm").format("HH:mm");
+
+        return {
+          start,
+          end,
+          style: { backgroundColor: "#ff6161", color: "white" },
+        };
+      });
+
+      const formatDate = moment(date).format("HH:mm");
+      let style = {};
+
+      for (const range of timeRanges) {
+        if (formatDate >= range.start && formatDate <= range.end) {
+          style = range.style;
+          break; // Salir del bucle cuando se encuentra el rango correcto
+        }
+      }
+      return {
+        className: "slotDefault",
+        style,
+      };
+    },
+    [calendarState.availability],
+  );
+
   const componentes = {
-    toolbar: (props) => <CustomToolbar {...props} />,
+    toolbar: (props) => <CustomToolbar role={role} {...props} />,
     event: ({ event }) => <CustomEventView appointment={event} />,
   };
 
@@ -136,6 +175,7 @@ export default function CalendarComponent({ data, selectable }) {
           onSelectEvent={handleSelectEvent}
           selectable={selectable}
           formats={formatConfig}
+          slotPropGetter={slotPropGetter}
           min={new Date(1970, 1, 1, 6)} // Hora mínima (8:00 AM)
           max={new Date(1970, 1, 1, 23)} // Hora máxima (6:00 PM)
           components={componentes}

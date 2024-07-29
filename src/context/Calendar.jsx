@@ -20,6 +20,7 @@ import {
 import { formatDateFromTo } from "@/utils/filters/timeFormat";
 import { UserContext } from "./User";
 import { useSession } from "next-auth/react";
+import { getAvailability } from "@/services/professionals";
 
 export const CalendarContext = createContext();
 
@@ -40,6 +41,7 @@ export const CalendarProvider = ({ children }) => {
       to: currentDateMoment,
     },
     usersNames: [],
+    availability: [],
   });
 
   const [eventInfo, setEventInfo] = useState({
@@ -70,8 +72,17 @@ export const CalendarProvider = ({ children }) => {
   const fetchData = async (_id, from, to) => {
     setCalendarIsLoading(true);
     try {
-      const response = await getAppointment(_id, from, to);
-      const newEvents = filterAppointments(response.data.appointments);
+      const responseAppointments = await getAppointment(_id, from, to);
+      const newEvents = filterAppointments(
+        responseAppointments.data.appointments,
+      );
+
+      const responseAvailability = await getAvailability(_id);
+
+      setCalendarState((prevState) => ({
+        ...prevState,
+        availability: responseAvailability,
+      }));
 
       setCachedData((prevCachedData) => {
         const newCachedData = [...prevCachedData];

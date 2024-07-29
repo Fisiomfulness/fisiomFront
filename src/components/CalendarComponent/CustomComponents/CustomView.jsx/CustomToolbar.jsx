@@ -1,15 +1,25 @@
 import { CalendarContext } from "@/context/Calendar";
 import { Button, ButtonGroup } from "@nextui-org/react";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { SlPlus } from "react-icons/sl";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaCalendarAlt } from "react-icons/fa";
 import { TfiReload } from "react-icons/tfi";
 import { currentDateMoment, standarFormartDate } from "@/utils/StandarValues";
 import moment from "moment";
+import { UserContext } from "@/context/User";
 
-const CustomToolbar = ({ label, onNavigate, onView, date }) => {
-  const { onclickButtonCreate } = useContext(CalendarContext);
+const CustomToolbar = ({ label, onNavigate, onView, date, role }) => {
+  const { setCalendarState, calendarState, eventInfo } =
+    useContext(CalendarContext);
+
+  const onclickButtonCreate = () => {
+    setCalendarState((prevState) => ({
+      ...prevState,
+      newEvent: true,
+      showModal: true,
+    }));
+  };
 
   return (
     <div className="block justify-center md:flex md:justify-between items-center font-sans">
@@ -57,6 +67,10 @@ const CustomToolbar = ({ label, onNavigate, onView, date }) => {
 
       <div className="flex justify-center md:justify-between items-center">
         <ButtonGroup>
+          <Button className="mx-1 text-sm font-semibold" variant="light">
+            <SlPlus fontSize={"20px"} color="black" />
+            <p className="text-sm font-semibold mx-1">Disponibilidad</p>
+          </Button>
           <Button
             className="mx-1 text-sm font-semibold"
             variant="light"
