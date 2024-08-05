@@ -4,21 +4,30 @@ import { Button } from '@nextui-org/react';
 import { Formik, Form } from 'formik';
 import { formikZodValidator } from '@/utils/validations';
 import { serviceSchema, serviceInitialValues } from '@/utils/validations/serviceSchema';
-import { createService } from '@/services/professionals';
+import { createService, updateService } from '@/services/professionals';
+import { useSetAtom } from 'jotai';
+import { updateServiceAtom } from './store/my_services';
 import toast from 'react-hot-toast';
 
 const ServiceForm = ({
   professionalId,
   initialValues = serviceInitialValues,
   isUpdate = false,
+  onSubmit = () => {},
 }) => {
+  const updateServiceUI = useSetAtom(updateServiceAtom);
+
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      await createService({
-        ...values,
-        _professional: professionalId,
-      });
+      const newValues = { ...values, _professional: professionalId };
+      if (isUpdate) {
+        await updateService(values._id, newValues);
+        updateServiceUI(values);
+      } else {
+        await createService(newValues);
+      }
       resetForm();
+      onSubmit();
       toast.success(`Servicio ${isUpdate ? 'actualizado' : 'creado'}`);
     } catch (error) {
       toast.error(

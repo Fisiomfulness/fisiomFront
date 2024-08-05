@@ -97,9 +97,10 @@ export const createService = async (values) => {
 export const getServices = async ({
   limit = 0,
   offset = 0,
+  page = 1,
   professionalId,
 }) => {
-  let query = `?offset=${offset}&limit=${limit}`;
+  let query = `?offset=${offset}&limit=${limit}&page=${page}`;
   if (professionalId) query += `&professionalId=${professionalId}`;
   try {
     const response = await axios.get(`${BASE_URL}/services${query}`);
@@ -108,3 +109,25 @@ export const getServices = async ({
     throw error;
   }
 };
+
+export const updateService = async (serviceId, newValues) => {
+  try {
+    const response = await axios.put(`${BASE_URL}/services/${serviceId}`, newValues, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const deleteService = async (serviceId) => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/services/${serviceId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
