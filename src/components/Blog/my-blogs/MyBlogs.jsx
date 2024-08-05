@@ -7,7 +7,6 @@ import {
   updateBlog,
 } from '@/services/blogs';
 import { Pagination, Spinner } from '@nextui-org/react';
-import { useSession } from 'next-auth/react';
 import InfoCard from './InfoCard';
 import EditBlogModal from './EditBlogModal';
 import ConfirmModal from './ConfirmModal';
@@ -22,8 +21,7 @@ const initialValues = {
 
 const CARDS_PER_PAGE = 6;
 
-const MyBlogs = ({ types }) => {
-  const { data: session } = useSession()
+const MyBlogs = ({ session, types }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [myBlogs, setMyBlogs] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -59,7 +57,7 @@ const MyBlogs = ({ types }) => {
         await deleteBlog(blogIdToHandle);
         setConfirmModalOpen(false)
       }
-      await fetchBlogs();
+      fetchBlogs();
       toast.success(`Blog ${option === 'update' ? 'actualizado' : 'eliminado'} correctamente`);
     } catch (error) {
       toast.error('Oops! vuelva a intentarlo mas tarde...');
