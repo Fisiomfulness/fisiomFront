@@ -3,21 +3,22 @@
 
 import {
   Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
   DropdownItem,
-  User,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
+  DropdownMenu,
   DropdownSection,
+  DropdownTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  User,
 } from "@nextui-org/react";
-import { FaChevronLeft } from "react-icons/fa";
-import Link from "next/link";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
+import { FaChevronLeft } from "react-icons/fa";
 
 const items = [
   { key: "/user/editar_perfil", label: "Editar perfil" },
+  { key: "/user/agenda", label: "Agenda" },
   {
     key: "root_mis_servicios",
     label: "Mis servicios",

@@ -36,7 +36,7 @@ const ServicioMain = () => {
       .get(apiEndpoints.professionals, {
         signal: abortController.signal,
         params: {
-          search: filters.search.join(","),
+          search: encodeURIComponent(filters.search.join(",")),
           city: filters.city,
           specialtyId: filters.specialtyId,
           position: location.user.join(","),
@@ -53,7 +53,7 @@ const ServicioMain = () => {
             const professionalsMap = new Map(
               [...prev].map((item) => [item._id, item])
             );
-            data.users.forEach((professional) => {
+            data.professionals.forEach((professional) => {
               if (!professionalsMap.has(professional._id)) {
                 professionalsMap.set(professional._id, professional);
               }
@@ -93,6 +93,7 @@ const ServicioMain = () => {
             {loading && <Loader />}
           </div>
         </div>
+
         <div className="min-h-[80vh] w-full">
           <CustomMap
             markers={professionals}

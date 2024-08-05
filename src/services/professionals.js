@@ -5,7 +5,8 @@ import axios from 'axios';
 export const getProfessionalDetail = async (professionalId) => {
   try {
     const response = await axios.get(
-      apiEndpoints.professionalsDetail + professionalId
+      apiEndpoints.professionalsDetail + professionalId,
+      { withCredentials: true }
     );
     return response.data;
   } catch (error) {
@@ -112,14 +113,18 @@ export const getServices = async ({
 
 export const updateService = async (serviceId, newValues) => {
   try {
-    const response = await axios.put(`${BASE_URL}/services/${serviceId}`, newValues, {
-      withCredentials: true,
-    });
+    const response = await axios.put(
+      `${BASE_URL}/services/${serviceId}`,
+      newValues,
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const deleteService = async (serviceId) => {
   try {
@@ -130,4 +135,4 @@ export const deleteService = async (serviceId) => {
   } catch (error) {
     throw error;
   }
-}
+};

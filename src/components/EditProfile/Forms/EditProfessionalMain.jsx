@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { Button, Tooltip } from '@nextui-org/react';
-import { Formik, Form } from 'formik';
-import { InputsFormRegister } from '@/components/Registro/InputsForms';
-import { listInputsUser } from '@/components/Registro/listInputs';
-import { formikZodValidator } from '@/utils/validations';
-import { updateProfessionalSchema } from '@/utils/validations/professionalSchema';
-import { updateProfessional, verifyCredentials } from '@/services/users';
-import { getFormdataFromObj } from '@/utils/helpers';
-import { FaUserDoctor } from 'react-icons/fa6';
-import { TfiReload } from 'react-icons/tfi';
-import toast from 'react-hot-toast';
-import EditProfilePicture from '../EditProfilePicture';
+import { useState } from "react";
+import { Button, Tooltip } from "@nextui-org/react";
+import { Formik, Form } from "formik";
+import { InputsFormRegister } from "@/components/Registro/InputsForms";
+import { listInputsUser } from "@/components/Registro/listInputs";
+import { formikZodValidator } from "@/utils/validations";
+import { updateProfessionalSchema } from "@/utils/validations/professionalSchema";
+import { updateProfessional, verifyCredentials } from "@/services/users";
+import { getFormdataFromObj } from "@/utils/helpers";
+import { FaUserDoctor } from "react-icons/fa6";
+import { TfiReload } from "react-icons/tfi";
+import toast from "react-hot-toast";
+import EditProfilePicture from "../EditProfilePicture";
 
 const EditProfessionalMain = ({
   handleNext,
@@ -19,7 +19,17 @@ const EditProfessionalMain = ({
   updateSessionUser,
 }) => {
   const [displayedImage, setDisplayedImage] = useState(professional.image);
-  const { name, email, phone, gender, birthDate, consultationPrice, address, license, _id } = professional;
+  const {
+    name,
+    email,
+    phone,
+    gender,
+    birthDate,
+    consultationPrice,
+    address,
+    license,
+    _id,
+  } = professional;
 
   const initialValues = {
     name,
@@ -27,15 +37,15 @@ const EditProfessionalMain = ({
     phone,
     gender,
     birthDate,
-    consultationPrice: consultationPrice || '',
-    streetName: address?.streetName || '',
-    streetNumber: address?.streetNumber || '',
-    floorAppartment: address?.floorAppartment || '',
-    city: address?.city || '',
-    state: address?.state || '',
-    country: address?.country || '',
-    license: license || '',
-    password: '',
+    consultationPrice: consultationPrice || "",
+    streetName: address?.streetName || "",
+    streetNumber: address?.streetNumber || "",
+    floorAppartment: address?.floorAppartment || "",
+    city: address?.city || "",
+    state: address?.state || "",
+    country: address?.country || "",
+    license: license || "",
+    password: "",
   };
 
   const handleSubmit = async (newValues) => {
@@ -48,7 +58,7 @@ const EditProfessionalMain = ({
       await updateSessionUser(data.updated);
       setIsSuccessModalOpen(true);
     } catch (error) {
-      toast.error(error.response?.data.message, { className: 'text-center' });
+      toast.error(error.response?.data.message, { className: "text-center" });
     }
   };
 
@@ -59,7 +69,7 @@ const EditProfessionalMain = ({
       validate={formikZodValidator(updateProfessionalSchema.optional())}
     >
       {({ resetForm }) => (
-        <Form className="flex flex-col gap-2 w-full overflow-hidden">
+        <Form className="flex flex-col gap-2 w-full">
           <EditProfilePicture
             displayedImage={displayedImage}
             setDisplayedImage={setDisplayedImage}
@@ -94,7 +104,7 @@ const EditProfessionalMain = ({
           </div>
           <InputsFormRegister
             isProfessional={true}
-            submitButtonMessage={'Actualizar'}
+            submitButtonMessage={"Actualizar"}
             listInputsValue={listInputsUser}
             isUpdate={true}
           />

@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React from 'react';
-import UsersView from './UsersView/UsersView';
-import ProductsView from './ProductsView/ProductsView';
-import ProfessionalsView from './ProfessionalsView/ProfessionalsView';
-import DropdownDashboard from './DropdownDashboard/DropdownDashboard';
+import React from "react";
+import UsersView from "./UsersView/UsersView";
+import ProductsView from "./ProductsView/ProductsView";
+import ProfessionalsView from "./ProfessionalsView/ProfessionalsView";
+import DropdownDashboard from "./DropdownDashboard/DropdownDashboard";
 
 export default function Dashboard() {
   //! ---------- HOOKS ----------
-  const [tab, setTab] = React.useState(3);
+  const [tab, setTab] = React.useState(4);
   //TODO Hacer el switch de las tablas CON useContext
   const switchTables = () => {
     switch (tab) {

@@ -39,7 +39,7 @@ const ComunidadClient = () => {
       .get(apiEndpoints.users, {
         signal: abortController.signal,
         params: {
-          search: filters.search,
+          search: encodeURIComponent(filters.search),
           interests: filters.interestsId.join(","),
           position: location.user.join(","),
           page: filters.page,
