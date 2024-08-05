@@ -24,7 +24,7 @@ const ServicioPrecioCard = ({ professional, services }) => {
             </CardHeader>
             <CardBody className="pt-0 grid xl:grid-cols-[2.5fr,0.5fr,1fr] items-center gap-3">
               <p className="text-justify">{service.description}</p>
-              <p className="text-center font-semibold text-secondary-500 font-sans">{`$ ${service.price}`}</p>
+              <p className="text-center font-semibold text-secondary-500 font-sans">{`S/. ${service.price}`}</p>
               <Button
                 color="primary"
                 radius="none"
