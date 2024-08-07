@@ -1,75 +1,78 @@
-//"use client";
-import { Card, CardHeader, CardBody, Chip, Button } from "@nextui-org/react";
-import Link from "next/link";
+'use client';
+import { Button, Card, CardBody, CardHeader, Chip } from '@nextui-org/react';
+import { capitalizeFirstLetter, startWhatsAppChat } from '@/utils/helpers';
 
-const ServicioPrecioCard = ({ servicios, detallesId }) => {
+// ? Se esta trabajando con el numero de la empresa.
+const REDIRECT_PHONE = 51901294627;
+
+const ServicioPrecioCard = ({ professional, services }) => {
   return (
     <>
-      {servicios.length > 0 ? (
-        servicios.map((servicio, index) => (
-          <div
-            key={index}
-            className="flex flex-col md:flex-row items-center mt-2 pb-2"
+      {services.length > 0 ? (
+        services.map((service) => (
+          <Card
+            key={service._id}
+            isHoverable
+            radius="none"
+            shadow="none"
+            className="bg-[#EBF7FB] p-1 lg:p-3 lg:px-9 hover:!bg-[#D8EEF8] overflow-visible"
           >
-            <Card
-              isBlurred
-              className="border-none w-full  bg-[#D8EEF8] dark:bg-default-100/50 max-w-[1118px] min-h-[160px] rounded-r-none md:rounded px-4"
-              shadow="sm"
-            >
-              <CardHeader className="pl-4 pt-4 pb-0">
-                <Chip
-                  size="md"
-                  className="bg-[#70FF2D] px-3 ml-2"
-                  variant="faded"
-                >
-                  <p className="text-[12px] font-bold text-foreground/60 ">
-                    SERVICIO
-                  </p>
-                </Chip>
-              </CardHeader>
-              <CardBody>
-                <div className="grid grid-cols-4 gap-3  items-center pt-1">
-                  <div className="flex flex-col col-span-4 lg:col-span-2  gap-3 px-4 items-center">
-                    <p className="text-medium  lg:w-full">
-                      {servicio.serviceDescription}
-                    </p>
-                  </div>
-                  <div className="flex col-span-2 lg:col-span-1 items-center justify-center">
-                    <p className="font-semibold text-[18px]">
-                      S. {servicio.serviceCost}
-                    </p>
-                  </div>
-                  <div className="flex lg:basis-1/4  col-span-2 lg:col-span-1 justify-center items-center">
-                    <Link
-                      href={`/servicios/${detallesId}/turno`}
-                      className="w-full"
-                    >
-                      <Button
-                        className="w-full p-6 rounded-[5px] text-[12px] font-semibold"
-                        color="primary"
-                      >
-                        RESERVAR CITA
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
+            <CardHeader>
+              <h3 className="m-0 text-sm rounded-full bg-[#64efbce2] px-5 py-1 text-[#164a37e2] uppercase font-semibold break-all tracking-wider line-clamp-3">
+                {service.title}
+              </h3>
+            </CardHeader>
+            <CardBody className="pt-0 grid xl:grid-cols-[2.5fr,0.5fr,1fr] items-center gap-3">
+              <p className="text-justify">{service.description}</p>
+              <p className="text-center font-semibold text-secondary-500 font-sans">{`S/. ${service.price}`}</p>
+              <Button
+                color="primary"
+                radius="none"
+                fullWidth
+                className="bg-[#2984AE] uppercase tracking-wide max-w-[300px] mx-auto font-semibold"
+                onPress={() =>
+                  startWhatsAppChat(
+                    REDIRECT_PHONE,
+                    `Hola, me encuentro interesado/a en el servicio "${
+                      service.title
+                    }" proporcionado por el/la profesional "${capitalizeFirstLetter(
+                      professional?.name || ''
+                    )}". Por lo tanto, me gustaría conocer los detalles necesarios para programar una cita. Quedo atento/a a su respuesta, saludos.`
+                  )
+                }
+              >
+                Reservar cita
+              </Button>
+            </CardBody>
+          </Card>
         ))
       ) : (
         <Card
-          isBlurred
-          className="border-none w-full  bg-[#D8EEF8] dark:bg-default-100/50 max-w-[1118px] min-h-[160px] rounded-r-none md:rounded px-4"
-          shadow="sm"
+          radius="none"
+          shadow="none"
+          className="h-full bg-[#EBF7FB] p-3 lg:px-9"
         >
-          <CardBody className="h-full flex">
-            <div className="m-auto">
-              <p className="text-medium text-center">
-                Este profesional no ha registrado aun sus servicios
-                individuales.
-              </p>
-            </div>
+          <CardBody className="vstack items-center justify-center gap-3">
+            <p className="text-lg font-semibold text-secondary-500">
+              Si estas interesado/a en el perfil del profesional haz click
+              debajo 😉
+            </p>
+            <Button
+              color="primary"
+              radius="none"
+              fullWidth
+              className="bg-[#2984AE] uppercase tracking-wide max-w-[300px] mx-auto font-semibold"
+              onPress={() =>
+                startWhatsAppChat(
+                  REDIRECT_PHONE,
+                  `Hola, desearía obtener mas información acerca de los servicios que ofrece el/la profesional "${capitalizeFirstLetter(
+                    professional.name
+                  )}". Quedo atento/a a su respuesta, saludos.`
+                )
+              }
+            >
+              Obtener mas detalles
+            </Button>
           </CardBody>
         </Card>
       )}
