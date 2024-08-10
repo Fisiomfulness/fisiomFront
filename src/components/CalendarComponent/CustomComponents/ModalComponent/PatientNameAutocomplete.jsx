@@ -2,25 +2,31 @@ import { CalendarContext } from "@/context/Calendar";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { useContext, useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { specialitiesArray } from "../InitialValues";
 
-export const ConsultTypeAutocomplete = () => {
-  const { eventInfo, setEventInfo } = useContext(CalendarContext);
+export const PatientNameAutocomplete = () => {
+  const { calendarState, eventInfo, setEventInfo } =
+    useContext(CalendarContext);
 
   const handleChangeAutocomplete = (key) => {
     setEventInfo((prevState) => ({
       ...prevState,
-      title: key,
+      _patient: key,
     }));
   };
+
+  const memoizedUserList = useMemo(
+    () => calendarState.usersNames,
+    [calendarState.usersNames],
+  );
 
   return (
     <>
       <Autocomplete
-        selectedKey={eventInfo.title}
+        variant="bordered"
+        selectedKey={eventInfo._patient}
         onSelectionChange={handleChangeAutocomplete}
         isRequired
-        defaultItems={specialitiesArray}
+        defaultItems={memoizedUserList}
         listboxProps={{
           hideSelectedIcon: true,
           itemClasses: {
@@ -37,9 +43,9 @@ export const ConsultTypeAutocomplete = () => {
             ],
           },
         }}
-        label="Tipo de Consulta"
-        aria-label="Seleccione un Tipo de Consulta"
-        placeholder="Nombre del servicio"
+        label="Paciente"
+        aria-label="Seleccione un paciente"
+        placeholder="Nombre del paciente"
         popoverProps={{
           offset: 10,
           classNames: {
@@ -50,14 +56,16 @@ export const ConsultTypeAutocomplete = () => {
         startContent={
           <IoSearch className="text-default-400" strokeWidth={2.5} size={20} />
         }
-        variant="flat"
       >
         {(item) => (
-          <AutocompleteItem key={item.label} textValue={item.label}>
+          <AutocompleteItem key={item._id} textValue={item.name}>
             <div className="flex justify-between items-center">
               <div className="flex gap-2 items-center">
                 <div className="flex flex-col">
-                  <span className="text-small">{item.label}</span>
+                  <span className="text-small">{item.name}</span>
+                  <span className="text-tiny text-default-400">
+                    {item.email}
+                  </span>
                 </div>
               </div>
             </div>

@@ -1,16 +1,16 @@
-import "./modalForm.css";
+import "../modalForm.css";
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import DateTimePicker from "react-datetime-picker";
 import moment from "moment";
-import { specialitiesArray, statusValue } from "../InitialValues";
+import { specialitiesArray, statusValue } from "../../../InitialValues";
 import { useCallback, useContext } from "react";
 import { CalendarContext } from "@/context/Calendar";
 import { standarFormartDate } from "@/utils/StandarValues";
-import { PatientNameAutocomplete } from "./PatientNameAutocomplete";
-import { ConsultTypeAutocomplete } from "./consultTypeAutocomplete";
-import { CustomDatePicker } from "./CustomModalComponent.jsx/CustomDatePicker";
+import { PatientNameAutocomplete } from "../PatientNameAutocomplete";
+import { ConsultTypeAutocomplete } from "../consultTypeAutocomplete";
+import { CustomDatePicker } from "../CustomDatePicker";
 
-export const ModalForm = () => {
+export const AppointmentForm = () => {
   const { eventInfo, setEventInfo, calendarState } =
     useContext(CalendarContext);
   const { editEvent, newEvent } = calendarState;
@@ -22,7 +22,7 @@ export const ModalForm = () => {
         [name]: moment(event).format(standarFormartDate),
       }));
     },
-    [setEventInfo]
+    [setEventInfo],
   );
 
   const handleEventInfoChange = useCallback(
@@ -33,21 +33,21 @@ export const ModalForm = () => {
         [name]: value,
       }));
     },
-    [eventInfo]
+    [eventInfo],
   );
 
   const handleTitleChange = useCallback(
     (event) => {
       const { name, value } = event.target;
       const servicioFiltrado = specialitiesArray.filter(
-        (servicio) => servicio.key === value
+        (servicio) => servicio.key === value,
       );
       setEventInfo((prevState) => ({
         ...prevState,
         [name]: servicioFiltrado[0].label,
       }));
     },
-    [eventInfo]
+    [eventInfo],
   );
 
   const handleStatusChange = useCallback(
@@ -58,7 +58,7 @@ export const ModalForm = () => {
         [name]: value,
       }));
     },
-    [eventInfo]
+    [eventInfo],
   );
 
   return (
@@ -72,6 +72,7 @@ export const ModalForm = () => {
       <CustomDatePicker value={eventInfo.end} name={"end"} label={"inicio"} />
 
       <Input
+        variant="bordered"
         type="text"
         name="additionalDescription"
         label="Descripción"
@@ -81,6 +82,7 @@ export const ModalForm = () => {
       />
 
       <Select
+        variant="bordered"
         name="status"
         items={statusValue}
         label="Estado de la cita"

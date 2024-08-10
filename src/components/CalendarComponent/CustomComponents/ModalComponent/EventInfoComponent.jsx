@@ -1,5 +1,5 @@
 import moment from "moment";
-import { EVENT_STATUS_NAME } from "../InitialValues";
+import { EVENT_STATUS_NAME } from "../../InitialValues";
 
 export const EventInfoComponent = ({ eventInfo }) => {
   const statusName = EVENT_STATUS_NAME[eventInfo?.status];

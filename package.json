@@ -16,6 +16,7 @@
     "@tiptap/pm": "^2.4.0",
     "@tiptap/react": "^2.4.0",
     "@tiptap/starter-kit": "^2.4.0",
+    "@wojtekmaj/react-timerange-picker": "^6.0.0",
     "axios": "^1.7.2",
     "cross-env": "^7.0.3",
     "date-fns": "^3.6.0",

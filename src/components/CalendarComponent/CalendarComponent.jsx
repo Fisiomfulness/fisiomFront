@@ -6,7 +6,6 @@ import "moment/locale/es";
 import { use, useCallback, useContext, useEffect, useState } from "react";
 import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import { formatConfig, langConfig } from "./CalendarConfig";
-import CalendarModal from "./CalendarModal";
 import CustomToolbar from "./CustomComponents/CustomView.jsx/CustomToolbar";
 import { currentDateMoment, standarFormartDate } from "@/utils/StandarValues";
 import { formatDateFromTo } from "@/utils/filters/timeFormat";
@@ -17,6 +16,8 @@ import { getSpecificUserData } from "@/services/users";
 import { CalendarContext } from "@/context/Calendar";
 import { CustomEventView } from "./CustomComponents/CustomView.jsx/CustomEventView";
 import { EVENT_STATUS_COLORS } from "./InitialValues";
+import AppointmentModal from "./CustomComponents/ModalComponent/AppointmentModal/AppointmentModal";
+import { AvailabilityModal } from "./CustomComponents/ModalComponent/AvailabilityModal/AvailabilityModal";
 
 export default function CalendarComponent({ data, selectable }) {
   const {
@@ -182,7 +183,8 @@ export default function CalendarComponent({ data, selectable }) {
           eventPropGetter={eventStyleGetter}
         />
       )}
-      <CalendarModal />
+      <AppointmentModal />
+      <AvailabilityModal />
     </>
   );
 }

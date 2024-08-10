@@ -10,15 +10,26 @@ import moment from "moment";
 import { UserContext } from "@/context/User";
 
 const CustomToolbar = ({ label, onNavigate, onView, date, role }) => {
-  const { setCalendarState, calendarState, eventInfo } =
-    useContext(CalendarContext);
+  const {
+    setCalendarState,
+    calendarState,
+    eventInfo,
+    setIsModalAvailability,
+    editEvent,
+  } = useContext(CalendarContext);
 
-  const onclickButtonCreate = () => {
+  const { view } = calendarState;
+
+  const onClickAppointment = () => {
     setCalendarState((prevState) => ({
       ...prevState,
       newEvent: true,
       showModal: true,
     }));
+  };
+
+  const onClickAvailability = () => {
+    setIsModalAvailability(true);
   };
 
   return (
@@ -67,32 +78,40 @@ const CustomToolbar = ({ label, onNavigate, onView, date, role }) => {
 
       <div className="flex justify-center md:justify-between items-center">
         <ButtonGroup>
-          <Button className="mx-1 text-sm font-semibold" variant="light">
+          <Button
+            onClick={onClickAvailability}
+            className="mx-1 text-sm font-semibold"
+            variant="light"
+          >
             <SlPlus fontSize={"20px"} color="black" />
             <p className="text-sm font-semibold mx-1">Disponibilidad</p>
           </Button>
           <Button
             className="mx-1 text-sm font-semibold"
             variant="light"
-            onClick={onclickButtonCreate}
+            onClick={onClickAppointment}
           >
             <SlPlus fontSize={"20px"} color="black" />
             <p className="text-sm font-semibold mx-1">Agendar Cita</p>
           </Button>
-          <Button
-            className="mx-1 text-sm font-semibold"
-            variant="light"
-            onClick={() => onView("month")}
-          >
-            Mes
-          </Button>
-          <Button
-            className="mx-1 text-sm font-semibold"
-            variant="light"
-            onClick={() => onView("week")}
-          >
-            Semana
-          </Button>
+
+          {view == "month" ? (
+            <Button
+              className="mx-1 text-sm font-semibold"
+              variant="light"
+              onClick={() => onView("week")}
+            >
+              Semana
+            </Button>
+          ) : (
+            <Button
+              className="mx-1 text-sm font-semibold"
+              variant="light"
+              onClick={() => onView("month")}
+            >
+              Mes
+            </Button>
+          )}
         </ButtonGroup>
       </div>
     </div>

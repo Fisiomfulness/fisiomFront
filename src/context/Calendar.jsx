@@ -29,6 +29,8 @@ export const CalendarProvider = ({ children }) => {
 
   const [CalendarIsLoading, setCalendarIsLoading] = useState(false);
 
+  const [isModalAvailability, setIsModalAvailability] = useState(false);
+
   const [calendarState, setCalendarState] = useState({
     view: Views.MONTH,
     date: new Date(),
@@ -259,7 +261,10 @@ export const CalendarProvider = ({ children }) => {
         handleViewChange,
         handleNavigate,
         onclickButtonCreate,
+        isModalAvailability,
+        setIsModalAvailability,
       }}
+      displayName="Calendar Context"
     >
       {children}
     </CalendarContext.Provider>
