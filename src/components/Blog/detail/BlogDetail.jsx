@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
 import { Image } from '@nextui-org/react';
 import roles from '@/utils/roles';
 import DOMPurify from 'isomorphic-dompurify';
@@ -11,9 +10,15 @@ const StarRatings = dynamic(() => import('react-star-ratings'), {
   ssr: false,
 });
 
-const BlogDetail = ({ data, iniComments, totalComments }) => {
-  const { data: session } = useSession()
+const BlogDetail = ({
+  session,
+  data,
+  iniComments,
+  totalComments,
+  hasCommented,
+}) => {
   const [comments, setComments] = useState(iniComments);
+  const [hasUserCommented, setHasUserCommented] = useState(hasCommented);
 
   return (
     <div className="size-full grid grid-rows-[max-content,auto] gap-3 items-stretch lg:grid-rows-none lg:grid-cols-[20%,auto] lg:gap-10">
@@ -52,13 +57,20 @@ const BlogDetail = ({ data, iniComments, totalComments }) => {
           totalComments={totalComments}
           setComments={setComments}
         />
-        {session?.user ? (
+        {session ? (
           session.user.role === roles.USER ? (
-            <CommentForm
-              userId={session.user.id}
-              blogId={data._id}
-              setComments={setComments}
-            />
+            !hasUserCommented ? (
+              <CommentForm
+                userId={session.user.id}
+                blogId={data._id}
+                setComments={setComments}
+                setHasUserCommented={setHasUserCommented}
+              />
+            ) : (
+              <div className="text-center bg-primary-600 mt-5 md:mt-7 text-white p-5">
+                <p>¡Ya le has dejado un comentario a este blog!</p>
+              </div>
+            )
           ) : (
             <div className="text-center bg-primary-600 mt-5 md:mt-7 text-white p-5">
               <p>Solo usuarios comunes pueden dejar un comentario</p>
