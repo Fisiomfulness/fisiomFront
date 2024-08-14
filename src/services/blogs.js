@@ -45,7 +45,6 @@ export const getBlogDetail = async (blogId) => {
     method: 'GET',
     cache: 'no-cache',
   });
-  if (!res.ok) throw new Error('Error fetching detail');
   return await res.json();
 };
 
