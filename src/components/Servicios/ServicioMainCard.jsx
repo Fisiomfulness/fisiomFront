@@ -95,11 +95,11 @@ const ServicioMainCard = ({ profesional }) => {
               <Link href={`./servicios/${profesional._id}/turno`}>
                 <Button
                   color="secondary"
-                  size="lg"
+                  size="md"
                   radius="sm"
-                  className="px-8"
+                  className="px-8 font-semibold"
                 >
-                  Agendar Turno
+                  Agendar turno
                 </Button>
               </Link>
             </div>
