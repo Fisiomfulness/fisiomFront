@@ -1,3 +1,5 @@
+"use client";
+
 import { CalendarContext } from "@/context/Calendar";
 import { Button, ButtonGroup } from "@nextui-org/react";
 import { useCallback, useContext } from "react";
@@ -8,8 +10,10 @@ import { TfiReload } from "react-icons/tfi";
 import { currentDateMoment, standarFormartDate } from "@/utils/StandarValues";
 import moment from "moment";
 import { UserContext } from "@/context/User";
+import { useSession } from "next-auth/react";
 
-const CustomToolbar = ({ label, onNavigate, onView, date, role }) => {
+const CustomToolbar = ({ label, onNavigate, onView, date, isAuth }) => {
+  const { data: session } = useSession();
   const {
     setCalendarState,
     calendarState,
@@ -78,22 +82,28 @@ const CustomToolbar = ({ label, onNavigate, onView, date, role }) => {
 
       <div className="flex justify-center md:justify-between items-center">
         <ButtonGroup>
-          <Button
-            onClick={onClickAvailability}
-            className="mx-1 text-sm font-semibold"
-            variant="light"
-          >
-            <SlPlus fontSize={"20px"} color="black" />
-            <p className="text-sm font-semibold mx-1">Disponibilidad</p>
-          </Button>
-          <Button
-            className="mx-1 text-sm font-semibold"
-            variant="light"
-            onClick={onClickAppointment}
-          >
-            <SlPlus fontSize={"20px"} color="black" />
-            <p className="text-sm font-semibold mx-1">Agendar Cita</p>
-          </Button>
+          {session?.user.role != "user" && isAuth ? (
+            <>
+              <Button
+                onClick={onClickAvailability}
+                className="mx-1 text-sm font-semibold"
+                variant="light"
+              >
+                <SlPlus fontSize={"20px"} color="black" />
+                <p className="text-sm font-semibold mx-1">Disponibilidad</p>
+              </Button>
+              <Button
+                className="mx-1 text-sm font-semibold"
+                variant="light"
+                onClick={onClickAppointment}
+              >
+                <SlPlus fontSize={"20px"} color="black" />
+                <p className="text-sm font-semibold mx-1">Agendar Cita</p>
+              </Button>
+            </>
+          ) : (
+            <></>
+          )}
 
           {view == "month" ? (
             <Button

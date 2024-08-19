@@ -1,18 +1,22 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+"use client";
+
 import CalendarComponent from "@/components/CalendarComponent/CalendarComponent";
+import Loader from "@/components/Loader";
 import { CalendarProvider } from "@/context/Calendar";
-import { getUserDetail } from "@/services/users";
-import { getServerSession } from "next-auth";
-import { notFound } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 export default async function CalendarioPage() {
-  const session = await getServerSession(authOptions);
-  if (!session) return notFound();
-  const { foundUser } = await getUserDetail(session.user?.id);
+  const { data: session } = useSession();
+
   return (
     <div className="flex h-96 justify-center">
       <CalendarProvider>
-        <CalendarComponent data={foundUser} selectable={true} />
+        {session ? (
+          <CalendarComponent user={session.user} isAuth={true} />
+        ) : (
+          <Loader />
+        )}
       </CalendarProvider>
     </div>
   );

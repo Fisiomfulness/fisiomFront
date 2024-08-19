@@ -19,7 +19,8 @@ import { EVENT_STATUS_COLORS } from "./InitialValues";
 import AppointmentModal from "./CustomComponents/ModalComponent/AppointmentModal/AppointmentModal";
 import { AvailabilityModal } from "./CustomComponents/ModalComponent/AvailabilityModal/AvailabilityModal";
 
-export default function CalendarComponent({ data, selectable }) {
+export default function CalendarComponent({ user, isAuth }) {
+  const [isSelectable, setIsSelectable] = useState(false);
   const {
     CalendarIsLoading,
     calendarState,
@@ -32,7 +33,7 @@ export default function CalendarComponent({ data, selectable }) {
     setCachedData,
     cachedData,
   } = useContext(CalendarContext);
-  const { _id, role } = data;
+  const { id } = user;
   const localizer = momentLocalizer(moment);
 
   const isDateInRange = (date, range) => {
@@ -45,11 +46,26 @@ export default function CalendarComponent({ data, selectable }) {
     );
   };
 
+  const checkUserRole = () => {
+    if (user.role != "user" && isAuth) {
+      setIsSelectable(true);
+    } else {
+      setIsSelectable(false);
+    }
+  };
+
   //Cuando Cambia "calendarState.dateFromTo" se hace un fetch con el rango de fecha
   useEffect(() => {
     const { from, to } = calendarState.dateFromTo;
 
     const formarDateFromTo = (from, to) => `from ${from} to ${to}`;
+
+    checkUserRole();
+
+    setCalendarState((prevState) => ({
+      ...prevState,
+      _professional: id,
+    }));
 
     // Check if this is the first "fetch". If "fetch" is for today
     if (
@@ -65,7 +81,7 @@ export default function CalendarComponent({ data, selectable }) {
 
     // Check if the date range already exists in the cache
     if (!isRangeInCache(from, to) && from !== to) {
-      fetchData(_id, from, to);
+      fetchData(id, from, to);
       setCachedData((prevCachedData) => [
         ...prevCachedData,
         { from, to }, // `data` can be populated when `fetchData` completes
@@ -151,7 +167,7 @@ export default function CalendarComponent({ data, selectable }) {
   );
 
   const componentes = {
-    toolbar: (props) => <CustomToolbar role={role} {...props} />,
+    toolbar: (props) => <CustomToolbar {...props} isAuth={isAuth} />,
     event: ({ event }) => <CustomEventView appointment={event} />,
   };
 
@@ -174,7 +190,7 @@ export default function CalendarComponent({ data, selectable }) {
           messages={langConfig.es}
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}
-          selectable={selectable}
+          selectable={isSelectable}
           formats={formatConfig}
           slotPropGetter={slotPropGetter}
           min={new Date(1970, 1, 1, 6)} // Hora mínima (8:00 AM)

@@ -131,7 +131,6 @@ export const UpdateForm = () => {
     const newSchedule = formSchedule.availability.timeSlots.filter(
       (slot) => slot._id !== formSchedule.scheduleId,
     );
-    console.log([...availability, "asda"]);
     formSchedule.availability.timeSlots = newSchedule;
 
     const filterAvailability = availability.filter(
