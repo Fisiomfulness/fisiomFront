@@ -20,14 +20,15 @@ const commentSchema = z.object({
     .max(100, 'Limite: 100 caracteres'),
 });
 
-const CommentForm = ({ userId, blogId, setComments }) => {
+const CommentForm = ({ userId, blogId, setComments, setHasUserCommented }) => {
   const handleSubmit = async (values, { resetForm }) => {
     try {
       const finalComment = { ...values, sender_id: userId, blog_id: blogId };
       const { newComment } = await createComment(finalComment);
       setComments((prev) => [newComment, ...prev]);
       resetForm();
-      toast.success('Comentario añadido correctamente!');
+      setHasUserCommented(true);
+      toast.success('¡Gracias por tu comentario!');
       scrollTo('comments-container'); // * scrolls to top for see the comment.
     } catch (error) {
       toast.error('Oops! Vuelva a intentarlo');

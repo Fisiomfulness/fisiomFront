@@ -16,7 +16,7 @@ const ProfessionalsUpdate = ({ markers, setMarkers, toggle }) => {
       .get(apiEndpoints.professionals, {
         signal: abortController.signal,
         params: {
-          search: filters.search.join(","),
+          search: encodeURIComponent(filters.search.join(",")),
           city: filters.city,
           specialtyId: filters.specialtyId,
           bbox: map.getBounds().toBBoxString(),
@@ -26,7 +26,7 @@ const ProfessionalsUpdate = ({ markers, setMarkers, toggle }) => {
       .then(({ data }) => {
         setMarkers((prev) => {
           const professionalsMap = new Map(
-            [...prev].map((item) => [item._id, item]),
+            [...prev].map((item) => [item._id, item])
           );
           data.professionals.forEach((professional) => {
             if (!professionalsMap.has(professional._id)) {

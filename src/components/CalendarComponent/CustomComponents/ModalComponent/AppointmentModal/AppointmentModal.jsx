@@ -37,8 +37,8 @@ const AppointmentModal = memo(() => {
             {editEvent
               ? "Editar cita médica"
               : newEvent
-                ? "Agendar Cita medica"
-                : "Cita médica"}
+              ? "Agendar Cita medica"
+              : "Cita médica"}
           </h5>
           <Button
             className="mx-1 text-sm font-semibold"

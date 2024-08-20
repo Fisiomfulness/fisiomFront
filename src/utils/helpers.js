@@ -133,3 +133,11 @@ export const omitObjProps = (obj, arrProps = []) => {
   }
   return result;
 };
+
+// ? Phone = Es un número de teléfono completo en formato internacional. 
+// ? No incluyas ceros, paréntesis ni guiones cuando añadas el número de teléfono en este formato.
+export const startWhatsAppChat = (phone, message = '') => {
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
+  window.open(whatsappUrl, '_blank');
+};

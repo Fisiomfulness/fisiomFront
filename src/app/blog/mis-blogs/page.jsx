@@ -1,5 +1,9 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 import { getTypes } from "@/services/types";
+import { redirect } from "next/navigation";
 import MyBlogs from "@/components/Blog/my-blogs/MyBlogs";
+import roles from "@/utils/roles";
 
 export const metadata = {
   title: "Mis blogs",
@@ -7,6 +11,10 @@ export const metadata = {
 };
 
 const page = async () => {
+  const session = await getServerSession(authOptions);
+  if (!session || session.user.role !== roles.PROFESSIONAL)
+    return redirect("/404");
+
   const { types } = await getTypes();
 
   return (
@@ -14,7 +22,7 @@ const page = async () => {
       <h1 className="mb-5 uppercase bg-gradient-to-r from-primary-600 to-primary-800 inline-block text-transparent bg-clip-text">
         Tus blogs
       </h1>
-      <MyBlogs types={types} />
+      <MyBlogs session={session} types={types} />
     </div>
   );
 };

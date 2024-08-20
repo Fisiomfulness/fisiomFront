@@ -1,4 +1,8 @@
-import Link from "next/link";
+import Link from 'next/link';
+
+export const metadata = {
+  title: 'Pagina no encontrada',
+};
 
 export default function NotFound() {
   return (
@@ -27,7 +31,7 @@ export default function NotFound() {
       </p>
       <p className="mb-16">
         En 5 segundos serás redirigido/a a nuestra página principal o puedes
-        hacer{" "}
+        hacer{' '}
         <Link href="/" className="text-primary cursor-pointer underline">
           click aquí
         </Link>

@@ -5,12 +5,15 @@ import toast from 'react-hot-toast';
 
 export const getProfessionalDetail = async (professionalId) => {
   try {
-    const response = await axios.get(apiEndpoints.professionalsDetail + professionalId, { withCredentials: true });
+    const response = await axios.get(
+      apiEndpoints.professionalsDetail + professionalId,
+      { withCredentials: true }
+    );
     return response.data;
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const getProfessionalRatings = async (
   professionalId,
@@ -19,7 +22,8 @@ export const getProfessionalRatings = async (
 ) => {
   try {
     const response = await axios.get(
-      `${apiEndpoints.professionalRating + professionalId}?offset=${offset}&limit=${limit}`
+      `${apiEndpoints.professionalRating + professionalId
+      }?offset=${offset}&limit=${limit}`
     );
     return response.data;
   } catch (error) {
@@ -29,7 +33,9 @@ export const getProfessionalRatings = async (
 
 export const hasUserCommented = async (professionalId, userId) => {
   try {
-    const response = await axios.get(`${BASE_URL}/professionals/rating/${professionalId}/${userId}/hasCommented`);
+    const response = await axios.get(
+      `${BASE_URL}/professionals/rating/${professionalId}/${userId}/hasCommented`
+    );
     return response.data.hasCommented;
   } catch (error) {
     throw error;
@@ -104,3 +110,56 @@ export const postAvailability = async (userId, newData) => {
     return toast.error(error.response.message)
   }
 }
+
+export const createService = async (values) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/services`, values, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getServices = async ({
+  limit = 0,
+  offset = 0,
+  page = 1,
+  professionalId,
+}) => {
+  let query = `?offset=${offset}&limit=${limit}&page=${page}`;
+  if (professionalId) query += `&professionalId=${professionalId}`;
+  try {
+    const response = await axios.get(`${BASE_URL}/services${query}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateService = async (serviceId, newValues) => {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/services/${serviceId}`,
+      newValues,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteService = async (serviceId) => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/services/${serviceId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
