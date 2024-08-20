@@ -8,10 +8,12 @@ export const ConsultTypeAutocomplete = () => {
   const { eventInfo, setEventInfo } = useContext(CalendarContext);
 
   const handleChangeAutocomplete = (key) => {
-    setEventInfo((prevState) => ({
-      ...prevState,
-      title: key,
-    }));
+    if (key !== eventInfo.title) {
+      setEventInfo((prevState) => ({
+        ...prevState,
+        title: key,
+      }));
+    }
   };
 
   return (

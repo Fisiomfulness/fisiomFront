@@ -123,8 +123,6 @@ export const CalendarProvider = ({ children }) => {
         _professional: calendarState._professional,
         ...eventInfo,
       };
-      console.log(data);
-
       const response = await createAppointment(data);
       await fetchData(
         calendarState._professional,
@@ -138,7 +136,7 @@ export const CalendarProvider = ({ children }) => {
       }));
     }
 
-    // setEventInfo(eventInitialValues);
+    setEventInfo(eventInitialValues);
   }, [calendarState, eventInfo]);
 
   const handleSelectEvent = useCallback(
