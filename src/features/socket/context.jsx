@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { createContext } from "react";
 import { io } from "socket.io-client";
 
-export const socket = io(`${BASE_URL}`, { autoConnect: false });
+export const socket = io(`${BASE_URL}/`, { autoConnect: false });
 
 const SocketContext = createContext(
   /** @type {{ socket: typeof socket}} */ ({}),

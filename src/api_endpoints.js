@@ -1,4 +1,6 @@
-export const baseUrl = 'http://localhost:3000/';
+import { BASE_URL } from "./utils/api";
+
+export const baseUrl = `${BASE_URL}/`;
 export const apiEndpoints = {
   products: baseUrl + 'products/',
   productsDetail: baseUrl + 'products/detail/',
