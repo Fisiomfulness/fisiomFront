@@ -75,7 +75,7 @@ export const getUserDetail = async (id) => {
 export const getAllUsers = async () => {
   try {
     const { data } = await axios(
-      `${BASE_URL}/users/`
+      `${BASE_URL}/users/all`
       // `${process.env.NEXT_PUBLIC_BACKEND_URL}/users`
     );
     return { data };

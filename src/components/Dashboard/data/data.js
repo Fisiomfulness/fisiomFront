@@ -49,14 +49,9 @@ export const dashboardDropdown = [
     tab: 2,
   },
   {
-    name: 'Administrar profesionales',
-    icon: React.createElement(FaUserDoctor),
-    tab: 3,
-  },
-  {
     name: 'Administrar blogs',
     icon: React.createElement(SiMicrodotblog),
-    tab: 4,
+    tab: 3,
   },
 
 ];

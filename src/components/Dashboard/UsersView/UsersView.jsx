@@ -24,6 +24,8 @@ import { FaChevronCircleDown } from "react-icons/fa";
 import { LuCalendarDays } from "react-icons/lu";
 
 import { capitalize, columns, statusOptions } from "../data/data";
+import { VerticalDotsIcon } from "@/components/BlogDashboard/icons/VerticalDotsIcon";
+import Link from "next/link";
 //Este array es para cambiar el color del Estado del usuario.
 const statusColorMap = {
   true: "success",
@@ -159,25 +161,12 @@ export default function UsersView() {
         );
       case "actions":
         return (
-          <div className="relative flex justify-start items-center gap-2">
-            <button
-              type="button"
-              className="flex items-center justify-start rounded-full "
-            >
-              <CiEdit className=" text-xl" />
-            </button>
-            <button
-              className="flex items-center justify-start rounded-full "
-              type="button"
-            >
-              <CiCircleInfo className=" text-xl" />
-            </button>
-            <button
-              className="flex items-center justify-start rounded-full "
-              type="button"
-            >
-              <LuCalendarDays className=" text-xl" />
-            </button>
+          <div className="relative flex justify-center items-start gap-2">
+            <CiCircleInfo size="20px" className=" text-sm" />
+            <CiEdit size="20px" className="text-sm" />
+            <Link href={`/dashboard/${user._id}`}>
+              <LuCalendarDays size="20px" className="text-sm" />
+            </Link>
           </div>
         );
       case "specialties":
