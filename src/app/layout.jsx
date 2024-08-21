@@ -7,6 +7,14 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Toaster } from "react-hot-toast";
 import { UserProvider } from "@/context/User";
 
+export const metadata = {
+  title: "FisiomFulness",
+  description: "Sitio web para ofrecer servicios de fisioterapia",
+  icons: {
+    icon: ["/favicon.ico?v=4"],
+  },
+};
+
 const raleway = Raleway({
   weight: ["200", "300", "400", "700"],
   subsets: ["latin"],
