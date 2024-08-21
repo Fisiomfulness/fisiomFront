@@ -1,12 +1,18 @@
 "use client";
 
-import { NextUIProvider } from "@nextui-org/react";
+import { SocketProvider } from "@/features/socket";
+import { NextUIProvider } from "@nextui-org/system";
 import { Provider as JotaiProvider } from "jotai";
+import { SessionProvider } from "next-auth/react";
 
 export function Providers({ children }) {
   return (
     <NextUIProvider>
-      <JotaiProvider>{children}</JotaiProvider>
+      <SessionProvider>
+        <JotaiProvider>
+          <SocketProvider>{children}</SocketProvider>
+        </JotaiProvider>
+      </SessionProvider>
     </NextUIProvider>
   );
 }

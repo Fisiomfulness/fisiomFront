@@ -1,4 +1,3 @@
-import { cx } from "class-variance-authority";
 import { DocCode, DocSyntax, DocTabs } from "../components";
 import { twMerge } from "tailwind-merge";
 
@@ -23,13 +22,9 @@ const codeRender = `// Usando \`twMerge\`
 )} // w-24 h-24 bg-blue-500
 ></div>
 
-// Usando \`cx\`
-<div className={cx(
-  "w-24 h-24",
-  "bg-red-500",
-  "bg-green-500",
-  "bg-blue-500",
-)} // w-24 h-24 bg-red-500 bg-green-500 bg-blue-500
+// Sin \`twMerge\`
+<div
+  className="w-24 h-24 bg-red-500 bg-green-500 bg-blue-500"
 ></div>`;
 
 const previewRender = (
@@ -49,11 +44,9 @@ const previewRender = (
     </div>
     <div>
       <p>
-        Usando <DocCode>cx</DocCode>
+        Sin <DocCode>twMerge</DocCode>
       </p>
-      <div
-        className={cx("w-24 h-24", "bg-red-500", "bg-green-500", "bg-blue-500")}
-      ></div>
+      <div className="w-24 h-24 bg-red-500 bg-green-500 bg-blue-500"></div>
     </div>
   </div>
 );

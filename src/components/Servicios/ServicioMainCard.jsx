@@ -13,88 +13,100 @@ const StarRatings = dynamic(() => import("react-star-ratings"), {
 
 const ServicioMainCard = ({ profesional }) => {
   return (
-    <div className="flex flex-col ">
-      <Card
-        isBlurred
-        className="border-none bg-background/60 w-[40vw] dark:bg-default-100/50  rounded-r-none lg:rounded "
-        shadow="sm"
-      >
-        <CardBody>
-          <div className="flex flex-col  ">
-            <div className="flex items-center p-2 gap-4">
-              <Avatar
-                src="/doctor-ejemplo.png"
-                className="w-20 h-20 text-large"
+    <Card
+      isBlurred
+      className="border-none bg-background/60 shadow-gray-200 w-full dark:bg-default-100/50 rounded-none"
+      shadow="sm"
+    >
+      <CardBody>
+        <div className="flex flex-col overflow-hidden gap-2">
+          <div className="grid grid-cols-[max-content,auto] items-center gap-4">
+            <Avatar
+              src={profesional.image || "/doctor-ejemplo.png"}
+              className="w-16 h-16 sm:w-20 sm:h-20 ml-1"
+            />
+            <div className="flex flex-col gap-0">
+              <h2 className="font-semibold uppercase mb-0 line-clamp-2 text-sm sm:text-medium text-[#003953] w-full">
+                {profesional.name}
+              </h2>
+              {profesional.specialties.length ? (
+                <div className="flex flex-wrap gap-1 my-1">
+                  {profesional.specialties.map((specialty) => (
+                    <Chip
+                      key={specialty._id}
+                      className="bg-primary-400"
+                      variant="flat"
+                      size="sm"
+                      radius="sm"
+                      startContent={<FaUserDoctor className="text-white" />}
+                      classNames={{
+                        base: "px-2 flex gap-1",
+                      }}
+                    >
+                      <p className="text-small text-primary-50 truncate">
+                        {specialty.name}
+                      </p>
+                    </Chip>
+                  ))}
+                </div>
+              ) : null}
+              <StarRatings
+                rating={profesional.rating?.average}
+                starRatedColor="#ffb829"
+                numberOfStars={5}
+                starDimension="14px"
+                starSpacing="2px"
+                name="rating"
               />
-              <div className="flex flex-col gap-0">
-                <h1 className="font-semibold text-medium">
-                  {profesional.nombre}
-                </h1>
-                <div className="flex justify-between">
-                  <Chip
-                    className="bg-primary-300"
-                    variant="faded"
-                    size="sm"
-                    startContent={<FaUserDoctor />}
-                  >
-                    <p className="text-small text-foreground/80">
-                      {profesional.especialidad}
-                    </p>
-                  </Chip>
-                  <div className="pl-2">
-                    <StarRatings
-                      rating={profesional.rating}
-                      starRatedColor="#ffb829"
-                      numberOfStars={5}
-                      starDimension="14px"
-                      starSpacing="2px"
-                      name="rating"
-                    />
-                  </div>
-                </div>
-                <Link
-                  className="text-small p-2 text text-decoration-line: underline"
-                  as={NextLink}
-                  href={`./servicios/detalles${profesional.matricula}/perfil`}
-                >
-                  Ver mas
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <div className="flex  items-center gap-2 ">
-                <CiLocationOn className="text-primary-300 w-8 h-8" />
-                <div className="flex  flex-col">
-                  <p className="font-bold">{profesional.Direccion}</p>
-
-                  <p>{profesional.CP}</p>
-                </div>
-              </div>
-              <div className="flex  items-center gap-2 ">
-                <RiMoneyDollarCircleLine className="text-primary-300 w-8 h-8" />
-                <div className="flex  flex-col">
-                  <p className="font-bold">Consulta</p>
-
-                  <p>${profesional.valor}</p>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <Button
+              <Link
+                className="text-small w-fit italic mt-1 underline"
                 as={NextLink}
-                href={`./servicios/detalle${profesional.matricula}/turno`}
-                color="secondary"
-                size="sm"
-                className="w-[50%]"
+                href={`./servicios/${profesional._id}/perfil`}
               >
-                Agenda turno
-              </Button>
+                Ver más
+              </Link>
             </div>
           </div>
-        </CardBody>
-      </Card>
-    </div>
+
+          <div className="flex flex-col gap-1">
+            <div className="grid grid-cols-[max-content,auto] items-center gap-2">
+              <CiLocationOn className="text-primary-400 size-7 sm:size-8" />
+              <p className="line-clamp-2 font-semibold text-sm sm:text-base">
+                {profesional?.address?.city
+                  ? `${profesional?.address?.city}, ${
+                      profesional?.address?.state
+                        ? profesional.address?.state + ", "
+                        : ""
+                    }${profesional.address?.country}`
+                  : "A consultar"}
+              </p>
+            </div>
+            <div className="flex  items-center gap-2 ">
+              <RiMoneyDollarCircleLine className="text-primary-400 size-7 sm:size-8" />
+              <div className="flex  flex-col">
+                <p className="font-bold text-sm sm:text-base">Consulta</p>
+
+                <p>$ {profesional.consultationPrice || "-"}</p>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-end">
+            <div>
+              <Link href={`./servicios/${profesional._id}/turno`}>
+                <Button
+                  color="secondary"
+                  size="md"
+                  radius="sm"
+                  className="px-8 font-semibold"
+                >
+                  Agendar turno
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </CardBody>
+    </Card>
   );
 };
 

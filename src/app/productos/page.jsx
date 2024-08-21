@@ -1,12 +1,12 @@
-import data from "@/components/productos/data/productos.json";
-import ProductClient from "@/components/productos/ProductClient";
+import ProductosPageClient from "./page.client";
 
-const ProductosPage = async () => {
-  return (
-    <>
-      <ProductClient data={data.productos} />
-    </>
-  );
+export const metadata = {
+  title: 'Productos',
+  description: 'Explora nuestra amplia gama de productos de alta calidad y haz tus compras con facilidad y seguridad. Encuentra lo que necesitas en nuestra tienda.',
+};
+
+const ProductosPage = () => {
+  return <ProductosPageClient />;
 };
 
 export default ProductosPage;

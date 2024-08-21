@@ -1,68 +1,130 @@
+// @ts-check
 "use client";
 
-import { useState } from "react";
 import {
   Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
   DropdownItem,
-  Button,
-  Avatar,
+  DropdownMenu,
+  DropdownSection,
+  DropdownTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  User,
 } from "@nextui-org/react";
-import { twMerge } from "tailwind-merge";
+import { signOut } from "next-auth/react";
+import Link from "next/link";
+import { FaChevronLeft } from "react-icons/fa";
 
 const items = [
-  { key: "mis_compras", label: "Mis compras" },
-  { key: "mis_mensajes", label: "Mis mensajes" },
-  { key: "mis_citas", label: "Mis citas" },
-  { key: "editar_perfil", label: "Editar perfil" },
-  { key: "cerrar_sesion", label: "Cerrar sesion" },
+  { key: "/user/editar_perfil", label: "Editar perfil" },
+  { key: "/user/agenda", label: "Agenda" },
+  {
+    key: "root_mis_servicios",
+    label: "Mis servicios",
+    root: true,
+    children: [
+      { key: "/user/mis_servicios", label: "Servicios" },
+      { key: "/user/pacientes", label: "Pacientes" },
+      { key: "/user/calendario", label: "Calendario" },
+    ],
+  },
+  { key: "/user/carrito", label: "Carrito" },
+  { key: "/user/mis_productos", label: "Mis productos" },
+  { key: "/user/mis_compras", label: "Mis compras" },
+  { key: "/user/mis_mensajes", label: "Mis mensajes" },
+  {
+    key: "root_blog",
+    label: "Blog",
+    root: true,
+    children: [
+      { key: "/blog/crear", label: "Crear blog" },
+      { key: "/blog/mis-blogs", label: "Mis blogs" },
+    ],
+  },
 ];
 
-export default function DropdownUser() {
-  const [state, setState] = useState(false);
-
+/** @param {{ name: string, image: string }} props */
+export default function DropdownUser({ name, image }) {
   return (
     <Dropdown
-      offset={0}
       disableAnimation
       classNames={{
-        content: twMerge(
-          "bg-white w-[260px] text-center p-0",
-          "shadow-none rounded-t-none",
-          "border-1 border-zinc-300",
-          state && "border-t-0 rounded-t-none",
-        ),
+        content: "text-center p-0 rounded-lg min-w-44",
       }}
-      onOpenChange={(isOpen) => setState(isOpen)}
+      closeOnSelect={false}
     >
-      <DropdownTrigger className="text-base">
-        <Button
-          variant="bordered"
-          className={twMerge(
-            "h-auto px-4 py-2 w-[260px]",
-            "flex flex-row gap-4",
-            "!opacity-100 !transform-none",
-            state && "border-1 border-b-0 rounded-b-none",
-          )}
-        >
-          <p className="truncate w-3/4">Maria Perez Gutierrez</p>
-          <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
-        </Button>
+      <DropdownTrigger>
+        <User
+          as="button"
+          name={name}
+          avatarProps={{
+            src: image,
+          }}
+          className="flex-row-reverse !transform-none !opacity-100 gap-4"
+        />
       </DropdownTrigger>
+
       <DropdownMenu
-        aria-label="Dynamic Actions"
-        items={items}
+        aria-label="Static Actions"
         itemClasses={{
           base: "hover:!bg-primary-500/50",
-          title: "text-base",
         }}
       >
-        {(item) => (
-          <DropdownItem key={item.key} href={item.key}>
-            {item.label}
+        <DropdownSection
+          className="!m-0"
+          showDivider
+          dividerProps={{ className: "!m-1" }}
+        >
+          {items.map((item) =>
+            item.root ? (
+              <DropdownItem key={item.key} textValue={item.label}>
+                <Popover
+                  radius="sm"
+                  showArrow
+                  shouldFlip
+                  placement="left"
+                  classNames={{ content: "!px-1" }}
+                >
+                  <PopoverTrigger>
+                    <div className="relative">
+                      <FaChevronLeft className="absolute inset-0 my-auto" />
+                      <span>{item.label}</span>
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    {item.children.map((child) => (
+                      <Link
+                        className={[
+                          "min-w-44 text-center",
+                          "py-1.5 hover:!bg-primary-500/50 rounded-md",
+                        ].join(" ")}
+                        key={child.key}
+                        href={child.key}
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </PopoverContent>
+                </Popover>
+              </DropdownItem>
+            ) : (
+              <DropdownItem
+                key={item.key}
+                closeOnSelect
+                as={Link}
+                href={item.key}
+              >
+                {item.label}
+              </DropdownItem>
+            ),
+          )}
+        </DropdownSection>
+        <DropdownSection className="!m-0">
+          <DropdownItem key="cerrar_sesion" onClick={() => signOut()}>
+            Cerrar sesion
           </DropdownItem>
-        )}
+        </DropdownSection>
       </DropdownMenu>
     </Dropdown>
   );

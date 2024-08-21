@@ -1,8 +1,12 @@
 import ComunidadClient from "@/components/Comunidad/ComunidadClient";
-import data from "@/components/Comunidad/data/data.json";
+
+export const metadata = {
+  title: 'Comunidad',
+  description: 'Conoce a los profesionales de fisiomfulness',
+};
 
 const Page = () => {
-  return <ComunidadClient users={data.users} />;
+  return <ComunidadClient />;
 };
 
 export default Page;

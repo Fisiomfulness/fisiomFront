@@ -1,17 +1,19 @@
-import { ProductCard } from "./ProductCard";
+import { ProductCard } from './ProductCard';
 
-const ProductCardContainer = ({ prods }) => {
-return (
+const ProductCardContainer = ({ productos }) => {
+  return (
     <>
-      {prods.length ? (
-        <div className="w-full justify-items-center gap-6 px-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {prods?.map((prod) => (
-            <ProductCard key={prod.id} prod={prod} />
+      {productos.length ? (
+        <div className="w-full gap-6 items-center justify-center grid grid-cols-[repeat(auto-fill,minmax(auto,250px))]">
+          {productos?.map((prod) => (
+            <ProductCard key={prod._id} prod={prod} />
           ))}
         </div>
       ) : (
-        <div className="flex justify-center items-center mt-4">
-          <h2 className="text-center">No hemos encontrado resultados.</h2>
+        <div className="grow flex items-center justify-center">
+          <h2 className="text-center size-fit">
+            No hemos encontrado resultados.
+          </h2>
         </div>
       )}
     </>

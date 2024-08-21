@@ -1,128 +1,63 @@
+// @ts-check
 "use client";
 
 import { CustomInput } from "@/features/ui";
 import { Avatar } from "@nextui-org/react";
 import { useLayoutEffect, useRef, useState } from "react";
 import { RiArrowUpCircleLine } from "react-icons/ri";
-import { twMerge } from "tailwind-merge";
+import { messages as defaultMessages } from "../data/messages";
+import ChatMessage from "./ChatMessage";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { EVENT_MESSAGE_SENDED } from "@/utils/EventSymbols";
+import { useSocket } from "@/features/socket";
 
-function Collapse({ children }) {
-  const [isCollapsed, setIsCollapse] = useState(!true);
-  const container = useRef(null);
+/** @typedef {import("../data/messages").Message} Message */
+
+/** @param {{ roomId: string }} props */
+export default function Chat({ roomId }) {
+  const containerRef = useRef(/** @type {HTMLDivElement | null} */ (null));
+  const { socket } = useSocket();
+
+  const [messages, setMessages] = useState(
+    /** @type {Message[]} */ (roomId === "1" ? defaultMessages : []),
+  );
+  const { data: session } = useSession();
+  const name = session?.user?.name ?? "";
 
   useLayoutEffect(() => {
-    if (!container.current) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    container.current.scrollTop = container.current.scrollHeight;
-  }, [isCollapsed, container]);
-
-  if (isCollapsed) {
-    return (
-      <button
-        className="bg-blue-800 text-white text-3xl px-1 py-2 rounded-full"
-        onClick={() => setIsCollapse(false)}
-      >
-        ⚗�
-      </button>
-    );
-  }
-
-  return (
-    <>
-      <button
-        className="absolute top-5 right-5 bg-red-500 text-white px-1.5 rounded-sm"
-        onClick={() => setIsCollapse(true)}
-      >
-        X
-      </button>
-      <div className="fixed bottom-0 right-0 p-4">{children}</div>
-    </>
-  );
-}
-
-const defaultValue = [
-  {
-    id: 1,
-    type: "bot",
-    text: "Mensaje al usuario",
-  },
-  {
-    id: 2,
-    type: "user",
-    text: "Respuesta del usuario",
-  },
-  {
-    id: 3,
-    type: "bot",
-    text: "Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.",
-  },
-  {
-    id: 4,
-    type: "user",
-    text: "Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.",
-  },
-  {
-    id: 5,
-    type: "user",
-    text: "Respuesta del usuario",
-  },
-  {
-    id: 6,
-    type: "bot",
-    text: "Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.",
-  },
-  {
-    id: 7,
-    type: "user",
-    text: "Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.",
-  },
-  {
-    id: 8,
-    type: "bot",
-    text: (
-      <>
-        <span
-          className="cursor-pointer font-extrabold animate-pulse"
-          onClick={() => alert("This is a ReactNode (╯°□°）╯︵ ┻━┻")}
-        >
-          This is a ReactNode
-        </span>{" "}
-        <span>(╯°□°）╯︵ ┻━┻</span>
-      </>
-    ),
-  },
-];
-
-function Message({ type, children }) {
-  return (
-    <div
-      className={twMerge(
-        "rounded-xl max-w-[80%] text-white px-4 py-2 text-justify",
-        type === "bot"
-          ? "bg-primary-300 text-black text-left self-start rounded-bl-none"
-          : "bg-primary-800 text-right self-end rounded-br-none",
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-
-function Chat({ isCollapsable = false }) {
-  const containerRef = useRef(null);
-
-  const [messages, setMessages] = useState(defaultValue);
-
-  useLayoutEffect(() => {
-    if (!containerRef.current) return;
-
-    containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    container.scrollTop = container.scrollHeight;
   }, [messages, containerRef]);
 
+  useEffect(() => {
+    /** @param {*} data */
+    const onChatMessage = (data) => {
+      const draft = messages.concat({
+        id: Date.now(),
+        type: "bot",
+        text: data.message,
+      });
+      setMessages(draft);
+    };
+    socket.on("message:new", onChatMessage);
+
+    return () => {
+      socket.off("message:new", onChatMessage);
+    };
+  }, [socket, messages]);
+
+  /**
+   * @param {import("react").FormEvent<HTMLFormElement> & {
+   *   target: HTMLFormElement & { message: HTMLInputElement }
+   * }} event
+   */
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { value } = event.target.message;
 
+    const { value } = event.target.message;
     if (!value) return;
 
     const draft = messages.concat({
@@ -130,58 +65,51 @@ function Chat({ isCollapsable = false }) {
       type: "user",
       text: value,
     });
-
     setMessages(draft);
+
+    socket.emit(EVENT_MESSAGE_SENDED, {
+      room: roomId,
+      message: value,
+      sendBy: name,
+    });
 
     event.target.reset();
   };
 
-  const content = (
+  return (
     <div className="flex flex-col max-w-lg w-full rounded-md">
       <div
         className={[
-          "bg-primary-800 px-8 py-3 rounded-lg mx-6 text-white",
+          "bg-primary-800 px-6 py-3 rounded-lg text-white mr-6",
           "flex justify-between items-center",
         ].join(" ")}
       >
         <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-        <p className="text-lg">Ronald Marino</p>
+        <p className="text-lg">Ronald Marino - {roomId}</p>
       </div>
       <div
         ref={containerRef}
-        className="flex flex-col gap-2 overflow-y-auto px-4 pl-6 py-2"
+        className="flex flex-col gap-2 overflow-y-auto py-2 pr-4 h-full w-[512px]"
       >
         {messages.map((message) => (
-          <Message key={message.id} type={message.type}>
+          <ChatMessage key={message.id} type={message.type}>
             {message.text}
-          </Message>
+          </ChatMessage>
         ))}
       </div>
-      <form className="flex items-center px-6" onSubmit={handleSubmit}>
+      <form className="flex items-center mr-6" onSubmit={handleSubmit}>
         <CustomInput
           type="text"
           name="message"
-          placeholder="mensaje..."
-          classNames={{
-            input: "px-1",
-          }}
+          placeholder="Mensaje"
+          classNames={{ input: "px-1" }}
           endContent={
-            <>
-              <button type="submit">
-                <RiArrowUpCircleLine className="w-7 h-7 text-primary" />
-              </button>
-            </>
+            <button type="submit">
+              <RiArrowUpCircleLine className="w-7 h-7 text-primary" />
+            </button>
           }
         />
       </form>
     </div>
   );
-
-  if (isCollapsable) {
-    return <Collapse>{content}</Collapse>;
-  }
-
-  return content;
 }
-
-export default Chat;

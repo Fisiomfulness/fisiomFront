@@ -1,15 +1,19 @@
-import ServicioExperienciaCard from "@/components/Servicios/ServicioExperienciaCard";
-import data from "@/components/Servicios/data/profesionales.json";
-import profesionalFinder from "@/components/Servicios/utils/utils";
+import axios from 'axios';
+import ServicioExperienciaCard from '@/components/Servicios/ServicioExperienciaCard';
+import { apiEndpoints } from '@/api_endpoints';
 
+export const dynamic = 'force-dynamic';
 
 const ServicioExperiencia = async ({ params }) => {
-  const profesional = await profesionalFinder(params, data)
+  const profesionalId = params.detallesId;
+  const { data } = await axios.get(
+    apiEndpoints.professionalsDetail + profesionalId
+  );
 
   return (
-    <div>
-      <ServicioExperienciaCard experiencia={profesional.experiencia} />
-    </div>
+    <section className="w-full flex flex-col my-2 gap-4 grow lg:max-h-[800px] overflow-y-auto ">
+      <ServicioExperienciaCard experience={data?.professional.experience} />
+    </section>
   );
 };
 

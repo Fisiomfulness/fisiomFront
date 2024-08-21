@@ -1,20 +1,24 @@
-import React from "react";
-import { Image } from "@nextui-org/react";
+import { Image } from '@nextui-org/react';
+import { dateFormatter, stripHTMLTags } from '@/utils/helpers';
 
 function Publication({ data }) {
   return (
-    <div className="w-full flex flex-row items-center">
+    <div className="w-full grid grid-cols-[20%,auto] gap-3 sm:gap-5 md:grid-cols-[max-content,auto] xl:grid-cols-[20%,auto] xl:gap-[0.625rem]">
       <Image
-        isBlurred
-        width={60}
-        src={data.imageUrl}
-        alt="NextUI Album Cover"
-        classNames="m-5"
+        src={data.image}
+        alt="Blog picture"
+        className="w-screen h-[90px] md:!w-[144px] object-cover rounded-md object-center xl:h-[70px] xl:w-full xl:rounded-none"
       />
-      <div className="ml-5">
-        <h2 style={{ fontSize: "0.7rem", marginBottom: 0 }}>{data.title}</h2>
-        <h4 style={{ fontSize: "0.6rem", marginTop: 0 }}>{data.description}</h4>
-        <h6 style={{ fontSize: "0.5rem" }}>{data.date}</h6>
+      <div className="flex flex-col w-full overflow-hidden">
+        <h2 className="truncate text-[0.85rem] mb-0 capitalize">
+          {data.title}
+        </h2>
+        <p className="overflow-hidden line-clamp-3 text-[0.75rem] mt-[0.1rem] xl:line-clamp-2 break-words">
+          {stripHTMLTags(data.text)}
+        </p>
+        <span className="text-[0.65rem] tracking-wide mt-auto justify-self-end">
+          {dateFormatter(data.createdDate)}
+        </span>
       </div>
     </div>
   );

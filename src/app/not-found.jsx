@@ -1,19 +1,12 @@
-import { center } from "@/styled-system/patterns";
-import Link from "next/link";
+import Link from 'next/link';
+
+export const metadata = {
+  title: 'Pagina no encontrada',
+};
 
 export default function NotFound() {
   return (
-    <div
-      className={center({
-        flexDir: "column",
-        gap: "1",
-        minH: "92vh",
-        textAlign: "center",
-        margin: "0",
-        width: "100vw",
-        maxW: "unset!",
-      })}
-    >
+    <main className="relative center flex-col gap-1 min-h-[92vh] text-center w-screen !max-w-[unset]">
       <img
         className="absolute bottom-0 left-0 h-[42%] max-sm:w-1/2 max-sm:h-auto"
         alt="logo_overlay"
@@ -38,12 +31,12 @@ export default function NotFound() {
       </p>
       <p className="mb-16">
         En 5 segundos serás redirigido/a a nuestra página principal o puedes
-        hacer{" "}
+        hacer{' '}
         <Link href="/" className="text-primary cursor-pointer underline">
           click aquí
         </Link>
         .
       </p>
-    </div>
+    </main>
   );
 }

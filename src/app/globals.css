@@ -2,19 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-input::-ms-reveal,
-input::-ms-clear {
-  display: none;
-}
-
-b {
-  @apply font-bold;
-}
-
-i {
-  @apply italic;
-}
-
 @layer base {
   h1 {
     @apply mb-3 font-extrabold text-4xl leading-none;
@@ -30,6 +17,40 @@ i {
 
   h4 {
     @apply mb-2 font-semibold text-base leading-6;
+  }
+
+  blockquote {
+    @apply pl-4 border-l-2 border-secondary-300 italic;
+  }
+
+  b {
+    @apply font-bold;
+  }
+
+  i {
+    @apply italic;
+  }
+
+  input::-ms-reveal,
+  input::-ms-clear {
+    display: none;
+  }
+
+  .htmlField {
+    @apply break-words
+  }
+
+  .htmlField > ul,
+  ol {
+    @apply px-4 marker:text-primary-700;
+  }
+
+  .htmlField > ul {
+    @apply list-disc;
+  }
+
+  .htmlField > ol {
+    @apply list-decimal;
   }
 
   ::-webkit-scrollbar {
@@ -55,5 +76,3 @@ i {
     @apply rounded-full;
   }
 }
-
-@layer panda_reset, panda_base, panda_tokens, panda_recipes, panda_utilities;

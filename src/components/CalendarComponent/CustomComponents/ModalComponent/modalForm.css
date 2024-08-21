@@ -1,0 +1,27 @@
+/* Modal styles */
+.react-datetime-picker__inputGroup {
+    display: flex;
+    align-items: center;
+    /* background-color: #f4f4f5;*/
+    width: 258px;
+    border-radius: 12px;
+}
+
+.react-datetime-picker__wrapper {
+    border: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.react-timerange-picker__wrapper {
+    border: none !important;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.react-timerange-picker__inputGroup {
+    display: flex;
+    align-items: center;
+    /* background-color: #f4f4f5;*/
+    height: 56px;
+    border-radius: 12px;
+    border: none
+}

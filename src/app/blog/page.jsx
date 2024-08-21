@@ -1,16 +1,19 @@
-import React from "react";
-import CardBlog from "@/components/Blog/CardBlog";
-import BlogList from "@/components/Blog/BlogList";
-import dataBlog from "@/components/Blog/data/blogs.json";
-import dataPublication from "@/components/Blog/data/publication.json";
+import { getBlogs } from '@/services/blogs';
+import BlogSection from '@/components/Blog/BlogSection';
 
-const BlogPage = () => {
-  return (
-    <div className="flex flex-col gap-y-7 gap-x-10 lg:flex-row w-full h-full mt-10 mb-14">
-      <CardBlog cardData={dataBlog.data} />
-      <BlogList blogData={dataPublication.data} />
-    </div>
-  );
+export const metadata = {
+  title: "Blogs",
+  description: "Blogs publicados por profesionales de fisiomfulness",
+}
+
+const CARDS_PER_PAGE = 9;
+const MAX_LAST_BLOGS = 8;
+
+// ? server-side fetching
+const BlogPage = async () => {
+  const data = await getBlogs({ limit: CARDS_PER_PAGE, sortBy: 'title', order: 'asc', status: true });
+  const { blogs } = await getBlogs({ limit: MAX_LAST_BLOGS, status: true });
+  return <BlogSection data={data} lastsBlogs={blogs} cardsPerPage={CARDS_PER_PAGE} />;
 };
 
 export default BlogPage;

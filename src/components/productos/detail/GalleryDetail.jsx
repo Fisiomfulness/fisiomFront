@@ -1,17 +1,19 @@
-"use client";
+import { twMerge } from "tailwind-merge";
 
 const GalleryDetail = ({ setSelected, images, selected }) => {
   return (
-    <div className="pt-3 flex  w-full h-full items-center gap-3 xl:flex-col xl:pt-0">
+    <div className="flex w-full h-full md:flex-col basis-0">
       {images?.map((img, index) => (
         <div
-          onClick={() => {
-            setSelected(index);
-          }}
-          className={`flex items-center w-[30px] h-[30px] bg-cover border-[2px] rounded-sm cursor-pointer transition-[.3s] transform hover:scale-110 xl:w-[50px] xl:h-[50px] ${
-            selected == index ? "border-primary" : ""
-          }`}
-          style={{ backgroundImage: `url(${img})` }}
+          onClick={() => setSelected(index)}
+          className={twMerge(
+            "flex items-center bg-cover cursor-pointer",
+            "w-[50px] h-[50px]",
+            "border-[2px] rounded-sm",
+            "transition-[.3s] transform hover:scale-110",
+            Number(selected) === index ? "border-primary" : "",
+          )}
+          style={{ backgroundImage: img ? `url(${img})` : "" }}
           key={index}
         ></div>
       ))}

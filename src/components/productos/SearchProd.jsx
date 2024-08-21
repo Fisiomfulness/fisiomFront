@@ -1,58 +1,67 @@
-"use client";
-import { MdOutlineSearch } from "react-icons/md";
-import { useEffect, useState } from "react";
-import { Input } from "@nextui-org/react";
-import { SearchIcon } from "../SearchIcon";
+'use client';
+import axios from 'axios';
+import { MdOutlineSearch } from 'react-icons/md';
+import { useEffect, useState } from 'react';
+import { Input } from '@nextui-org/react';
+import { SearchIcon } from '../SearchIcon';
+import { apiEndpoints } from '@/api_endpoints';
 
-export const SearchProd = ({ prods, setProdFiltrados }) => {
-  const [filter, setFilter] = useState({
-    categoria: "categoria",
-    nombre: "",
-  });
+export const SearchProd = ({ filter, setFilter, setPage }) => {
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    setProdFiltrados(
-      prods.filter(
-        (e) =>
-          e.categoria.toLowerCase().includes(filter.categoria.toLowerCase()) &&
-          e.nombre.toLowerCase().includes(filter.nombre.toLowerCase())
-      )
-    );
-  }, [filter, prods, setProdFiltrados]);
+    const abortController = new AbortController();
+
+    axios
+      .get(apiEndpoints.categories, {
+        signal: abortController.signal,
+      })
+      .then(({ data }) => {
+        setCategories(
+          data.categories.toSorted((a, b) => a.name.localeCompare(b.name))
+        );
+      })
+      .catch((err) => {
+        if (err.name === 'CanceledError') return;
+        throw err;
+      });
+
+    return () => abortController.abort();
+  }, []);
 
   const handleOnChange = (e) => {
+    setPage(1);
     setFilter({ ...filter, [e.target.id]: e.target.value });
   };
 
   return (
-    <div className="flex flex-col sm:flex-row w-full items-center justify-center gap-5 mt-4 mb-4">
-     <Input
-        id="nombre"
-        value={filter.nombre}
+    <div className="center sm:flex-row w-full gap-5 my-4">
+      <Input
+        id="name"
+        value={filter.name}
         className="border-none outline-none w-[250px]"
         onChange={(e) => handleOnChange(e)}
         placeholder="Buscar artículo..."
-        size="sm"
+        size="lg"
         startContent={<SearchIcon size={18} />}
         type="search"
       />
-      <div className="flex text-sm">
-        <select
-          value={filter.categoria}
-          id="categoria"
-          className="w-[200px] p-3 rounded-sm cursor-pointer outline-none"
-          style={{ boxShadow: "0px 2px 2px 0px #00000040" }}
-          onChange={(e) => handleOnChange(e)}
-          placeholder={filter.categoria}
-        >
-          <option value="categoria" className="">
-            Todas
+      <select
+        value={filter.categoryId}
+        id="categoryId"
+        className="w-[200px] p-3 rounded-sm cursor-pointer outline-none"
+        style={{ boxShadow: '0px 2px 2px 0px #00000040' }}
+        onChange={(e) => handleOnChange(e)}
+      >
+        <option value="" className="">
+          Todas
+        </option>
+        {categories?.map((category) => (
+          <option key={category._id} value={category._id}>
+            {category.name}
           </option>
-          <option value="categoria 1">Categoria 1</option>
-          <option value="categoria 2">Categoria 2</option>
-          <option value="categoria 3">Categoria 3</option>
-        </select>
-      </div>
+        ))}
+      </select>
     </div>
   );
 };

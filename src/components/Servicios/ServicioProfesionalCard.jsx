@@ -1,107 +1,133 @@
-"use client";
-import { FaUserDoctor } from "react-icons/fa6";
-import { CiMail } from "react-icons/ci";
-import { IoIosCall } from "react-icons/io";
-import { Card, CardBody, Image, Chip, CardFooter } from "@nextui-org/react";
-import { Divider } from "@nextui-org/react";
-import { Snippet } from "@nextui-org/react";
-// Fix de StarRatings
-import dynamic from "next/dynamic";
-const StarRatings = dynamic(() => import("react-star-ratings"), {
+'use client';
+import {
+  Card,
+  CardBody,
+  Image,
+  Chip,
+  CardFooter,
+  Divider,
+  Snippet,
+} from '@nextui-org/react';
+import { FaUserDoctor } from 'react-icons/fa6';
+import { CiMail } from 'react-icons/ci';
+import { IoIosCall, IoMdStar } from 'react-icons/io';
+import dynamic from 'next/dynamic';
+
+const StarRatings = dynamic(() => import('react-star-ratings'), {
+  ssr: false,
+});
+const ProfileMap = dynamic(() => import('./ProfileMap'), {
   ssr: false,
 });
 
-const ServicioProfesionalCard = ({ profesional }) => {
+const ServicioProfesionalCard = ({ professional }) => {
   return (
-    <div className="flex flex-col lg:flex-row items-center">
-      <Card
-        isBlurred
-        className="border-none bg-background/60 dark:bg-default-100/50 max-w-[800px] rounded-r-none lg:rounded "
-        shadow="sm"
-      >
-        <CardBody>
-          <div className="grid grid-cols-6 lg:grid-cols-12 gap-6 lg:gap-4 items-center justify-center">
-            <div className="relative col-span-6 lg:col-span-4">
-              <Image
-                alt={profesional.nombre}
-                className="object-cover"
-                height={200}
-                shadow="md"
-                src="/doctor-ejemplo.png"
-                width="100%"
-              />
+    <div className="!w-full grid gap-3 xl:items-stretch xl:grid-cols-[70%,auto] xl:gap-10">
+      <Card shadow="none" radius="none" fullWidth>
+        <CardBody className="grid gap-5 lg:grid-cols-[38%,auto] lg:pt-0 lg:items-stretch">
+          <div className="grid gap-2 md:gap-4 sm:grid-cols-2 lg:grid-cols-1">
+            <Image
+              alt={professional.name}
+              src={professional.image || '/doctor-ejemplo.png'}
+              className="text-center size-full h-[300px] max-h-[300px] object-cover object-top"
+              radius="none"
+              shadow="none"
+              removeWrapper
+            />
+            <div className="hidden sm:block lg:hidden">
+              <ProfileMap center={professional.coordinates} zoom={13} />
             </div>
+          </div>
 
-            <div className="flex flex-col col-span-6 lg:col-span-8">
-              <div className="flex justify-between items-start">
-                <div className="flex flex-col gap-0">
-                  <h1 className="font-semibold text-foreground/90">
-                    {profesional.nombre}
-                  </h1>
-                  <div className="flex justify-between">
-                    <Chip
-                      className="bg-primary-300"
-                      variant="faded"
-                      startContent={<FaUserDoctor />}
-                    >
-                      <p className="text-small text-foreground/80">
-                        {profesional.especialidad}
-                      </p>
-                    </Chip>
-                    <StarRatings
-                      rating={profesional.rating}
-                      starRatedColor="#ffb829"
-                      numberOfStars={5}
-                      starDimension="20px"
-                      starSpacing="2px"
-                      name="rating"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col mt-3 gap-1">
-                <div className="flex justify-between">
-                  <p className="text-small">{profesional.descripcion}</p>
-                </div>
-              </div>
+          <div className="vstack gap-2">
+            <h2 className="m-0 uppercase">{`DR. ${professional.name}`}</h2>
+            <div className="flex items-center gap-2 flex-wrap">
+              {professional?.rating.average > 0 && (
+                <Chip
+                  variant="flat"
+                  size="sm"
+                  startContent={<IoMdStar size={16} color="#ffff" />}
+                  className="bg-[#2984AE] px-3 gap-1 items-center justify-between"
+                  classNames={{
+                    content: 'text-white font-semibold font-sans',
+                  }}
+                >
+                  {professional.rating.average}
+                </Chip>
+              )}
+              {professional?.specialties.length > 0 &&
+                professional.specialties.map((specialty) => (
+                  <Chip
+                    key={specialty._id}
+                    variant="flat"
+                    size="sm"
+                    startContent={<FaUserDoctor className="text-[#164a37e2]" />}
+                    className="bg-[#acf5da] px-3 gap-1 items-center"
+                    classNames={{
+                      content: 'text-[#164a37e2] tracking-wider',
+                    }}
+                  >
+                    {specialty.name}
+                  </Chip>
+                ))}
             </div>
+            <p
+              className={`text-sm ${
+                !professional.description && 'text-secondary-400 font-semibold'
+              }`}
+            >
+              {professional.description ||
+                'Profesional verificado de Fisiomfulness'}
+            </p>
           </div>
         </CardBody>
 
         <Divider />
-        <CardFooter>
-          <div className="flex w-full justify-between">
-            <Snippet symbol="" variant="shadow" color="primary">
-              <div className="flex flex-row gap-2 items-center">
-                <CiMail />
-                {profesional.mail}
-              </div>
-            </Snippet>
-            <Snippet symbol="" variant="shadow" color="success">
-              <div className="flex flex-row gap-2 items-center">
-                <IoIosCall />
 
-                <span>{profesional.telefono}</span>
-              </div>
-            </Snippet>
-          </div>
+        <CardFooter className="flex-col gap-2 bg-default-50 sm:flex-row">
+          <Snippet
+            symbol={<CiMail size={24} />}
+            color="primary"
+            variant="flat"
+            radius="none"
+            fullWidth
+            tooltipProps={{
+              color: 'secondary',
+              content: 'Copiar correo electrónico',
+              delay: 200,
+            }}
+            className="bg-transparent"
+            classNames={{
+              pre: 'flex items-center gap-2',
+            }}
+          >
+            <span className="text-black font-sans">{professional.email}</span>
+          </Snippet>
+          <Snippet
+            symbol={<IoIosCall size={24} />}
+            color="primary"
+            variant="flat"
+            radius="none"
+            fullWidth
+            tooltipProps={{
+              color: 'secondary',
+              content: 'Copiar teléfono',
+              delay: 200,
+            }}
+            className="bg-transparent"
+            classNames={{
+              color: 'secondary',
+              pre: 'flex items-center gap-2',
+            }}
+          >
+            <span className="text-black font-sans">{professional.phone}</span>
+          </Snippet>
         </CardFooter>
       </Card>
-      <Card
-        isBlurred
-        className="border-none p-3 bg-background/60 dark:bg-default-100/50 max-w-[610px] min-w-[290px] rounded lg:rounded-l-none h-[262px]"
-        shadow="sm"
-      >
-        <Image
-          alt={profesional.nombre}
-          className="object-cover"
-          height={200}
-          shadow="sm"
-          src="/servicio-ubicacion-profesionales.png"
-          width="100%"
-        />
-      </Card>
+
+      <div className="h-auto sm:hidden lg:block">
+        <ProfileMap center={professional.coordinates} zoom={13} />
+      </div>
     </div>
   );
 };

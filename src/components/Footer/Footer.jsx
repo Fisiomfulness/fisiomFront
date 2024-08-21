@@ -13,7 +13,7 @@ const socialItems = [
 ];
 
 const navItems = [
-  { name: "Trabaja con nosotros", href: "/trabajaConNosotros" },
+  { name: "Trabaja con nosotros", href: "/trabajo" },
   { name: "Quienes somos", href: "/about" },
   { name: "Blog", href: "/blog" },
 ];

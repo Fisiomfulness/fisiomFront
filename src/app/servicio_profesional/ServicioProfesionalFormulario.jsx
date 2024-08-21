@@ -29,7 +29,6 @@ export default function SecondModal() {
 
     if (Object.values(draft).every((value) => value === false)) {
       setIsSubmit(true);
-      console.log("Submit");
     } else {
       setIsSubmit(false);
     }
