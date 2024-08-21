@@ -24,7 +24,7 @@ const loginSchema = z.object({
 const UserLoginComponent = () => {
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
-  
+
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleLogin = async (values) => {
@@ -39,7 +39,7 @@ const UserLoginComponent = () => {
     }
 
     toast.success("Has iniciado sesión correctamente");
-    router.push("/user");
+    router.push("/");
   };
 
   return (
