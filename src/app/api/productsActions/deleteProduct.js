@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/utils/api';
 import { getErrorMessage } from '@/utils/utils';
 import axios from 'axios';
 
@@ -10,7 +11,7 @@ export const deleteProductById = async (id, token) => {
     };
 
     const { data } = await axios.delete(
-      `http://localhost:3000/products/delete/${id}`,
+      `${BASE_URL}/products/delete/${id}`,
       config
     );
     return { data };
