@@ -1,9 +1,10 @@
+import { BASE_URL } from '@/utils/api';
 import { getErrorMessage } from '@/utils/utils';
 import axios from 'axios';
 
 export const getAllCategories = async () => {
   try {
-    const { data } = await axios(`http://localhost:3000/category`);
+    const { data } = await axios(`${BASE_URL}/category`);
     return { data };
   } catch (error) {
     return {

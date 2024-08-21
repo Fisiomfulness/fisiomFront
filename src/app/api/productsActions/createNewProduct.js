@@ -1,10 +1,11 @@
+import { BASE_URL } from '@/utils/api';
 import { getErrorMessage } from '@/utils/utils';
 import axios from 'axios';
 
 export const createNewProduct = async (product) => {
   try {
     const { data } = await axios.post(
-      `http://localhost:3000/products/create`,
+      `${BASE_URL}/products/create`,
       product,
       {
         headers: {

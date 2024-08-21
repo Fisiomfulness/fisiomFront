@@ -12,6 +12,7 @@ import {
   EVENT_USER_CONNECTED,
 } from "@/utils/EventSymbols";
 import { useSocket } from "@/features/socket";
+import { BASE_URL } from "@/utils/api";
 
 const defaultChats = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
@@ -62,7 +63,7 @@ const ChatList = () => {
       value = Date.now().toString();
     }
 
-    fetch("http://localhost:3000/chat/room", {
+    fetch(`${BASE_URL}/chat/room`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ room: value }),

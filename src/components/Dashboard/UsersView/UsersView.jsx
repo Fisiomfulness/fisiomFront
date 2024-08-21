@@ -26,6 +26,7 @@ import { LuCalendarDays } from "react-icons/lu";
 import { capitalize, columns, statusOptions } from "../data/data";
 import { VerticalDotsIcon } from "@/components/BlogDashboard/icons/VerticalDotsIcon";
 import Link from "next/link";
+import toast from "react-hot-toast";
 //Este array es para cambiar el color del Estado del usuario.
 const statusColorMap = {
   true: "success",

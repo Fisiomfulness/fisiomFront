@@ -1,13 +1,14 @@
 // @ts-check
 "use client";
 
+import { BASE_URL } from "@/utils/api";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
 import { io } from "socket.io-client";
 
-export const socket = io("http://localhost:3000", { autoConnect: false });
+export const socket = io(`${BASE_URL}/`, { autoConnect: false });
 
 const SocketContext = createContext(
   /** @type {{ socket: typeof socket}} */ ({}),

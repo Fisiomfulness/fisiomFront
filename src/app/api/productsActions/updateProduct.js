@@ -1,10 +1,11 @@
+import { BASE_URL } from '@/utils/api';
 import { getErrorMessage } from '@/utils/utils';
 import axios from 'axios';
 
 export const updateProduct = async (product) => {
   try {
     const { data } = await axios.patch(
-      `http://localhost:3000/products/${product._id}`
+      `${BASE_URL}/products/${product._id}`
       // `${process.env.NEXT_PUBLIC_BACKEND_URL}/users`
     );
     return { data };

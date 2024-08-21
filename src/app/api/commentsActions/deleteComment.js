@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/utils/api';
 import axios from 'axios';
 
 export const deleteComment = async (id, token) => {
@@ -9,7 +10,7 @@ export const deleteComment = async (id, token) => {
     };
 
     const { data } = await axios.delete(
-      `http://localhost:3000/comments/delete/${id}`,
+      `${BASE_URL}/comments/delete/${id}`,
       config
       // `${process.env.NEXT_PUBLIC_BACKEND_URL}/users`
     );
