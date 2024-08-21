@@ -22,6 +22,7 @@ export const PatientNameAutocomplete = () => {
   return (
     <>
       <Autocomplete
+        variant="bordered"
         selectedKey={eventInfo._patient}
         onSelectionChange={handleChangeAutocomplete}
         isRequired
@@ -55,7 +56,6 @@ export const PatientNameAutocomplete = () => {
         startContent={
           <IoSearch className="text-default-400" strokeWidth={2.5} size={20} />
         }
-        variant="flat"
       >
         {(item) => (
           <AutocompleteItem key={item._id} textValue={item.name}>

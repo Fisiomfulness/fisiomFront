@@ -6,7 +6,6 @@ import "moment/locale/es";
 import { use, useCallback, useContext, useEffect, useState } from "react";
 import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import { formatConfig, langConfig } from "./CalendarConfig";
-import CalendarModal from "./CalendarModal";
 import CustomToolbar from "./CustomComponents/CustomView.jsx/CustomToolbar";
 import { currentDateMoment, standarFormartDate } from "@/utils/StandarValues";
 import { formatDateFromTo } from "@/utils/filters/timeFormat";
@@ -17,8 +16,11 @@ import { getSpecificUserData } from "@/services/users";
 import { CalendarContext } from "@/context/Calendar";
 import { CustomEventView } from "./CustomComponents/CustomView.jsx/CustomEventView";
 import { EVENT_STATUS_COLORS } from "./InitialValues";
+import AppointmentModal from "./CustomComponents/ModalComponent/AppointmentModal/AppointmentModal";
+import { AvailabilityModal } from "./CustomComponents/ModalComponent/AvailabilityModal/AvailabilityModal";
 
-export default function CalendarComponent({ data, selectable }) {
+export default function CalendarComponent({ user, isAuth }) {
+  const [isSelectable, setIsSelectable] = useState(false);
   const {
     CalendarIsLoading,
     calendarState,
@@ -31,7 +33,7 @@ export default function CalendarComponent({ data, selectable }) {
     setCachedData,
     cachedData,
   } = useContext(CalendarContext);
-  const { _id } = data;
+  const { id } = user;
   const localizer = momentLocalizer(moment);
 
   const isDateInRange = (date, range) => {
@@ -44,11 +46,26 @@ export default function CalendarComponent({ data, selectable }) {
     );
   };
 
+  const checkUserRole = () => {
+    if (user.role != "user" && isAuth) {
+      setIsSelectable(true);
+    } else {
+      setIsSelectable(false);
+    }
+  };
+
   //Cuando Cambia "calendarState.dateFromTo" se hace un fetch con el rango de fecha
   useEffect(() => {
     const { from, to } = calendarState.dateFromTo;
 
     const formarDateFromTo = (from, to) => `from ${from} to ${to}`;
+
+    checkUserRole();
+
+    setCalendarState((prevState) => ({
+      ...prevState,
+      _professional: id,
+    }));
 
     // Check if this is the first "fetch". If "fetch" is for today
     if (
@@ -64,7 +81,7 @@ export default function CalendarComponent({ data, selectable }) {
 
     // Check if the date range already exists in the cache
     if (!isRangeInCache(from, to) && from !== to) {
-      fetchData(_id, from, to);
+      fetchData(id, from, to);
       setCachedData((prevCachedData) => [
         ...prevCachedData,
         { from, to }, // `data` can be populated when `fetchData` completes
@@ -110,8 +127,47 @@ export default function CalendarComponent({ data, selectable }) {
     };
   };
 
+  const slotPropGetter = useCallback(
+    (date) => {
+      const dayOfWeek = moment(date).format("dddd");
+      const dayAvailability = calendarState.availability.find(
+        (day) => day.day === dayOfWeek,
+      );
+
+      if (!dayAvailability) {
+        return;
+      }
+
+      const timeRanges = dayAvailability.timeSlots.map((slot) => {
+        const start = moment(slot.start, "HH:mm").format("HH:mm");
+        const end = moment(slot.end, "HH:mm").format("HH:mm");
+
+        return {
+          start,
+          end,
+          style: { backgroundColor: "#ff6161", color: "white" },
+        };
+      });
+
+      const formatDate = moment(date).format("HH:mm");
+      let style = {};
+
+      for (const range of timeRanges) {
+        if (formatDate >= range.start && formatDate <= range.end) {
+          style = range.style;
+          break; // Salir del bucle cuando se encuentra el rango correcto
+        }
+      }
+      return {
+        className: "slotDefault",
+        style,
+      };
+    },
+    [calendarState.availability],
+  );
+
   const componentes = {
-    toolbar: (props) => <CustomToolbar {...props} />,
+    toolbar: (props) => <CustomToolbar {...props} isAuth={isAuth} />,
     event: ({ event }) => <CustomEventView appointment={event} />,
   };
 
@@ -134,15 +190,17 @@ export default function CalendarComponent({ data, selectable }) {
           messages={langConfig.es}
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}
-          selectable={selectable}
+          selectable={isSelectable}
           formats={formatConfig}
+          slotPropGetter={slotPropGetter}
           min={new Date(1970, 1, 1, 6)} // Hora mínima (8:00 AM)
           max={new Date(1970, 1, 1, 23)} // Hora máxima (6:00 PM)
           components={componentes}
           eventPropGetter={eventStyleGetter}
         />
       )}
-      <CalendarModal />
+      <AppointmentModal />
+      <AvailabilityModal />
     </>
   );
 }

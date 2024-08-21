@@ -23,15 +23,15 @@ export const CustomDatePicker = ({ value, name, label }) => {
     [setEventInfo],
   );
   return (
-    <div className="bg-gray-100 hover:bg-gray-200 rounded-xl">
-      <label className=" font-thin text-gray-900 mx-2" for="date-start">
-        Fecha de {label} <span class="required">*</span>
+    <div className="bg-gray-100 hover:bg-gray-200 rounded-xl border hover:border-gray-500">
+      <label className=" font-thin text-gray-900 mx-2" htmlFor="date-start">
+        Fecha de {label} <span className="required">*</span>
       </label>
       <div className="flex">
         <IoMdTime className="mx-2" fontSize={"20px"} color="black" />
         {/* Icon */}
         <DateTimePicker
-          className="text-gray-700"
+          className="text-gray-700 "
           id="date-start"
           disableCalendar
           disableClock

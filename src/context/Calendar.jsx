@@ -20,15 +20,18 @@ import {
 import { formatDateFromTo } from "@/utils/filters/timeFormat";
 import { UserContext } from "./User";
 import { useSession } from "next-auth/react";
+import { getAvailability } from "@/services/professionals";
+import toast from "react-hot-toast";
 
 export const CalendarContext = createContext();
 
 export const CalendarProvider = ({ children }) => {
-  const { data: session, status } = useSession();
-
   const [CalendarIsLoading, setCalendarIsLoading] = useState(false);
 
+  const [isModalAvailability, setIsModalAvailability] = useState(false);
+
   const [calendarState, setCalendarState] = useState({
+    _professional: "",
     view: Views.MONTH,
     date: new Date(),
     myEvents: [],
@@ -40,6 +43,7 @@ export const CalendarProvider = ({ children }) => {
       to: currentDateMoment,
     },
     usersNames: [],
+    availability: [],
   });
 
   const [eventInfo, setEventInfo] = useState({
@@ -62,16 +66,20 @@ export const CalendarProvider = ({ children }) => {
     editEvent: false,
   });
 
-  const DataForCreate = () => ({
-    ...eventInfo,
-    _professional: session?.user.id,
-  });
-
   const fetchData = async (_id, from, to) => {
     setCalendarIsLoading(true);
     try {
-      const response = await getAppointment(_id, from, to);
-      const newEvents = filterAppointments(response.data.appointments);
+      const responseAppointments = await getAppointment(_id, from, to);
+      const newEvents = filterAppointments(
+        responseAppointments.data.appointments,
+      );
+
+      const responseAvailability = await getAvailability(_id);
+
+      setCalendarState((prevState) => ({
+        ...prevState,
+        availability: responseAvailability,
+      }));
 
       setCachedData((prevCachedData) => {
         const newCachedData = [...prevCachedData];
@@ -95,24 +103,14 @@ export const CalendarProvider = ({ children }) => {
   const handleSaveEvent = useCallback(async () => {
     const { myEvents, editEvent } = calendarState;
     if (!eventInfo.title || !eventInfo._patient)
-      return alert("complete los campos");
+      return toast.error("complete los campos");
     if (currentDateMoment > moment(eventInfo.start).format(standarFormartDate))
-      return alert("No se puede crear en esta fecha");
+      return toast.error("No se puede crear en esta fecha");
 
     if (editEvent) {
-      const { _id, title, additionalDescription, start, end, status } =
-        eventInfo;
-      const newData = {
-        _id,
-        title,
-        additionalDescription,
-        start,
-        end,
-        status,
-      };
-      await updateAppointment(newData);
+      await updateAppointment(eventInfo);
       await fetchData(
-        session.user.id,
+        calendarState._professional,
         calendarState.dateFromTo.from,
         calendarState.dateFromTo.to,
       );
@@ -121,41 +119,24 @@ export const CalendarProvider = ({ children }) => {
         ...resetEventFormState(),
       }));
     } else {
-      //if it is "user" role, add 1 hour to the start date
-      if (session?.user.role === "user") {
-        const startDate = moment(eventInfo.start);
-        const newEndDate = startDate.add(1, "hours").format(standarFormartDate);
-        const newData = {
-          ...eventInfo,
-          end: newEndDate,
-        };
-
-        //SACAR EL ID DE LA URL
-        console.log(newData);
-
-        /* setCalendarState((prevState) => ({
-          ...prevState,
-          //cambiar por _id
-          myEvents: [...myEvents, { id: myEvents.length + 1, ...newData }],
-          ...resetEventFormState(),
-        })); */
-      } else {
-        const data = DataForCreate(eventInfo);
-        const response = await createAppointment(data);
-        await fetchData(
-          session.user.id,
-          calendarState.dateFromTo.from,
-          calendarState.dateFromTo.to,
-        );
-        setEventInfo(eventInitialValues);
-        setCalendarState((prevState) => ({
-          ...prevState,
-          ...resetEventFormState(),
-        }));
-      }
+      const data = {
+        _professional: calendarState._professional,
+        ...eventInfo,
+      };
+      const response = await createAppointment(data);
+      await fetchData(
+        calendarState._professional,
+        calendarState.dateFromTo.from,
+        calendarState.dateFromTo.to,
+      );
+      setEventInfo(eventInitialValues);
+      setCalendarState((prevState) => ({
+        ...prevState,
+        ...resetEventFormState(),
+      }));
     }
 
-    // setEventInfo(eventInitialValues);
+    setEventInfo(eventInitialValues);
   }, [calendarState, eventInfo]);
 
   const handleSelectEvent = useCallback(
@@ -202,7 +183,7 @@ export const CalendarProvider = ({ children }) => {
       };
       const response = await updateAppointment(newData);
       await fetchData(
-        session.user.id,
+        calendarState._professional,
         calendarState.dateFromTo.from,
         calendarState.dateFromTo.to,
       );
@@ -248,7 +229,10 @@ export const CalendarProvider = ({ children }) => {
         handleViewChange,
         handleNavigate,
         onclickButtonCreate,
+        isModalAvailability,
+        setIsModalAvailability,
       }}
+      displayName="Calendar Context"
     >
       {children}
     </CalendarContext.Provider>

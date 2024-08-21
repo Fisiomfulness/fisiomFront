@@ -26,7 +26,7 @@ export const axiosLogin = async (user) => {
 //#region Register user
 export const axiosRegisterUserForm = async (user) => {
   return toast.promise(
-    axios.post(`${BASE_URL}/login/register/user`, user, {
+    axios.post(`${BASE_URL}/register/user`, user, {
       withCredentials: true,
     }),
     {
@@ -46,7 +46,7 @@ export const axiosRegisterUserForm = async (user) => {
 //#region Register professional
 export const axiosRegisterProfessionalForm = async (user) => {
   return toast.promise(
-    axios.post(`${BASE_URL}/login/register/professional`, user, {
+    axios.post(`${BASE_URL}/register/professional`, user, {
       withCredentials: true,
     }),
     {

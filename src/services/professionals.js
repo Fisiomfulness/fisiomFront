@@ -1,6 +1,7 @@
 import { apiEndpoints } from '@/api_endpoints';
 import { BASE_URL } from '@/utils/api';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export const getProfessionalDetail = async (professionalId) => {
   try {
@@ -21,8 +22,7 @@ export const getProfessionalRatings = async (
 ) => {
   try {
     const response = await axios.get(
-      `${
-        apiEndpoints.professionalRating + professionalId
+      `${apiEndpoints.professionalRating + professionalId
       }?offset=${offset}&limit=${limit}`
     );
     return response.data;
@@ -83,6 +83,33 @@ export const deleteExperience = async (professionalId, experienceId) => {
     throw error;
   }
 };
+
+export const getAvailability = async (userId) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/professionals/availability/${userId}`
+    )
+    return response.data.availability
+  } catch (error) {
+    throw error
+  }
+}
+
+export const postAvailability = async (userId, newData) => {
+  /* return toast.promise(axios.post(`${BASE_URL}/professionals/availability/${userId}`
+    , newData), {
+    loading: "Actulizando Disponibilidad...",
+    success: (response) => response.data.message,
+    error: 'Ups! Algo salio mal...'
+  }) */
+  try {
+    const response = await axios.post(`${BASE_URL}/professionals/availability/${userId}`, newData)
+    toast.success(response.data.message)
+    return response.data.userAvailability
+  } catch (error) {
+    console.log(error);
+    return toast.error(error.response.message)
+  }
+}
 
 export const createService = async (values) => {
   try {

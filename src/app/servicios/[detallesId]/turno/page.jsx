@@ -8,12 +8,12 @@ const ServicioTurno = async () => {
   const params = useParams();
 
   const foundUser = {
-    _id: params.detallesId,
+    id: params.detallesId,
   };
   return (
     <div className="flex h-96">
       <CalendarProvider>
-        <CalendarComponent data={foundUser} selectable={false} />
+        <CalendarComponent user={foundUser} isAuth={false} />
       </CalendarProvider>
     </div>
   );

@@ -2,7 +2,7 @@ const { useContext } = require("react");
 import { CalendarContext } from "@/context/Calendar";
 import { Button } from "@nextui-org/react";
 
-export const ActionButtons = () => {
+export const ActionButtonsAppointment = () => {
   const {
     setCalendarState,
     handleSaveEvent,

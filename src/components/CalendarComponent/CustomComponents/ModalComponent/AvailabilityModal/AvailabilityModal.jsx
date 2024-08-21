@@ -1,42 +1,33 @@
 "use client";
 
-import { Button, Input, Select, SelectItem } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import moment from "moment";
-import { memo, useCallback, useContext } from "react";
+import { memo, useCallback, useContext, useState } from "react";
 import DateTimePicker from "react-datetime-picker";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
-import { AutocompleteComponent } from "./CustomComponents/PatientNameAutocomplete";
-import { ModalForm } from "./CustomComponents/ModalForm";
 import { CalendarContext } from "@/context/Calendar";
-import { EventInfoComponent } from "./CustomComponents/EventInfoComponent";
-import { ActionButtons } from "./CustomComponents/ActionButtons";
-import { eventInitialValues } from "@/utils/StandarValues";
-
 import { FaTimes } from "react-icons/fa";
+import { UpdateForm } from "./UpdateForm";
+import { CreateForm } from "./CreateForm";
 
-const EventModal = memo(() => {
+export const AvailabilityModal = memo(() => {
   const {
+    isModalAppointment,
     calendarState,
-    setCalendarState,
-    handleSaveEvent,
-    handleDeleteEvent,
-    eventInfo,
-    setEventInfo,
+    editEvent,
+    isModalAvailability,
+    setIsModalAvailability,
   } = useContext(CalendarContext);
 
-  const { showModal, editEvent, newEvent } = calendarState;
-  if (!showModal) return null;
+  const [isCreateUpdate, setIsCreateUpdate] = useState("update");
+
+  if (!isModalAvailability) return null;
 
   const handleClose = () => {
-    setCalendarState((prevState) => ({
-      ...prevState,
-      showModal: false,
-      editEvent: false,
-      newEvent: false,
-    }));
-    setEventInfo(eventInitialValues);
+    setIsModalAvailability(false);
+    setIsCreateUpdate("update");
   };
 
   return (
@@ -44,11 +35,7 @@ const EventModal = memo(() => {
       <div className="md:inline-block md:w-[700px] w-80 justify-center items-center overflow-hidden bg-white rounded-lg shadow-lg px-4 pt-5 pb-5">
         <div className="flex justify-between">
           <h5 className="text-lg font-medium leading-6 text-gray-900 font-sans">
-            {editEvent
-              ? "Editar cita médica"
-              : newEvent
-              ? "Agendar Cita medica"
-              : "Cita médica"}
+            Disponibilidad
           </h5>
           <Button
             className="mx-1 text-sm font-semibold"
@@ -59,16 +46,30 @@ const EventModal = memo(() => {
           </Button>
         </div>
         <div className="mt-3">
-          {editEvent || newEvent ? (
-            <ModalForm />
+          {isCreateUpdate === "create" ? (
+            <Button
+              className="m-4"
+              onClick={(e) => setIsCreateUpdate("update")}
+              color="primary"
+            >
+              Actulizar
+            </Button>
+          ) : isCreateUpdate === "update" ? (
+            <Button
+              className="m-4"
+              onClick={(e) => setIsCreateUpdate("create")}
+              color="success"
+            >
+              Crear
+            </Button>
           ) : (
-            <EventInfoComponent eventInfo={eventInfo} />
+            <></>
           )}
+
+          {isCreateUpdate === "update" ? <UpdateForm /> : <></>}
+          {isCreateUpdate === "create" ? <CreateForm /> : <></>}
         </div>
-        <ActionButtons />
       </div>
     </div>
   );
 });
-
-export default EventModal;

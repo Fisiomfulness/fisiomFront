@@ -1,15 +1,40 @@
+"use client";
+
 import { CalendarContext } from "@/context/Calendar";
 import { Button, ButtonGroup } from "@nextui-org/react";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { SlPlus } from "react-icons/sl";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaCalendarAlt } from "react-icons/fa";
 import { TfiReload } from "react-icons/tfi";
 import { currentDateMoment, standarFormartDate } from "@/utils/StandarValues";
 import moment from "moment";
+import { UserContext } from "@/context/User";
+import { useSession } from "next-auth/react";
 
-const CustomToolbar = ({ label, onNavigate, onView, date }) => {
-  const { onclickButtonCreate } = useContext(CalendarContext);
+const CustomToolbar = ({ label, onNavigate, onView, date, isAuth }) => {
+  const { data: session } = useSession();
+  const {
+    setCalendarState,
+    calendarState,
+    eventInfo,
+    setIsModalAvailability,
+    editEvent,
+  } = useContext(CalendarContext);
+
+  const { view } = calendarState;
+
+  const onClickAppointment = () => {
+    setCalendarState((prevState) => ({
+      ...prevState,
+      newEvent: true,
+      showModal: true,
+    }));
+  };
+
+  const onClickAvailability = () => {
+    setIsModalAvailability(true);
+  };
 
   return (
     <div className="block justify-center md:flex md:justify-between items-center font-sans">
@@ -57,28 +82,46 @@ const CustomToolbar = ({ label, onNavigate, onView, date }) => {
 
       <div className="flex justify-center md:justify-between items-center">
         <ButtonGroup>
-          <Button
-            className="mx-1 text-sm font-semibold"
-            variant="light"
-            onClick={onclickButtonCreate}
-          >
-            <SlPlus fontSize={"20px"} color="black" />
-            <p className="text-sm font-semibold mx-1">Agendar Cita</p>
-          </Button>
-          <Button
-            className="mx-1 text-sm font-semibold"
-            variant="light"
-            onClick={() => onView("month")}
-          >
-            Mes
-          </Button>
-          <Button
-            className="mx-1 text-sm font-semibold"
-            variant="light"
-            onClick={() => onView("week")}
-          >
-            Semana
-          </Button>
+          {session?.user.role != "user" && isAuth ? (
+            <>
+              <Button
+                onClick={onClickAvailability}
+                className="mx-1 text-sm font-semibold"
+                variant="light"
+              >
+                <SlPlus fontSize={"20px"} color="black" />
+                <p className="text-sm font-semibold mx-1">Disponibilidad</p>
+              </Button>
+              <Button
+                className="mx-1 text-sm font-semibold"
+                variant="light"
+                onClick={onClickAppointment}
+              >
+                <SlPlus fontSize={"20px"} color="black" />
+                <p className="text-sm font-semibold mx-1">Agendar Cita</p>
+              </Button>
+            </>
+          ) : (
+            <></>
+          )}
+
+          {view == "month" ? (
+            <Button
+              className="mx-1 text-sm font-semibold"
+              variant="light"
+              onClick={() => onView("week")}
+            >
+              Semana
+            </Button>
+          ) : (
+            <Button
+              className="mx-1 text-sm font-semibold"
+              variant="light"
+              onClick={() => onView("month")}
+            >
+              Mes
+            </Button>
+          )}
         </ButtonGroup>
       </div>
     </div>

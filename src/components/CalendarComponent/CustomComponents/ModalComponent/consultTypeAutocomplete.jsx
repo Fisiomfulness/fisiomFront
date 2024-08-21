@@ -2,21 +2,24 @@ import { CalendarContext } from "@/context/Calendar";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { useContext, useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { specialitiesArray } from "../InitialValues";
+import { specialitiesArray } from "../../InitialValues";
 
 export const ConsultTypeAutocomplete = () => {
   const { eventInfo, setEventInfo } = useContext(CalendarContext);
 
   const handleChangeAutocomplete = (key) => {
-    setEventInfo((prevState) => ({
-      ...prevState,
-      title: key,
-    }));
+    if (key !== eventInfo.title) {
+      setEventInfo((prevState) => ({
+        ...prevState,
+        title: key,
+      }));
+    }
   };
 
   return (
     <>
       <Autocomplete
+        variant="bordered"
         selectedKey={eventInfo.title}
         onSelectionChange={handleChangeAutocomplete}
         isRequired
@@ -50,7 +53,6 @@ export const ConsultTypeAutocomplete = () => {
         startContent={
           <IoSearch className="text-default-400" strokeWidth={2.5} size={20} />
         }
-        variant="flat"
       >
         {(item) => (
           <AutocompleteItem key={item.label} textValue={item.label}>
