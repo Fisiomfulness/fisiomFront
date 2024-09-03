@@ -8,6 +8,7 @@ export const getAppointment = async (_id, from, to) => {
     try {
         const response = await axios.get(
             `${BASE_URL}/appointments/?from=${from}&to=${to}&_professional=${_id}`,)
+            
         return response
     } catch (error) {
         return error
@@ -32,7 +33,7 @@ export const createAppointment = async (data) => {
 
 };
 
-//#region Create Appointment
+//#region Update Appointment
 export const updateAppointment = async (data) => {
     return toast.promise(axios.post(`${BASE_URL}/appointments/update`, data, {
         withCredentials: true,

@@ -54,7 +54,7 @@ export default function CalendarComponent({ user, isAuth }) {
     }
   };
 
-  //Cuando Cambia "calendarState.dateFromTo" se hace un fetch con el rango de fecha
+  //when change "calendarState.dateFromTo" it do a fetch whit the range of the date
   useEffect(() => {
     const { from, to } = calendarState.dateFromTo;
 
@@ -91,7 +91,7 @@ export default function CalendarComponent({ user, isAuth }) {
     }
   }, [calendarState.dateFromTo]);
 
-  //pide los datos de los user cada vez que se monta el componente
+  //get to user data every mounted component
   useEffect(() => {
     const specificData = {
       name: 1,
@@ -130,7 +130,7 @@ export default function CalendarComponent({ user, isAuth }) {
   const slotPropGetter = useCallback(
     (date) => {
       const dayOfWeek = moment(date).format("dddd");
-      const dayAvailability = calendarState.availability.find(
+      const dayAvailability = calendarState.availability?.find(
         (day) => day.day === dayOfWeek,
       );
 
