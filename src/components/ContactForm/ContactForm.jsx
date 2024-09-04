@@ -162,6 +162,17 @@ const ContactForm = () => {
                 className="text-red-500"
               />
             </div>
+            <div className="text-sm text-gray-400 mb-4">
+              * No compartimos su información personal con nadie. Consulte
+              nuestra{" "}
+              <a
+                href="/politica-privacidad"
+                className="text-green-500 underline"
+              >
+                Política de Privacidad
+              </a>{" "}
+              para obtener más información.
+            </div>
             <button
               type="submit"
               className="w-full p-3 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300 ease-in-out"
