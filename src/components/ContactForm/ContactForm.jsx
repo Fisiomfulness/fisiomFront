@@ -35,6 +35,7 @@ const ContactForm = () => {
           celular: "",
           email: "",
           descripcion: "",
+          acceptTerms: false,
         }}
         onSubmit={handleSubmit}
         validate={formikZodValidator(contactSchema)}

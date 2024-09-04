@@ -8,6 +8,9 @@ const contactSchema = z.object({
   celular: z.string().trim().regex(/^\d+$/, 'Solo se permiten números').min(9, 'Debe tener al menos 9 dígitos'),
   email: z.string().email('Debe ser un email válido'),
   descripcion: z.string().optional(),
+  acceptTerms: z.literal(true, {
+    errorMap: () => ({ message: "Debe aceptar los términos y condiciones" }),
+  }),
 });
 
 export { contactSchema };
