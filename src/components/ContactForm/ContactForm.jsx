@@ -29,11 +29,11 @@ const ContactForm = () => {
       `Email: ${formData.email}%0A` +
       `Descripción del dolor: ${formData.descripcion}`;
 
-    window.open(`https://wa.me/1234567890?text=${mensaje}`, "_blank");
+    window.open(`https://wa.me/51901294627?text=${mensaje}`, "_blank");
   };
 
   const handleCallClick = () => {
-    window.location.href = "tel:+1234567890";
+    window.location.href = "tel:+51901294627";
   };
 
   return (
