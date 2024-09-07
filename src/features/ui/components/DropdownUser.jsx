@@ -110,6 +110,7 @@ export default function DropdownUser({ name, image }) {
                         ].join(" ")}
                         key={child.key}
                         href={child.key}
+                        onClick={manageModal}
                       >
                         {child.label}
                       </Link>
