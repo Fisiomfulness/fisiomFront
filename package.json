@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.0.2",
     "@nextui-org/react": "2.4.1",
     "@react-aria/i18n": "^3.11.1",
     "@tiptap/extension-character-count": "^2.4.0",
