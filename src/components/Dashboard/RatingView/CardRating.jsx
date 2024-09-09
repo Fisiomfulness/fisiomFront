@@ -4,7 +4,7 @@ import { FaArrowDown } from "react-icons/fa";
 import { ratingProfessionals } from "../data/data";
 import Rating from '@mui/material/Rating';
 
-function CardRating({ total, totalComment, name, average }) {
+function CardRating({id, total, totalComment, name, average }) {
   const [active, setActive] = useState(false);
 
   const handlerActive = () => {
@@ -12,7 +12,7 @@ function CardRating({ total, totalComment, name, average }) {
   };
 
   return (
-    <div className="relative mb-6 w-full h-full flex items-center justify-center">
+    <div key={id} className="relative mb-6 w-full h-full flex items-center justify-center">
       <div
         className={`relative w-2/3 ${
           active
@@ -46,8 +46,8 @@ function CardRating({ total, totalComment, name, average }) {
           <p></p>
         ) : (
           <div className=" flex flex-col p-4">
-          {totalComment.map((comment)=>(
-            <p className="z-50 flex w-full h-full px-3 rounded-lg font-light py-3 mb-3 bg-slate-100">{comment}</p>
+          {totalComment.map((comment, i)=>(
+            <p key={i} className="z-50 flex w-full h-full px-3 rounded-lg font-light py-3 mb-3 bg-slate-100">{comment}</p>
 ))}
           </div>
         )}
