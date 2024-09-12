@@ -15,7 +15,7 @@ import {
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { FaChevronLeft } from "react-icons/fa";
-
+import { useState } from "react";
 const items = [
   { key: "/user/editar_perfil", label: "Editar perfil" },
   { key: "/user/agenda", label: "Mis citas" },
@@ -46,6 +46,13 @@ const items = [
 
 /** @param {{ name: string, image: string }} props */
 export default function DropdownUser({ name, image }) {
+  const [isOpened, setIsOpened] = useState(false);
+
+  const manageModal = () => {
+    setTimeout(() => {
+      setIsOpened(!isOpened);
+    }, 500);
+  };
   return (
     <Dropdown
       disableAnimation
@@ -53,11 +60,13 @@ export default function DropdownUser({ name, image }) {
         content: "text-center p-0 rounded-lg min-w-44",
       }}
       closeOnSelect={false}
+      isOpen={isOpened}
     >
       <DropdownTrigger>
         <User
           as="button"
           name={name}
+          onClick={manageModal}
           avatarProps={{
             src: image,
           }}
@@ -101,6 +110,7 @@ export default function DropdownUser({ name, image }) {
                         ].join(" ")}
                         key={child.key}
                         href={child.key}
+                        onClick={manageModal}
                       >
                         {child.label}
                       </Link>
@@ -114,6 +124,7 @@ export default function DropdownUser({ name, image }) {
                 closeOnSelect
                 as={Link}
                 href={item.key}
+                onClick={manageModal}
               >
                 {item.label}
               </DropdownItem>
