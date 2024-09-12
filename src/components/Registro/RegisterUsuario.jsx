@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { userInitialValues, userSchema } from "@/utils/validations/userSchema";
 import { axiosRegisterUserForm } from "@/services/users";
 import { formikZodValidator } from "@/utils/validations";
@@ -9,6 +10,7 @@ import { removeObjFalsyValues } from "@/utils/helpers";
 import toast from "react-hot-toast";
 
 export const RegisterUser = ({ conditionsAccepted }) => {
+  const router = useRouter();
   const handleSubmit = async (values, { resetForm }) => {
     if (!conditionsAccepted) {
       toast.error("Por favor acepte los términos y condiciones");
@@ -17,6 +19,7 @@ export const RegisterUser = ({ conditionsAccepted }) => {
     values = removeObjFalsyValues(values);
     await axiosRegisterUserForm(values);
     resetForm();
+    router.push("/login");
   };
 
   return (

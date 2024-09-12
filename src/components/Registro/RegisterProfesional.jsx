@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { Form, Formik } from "formik";
 import { InputsFormRegister } from "./InputsForms";
 import { axiosRegisterProfessionalForm } from "@/services/users";
@@ -12,6 +13,7 @@ import { listInputsUser } from "./listInputs";
 import toast from "react-hot-toast";
 
 export function RegisterProfessional({ conditionsAccepted }) {
+  const router = useRouter();
   const handleSubmitRegister = async (values, { resetForm }) => {
     if (!conditionsAccepted) {
       toast.error("Por favor acepte los términos y condiciones");
@@ -21,6 +23,7 @@ export function RegisterProfessional({ conditionsAccepted }) {
     const formData = getFormdataFromObj(values);
     await axiosRegisterProfessionalForm(formData);
     resetForm();
+    router.push("/login");
   };
 
   return (
