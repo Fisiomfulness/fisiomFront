@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 
 export function RegisterProfessional({ conditionsAccepted }) {
   const router = useRouter();
+
   const handleSubmitRegister = async (values, { resetForm }) => {
     if (!conditionsAccepted) {
       toast.error("Por favor acepte los términos y condiciones");
