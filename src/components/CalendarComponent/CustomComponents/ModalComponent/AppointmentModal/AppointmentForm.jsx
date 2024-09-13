@@ -9,8 +9,10 @@ import { standarFormartDate } from "@/utils/StandarValues";
 import { PatientNameAutocomplete } from "../PatientNameAutocomplete";
 import { ConsultTypeAutocomplete } from "../consultTypeAutocomplete";
 import { CustomDatePicker } from "../CustomDatePicker";
+import { useSession } from "next-auth/react";
 
-export const AppointmentForm = () => {
+export const AppointmentForm = ({ professionalId }) => {
+  const { data: session } = useSession();
   const { eventInfo, setEventInfo, calendarState } =
     useContext(CalendarContext);
   const { editEvent, newEvent } = calendarState;
@@ -63,7 +65,8 @@ export const AppointmentForm = () => {
 
   return (
     <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-      {!editEvent && <PatientNameAutocomplete />}
+      {/* {!editEvent && <PatientNameAutocomplete />} */}
+      {(!newEvent && session.id === professionalId) && <PatientNameAutocomplete />}
 
       <ConsultTypeAutocomplete />
 
