@@ -66,7 +66,13 @@ export const AppointmentForm = ({ professionalId }) => {
   return (
     <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
       {/* {!editEvent && <PatientNameAutocomplete />} */}
-      {(!newEvent && session.id === professionalId) && <PatientNameAutocomplete />}
+      {/*If it's the professional looking at form PatientSelector will render else patient will be set to current session holder*/}
+      {(!newEvent && session.id === professionalId) 
+      ? <PatientNameAutocomplete /> 
+      : setEventInfo((prevState) => ({  
+      ...prevState,
+      _patient: session.id,
+      }))}
 
       <ConsultTypeAutocomplete />
 
