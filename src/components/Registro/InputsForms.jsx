@@ -7,6 +7,27 @@ import { EyeSlashFilledIcon } from "../CustomComponentForm/EyeSlashFilledIcon";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import FileUpload from "./FileUpload";
 
+// Lista de especialidades
+const specialtyList = [
+  { label: "Psicología", value: "Psicología" },
+  { label: "Psiquiatría", value: "Psiquiatría" },
+  { label: "Nutrición", value: "Nutrición" },
+  { label: "Dermatología", value: "Dermatología" },
+  { label: "Odontología", value: "Odontología" },
+  { label: "Oftalmología", value: "Oftalmología" },
+  { label: "Pediatría", value: "Pediatría" },
+  { label: "Ginecología", value: "Ginecología" },
+  { label: "Cardiología", value: "Cardiología" },
+  { label: "Traumatología", value: "Traumatología" },
+  { label: "Otorrinolaringología", value: "Otorrinolaringología" },
+  { label: "Urología", value: "Urología" },
+  { label: "Neurología", value: "Neurología" },
+  { label: "Endocrinología", value: "Endocrinología" },
+  { label: "Reumatología", value: "Reumatología" },
+  { label: "Medicina general", value: "Medicina general" },
+  { label: "Otras especialidades", value: "Otras especialidades" },
+];
+
 const genderList = [
   { label: "Femenino", value: "Femenino" },
   { label: "Masculino", value: "Masculino" },
@@ -65,6 +86,50 @@ export const InputsFormRegister = ({
         })}
       </div>
 
+      {/* "género" visible para usuarios y profesional */}
+      <Select
+        name="gender"
+        label="Género"
+        variant="flat"
+        items={genderList}
+        selectedKeys={[values.gender]}
+        isInvalid={errors.gender ? true : false}
+        errorMessage={errors.gender}
+        onChange={handleChange}
+        size="lg"
+        radius="sm"
+        classNames={{
+          inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+          label: "text-default-600 text-base",
+          input: "text-base",
+          errorMessage: "text-sm",
+        }}
+      >
+        {genderList.map((gender) => (
+          <SelectItem key={gender.value}>{gender.label}</SelectItem>
+        ))}
+      </Select>
+
+      {/* "especialidad" solo si es un profesional */}
+      {isProfessional ? (
+        <Select
+          name="specialty"
+          label="Especialidad"
+          variant="flat"
+          selectedKeys={[values.specialty]}
+          isInvalid={errors.specialty ? true : false}
+          errorMessage={errors.specialty}
+          onChange={handleChange}
+          size="lg"
+          radius="sm"
+          className="w-full"
+        >
+          {specialtyList.map((specialty) => (
+            <SelectItem key={specialty.value}>{specialty.label}</SelectItem>
+          ))}
+        </Select>
+      ) : null}
+
       {isProfessional ? (
         <div className="grid md:grid-cols-2 gap-2">
           <Input
@@ -98,11 +163,11 @@ export const InputsFormRegister = ({
           />
           <Input
             name="license"
-            aria-label="Numero de colegiado"
+            aria-label="Número de colegiado"
             type="string"
             variant="bordered"
             radius="sm"
-            label="Numero de colegiado"
+            label="Número de colegiado"
             value={values.license}
             isInvalid={touched?.license && errors.license ? true : false}
             errorMessage={touched?.license && errors.license}
@@ -118,27 +183,6 @@ export const InputsFormRegister = ({
           />
         </div>
       ) : null}
-
-      <Select
-        name="gender"
-        label="Genero"
-        variant="flat"
-        items={genderList}
-        selectedKeys={[values.gender]}
-        isInvalid={errors.gender ? true : false}
-        errorMessage={errors.gender}
-        onChange={handleChange}
-        size="lg"
-        radius="sm"
-        classNames={{
-          inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
-          label: "text-default-600 text-base",
-          input: "text-base",
-          errorMessage: "text-sm",
-        }}
-      >
-        {(gender) => <SelectItem key={gender.value}>{gender.label}</SelectItem>}
-      </Select>
 
       <div className="flex flex-col sm:flex-row gap-2 w-full justify-between">
         <Input
