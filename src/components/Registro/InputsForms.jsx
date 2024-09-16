@@ -49,8 +49,13 @@ export const InputsFormRegister = ({
     handleBlur,
     setFieldValue,
   } = useFormikContext();
+
+  // visibilidad de las contraseñas en el formulario
   const [isVisible, setIsVisible] = useState(false);
+  const [isVisibleConfirm, setIsVisibleConfirm] = useState(false);
+
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const toggleVisibilityConfirm = () => setIsVisibleConfirm(!isVisibleConfirm);
 
   return (
     <>
@@ -184,6 +189,8 @@ export const InputsFormRegister = ({
         </div>
       ) : null}
 
+      {/* Campo de Contraseña con botón de visibilidad */}
+
       <div className="flex flex-col sm:flex-row gap-2 w-full justify-between">
         <Input
           name="password"
@@ -220,6 +227,7 @@ export const InputsFormRegister = ({
           }}
         />
 
+        {/* Campo de Repetir Contraseña con botón de visibilidad */}
         <Input
           name="confirmPass"
           aria-label="Repita la contraseña"
@@ -233,7 +241,20 @@ export const InputsFormRegister = ({
           errorMessage={touched.confirmPass && errors.confirmPass}
           onBlur={handleBlur}
           onChange={handleChange}
-          type="password"
+          endContent={
+            <button
+              className="focus:outline-none"
+              type="button"
+              onClick={toggleVisibilityConfirm}
+            >
+              {isVisibleConfirm ? (
+                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+              ) : (
+                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+              )}
+            </button>
+          }
+          type={isVisibleConfirm ? "text" : "password"}
           classNames={{
             inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
             label: "text-default-600 text-base",
