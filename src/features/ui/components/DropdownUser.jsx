@@ -18,8 +18,8 @@ import { FaChevronLeft } from "react-icons/fa";
 import { useState } from "react";
 const items = [
   { key: "/user/editar_perfil", label: "Editar perfil" },
-  { key: "/user/agenda", label: "Agenda" },
-  {
+  { key: "/user/agenda", label: "Mis citas" },
+  /*{
     key: "root_mis_servicios",
     label: "Mis servicios",
     root: true,
@@ -28,7 +28,7 @@ const items = [
       { key: "/user/pacientes", label: "Pacientes" },
       { key: "/user/calendario", label: "Calendario" },
     ],
-  },
+  }, */
   { key: "/user/carrito", label: "Carrito" },
   { key: "/user/mis_productos", label: "Mis productos" },
   { key: "/user/mis_compras", label: "Mis compras" },
