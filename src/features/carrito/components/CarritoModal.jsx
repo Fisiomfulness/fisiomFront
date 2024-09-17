@@ -5,7 +5,7 @@ import { CustomButton, CustomModal, CustomAlert } from "@/features/ui";
 import { Badge, useDisclosure } from "@nextui-org/react";
 import { MdShoppingCart } from "react-icons/md";
 import { useCart } from "../hooks";
-import axios from "axios";
+import { initPurchase } from "@/services/purchases";
 
 /**
  * @typedef {import("../store/cart").Product} Product
@@ -44,10 +44,12 @@ function ListProducts({ isOpen, onOpenChange }) {
     updateItem(id, item);
   }
 
-  function handleCheckout() {
+  async function handleCheckout() {
     // send POST request to backend to make purchase
-    console.log(products)
-    // axios.post('purchase')
+    const data = { total, productsMap: Object.fromEntries(products) }
+    await initPurchase(data);
+    clearCart();
+    onOpenChange();
   }
 
   return (
