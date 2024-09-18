@@ -5,6 +5,7 @@ import { CustomButton, CustomModal, CustomAlert } from "@/features/ui";
 import { Badge, useDisclosure } from "@nextui-org/react";
 import { MdShoppingCart } from "react-icons/md";
 import { useCart } from "../hooks";
+import { initPurchase } from "@/services/purchases";
 
 /**
  * @typedef {import("../store/cart").Product} Product
@@ -41,6 +42,14 @@ function ListProducts({ isOpen, onOpenChange }) {
     }
 
     updateItem(id, item);
+  }
+
+  async function handleCheckout() {
+    // send POST request to backend to make purchase
+    const data = { total, productsMap: Object.fromEntries(products) }
+    await initPurchase(data);
+    clearCart();
+    onOpenChange();
   }
 
   return (
@@ -87,7 +96,7 @@ function ListProducts({ isOpen, onOpenChange }) {
           ))}
         </div>
         <div className="w-64 flex flex-col gap-2 mx-auto">
-          <CustomButton onPress={onOpenChange}>Checkout</CustomButton>
+          <CustomButton onPress={handleCheckout}>Checkout</CustomButton>
           <CustomButton color="danger" onPress={clearCart}>
             Borrar todo
           </CustomButton>
