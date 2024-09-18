@@ -177,7 +177,7 @@ export default function CalendarComponent({ user, isAuth }) {
         <Loader />
       ) : (
         <Calendar
-          className="font-sans h-[100vh] bg-red-500"
+          className="font-sans h-[100vh]"
           culture="es"
           localizer={localizer}
           events={filterDataForEvent(cachedData)}

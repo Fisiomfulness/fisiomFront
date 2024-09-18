@@ -18,6 +18,15 @@ import { FaChevronLeft } from "react-icons/fa";
 import { useState } from "react";
 const items = [
   { key: "/user/editar_perfil", label: "Editar perfil" },
+  {
+    key: "root_mis_servicios",
+    label: "Administrar Cuenta",
+    root: true,
+    children: [
+      { key: "/user/suspend_account", label: "Suspender Cuenta" },
+      { key: "/user/delete_account", label: "Eliminar Cuenta" },
+    ],
+  },
   { key: "/user/agenda", label: "Agenda" },
   {
     key: "root_mis_servicios",
