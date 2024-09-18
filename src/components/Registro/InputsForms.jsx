@@ -1,51 +1,79 @@
-import { useState } from 'react';
-import { useFormikContext } from 'formik';
-import { Input, Divider, Select, SelectItem } from '@nextui-org/react';
-import { Button } from '@nextui-org/react';
-import { EyeFilledIcon } from '../CustomComponentForm/EyeFilledIcon';
-import { EyeSlashFilledIcon } from '../CustomComponentForm/EyeSlashFilledIcon';
-import { FaRegMoneyBillAlt } from 'react-icons/fa';
-import FileUpload from './FileUpload';
+import { useState } from "react";
+import { useFormikContext } from "formik";
+import { Input, Divider, Select, SelectItem } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
+import { EyeFilledIcon } from "../CustomComponentForm/EyeFilledIcon";
+import { EyeSlashFilledIcon } from "../CustomComponentForm/EyeSlashFilledIcon";
+import { FaRegMoneyBillAlt } from "react-icons/fa";
+import FileUpload from "./FileUpload";
 
 // Lista de especialidades
 const specialtyList = [
-  { label: 'Psicología', value: 'Psicología' },
-  { label: 'Psiquiatría', value: 'Psiquiatría' },
-  { label: 'Nutrición', value: 'Nutrición' },
-  { label: 'Dermatología', value: 'Dermatología' },
-  { label: 'Odontología', value: 'Odontología' },
-  { label: 'Oftalmología', value: 'Oftalmología' },
-  { label: 'Pediatría', value: 'Pediatría' },
-  { label: 'Ginecología', value: 'Ginecología' },
-  { label: 'Cardiología', value: 'Cardiología' },
-  { label: 'Traumatología', value: 'Traumatología' },
-  { label: 'Otorrinolaringología', value: 'Otorrinolaringología' },
-  { label: 'Urología', value: 'Urología' },
-  { label: 'Neurología', value: 'Neurología' },
-  { label: 'Endocrinología', value: 'Endocrinología' },
-  { label: 'Reumatología', value: 'Reumatología' },
-  { label: 'Medicina general', value: 'Medicina general' },
-  { label: 'Otras especialidades', value: 'Otras especialidades' },
+  { label: "Psicología", value: "Psicología" },
+  { label: "Psiquiatría", value: "Psiquiatría" },
+  { label: "Nutrición", value: "Nutrición" },
+  { label: "Dermatología", value: "Dermatología" },
+  { label: "Odontología", value: "Odontología" },
+  { label: "Oftalmología", value: "Oftalmología" },
+  { label: "Pediatría", value: "Pediatría" },
+  { label: "Ginecología", value: "Ginecología" },
+  { label: "Cardiología", value: "Cardiología" },
+  { label: "Traumatología", value: "Traumatología" },
+  { label: "Otorrinolaringología", value: "Otorrinolaringología" },
+  { label: "Urología", value: "Urología" },
+  { label: "Neurología", value: "Neurología" },
+  { label: "Endocrinología", value: "Endocrinología" },
+  { label: "Reumatología", value: "Reumatología" },
+  { label: "Medicina general", value: "Medicina general" },
+  { label: "Otras especialidades", value: "Otras especialidades" },
 ];
 
 const genderList = [
-  { label: 'Femenino', value: 'Femenino' },
-  { label: 'Masculino', value: 'Masculino' },
-  { label: 'Prefiero no responder', value: 'Prefiero no responder' },
+  { label: "Femenino", value: "Femenino" },
+  { label: "Masculino", value: "Masculino" },
+  { label: "Prefiero no responder", value: "Prefiero no responder" },
 ];
 
-// Lista de países de América
+const indicativosTelefonicos = [
+  { label: "Canada +1", value: "+1" },
+  { label: "Estados Unidos +1", value: "+1" },
+  { label: "Perú +51", value: "+51" },
+  { label: "Argentina +54", value: "+54" },
+  { label: "Chile +56", value: "+56" },
+  { label: "Colombia +57", value: "+57" },
+  { label: "México +52", value: "+52" },
+  { label: "Venezuela +58", value: "+58" },
+  { label: "España +34", value: "+34" },
+  { label: "Ecuador +593", value: "+593" },
+  { label: "Brasil +55", value: "+55" },
+  { label: "Bolivia +591", value: "+591" },
+  { label: "Paraguay +595", value: "+595" },
+  { label: "Uruguay +598", value: "+598" },
+  { label: "Panamá +507", value: "+507" },
+  { label: "Costa Rica +506", value: "+506" },
+  { label: "Guatemala +502", value: "+502" },
+  { label: "El Salvador +503", value: "+503" },
+  { label: "Honduras +504", value: "+504" },
+  { label: "Nicaragua +505", value: "+505" },
+  { label: "Cuba +53", value: "+53" },
+  { label: "Puerto Rico +1", value: "+1" },
+];
+
 const countryList = [
-  { label: 'Argentina (+54)', value: '54' },
-  { label: 'Bolivia (+591)', value: '591' },
-  { label: 'Brasil (+55)', value: '55' },
-  { label: 'Chile (+56)', value: '56' },
-  { label: 'Colombia (+57)', value: '57' },
-  { label: 'Ecuador (+593)', value: '593' },
-  { label: 'México (+52)', value: '52' },
-  { label: 'Perú (+51)', value: '51' },
-  { label: 'Uruguay (+598)', value: '598' },
-  { label: 'Venezuela (+58)', value: '58' },
+  { label: "Canada", value: "CA" },
+  { label: "Estados Unidos", value: "US" },
+  { label: "Argentina", value: "AR" },
+  { label: "Bolivia", value: "BO" },
+  { label: "Brasil", value: "BR" },
+  { label: "Chile", value: "CL" },
+  { label: "Colombia", value: "CO" },
+  { label: "Ecuador", value: "EC" },
+  { label: "México", value: "MX" },
+  { label: "Perú", value: "PE" },
+  { label: "Uruguay", value: "UY" },
+  { label: "Venezuela", value: "VE" },
+  { label: "Paraguay", value: "PY" },
+  { label: "Otros", value: "OT" },
 ];
 
 export const InputsFormRegister = ({
@@ -87,15 +115,15 @@ export const InputsFormRegister = ({
                   onBlur={handleBlur}
                   onChange={handleChange}
                   classNames={{
-                    inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-                    label: 'text-default-600 text-base',
-                    input: 'text-base',
-                    errorMessage: 'text-sm',
+                    inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+                    label: "text-default-600 text-base",
+                    input: "text-base",
+                    errorMessage: "text-sm",
                   }}
                   isClearable={isUpdate}
                   onClear={
                     isUpdate
-                      ? () => setFieldValue(inputValue.name, '')
+                      ? () => setFieldValue(inputValue.name, "")
                       : undefined
                   }
                 />
@@ -104,6 +132,25 @@ export const InputsFormRegister = ({
           );
         })}
       </div>
+
+      <Select
+        name="country"
+        label="País de nacimiento o residencia"
+        variant="flat"
+        selectedKeys={[values.country]}
+        isInvalid={errors.country ? true : false}
+        errorMessage={errors.country}
+        onChange={handleChange}
+        size="lg"
+        radius="sm"
+        className="w-full"
+      >
+        {countryList.map((country) => (
+          <SelectItem key={country.value} value={country.value}>
+            {country.label}
+          </SelectItem>
+        ))}
+      </Select>
 
       {/* "género" visible para usuarios y profesional */}
       <Select
@@ -118,10 +165,10 @@ export const InputsFormRegister = ({
         size="lg"
         radius="sm"
         classNames={{
-          inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-          label: 'text-default-600 text-base',
-          input: 'text-base',
-          errorMessage: 'text-sm',
+          inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+          label: "text-default-600 text-base",
+          input: "text-base",
+          errorMessage: "text-sm",
         }}
       >
         {genderList.map((gender) => (
@@ -149,6 +196,48 @@ export const InputsFormRegister = ({
         </Select>
       ) : null}
 
+      {/* "código de país" */}
+
+      <div className="grid md:grid-cols-2 gap-2">
+        <Select
+          name="phoneCode"
+          label="Codigo de país"
+          variant="flat"
+          selectedKeys={[values.phoneCode]}
+          isInvalid={errors.phoneCode ? true : false}
+          errorMessage={errors.phoneCode}
+          onChange={handleChange}
+          size="lg"
+          radius="sm"
+          classNames="w-full"
+        >
+          {indicativosTelefonicos.map((indicativo) => (
+            <SelectItem key={indicativo.value} value={indicativo.value}>
+              {indicativo.label}
+            </SelectItem>
+          ))}
+        </Select>
+        <Input
+          name="phoneNumber"
+          aria-label="Número de teléfono"
+          type="text"
+          variant="bordered"
+          radius="sm"
+          label="Número de teléfono"
+          value={values.phoneNumber}
+          isInvalid={touched?.phoneNumber && errors.phoneNumber ? true : false}
+          errorMessage={touched?.phoneNumber && errors.phoneNumber}
+          onBlur={handleBlur}
+          onChange={handleChange}
+          classNames={{
+            inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+            label: "text-default-600 text-base",
+            input: "text-base",
+            errorMessage: "text-sm",
+          }}
+        />
+      </div>
+
       {isProfessional ? (
         <div className="grid md:grid-cols-2 gap-2">
           <Input
@@ -171,10 +260,10 @@ export const InputsFormRegister = ({
             onBlur={handleBlur}
             onChange={handleChange}
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-              label: 'text-default-600 text-base',
-              input: 'text-base',
-              errorMessage: 'text-sm',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+              label: "text-default-600 text-base",
+              input: "text-base",
+              errorMessage: "text-sm",
             }}
             startContent={
               <FaRegMoneyBillAlt size={18} className="text-secondary-400" />
@@ -194,10 +283,10 @@ export const InputsFormRegister = ({
             onChange={handleChange}
             size="md"
             classNames={{
-              inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-              label: 'text-default-600 text-base',
-              input: 'text-base',
-              errorMessage: 'text-sm',
+              inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+              label: "text-default-600 text-base",
+              input: "text-base",
+              errorMessage: "text-sm",
             }}
           />
         </div>
@@ -232,12 +321,12 @@ export const InputsFormRegister = ({
               )}
             </button>
           }
-          type={isVisible ? 'text' : 'password'}
+          type={isVisible ? "text" : "password"}
           classNames={{
-            inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-            label: 'text-default-600 text-base',
-            input: 'text-base',
-            errorMessage: 'text-sm',
+            inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+            label: "text-default-600 text-base",
+            input: "text-base",
+            errorMessage: "text-sm",
           }}
         />
 
@@ -268,12 +357,12 @@ export const InputsFormRegister = ({
               )}
             </button>
           }
-          type={isVisibleConfirm ? 'text' : 'password'}
+          type={isVisibleConfirm ? "text" : "password"}
           classNames={{
-            inputWrapper: '!bg-[#F4F4F4] !border-1 border-transparent',
-            label: 'text-default-600 text-base',
-            input: 'text-base',
-            errorMessage: 'text-sm',
+            inputWrapper: "!bg-[#F4F4F4] !border-1 border-transparent",
+            label: "text-default-600 text-base",
+            input: "text-base",
+            errorMessage: "text-sm",
           }}
         />
       </div>
