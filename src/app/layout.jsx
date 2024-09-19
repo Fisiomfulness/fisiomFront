@@ -10,9 +10,6 @@ import { UserProvider } from "@/context/User";
 export const metadata = {
   title: "FisiomFulness",
   description: "Sitio web para ofrecer servicios de fisioterapia",
-  icons: {
-    icon: ["/favicon.ico?v=4"],
-  },
 };
 
 const raleway = Raleway({
