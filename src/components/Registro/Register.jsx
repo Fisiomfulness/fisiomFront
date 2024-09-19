@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { CustomLogo } from '@/features/ui';
-import { Button, Card, CardBody, Radio, RadioGroup } from '@nextui-org/react';
-import Link from 'next/link';
-import { useState } from 'react';
-import { RegisterProfessional } from './RegisterProfesional';
-import { RegisterUser } from './RegisterUsuario';
+import { CustomLogo } from "@/features/ui";
+import { Button, Card, CardBody, Radio, RadioGroup } from "@nextui-org/react";
+import Link from "next/link";
+import { useState } from "react";
+import { RegisterProfessional } from "./RegisterProfesional";
+import { RegisterUser } from "./RegisterUsuario";
 
 export const Register = () => {
-  const [selected, setSelected] = useState('usuario');
+  const [selected, setSelected] = useState("usuario");
   const [aceptoCondiciones, setAceptoCondiciones] = useState(false);
   const [recibirInformacion, setRecibirInformacion] = useState(false);
 
@@ -16,7 +16,7 @@ export const Register = () => {
     aceptoCondiciones && recibirInformacion ? true : false;
 
   return (
-    <Card className="grid w-full max-w-[1320px] overflow-hidden min-[1160px]:grid-cols-[1fr,1fr] items-center justify-items-center p-6 min-[480px]:p-10 min-[1160px]:py-28 rounded-sm">
+    <Card className="grid w-full max-w-[1320px] overflow-hidden min-[1160px]:grid-cols-[1fr,1fr] items-center justify-items-center p-6 min-[480px]:p-10 rounded-sm">
       <CardBody className="center flex-col w-full gap-5 lg:gap-8 overflow-hidden">
         <Link href="/">
           <CustomLogo width={220} color="dark" />
@@ -49,9 +49,9 @@ export const Register = () => {
             <span>
               Acepto los
               <a className="text-primary font-semibold hover:underline cursor-pointer">
-                {' '}
-                términos y condiciones{' '}
-              </a>{' '}
+                {" "}
+                términos y condiciones{" "}
+              </a>{" "}
               del servicio de FISIOMFULNESS. Declaro haber leído y entiendo la
               política de privacidad
             </span>
@@ -64,7 +64,7 @@ export const Register = () => {
               className="size-5 cursor-pointer"
             />
             <span>
-              Doy mi consentimiento y acepto recibir información sobre los{' '}
+              Doy mi consentimiento y acepto recibir información sobre los{" "}
               <a className="text-primary font-semibold hover:underline cursor-pointer">
                 servicios y novedades de FISIOMFULNESS. Qué significa esto?
               </a>
@@ -82,7 +82,7 @@ export const Register = () => {
           </div>
         </div>
       </CardBody>
-      {selected === 'usuario' ? (
+      {selected === "usuario" ? (
         <RegisterUser conditionsAccepted={conditionsAccepted} />
       ) : (
         <RegisterProfessional conditionsAccepted={conditionsAccepted} />

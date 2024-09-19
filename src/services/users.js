@@ -1,7 +1,7 @@
-import { BASE_URL } from '@/utils/api';
-import { getErrorMessage } from '@/utils/utils';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { BASE_URL } from "@/utils/api";
+import { getErrorMessage } from "@/utils/utils";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 //#region Login
 export const axiosLogin = async (user) => {
@@ -10,7 +10,7 @@ export const axiosLogin = async (user) => {
       withCredentials: true,
     }),
     {
-      loading: 'Iniciando Sesion...',
+      loading: "Iniciando Sesion...",
       success: (response) => response.data.message,
       error: (error) => {
         if (error.response) {
@@ -30,7 +30,7 @@ export const axiosRegisterUserForm = async (user) => {
       withCredentials: true,
     }),
     {
-      loading: 'Registrandose...',
+      loading: "Registrandose...",
       success: (response) => response.data.message,
       error: (error) => {
         if (error.response) {
@@ -50,7 +50,7 @@ export const axiosRegisterProfessionalForm = async (user) => {
       withCredentials: true,
     }),
     {
-      loading: 'Registrandose...',
+      loading: "Registrandose...",
       success: (response) => response.data.message,
       error: (error) => {
         if (error.response) {
@@ -107,9 +107,13 @@ export const verifyCredentials = async (email, password) => {
     });
     return true;
   } catch (error) {
-    toast.error(error.response.data.message || 'No se pudieron verificar las credenciales de la cuenta', {
-      className: 'text-center'
-    });
+    toast.error(
+      error.response.data.message ||
+        "No se pudieron verificar las credenciales de la cuenta",
+      {
+        className: "text-center",
+      }
+    );
     return false;
   }
 };
@@ -117,10 +121,10 @@ export const verifyCredentials = async (email, password) => {
 // ? Cookie is httpOnly for more security, this is needed.
 export const httpLogout = async () => {
   const res = await fetch(`${BASE_URL}/logout`, {
-    method: 'GET',
-    credentials: 'include',
+    method: "GET",
+    credentials: "include",
   });
-  if (!res.ok) throw new Error('Oops! vuelva a intentarlo mas tarde..');
+  if (!res.ok) throw new Error("Oops! vuelva a intentarlo mas tarde..");
   return await res.json();
 };
 
@@ -129,10 +133,9 @@ export const httpLogout = async () => {
 //el valor recibido es un objeto con las propiedades que se quiere pedir con valor 1
 export const getSpecificUserData = async (specificData) => {
   try {
-    const response = axios
-      .post(`${BASE_URL}/users`, specificData)
-    return response
+    const response = await axios.post(`${BASE_URL}/users`, specificData);
+    return response;
   } catch (error) {
-    return error
+    return error;
   }
-}
+};
