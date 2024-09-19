@@ -18,7 +18,6 @@ import {
   standarFormartDate,
 } from "@/utils/StandarValues";
 import { formatDateFromTo } from "@/utils/filters/timeFormat";
-import { UserContext } from "./User";
 import { useSession } from "next-auth/react";
 import { getAvailability } from "@/services/professionals";
 import toast from "react-hot-toast";
