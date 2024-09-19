@@ -7,7 +7,6 @@ export const listInputsUser = (errors, touched) => {
       errorMessage: touched.name && errors.name,
       isInvalid: touched.name && errors.name ? true : false,
     },
-
     {
       name: "email",
       ariaLabel: "Correo electrónico",
