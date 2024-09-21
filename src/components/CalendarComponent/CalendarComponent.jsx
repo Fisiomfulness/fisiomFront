@@ -192,7 +192,7 @@ export default function CalendarComponent({ user, isAuth }) {
           onNavigate={handleNavigate}
           messages={langConfig.es}
           onSelectSlot={handleSelectSlot}
-          onSelectEvent={handleSelectEvent}
+          onSelectEvent={isAuth}
           selectable={isSelectable}
           formats={formatConfig}
           slotPropGetter={slotPropGetter}
