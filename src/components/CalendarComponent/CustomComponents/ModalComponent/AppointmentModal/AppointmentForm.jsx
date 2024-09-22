@@ -64,7 +64,7 @@ export const AppointmentForm = ({ professionalId }) => {
   );
 
   useEffect(() => {
-    if (!newEvent && session.id === professionalId) {
+    if (!newEvent) {
       setEventInfo((prevState) => ({
         ...prevState,
         _patient: session.id,
@@ -76,9 +76,7 @@ export const AppointmentForm = ({ professionalId }) => {
     <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
       {/* {!editEvent && <PatientNameAutocomplete />} */}
       {/*If it's the professional looking at form PatientSelector will render else patient will be set to current session holder*/}
-      {!newEvent && session.id === professionalId && (
-        <PatientNameAutocomplete />
-      )}
+      {newEvent && <PatientNameAutocomplete />}
 
       <ConsultTypeAutocomplete />
 
