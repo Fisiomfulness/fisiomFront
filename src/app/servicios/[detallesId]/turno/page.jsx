@@ -4,7 +4,7 @@ import CalendarComponent from "@/components/CalendarComponent/CalendarComponent"
 import { CalendarProvider } from "@/context/Calendar";
 import { useParams } from "next/navigation";
 
-const ServicioTurno = async () => {
+const ServicioTurno = () => {
   const params = useParams();
 
   const foundUserProfessional = {
