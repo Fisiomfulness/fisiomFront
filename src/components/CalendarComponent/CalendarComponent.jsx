@@ -18,8 +18,10 @@ import { CustomEventView } from "./CustomComponents/CustomView.jsx/CustomEventVi
 import { EVENT_STATUS_COLORS } from "./InitialValues";
 import AppointmentModal from "./CustomComponents/ModalComponent/AppointmentModal/AppointmentModal";
 import { AvailabilityModal } from "./CustomComponents/ModalComponent/AvailabilityModal/AvailabilityModal";
+import { useSession } from "next-auth/react";
 
 export default function CalendarComponent({ user, isAuth }) {
+  const { data: session } = useSession();
   const [isSelectable, setIsSelectable] = useState(false);
   const {
     CalendarIsLoading,
@@ -47,7 +49,8 @@ export default function CalendarComponent({ user, isAuth }) {
   };
 
   const checkUserRole = () => {
-    if (user.role != "user" && isAuth) {
+    // if (user.role != "user" && isAuth) {
+    if (user.role) {
       setIsSelectable(true);
     } else {
       setIsSelectable(false);
@@ -189,7 +192,7 @@ export default function CalendarComponent({ user, isAuth }) {
           onNavigate={handleNavigate}
           messages={langConfig.es}
           onSelectSlot={handleSelectSlot}
-          onSelectEvent={handleSelectEvent}
+          onSelectEvent={(event) => handleSelectEvent(event, isAuth)}
           selectable={isSelectable}
           formats={formatConfig}
           slotPropGetter={slotPropGetter}
@@ -199,7 +202,7 @@ export default function CalendarComponent({ user, isAuth }) {
           eventPropGetter={eventStyleGetter}
         />
       )}
-      <AppointmentModal />
+      <AppointmentModal professionalId={id} />
       <AvailabilityModal />
     </>
   );

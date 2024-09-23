@@ -11,8 +11,10 @@ import { eventInitialValues } from "@/utils/StandarValues";
 import { FaTimes } from "react-icons/fa";
 import { AppointmentForm } from "./AppointmentForm";
 import { ActionButtonsAppointment } from "../../ActionButtons";
+import { useSession } from "next-auth/react";
 
-const AppointmentModal = memo(() => {
+const AppointmentModal = memo(({ professionalId }) => {
+  const { data: session } = useSession();
   const { calendarState, setCalendarState, eventInfo, setEventInfo } =
     useContext(CalendarContext);
 
@@ -50,7 +52,7 @@ const AppointmentModal = memo(() => {
         </div>
         <div className="mt-3">
           {editEvent || newEvent ? (
-            <AppointmentForm />
+            <AppointmentForm professionalId={professionalId} />
           ) : (
             <EventInfoComponent eventInfo={eventInfo} />
           )}

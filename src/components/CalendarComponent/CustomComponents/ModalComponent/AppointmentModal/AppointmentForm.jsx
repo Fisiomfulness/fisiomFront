@@ -3,14 +3,16 @@ import { Input, Select, SelectItem } from "@nextui-org/react";
 import DateTimePicker from "react-datetime-picker";
 import moment from "moment";
 import { specialitiesArray, statusValue } from "../../../InitialValues";
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { CalendarContext } from "@/context/Calendar";
 import { standarFormartDate } from "@/utils/StandarValues";
 import { PatientNameAutocomplete } from "../PatientNameAutocomplete";
 import { ConsultTypeAutocomplete } from "../consultTypeAutocomplete";
 import { CustomDatePicker } from "../CustomDatePicker";
+import { useSession } from "next-auth/react";
 
-export const AppointmentForm = () => {
+export const AppointmentForm = ({ professionalId }) => {
+  const { data: session } = useSession();
   const { eventInfo, setEventInfo, calendarState } =
     useContext(CalendarContext);
   const { editEvent, newEvent } = calendarState;
@@ -61,9 +63,20 @@ export const AppointmentForm = () => {
     [eventInfo],
   );
 
+  useEffect(() => {
+    if (!newEvent) {
+      setEventInfo((prevState) => ({
+        ...prevState,
+        _patient: session.id,
+      }));
+    }
+  }, [newEvent, session.id, professionalId, setEventInfo]);
+
   return (
     <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-      {!editEvent && <PatientNameAutocomplete />}
+      {/* {!editEvent && <PatientNameAutocomplete />} */}
+      {/*If it's the professional looking at form PatientSelector will render else patient will be set to current session holder*/}
+      {newEvent && <PatientNameAutocomplete />}
 
       <ConsultTypeAutocomplete />
 

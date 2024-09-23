@@ -18,7 +18,6 @@ import {
   standarFormartDate,
 } from "@/utils/StandarValues";
 import { formatDateFromTo } from "@/utils/filters/timeFormat";
-import { UserContext } from "./User";
 import { useSession } from "next-auth/react";
 import { getAvailability } from "@/services/professionals";
 import toast from "react-hot-toast";
@@ -140,12 +139,16 @@ export const CalendarProvider = ({ children }) => {
   }, [calendarState, eventInfo]);
 
   const handleSelectEvent = useCallback(
-    (event) => {
-      setCalendarState((prevState) => ({
-        ...prevState,
-        showModal: true,
-      }));
-      setEventInfo(event);
+    (event, isAuth) => {
+      if (isAuth) {
+        setCalendarState((prevState) => ({
+          ...prevState,
+          showModal: true,
+        }));
+        setEventInfo(event);
+      } else {
+        return toast.error("Horario no disponible");
+      }
     },
     [calendarState, eventInfo],
   );

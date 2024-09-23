@@ -6,7 +6,7 @@ import { CalendarProvider } from "@/context/Calendar";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
-export default async function CalendarioPage() {
+export default function CalendarioPage() {
   const { data: session } = useSession();
 
   return (
