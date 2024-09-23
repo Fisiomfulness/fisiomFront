@@ -192,7 +192,7 @@ export default function CalendarComponent({ user, isAuth }) {
           onNavigate={handleNavigate}
           messages={langConfig.es}
           onSelectSlot={handleSelectSlot}
-          onSelectEvent={handleSelectEvent}
+          onSelectEvent={(event) => handleSelectEvent(event, isAuth)}
           selectable={isSelectable}
           formats={formatConfig}
           slotPropGetter={slotPropGetter}
@@ -202,7 +202,7 @@ export default function CalendarComponent({ user, isAuth }) {
           eventPropGetter={eventStyleGetter}
         />
       )}
-      <AppointmentModal professionalId={id}/>
+      <AppointmentModal professionalId={id} />
       <AvailabilityModal />
     </>
   );

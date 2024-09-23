@@ -1,14 +1,14 @@
 import { BASE_URL } from "@/utils/api";
 import toast from "react-hot-toast";
 
-const { default: axios } = require("axios");
+import axios from "axios";
 
 //#region Get Appointment   
 export const getAppointment = async (_id, from, to) => {
     try {
         const response = await axios.get(
             `${BASE_URL}/appointments/?from=${from}&to=${to}&_professional=${_id}`,)
-            
+
         return response
     } catch (error) {
         return error

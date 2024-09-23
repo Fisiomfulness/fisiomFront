@@ -9,7 +9,6 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { TfiReload } from "react-icons/tfi";
 import { currentDateMoment, standarFormartDate } from "@/utils/StandarValues";
 import moment from "moment";
-import { UserContext } from "@/context/User";
 import { useSession } from "next-auth/react";
 
 const CustomToolbar = ({ label, onNavigate, onView, date, isAuth }) => {

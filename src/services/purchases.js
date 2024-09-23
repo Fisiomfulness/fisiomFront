@@ -1,7 +1,7 @@
 import { BASE_URL } from "@/utils/api";
 import toast from "react-hot-toast";
+import axios from "axios";
 
-const { default: axios } = require("axios");
 
 //#region Init Purchase
 export const initPurchase = async (data) => {
