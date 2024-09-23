@@ -9,7 +9,6 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { TfiReload } from "react-icons/tfi";
 import { currentDateMoment, standarFormartDate } from "@/utils/StandarValues";
 import moment from "moment";
-import { UserContext } from "@/context/User";
 import { useSession } from "next-auth/react";
 
 const CustomToolbar = ({ label, onNavigate, onView, date, isAuth }) => {
@@ -92,18 +91,19 @@ const CustomToolbar = ({ label, onNavigate, onView, date, isAuth }) => {
                 <SlPlus fontSize={"20px"} color="black" />
                 <p className="text-sm font-semibold mx-1">Disponibilidad</p>
               </Button>
-              <Button
-                className="mx-1 text-sm font-semibold"
-                variant="light"
-                onClick={onClickAppointment}
-              >
-                <SlPlus fontSize={"20px"} color="black" />
-                <p className="text-sm font-semibold mx-1">Agendar Cita</p>
-              </Button>
             </>
           ) : (
             <></>
           )}
+          
+          <Button
+            className="mx-1 text-sm font-semibold"
+            variant="light"
+            onClick={onClickAppointment}
+          >
+            <SlPlus fontSize={"20px"} color="black" />
+            <p className="text-sm font-semibold mx-1">Agendar Cita</p>
+          </Button>
 
           {view == "month" ? (
             <Button

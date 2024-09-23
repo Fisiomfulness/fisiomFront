@@ -5,6 +5,8 @@ import UsersView from "./UsersView/UsersView";
 import ProductsView from "./ProductsView/ProductsView";
 import ProfessionalsView from "./ProfessionalsView/ProfessionalsView";
 import DropdownDashboard from "./DropdownDashboard/DropdownDashboard";
+import RatingView from "./RatingView/RatingView";
+import BlogView from "./BlogView/BlogView";
 
 export default function Dashboard() {
   //! ---------- HOOKS ----------
@@ -19,7 +21,9 @@ export default function Dashboard() {
       case 2:
         return <div>Administrar servicios</div>;
       case 3:
-        return <div>Administrar blogs</div>;
+        return <BlogView />;
+      case 4:
+        return <RatingView />;
     }
   };
 

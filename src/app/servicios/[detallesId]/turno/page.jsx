@@ -4,16 +4,16 @@ import CalendarComponent from "@/components/CalendarComponent/CalendarComponent"
 import { CalendarProvider } from "@/context/Calendar";
 import { useParams } from "next/navigation";
 
-const ServicioTurno = async () => {
+const ServicioTurno = () => {
   const params = useParams();
 
-  const foundUser = {
+  const foundUserProfessional = {
     id: params.detallesId,
   };
   return (
     <div className="flex h-96">
       <CalendarProvider>
-        <CalendarComponent user={foundUser} isAuth={false} />
+        <CalendarComponent user={foundUserProfessional} isAuth={false} />
       </CalendarProvider>
     </div>
   );

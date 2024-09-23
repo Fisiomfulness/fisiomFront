@@ -13,24 +13,40 @@ import { atom } from "jotai";
  */
 
 /** @param {number} max */
-function getRandomInt(max) {
-  let randomNum = Math.random() * max;
-  // Redondear al primer decimal
-  randomNum = Math.round(randomNum * 10) / 10;
-  // Asegurarse de que no sea menor de 10
-  randomNum = Math.max(10, randomNum);
-  return randomNum;
-}
+// function getRandomInt(max) {
+//   let randomNum = Math.random() * max;
+//   // Redondear al primer decimal
+//   randomNum = Math.round(randomNum * 10) / 10;
+//   // Asegurarse de que no sea menor de 10
+//   randomNum = Math.max(10, randomNum);
+//   return randomNum;
+// }
+
+// los productos se estaban cargando random acá
+
+// /** @type {Product[]} */
+// const products = new Array(10).fill(null).map((_, index) => ({
+//   id: crypto.randomUUID(),
+//   name: `Producto ${index + 1}`,
+//   price: getRandomInt(50),
+//   description: `Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.`,
+//   image: "/prod1Prueba.png",
+//   quantity: 1,
+// }));
+
+// ahora producto hardcodeadísimo pero coincide con uno en DB si nadie lo borró o modificó:
 
 /** @type {Product[]} */
-const products = new Array(10).fill(null).map((_, index) => ({
-  id: crypto.randomUUID(),
-  name: `Producto ${index + 1}`,
-  price: getRandomInt(50),
-  description: `Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.`,
-  image: "/prod1Prueba.png",
-  quantity: 1,
-}));
+const products = [
+  {
+    id: "66e973798d0a505444cf11b5",
+    name: "ProductFromDB",
+    price: 37.5,
+    image: "http://res.cloudinary.com/diypmot81/image/upload/v1726575478/FisiumFulness/products/1726575479548-prod3Prueba.png",
+    description: "Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.",
+    quantity: 1,
+  }
+]
 
 export const cartAtom = atom(
   new Map(products.map((product) => [product.id, product])),

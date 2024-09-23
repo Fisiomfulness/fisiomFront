@@ -18,8 +18,10 @@ import { CustomEventView } from "./CustomComponents/CustomView.jsx/CustomEventVi
 import { EVENT_STATUS_COLORS } from "./InitialValues";
 import AppointmentModal from "./CustomComponents/ModalComponent/AppointmentModal/AppointmentModal";
 import { AvailabilityModal } from "./CustomComponents/ModalComponent/AvailabilityModal/AvailabilityModal";
+import { useSession } from "next-auth/react";
 
 export default function CalendarComponent({ user, isAuth }) {
+  const { data: session } = useSession();
   const [isSelectable, setIsSelectable] = useState(false);
   const {
     CalendarIsLoading,
@@ -47,14 +49,15 @@ export default function CalendarComponent({ user, isAuth }) {
   };
 
   const checkUserRole = () => {
-    if (user.role != "user" && isAuth) {
+    // if (user.role != "user" && isAuth) {
+    if (user.role) {
       setIsSelectable(true);
     } else {
       setIsSelectable(false);
     }
   };
 
-  //Cuando Cambia "calendarState.dateFromTo" se hace un fetch con el rango de fecha
+  //when change "calendarState.dateFromTo" it do a fetch whit the range of the date
   useEffect(() => {
     const { from, to } = calendarState.dateFromTo;
 
@@ -91,7 +94,7 @@ export default function CalendarComponent({ user, isAuth }) {
     }
   }, [calendarState.dateFromTo]);
 
-  //pide los datos de los user cada vez que se monta el componente
+  //get to user data every mounted component
   useEffect(() => {
     const specificData = {
       name: 1,
@@ -130,7 +133,7 @@ export default function CalendarComponent({ user, isAuth }) {
   const slotPropGetter = useCallback(
     (date) => {
       const dayOfWeek = moment(date).format("dddd");
-      const dayAvailability = calendarState.availability.find(
+      const dayAvailability = calendarState.availability?.find(
         (day) => day.day === dayOfWeek,
       );
 
@@ -177,7 +180,7 @@ export default function CalendarComponent({ user, isAuth }) {
         <Loader />
       ) : (
         <Calendar
-          className="font-sans"
+          className="font-sans h-[100vh]"
           culture="es"
           localizer={localizer}
           events={filterDataForEvent(cachedData)}
@@ -189,7 +192,7 @@ export default function CalendarComponent({ user, isAuth }) {
           onNavigate={handleNavigate}
           messages={langConfig.es}
           onSelectSlot={handleSelectSlot}
-          onSelectEvent={handleSelectEvent}
+          onSelectEvent={(event) => handleSelectEvent(event, isAuth)}
           selectable={isSelectable}
           formats={formatConfig}
           slotPropGetter={slotPropGetter}
@@ -199,7 +202,7 @@ export default function CalendarComponent({ user, isAuth }) {
           eventPropGetter={eventStyleGetter}
         />
       )}
-      <AppointmentModal />
+      <AppointmentModal professionalId={id} />
       <AvailabilityModal />
     </>
   );
