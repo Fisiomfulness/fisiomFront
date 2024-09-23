@@ -41,7 +41,7 @@ export default function DropdownDashboard({setTab,tab}) {
                 className={`w-full text-2xl  transition-all border border-zinc-300 text-primary-900 hover:bg-primary-200 z-10 ${tab === option.tab ? 'bg-primary-400' : 'bg-zinc-100'}`}
                 aria-label="Actions"
                 variant="primary"
-                onClick={() => {
+                onClick={() => { 
                   setOpen(!open);
                   //TODO changeTab deberá cambiar la pestaña que se ve.
                   setTab(option.tab);
