@@ -4,12 +4,12 @@ import { useSession } from "next-auth/react";
 import { Button } from "@nextui-org/react";
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import { apiEndpoints } from "@/api_endpoints";
-import { deleteAccountFunction } from "@/app/api/accountActions/deleteAccount";
+import { suspendAccountFunction } from "@/app/api/accountActions/suspendActions";
 import { signOut } from "next-auth/react";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
-const DeleteAccount = () => {
+function SuspendAccount() {
   const { data: session, status } = useSession();
   const name = session?.user?.name ?? "";
   const id = session?.user?.id ?? "";
@@ -17,25 +17,34 @@ const DeleteAccount = () => {
 
   const [respond, setRespond] = useState("");
   const [password, setPassword] = useState("");
+  const [time, setTime] = useState("");
   const payload = {
     response: respond,
     password: password,
     email: email,
     name: name,
+    time: time,
   };
 
+  const timeList = [
+    { label: "1 Mes", value: 1 },
+    { label: "2 Meses", value: 2 },
+    { label: "3 Meses", value: 3 },
+    { label: "1 Año", value: 12 },
+  ];
+
   const handleAccount = async () => {
-    if (!password || !respond) {
+    if (!password || !respond || !time) {
       toast.error("Faltan datos por completar");
     } else {
-      const { data, error } = await deleteAccountFunction(id, payload);
+      const { data, error } = await suspendAccountFunction(id, payload);
       console.log(data);
       console.log(error);
       if (error) {
         toast.error(error);
       }
-      if (data?.message === "User has been deleted") {
-        toast.success("Has eliminado tu cuenta correctamente");
+      if (data) {
+        toast.success("Has suspendido tu cuenta correctamente");
         signOut();
       }
     }
@@ -43,26 +52,16 @@ const DeleteAccount = () => {
 
   return (
     <div>
-      <h1 className=" font-semibold mb-6">Eliminar tu cuenta</h1>
+      <h1 className=" font-semibold mb-6">Suspender tu cuenta</h1>
       <p className=" mb-2">
         Hola, <span className=" font-semibold">{name}</span>{" "}
       </p>
-      <p className=" mb-2">Lamentamos que quieras Eliminar tu cuenta.</p>
-      <p className=" mb-2">
-        Si lo que quieres es tomarte un descanso, puedes{" "}
-        <a
-          href="/user/suspend_account"
-          className="font-bold text-secondary-300"
-        >
-          suspender
-        </a>{" "}
-        temporalmente tu cuenta de Fisiom Fulness.
-      </p>
+      <p className=" mb-2">Lamentamos que quieras suspender tu cuenta.</p>
       <hr className=" font-bold" />
 
       <div className=" flex flex-row mt-8 items-center">
-        <p className=" w-[430px] font-bold">
-          Por qué quieres eliminar tu cuenta?
+        <p className=" w-[440px] font-bold">
+          Por qué quieres suspender tu cuenta?
         </p>
         <Input
           aria-label="¿Por Qué?"
@@ -76,9 +75,27 @@ const DeleteAccount = () => {
           onChange={(e) => setRespond(e.target.value)}
         />
       </div>
-
       <div className=" flex flex-row mt-5 items-center">
-        <p className=" w-[430px] font-bold">
+        <p className=" w-[440px] font-bold">
+          Por cuanto tiempo deseas suspender tu cuenta?
+        </p>
+
+        <Select
+          label="Tiempo"
+          variant="bordered"
+          items={timeList}
+          size="sm"
+          radius="sm"
+          className=" w-1/3"
+          onChange={(e) => setTime(e.target.value)}
+        >
+          {timeList.map((time) => (
+            <SelectItem key={time.value}>{time.label}</SelectItem>
+          ))}
+        </Select>
+      </div>
+      <div className=" flex flex-row mt-5 items-center">
+        <p className=" w-[440px] font-bold">
           Para continuar, vuelve a ingresar tu contraseña
         </p>
         <Input
@@ -105,30 +122,30 @@ const DeleteAccount = () => {
       </div>
 
       <p className=" mb-6">
-        Si presionas el siguiente botón. tus fotos, comentarios, blogs,
-        amistades y el resto de los datos se eliminaran definitivamente y no se
-        podrán recuperar. Si en el futuro decides crear otra cuenta de Fisiom
-        Fulness, no podrás registrarte con el mismo nombre de usuario,
+        Si decides suspender tu cuenta, tu perfil, blogs, comentarios, y
+        amistades estarán ocultos temporalmente. Durante este tiempo, tus datos
+        no serán accesibles para otros usuarios, pero no se eliminarán. Podrás
+        reactivar tu cuenta en cualquier momento iniciando sesión nuevamente. Si
+        no reactivas tu cuenta, permanecerá suspendida hasta que decidas volver.
       </p>
 
       <hr className=" font mb-10" />
 
       <Button
-        color="danger"
-        variant="solid"
+        color="primary"
         radius="sm"
         className=" font-semibold"
         type="button"
         onClick={() => {
           Swal.fire({
-            title: "¿Estás seguro de eliminar tu cuenta?",
-            text: "Al eliminar tu cuenta,  tus fotos, comentarios, blogs, amistades y el resto de los datos se eliminaran definitivamente y no sepodrán recuperar.",
+            title: "¿Estás seguro de suspender tu cuenta?",
+            text: "Al suspender tu cuenta, no recibirás notificaciones hasta que finalice el tiempo que estableciste.",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#218BB5",
             cancelButtonColor: "#d33",
             cancelButtonText: "Cancelar",
-            confirmButtonText: "Si, eliminar cuenta!",
+            confirmButtonText: "Si, suspender cuenta!",
           }).then((result) => {
             if (result.isConfirmed) {
               handleAccount();
@@ -136,10 +153,10 @@ const DeleteAccount = () => {
           });
         }}
       >
-        Eliminar definitivamente mi cuenta
+        Suspender temporalmente mi cuenta
       </Button>
     </div>
   );
-};
+}
 
-export default DeleteAccount;
+export default SuspendAccount;

@@ -45,6 +45,7 @@
     "react-star-ratings": "^2.3.0",
     "react-syntax-highlighter": "^15.5.0",
     "socket.io-client": "^4.7.5",
+    "sweetalert2": "^11.14.1",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.3.0",
     "zod": "^3.23.8"

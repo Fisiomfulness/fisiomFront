@@ -72,15 +72,6 @@ export const getUserDetail = async (id) => {
   }
 };
 
-export const deleteUser = async (id) => {
-  try {
-    const response = await axios.delete(`${BASE_URL}/users/delete/${id}`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
 export const getAllUsers = async () => {
   try {
     const { data } = await axios(
