@@ -6,6 +6,9 @@ import { Badge, useDisclosure } from "@nextui-org/react";
 import { MdShoppingCart } from "react-icons/md";
 import { useCart } from "../hooks";
 import { initPurchase } from "@/services/purchases";
+import axios from "axios";
+import { BASE_URL } from "@/utils/api";
+import { useState } from "react";
 
 /**
  * @typedef {import("../store/cart").Product} Product
@@ -44,12 +47,18 @@ function ListProducts({ isOpen, onOpenChange }) {
     updateItem(id, item);
   }
 
+  const [ html, setHtml ] = useState("")
+
   async function handleCheckout() {
     // send POST request to backend to make purchase
-    const data = { total, productsMap: Object.fromEntries(products) }
-    await initPurchase(data);
-    clearCart();
-    onOpenChange();
+    const payload = { total, productsMap: Object.fromEntries(products) }
+    const { data } = await axios.post(`${BASE_URL}/purchases/init`, payload, {
+      withCredentials: true,
+    })
+    // await initPurchase(data);
+    setHtml(data)
+    // clearCart();
+    // onOpenChange();
   }
 
   return (
@@ -102,6 +111,11 @@ function ListProducts({ isOpen, onOpenChange }) {
           </CustomButton>
         </div>
       </div>
+      { html &&
+      <div>
+        <p>{html}</p>
+        <div dangerouslySetInnerHTML={{ __html: html }} />
+      </div> }
     </CustomModal>
   );
 }
