@@ -40,6 +40,7 @@ const items = [
     ],
   },
   { key: "/user/carrito", label: "Carrito" },
+  { key: "/dashboard", label: "Dashboard" },
   { key: "/user/mis_productos", label: "Mis productos" },
   { key: "/user/mis_compras", label: "Mis compras" },
   { key: "/user/mis_mensajes", label: "Mis mensajes" },
@@ -100,8 +101,19 @@ export default function DropdownUser({ name, image }) {
         >
           {items
             .filter(
-              (item) => !(role === "user" && item.label === "Mis servicios")
-            ) // Filtrar "Mis servicios" si el rol es "user"
+              (item) =>
+                !(
+                  role === "user" &&
+                  (item.label === "Blog" || item.label === "Mis servicios")
+                )
+            ) // Filtrar "Mis servicios" y "Blog" si el rol es "user"
+            .filter(
+              (item) =>
+                !(
+                  item.label === "Dashboard" &&
+                  (role === "user" || role === "professional")
+                )
+            ) // mostrar "Dashboard" solo para el admin
             .map((item) =>
               item.root ? (
                 <DropdownItem key={item.key} textValue={item.label}>
