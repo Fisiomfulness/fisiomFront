@@ -10,6 +10,7 @@ import { EyeSlashFilledIcon } from "../CustomComponentForm/EyeSlashFilledIcon";
 import { z } from "zod";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { FcGoogle } from "react-icons/fc";
 
 const initialValues = {
   email: "",
@@ -40,6 +41,11 @@ const UserLoginComponent = () => {
 
     toast.success("Has iniciado sesión correctamente");
     router.push("/");
+  };
+
+  // Nueva función para login con Google
+  const handleGoogleLogin = async () => {
+    window.location.href = "http://localhost:3000/api/auth/google";
   };
 
   return (
@@ -108,6 +114,16 @@ const UserLoginComponent = () => {
             isDisabled={Object.keys(errors).length > 0 || isSubmitting}
           >
             Ingresar
+          </Button>
+
+          {/* Botón de Google */}
+          <Button
+            className="flex items-center justify-center  mt-2 text-gray-800 uppercase rounded-none font-semibold tracking-wider"
+            onClick={handleGoogleLogin}
+            isDisabled={isSubmitting}
+          >
+            <FcGoogle className="mr-2" size={24} />
+            Ingresar con Google
           </Button>
 
           <div className="flex flex-row justify-center items-center gap-4 mt-8">
