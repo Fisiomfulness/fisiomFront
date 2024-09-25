@@ -9,6 +9,7 @@ const ServicioTurno = () => {
 
   const foundUserProfessional = {
     id: params.detallesId,
+    // este es el ID del profesional, siempre
   };
   return (
     <div className="flex h-96">

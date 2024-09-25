@@ -88,7 +88,7 @@ export const getAvailability = async (userId) => {
   try {
     const response = await axios.get(`${BASE_URL}/professionals/availability/${userId}`
     )
-    return response.data?.availability
+    return response.data.availability || []
   } catch (error) {
     throw error
   }
@@ -123,7 +123,7 @@ export const createService = async (values) => {
 };
 
 export const getServices = async ({
-  limit = 0,
+  limit = 100,
   offset = 0,
   page = 1,
   professionalId,

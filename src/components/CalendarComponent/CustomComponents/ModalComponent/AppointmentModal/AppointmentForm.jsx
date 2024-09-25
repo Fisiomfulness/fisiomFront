@@ -64,48 +64,59 @@ export const AppointmentForm = ({ professionalId }) => {
   );
 
   useEffect(() => {
-    if (!newEvent) {
+    if (session?.user?.id !== professionalId) {
       setEventInfo((prevState) => ({
         ...prevState,
-        _patient: session.id,
+        _patient: session.user.id,
       }));
     }
-  }, [newEvent, session.id, professionalId, setEventInfo]);
+    setEventInfo((prevState) => ({
+      ...prevState,
+      _professional: professionalId,
+    }))
+  }, [newEvent, session.user.id, professionalId, setEventInfo]);
 
   return (
-    <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-      {/* {!editEvent && <PatientNameAutocomplete />} */}
-      {/*If it's the professional looking at form PatientSelector will render else patient will be set to current session holder*/}
-      {newEvent && <PatientNameAutocomplete />}
+    <div className="flex flex-col gap-4">
 
-      <ConsultTypeAutocomplete />
+      <div className="flex justify-center gap-8">
+        {/* {!editEvent && <PatientNameAutocomplete />} */}
+        {/*If it's the professional looking at form PatientSelector will render else patient will be set to current session holder*/}
+        {(session?.user?.id === professionalId) && <PatientNameAutocomplete />}
 
-      <CustomDatePicker value={eventInfo.start} name={"start"} label={"fin"} />
+        <ConsultTypeAutocomplete />
+      </div>
 
-      <CustomDatePicker value={eventInfo.end} name={"end"} label={"inicio"} />
+      <div className="flex justify-around gap-8">
+        <CustomDatePicker value={eventInfo.start} name={"start"} label={"inicio"} />
 
-      <Input
-        variant="bordered"
-        type="text"
-        name="additionalDescription"
-        label="Descripción"
-        placeholder="Coloca una Descripción"
-        value={eventInfo.additionalDescription}
-        onChange={handleEventInfoChange}
-      />
+        <CustomDatePicker value={eventInfo.end} name={"end"} label={"fin"} />
+      </div>
 
-      <Select
-        variant="bordered"
-        name="status"
-        items={statusValue}
-        label="Estado de la cita"
-        placeholder="Seleccione un estado"
-        className="max-w-xs"
-        value={eventInfo.status}
-        onChange={handleStatusChange}
-      >
-        {(state) => <SelectItem key={state.key}>{state.label}</SelectItem>}
-      </Select>
+      <div className="flex justify-around gap-8">
+        <Input
+          variant="bordered"
+          type="text"
+          name="additionalDescription"
+          label="Descripción"
+          placeholder="Coloca una Descripción"
+          value={eventInfo.additionalDescription}
+          onChange={handleEventInfoChange}
+        />
+
+        {/* <Select
+          variant="bordered"
+          name="status"
+          items={statusValue}
+          label="Estado de la cita"
+          placeholder="Seleccione un estado"
+          className="max-w-xs"
+          value={eventInfo.status}
+          onChange={handleStatusChange}
+        >
+          {(state) => <SelectItem key={state.key}>{state.label}</SelectItem>}
+        </Select> */}
+      </div>
     </div>
   );
 };
