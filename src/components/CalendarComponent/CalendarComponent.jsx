@@ -20,8 +20,11 @@ import AppointmentModal from "./CustomComponents/ModalComponent/AppointmentModal
 import { AvailabilityModal } from "./CustomComponents/ModalComponent/AvailabilityModal/AvailabilityModal";
 import { useSession } from "next-auth/react";
 
-export default function CalendarComponent({ user, isAuth }) {
-  const { data: session } = useSession();
+export default function CalendarComponent({ user, isAuth }) { // user solo contiene { id }
+  const { data: session } = useSession(); // session es el user activo
+
+  // console.log(session) // ------------------------------------------------------------------------delete
+
   const [isSelectable, setIsSelectable] = useState(false);
   const {
     CalendarIsLoading,
@@ -49,15 +52,14 @@ export default function CalendarComponent({ user, isAuth }) {
   };
 
   const checkUserRole = () => {
-    // if (user.role != "user" && isAuth) {
-    if (user.role) {
+    if (session?.user?.role) { // esto define si se puede elegir un rango en el calendario
       setIsSelectable(true);
     } else {
       setIsSelectable(false);
     }
   };
 
-  //when change "calendarState.dateFromTo" it do a fetch whit the range of the date
+  //when change "calendarState.dateFromTo" it does a fetch whit the range of the date
   useEffect(() => {
     const { from, to } = calendarState.dateFromTo;
 
@@ -92,7 +94,7 @@ export default function CalendarComponent({ user, isAuth }) {
     } else {
       return;
     }
-  }, [calendarState.dateFromTo]);
+  }, [calendarState.dateFromTo, session?.user]);
 
   //get to user data every mounted component
   useEffect(() => {

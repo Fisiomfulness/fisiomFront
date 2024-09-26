@@ -1,6 +1,5 @@
 import { getProfessionalDetail, getServices } from '@/services/professionals';
 import ServicioPrecioCard from '@/components/Servicios/ServicioPrecioCard';
-import axios from 'axios';
 
 export const dynamic = 'force-dynamic';
 
