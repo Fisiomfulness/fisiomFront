@@ -1,11 +1,12 @@
 // @ts-check
 "use client";
-
+import axios from "axios";
+import { BASE_URL } from "@/utils/api";
+import { useState, useEffect } from "react";
 import { CustomButton, CustomModal, CustomAlert } from "@/features/ui";
 import { Badge, useDisclosure } from "@nextui-org/react";
 import { MdShoppingCart } from "react-icons/md";
 import { useCart } from "../hooks";
-import { initPurchase } from "@/services/purchases";
 
 /**
  * @typedef {import("../store/cart").Product} Product
@@ -44,12 +45,40 @@ function ListProducts({ isOpen, onOpenChange }) {
     updateItem(id, item);
   }
 
+  const [html, setHtml] = useState("");
+
+  // Handle script injection and HTML rendering
+  useEffect(() => {
+    if (html) {
+      const container = document.createElement("div");
+      container.innerHTML = html;
+
+      // Inject HTML content
+      document.body.appendChild(container);
+
+      const scripts = Array.from(container.getElementsByTagName("script"));
+      scripts.forEach((script) => {
+        const newScript = document.createElement("script");
+        newScript.textContent = script.textContent;
+        document.body.appendChild(newScript);
+      });
+
+      // Clean up appended elements on unmount
+      return () => {
+        container.remove();
+      };
+    }
+  }, [html]);
+
   async function handleCheckout() {
-    // send POST request to backend to make purchase
-    const data = { total, productsMap: Object.fromEntries(products) }
-    await initPurchase(data);
-    clearCart();
-    onOpenChange();
+    // Send POST request to backend to make purchase
+    const payload = { total, productsMap: Object.fromEntries(products) };
+    const { data } = await axios.post(`${BASE_URL}/purchases/init`, payload, {
+      withCredentials: true,
+      responseType: "text",
+    });
+
+    setHtml(data); // Set the new HTML from the response
   }
 
   return (
@@ -102,6 +131,12 @@ function ListProducts({ isOpen, onOpenChange }) {
           </CustomButton>
         </div>
       </div>
+      {html && (
+        <div>
+          <p>{html}</p>
+          <div dangerouslySetInnerHTML={{ __html: html }} />
+        </div>
+      )}
     </CustomModal>
   );
 }
