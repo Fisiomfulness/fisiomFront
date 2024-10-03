@@ -18,7 +18,7 @@ const initialValues = {
 };
 
 const loginSchema = z.object({
-  email: zodStrRequired().email("No es un email"),
+  email: zodStrRequired().email("No es un email válido"),
   password: zodStrRequired(),
 });
 
@@ -35,15 +35,26 @@ const UserLoginComponent = () => {
       redirect: false,
     });
 
-    if (!responseNextAuth.ok) {
-      return toast.error(responseNextAuth.error);
+    if (responseNextAuth.ok && responseNextAuth.profesional) {
+      if (!responseNextAuth.profesional.isApproved) {
+        toast.error(responseNextAuth.error);
+
+        return;
+      }
+    }
+    if (responseNextAuth.error) {
+      console.log("Error de autenticación:", responseNextAuth.error);
+
+      toast.error(responseNextAuth.error);
+      return;
     }
 
-    toast.success("Has iniciado sesión correctamente");
-    router.push("/");
+    if (responseNextAuth.ok) {
+      toast.success("Has iniciado sesión correctamente");
+      router.push("/");
+    }
   };
 
-  // Nueva función para login con Google
   const handleGoogleLogin = async () => {
     window.location.href = "http://localhost:3000/api/auth/google";
   };
@@ -69,7 +80,7 @@ const UserLoginComponent = () => {
             variant="flat"
             placeholder="Email"
             value={values.email}
-            isInvalid={touched.email && errors.email ? true : false}
+            isInvalid={touched.email && !!errors.email}
             errorMessage={touched.email && errors.email}
             onBlur={handleBlur}
             onChange={handleChange}
@@ -84,7 +95,7 @@ const UserLoginComponent = () => {
             variant="flat"
             placeholder="Contraseña"
             value={values.password}
-            isInvalid={touched.password && errors.password ? true : false}
+            isInvalid={touched.password && !!errors.password}
             errorMessage={touched.password && errors.password}
             onBlur={handleBlur}
             onChange={handleChange}
@@ -118,7 +129,7 @@ const UserLoginComponent = () => {
 
           {/* Botón de Google */}
           <Button
-            className="flex items-center justify-center  mt-2 text-gray-800 uppercase rounded-none font-semibold tracking-wider"
+            className="flex items-center justify-center mt-2 text-gray-800 uppercase rounded-none font-semibold tracking-wider"
             onClick={handleGoogleLogin}
             isDisabled={isSubmitting}
           >
