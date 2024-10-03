@@ -163,3 +163,36 @@ export const deleteService = async (serviceId) => {
     throw error;
   }
 };
+
+
+export const getPendingProfessionals = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/professionals/pending`, {
+      withCredentials: true, 
+    });
+    return { data: response.data }; 
+  } catch (error) {
+    toast.error("Error al obtener profesionales pendientes");
+    return { data: null, error }; 
+  }
+};
+
+export const acceptProfessional = async (professionalId) => {
+  try {
+    console.log(`Aprobando profesional con ID: ${professionalId}`); 
+
+    const response = await axios.put(
+      `${BASE_URL}/professionals/approve/${professionalId}`, 
+      {}, 
+      { withCredentials: true }
+    );
+
+    toast.success("Profesional aceptado con éxito");
+    return response.data; 
+  } catch (error) {
+    console.error("Error al aceptar profesional:", error); 
+    toast.error("Error al aceptar profesional");
+    throw error; 
+  }
+};
+

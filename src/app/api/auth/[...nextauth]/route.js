@@ -89,7 +89,7 @@ export const authOptions = {
     async session({ session, token }) {
       console.log('Callback session: ', { session, token }); // Log para ver los valores de session y token
   
-      session.user = token; // Esto debería incluir name e image
+      session.user = token; 
 
       return session;
     },

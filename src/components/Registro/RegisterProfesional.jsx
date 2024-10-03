@@ -20,9 +20,17 @@ export function RegisterProfessional({ conditionsAccepted }) {
       toast.error("Por favor acepte los términos y condiciones");
       return;
     }
+
     values = removeObjFalsyValues(values);
     const formData = getFormdataFromObj(values);
-    await axiosRegisterProfessionalForm(formData);
+
+    try {
+      await axiosRegisterProfessionalForm(formData);
+      toast.success("Te has registrado, está pendiente de aprobación.");
+    } catch (error) {
+      toast.error("Error al registrarse. Intente nuevamente.");
+    }
+
     resetForm();
     router.push("/login");
   };
