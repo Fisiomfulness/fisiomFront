@@ -11,4 +11,5 @@ export const apiEndpoints = {
   specialties: baseUrl + 'specialty/',
   users: baseUrl + 'users/',
   interests: baseUrl + 'interests/',
+  services: baseUrl + 'services/',
 };
