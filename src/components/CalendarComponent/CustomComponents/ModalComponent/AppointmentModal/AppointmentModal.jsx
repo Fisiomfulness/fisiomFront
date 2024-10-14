@@ -63,4 +63,5 @@ const AppointmentModal = memo(({ professionalId }) => {
   );
 });
 
+AppointmentModal.displayName = "AppointmentModal";
 export default AppointmentModal;
