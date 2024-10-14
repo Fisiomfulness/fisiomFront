@@ -35,8 +35,8 @@ const DeleteServiceModal = ({ service, isOpen, onDelete, onClose }) => {
         </ModalHeader>
         <ModalBody>
           <p>
-            {'¿Esta seguro/a de que desea eliminar el servicio?'}
-            <span className="font-semibold text-secondary-500">{service.title}</span>" ?
+            {'¿Esta seguro/a de que desea eliminar el servicio '}
+            <span className="font-semibold text-secondary-500">{service.title}</span>{'?'}
           </p>
         </ModalBody>
         <ModalFooter>
