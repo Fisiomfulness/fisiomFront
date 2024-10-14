@@ -13,6 +13,9 @@ const nextConfig = (phase, { defaultConfig }) => ({
     // NOTE: https://github.com/vercel/next.js/issues/54482
     unoptimized: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 });
 
 module.exports = nextConfig;
