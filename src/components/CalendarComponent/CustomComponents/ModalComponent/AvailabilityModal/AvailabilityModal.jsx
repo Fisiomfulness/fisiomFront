@@ -12,7 +12,7 @@ import { FaTimes } from "react-icons/fa";
 import { UpdateForm } from "./UpdateForm";
 import { CreateForm } from "./CreateForm";
 
-const AvailabilityModal = memo(() => {
+export const AvailabilityModal = memo(() => {
   const {
     isModalAppointment,
     calendarState,
@@ -75,4 +75,3 @@ const AvailabilityModal = memo(() => {
 });
 
 AvailabilityModal.displayName = "AvailabilityModal";
-export { AppointmentModal };
