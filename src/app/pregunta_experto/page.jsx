@@ -1,5 +1,5 @@
-import { getQuestions } from '@/services/questions';
-import { apiEndpoints } from '@/api_endpoints';
+import { getQuestions } from '../../services/questions';
+import { apiEndpoints } from '../../api_endpoints';
 import PreguntaExpertoClient from './client';
 
 export const metadata = {
@@ -29,7 +29,6 @@ const PreguntaExpertoPage = async () => {
     query: iniQuery,
   };
   
-  if (!results) return null;
   return (
     <main className="p-4 min-h-[92vh] w-full max-w-4xl flex flex-col items-center mx-auto gap-4 overflow-hidden">
       <PreguntaExpertoClient initialData={initialData} />

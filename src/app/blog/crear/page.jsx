@@ -1,4 +1,4 @@
-import { getTypes } from '@/services/types';
+import { getTypes } from '../../../services/types';
 import BlogForm from '@/components/Blog/BlogForm';
 
 export const metadata = {
@@ -15,7 +15,7 @@ const CreateBlog = async () => {
         <h1 className="text-balance text-2xl md:text-3xl font-bold mb-6 text-gray-900">
           Crea un nuevo blog
         </h1>
-        {types ? <BlogForm types={types} /> : null }
+        <BlogForm types={types} />
       </div>
     </section>
   );

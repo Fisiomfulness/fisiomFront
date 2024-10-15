@@ -1,4 +1,4 @@
-import { getBlogs } from '@/services/blogs';
+import { getBlogs } from '../../services/blogs';
 import BlogSection from '@/components/Blog/BlogSection';
 
 export const metadata = {
@@ -13,7 +13,6 @@ const MAX_LAST_BLOGS = 8;
 const BlogPage = async () => {
   const data = await getBlogs({ limit: CARDS_PER_PAGE, sortBy: 'title', order: 'asc', status: true });
   const { blogs } = await getBlogs({ limit: MAX_LAST_BLOGS, status: true });
-  if (!data || !blogs) return null;
   return <BlogSection data={data} lastsBlogs={blogs} cardsPerPage={CARDS_PER_PAGE} />;
 };
 
