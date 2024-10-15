@@ -21,7 +21,6 @@ const getSpecialties = async () => {
 const PreguntaExpertoPage = async () => {
   const { questions, totalQuestions, hasMoreToLoad } = await getQuestions(iniQuery);
   const { results } = await getSpecialties();
-
   const initialData = {
     questions,
     specialties: results,
@@ -29,7 +28,8 @@ const PreguntaExpertoPage = async () => {
     hasMoreToLoad,
     query: iniQuery,
   };
-
+  
+  if (!results) return null;
   return (
     <main className="p-4 min-h-[92vh] w-full max-w-4xl flex flex-col items-center mx-auto gap-4 overflow-hidden">
       <PreguntaExpertoClient initialData={initialData} />

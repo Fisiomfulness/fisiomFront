@@ -15,7 +15,7 @@ const CreateBlog = async () => {
         <h1 className="text-balance text-2xl md:text-3xl font-bold mb-6 text-gray-900">
           Crea un nuevo blog
         </h1>
-        <BlogForm types={types} />
+        {types ? <BlogForm types={types} /> : null }
       </div>
     </section>
   );
